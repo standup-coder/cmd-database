@@ -1,6 +1,6 @@
 version: "1.5.0"
 updated_at: "2026-02-04"
-description: "cmd4coder 命令行工具大全数据文件 - 新增Helm包管理增强命令集"
+description: "cmd4coder 命令行工具大全数据文件 - 覆盖 47 个分类"
 
 categories:
   os_ubuntu:
@@ -173,7 +173,7 @@ categories:
     order: 55
   container_k8s_storage_management:
     id: container_k8s_storage_management
-    name: "容器编排/K8s存储管理"
+    name: "容器编排/K8s存储增强"
     description: "Kubernetes 存储管理命令"
     parent: ""
     order: 56
@@ -188,67 +188,91 @@ categories:
     name: "数据库工具/MySQL工具"
     description: "MySQL客户端工具"
     parent: ""
-    order: 50
+    order: 60
   database_redis:
     id: database_redis
     name: "数据库工具/Redis工具"
     description: "Redis客户端工具"
     parent: ""
-    order: 51
+    order: 61
   database_postgresql:
     id: database_postgresql
     name: "数据库工具/PostgreSQL工具"
     description: "PostgreSQL客户端工具"
     parent: ""
-    order: 52
+    order: 62
   vcs_git:
     id: vcs_git
     name: "版本控制/Git命令"
     description: "Git版本控制命令"
     parent: ""
-    order: 60
+    order: 70
   vcs_svn:
     id: vcs_svn
     name: "版本控制/SVN命令"
     description: "SVN版本控制命令"
     parent: ""
-    order: 61
+    order: 71
   build_maven:
     id: build_maven
     name: "构建工具/Maven"
-    description: "Maven构建工具命令"
+    description: "Apache Maven 项目管理和构建工具"
     parent: ""
-    order: 70
+    order: 80
   build_gradle:
     id: build_gradle
     name: "构建工具/Gradle"
-    description: "Gradle构建工具命令"
+    description: "Gradle 项目自动化构建工具"
     parent: ""
-    order: 71
+    order: 81
   build_make:
     id: build_make
     name: "构建工具/Make"
-    description: "Make构建工具命令"
+    description: "GNU Make 和 CMake 构建工具"
     parent: ""
-    order: 72
+    order: 82
   ai_ml_frameworks:
     id: ai_ml_frameworks
     name: "AI基础设施/ML框架"
     description: "主流机器学习框架相关命令"
     parent: ""
-    order: 80
+    order: 90
   ai_mlops:
     id: ai_mlops
     name: "AI基础设施/MLOps平台"
     description: "MLOps平台(Kubeflow, MLflow)相关命令"
     parent: ""
-    order: 81
+    order: 91
   ai_model_serving:
     id: ai_model_serving
     name: "AI基础设施/模型服务"
     description: "模型服务工具(BentoML)相关命令"
     parent: ""
-    order: 82
+    order: 92
+  shell_bash:
+    id: shell_bash
+    name: "Shell脚本/Bash工具"
+    description: "Bash Shell 脚本编写和调试工具"
+    parent: ""
+    order: 83
+  cicd_github_actions:
+    id: cicd_github_actions
+    name: "CI-CD/GitHub Actions"
+    description: "GitHub Actions 持续集成和持续部署工具"
+    parent: ""
+    order: 84
+  lang_rust:
+    id: lang_rust
+    name: "编程语言/Rust工具链"
+    description: "Rust 编程语言工具链命令"
+    parent: ""
+    order: 14
+  cloud_aws:
+    id: cloud_aws
+    name: "云平台/AWS CLI"
+    description: "Amazon Web Services 命令行工具"
+    parent: ""
+    order: 85
 
 data_files:
   - "os/common.yaml"
@@ -292,3 +316,7 @@ data_files:
   - "ai/ml-frameworks.yaml"
   - "ai/mlops.yaml"
   - "ai/model-serving.yaml"
+  - "shell/bash.yaml"
+  - "cicd/github-actions.yaml"
+  - "lang/rust.yaml"
+  - "cloud/aws-cli.yaml"

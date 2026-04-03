@@ -10,6 +10,9 @@ import (
 
 // ExportToMarkdown 导出命令到Markdown格式
 func ExportToMarkdown(commands []*model.Command, filename string) error {
+	if err := ensureDir(filename); err != nil {
+		return fmt.Errorf("failed to create directory: %w", err)
+	}
 	f, err := os.Create(filename)
 	if err != nil {
 		return fmt.Errorf("failed to create file: %w", err)

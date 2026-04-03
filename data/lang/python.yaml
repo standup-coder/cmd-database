@@ -19,12 +19,18 @@ commands:
         description: "运行Python脚本"
       - command: "python -m http.server 8000"
         description: "启动简单HTTP服务器"
-      - command: "python -c 'print(\"Hello\")’"
+      - command: "python -c 'print(\"Hello\")'"
         description: "执行单行命令"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "pip"
+      - "pytest"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
 
   - name: pip
     category: "编程语言/Python工具链"
@@ -50,8 +56,14 @@ commands:
         description: "导出依赖列表"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "virtualenv"
+      - "python"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: virtualenv
     category: "编程语言/Python工具链"
@@ -69,8 +81,14 @@ commands:
         description: "激活虚拟环境(Windows)"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "pip"
+      - "python"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: pytest
     category: "编程语言/Python工具链"
@@ -93,8 +111,14 @@ commands:
         description: "运行指定文件的测试"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "python"
+      - "pylint"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
 
   - name: pylint
     category: "编程语言/Python工具链"
@@ -108,5 +132,11 @@ commands:
         description: "检查代码质量"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "pytest"
+      - "python"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"

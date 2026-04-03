@@ -34,7 +34,7 @@ commands:
       - "颜色输出取决于LS_COLORS环境变量"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     references:
       - "https://man7.org/linux/man-pages/man1/ls.1.html"
@@ -74,7 +74,7 @@ commands:
       - "可以通过管道与其他命令组合使用"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "egrep"
@@ -121,7 +121,7 @@ commands:
         description: "在大目录树中搜索可能消耗大量系统资源"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "locate"
@@ -165,7 +165,7 @@ commands:
         description: "使用通配符时要格外小心，可能匹配到不想删除的文件"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "rmdir"
@@ -203,7 +203,7 @@ commands:
       - "可以通过重定向创建文件: cat > file.txt"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "less"
@@ -236,7 +236,7 @@ commands:
       - "不带参数时默认切换到主目录"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
 
   - name: pwd
@@ -256,7 +256,7 @@ commands:
         output: "/home/user/documents"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     references:
       - "https://man7.org/linux/man-pages/man1/pwd.1.html"
@@ -296,7 +296,7 @@ commands:
         description: "使用-f可能意外覆盖重要文件"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "mv"
@@ -332,7 +332,7 @@ commands:
         description: "移动文件会改变文件位置，可能导致依赖该路径的程序出错"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "cp"

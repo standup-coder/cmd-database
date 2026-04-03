@@ -1,5 +1,5 @@
-category: "Kubernetes Cloud Platforms"
-description: "Cloud platform-specific Kubernetes management tools"
+category: "容器编排/K8s云平台工具"
+description: "云平台Kubernetes集群管理工具"
 commands:
   - name: "eksctl create cluster"
     description: "Create AWS EKS Kubernetes cluster"

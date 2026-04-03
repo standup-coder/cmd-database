@@ -1,5 +1,5 @@
-category: "Kubernetes Storage Management"
-description: "Kubernetes 存储管理命令，包括 PV/PVC、存储类、卷快照等"
+category: "容器编排/K8s存储增强"
+description: "Kubernetes存储管理命令，包括PV/PVC、存储类、卷快照等"
 commands:
   # PersistentVolume Commands
   - name: "kubectl get pv"

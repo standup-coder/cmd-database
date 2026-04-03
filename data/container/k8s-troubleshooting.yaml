@@ -1,5 +1,5 @@
-category: "Kubernetes Troubleshooting"
-description: "Kubernetes 故障排查和诊断专用工具及命令集"
+category: "容器编排/K8s故障排查"
+description: "Kubernetes故障排查和诊断专用工具及命令集"
 commands:
   # Pod 故障排查命令
   - name: "kubectl describe pod"

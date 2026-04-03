@@ -22,7 +22,7 @@ commands:
         description: "浅克隆，只获取最新代码"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git pull"
@@ -45,7 +45,7 @@ commands:
         description: "创建并初始化新目录"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: git add
@@ -71,7 +71,7 @@ commands:
         description: "添加所有更改（包括删除）"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git commit"
@@ -100,7 +100,7 @@ commands:
         description: "修改上次提交"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git add"
@@ -125,7 +125,7 @@ commands:
         description: "简短格式显示"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: git push
@@ -154,7 +154,7 @@ commands:
         description: "使用--force可能覆盖他人的提交，务必谨慎"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git pull"
@@ -179,7 +179,7 @@ commands:
         description: "拉取并rebase"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git fetch"
@@ -210,7 +210,7 @@ commands:
         description: "删除已合并的分支"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git checkout"
@@ -241,7 +241,7 @@ commands:
         description: "恢复文件会丢失未提交的更改"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git switch"
@@ -268,7 +268,7 @@ commands:
       - "合并可能产生冲突，需要手动解决"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git rebase"
@@ -299,7 +299,7 @@ commands:
         description: "显示最近10次提交"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "git show"

@@ -29,7 +29,7 @@ commands:
         description: "设置系统属性运行"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "javac"
@@ -58,7 +58,7 @@ commands:
         description: "编译到bin目录"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: jps
@@ -82,7 +82,7 @@ commands:
         description: "显示完整信息"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "jstat"
@@ -109,7 +109,7 @@ commands:
         description: "每秒显示GC利用率10次"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "jps"
@@ -141,7 +141,7 @@ commands:
         description: "堆转储操作会暂停应用，建议在低峰期执行"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "jhat"
@@ -168,7 +168,7 @@ commands:
       - "用于分析死锁和线程阻塞问题"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "jmap"
@@ -190,7 +190,7 @@ commands:
         description: "打印线程堆栈"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "jmap"
@@ -221,7 +221,7 @@ commands:
         description: "提取JAR文件"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: javadoc
@@ -243,5 +243,5 @@ commands:
         description: "生成文档到docs目录"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"

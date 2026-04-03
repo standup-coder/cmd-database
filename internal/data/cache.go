@@ -10,7 +10,7 @@ import (
 // Cache 缓存管理器
 type Cache struct {
 	maxSize int
-	mu      sync.RWMutex
+	mu      sync.Mutex
 	items   map[string]*cacheItem
 	lru     *list.List
 }
@@ -87,8 +87,8 @@ func (c *Cache) Clear() {
 
 // Size 获取缓存大小
 func (c *Cache) Size() int {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	return c.lru.Len()
 }
 
@@ -110,7 +110,11 @@ func (sc *SearchCache) GetSearchResult(query string) ([]*model.Command, bool) {
 	if !ok {
 		return nil, false
 	}
-	return result.([]*model.Command), true
+	commands, ok := result.([]*model.Command)
+	if !ok {
+		return nil, false
+	}
+	return commands, true
 }
 
 // SetSearchResult 设置搜索结果

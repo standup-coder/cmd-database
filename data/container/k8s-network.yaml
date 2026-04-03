@@ -1,5 +1,5 @@
-category: "Kubernetes Networking"
-description: "Kubernetes network plugin management tools"
+category: "容器编排/K8s网络插件"
+description: "Kubernetes网络插件与服务网格管理工具"
 commands:
   - name: "calicoctl get nodes"
     description: "List all Calico nodes"

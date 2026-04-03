@@ -1,5 +1,7 @@
 package model
 
+import "fmt"
+
 // Category 分类信息
 type Category struct {
 	ID          string   `yaml:"id" json:"id"`                                 // 分类ID
@@ -16,10 +18,18 @@ func (c *Category) IsTopLevel() bool {
 	return c.Parent == ""
 }
 
-// CategoryTree 分类树结构
-type CategoryTree struct {
-	Category *Category
-	Children []*CategoryTree
+// Validate 验证分类信息
+func (c *Category) Validate() error {
+	if c.ID == "" {
+		return ErrMissingField{Field: "category.id"}
+	}
+	if c.Name == "" {
+		return ErrMissingField{Field: "category.name"}
+	}
+	if c.Order < 0 {
+		return ErrMissingField{Field: "category.order"}
+	}
+	return nil
 }
 
 // Metadata 元数据
@@ -41,6 +51,11 @@ func (m *Metadata) Validate() error {
 	}
 	if len(m.DataFiles) == 0 {
 		return ErrMissingField{Field: "data_files"}
+	}
+	for id, cat := range m.Categories {
+		if err := cat.Validate(); err != nil {
+			return fmt.Errorf("category %q: %w", id, err)
+		}
 	}
 	return nil
 }

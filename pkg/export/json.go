@@ -4,12 +4,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/cmd4coder/cmd4coder/internal/model"
+	"github.com/cmd4coder/cmd4coder/internal/version"
 )
+
+func ensureDir(filename string) error {
+	dir := filepath.Dir(filename)
+	return os.MkdirAll(dir, 0755)
+}
 
 // ExportToJSON 导出命令到JSON格式
 func ExportToJSON(commands []*model.Command, filename string) error {
+	if err := ensureDir(filename); err != nil {
+		return fmt.Errorf("failed to create directory: %w", err)
+	}
 	// 创建文件
 	f, err := os.Create(filename)
 	if err != nil {
@@ -23,7 +33,7 @@ func ExportToJSON(commands []*model.Command, filename string) error {
 		Total    int              `json:"total"`
 		Commands []*model.Command `json:"commands"`
 	}{
-		Version:  "1.0.0",
+		Version:  version.Version,
 		Total:    len(commands),
 		Commands: commands,
 	}
@@ -41,6 +51,9 @@ func ExportToJSON(commands []*model.Command, filename string) error {
 
 // ExportToJSONCompact 导出为紧凑的JSON格式
 func ExportToJSONCompact(commands []*model.Command, filename string) error {
+	if err := ensureDir(filename); err != nil {
+		return fmt.Errorf("failed to create directory: %w", err)
+	}
 	data, err := json.Marshal(commands)
 	if err != nil {
 		return fmt.Errorf("failed to marshal JSON: %w", err)

@@ -22,8 +22,13 @@ commands:
         description: "基于pipeline提交一个运行"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "mlflow"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
     references:
       - "https://www.kubeflow.org/docs/components/pipelines/sdk/sdk-overview/"
 
@@ -52,7 +57,12 @@ commands:
         description: "将指定运行产出的模型部署为一个本地服务"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "kfp"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
     references:
       - "https://mlflow.org/docs/latest/cli.html"

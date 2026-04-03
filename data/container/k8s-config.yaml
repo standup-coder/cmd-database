@@ -1,5 +1,5 @@
-category: "Kubernetes Config Management"
-description: "Configuration management and Infrastructure as Code tools for Kubernetes"
+category: "容器编排/K8s配置管理"
+description: "Kubernetes配置管理与基础设施即代码工具"
 commands:
   - name: "ansible-playbook"
     description: "Execute Ansible playbook"

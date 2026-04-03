@@ -5,6 +5,76 @@ All notable changes to cmd4coder project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-04-03
+
+### Added
+
+- Fuzzy search with typo tolerance via sahilm/fuzzy
+- Multi-word AND search logic
+- TUI proportional layout (20/30/50), viewport scrolling, help overlay
+- TUI risk-colored list items, favorite feedback, home screen with recent + favorites
+- TUI vim navigation (g/G/Ctrl+u/Ctrl+d), related command navigation
+- CLI color output (lipgloss), stdout/stderr separation, `--quiet`/`--no-color` flags
+- CLI `--format`/`-f` for output formatting, `--limit`/`--risk`/`--platform` filters
+- CLI dynamic shell completion (command names, categories, config keys)
+- CLI command grouping (core/export/personal/system), `--version`/`-v` short flag
+- "Did you mean?" command suggestion on not-found
+- Lazy initialization (version/completion skip data loading)
+- Search benchmarks (~37μs/op)
+- 6 new data categories: Shell/Bash, CI-CD/GitHub Actions, Rust, AWS CLI, Build tools
+
+### Changed
+
+- Platform naming standardized (macos → darwin)
+
+### Statistics
+
+- 6 new data categories, expanded command coverage
+
+## [1.4.0] - 2026-02-15
+
+### Fixed
+
+- Validator `dataDir` double-prefix bug
+- `k8s-cluster.yaml` duplicate etcdctl commands merged
+- `svn.yaml` install_subversion typo
+- Sscanf silent failure in `configSetCmd`
+- Deprecated PodSecurityPolicy replaced with PodSecurity admission labels
+
+### Changed
+
+- `GetConfig`/`GetFavorites` return value copies (prevent external mutation)
+- Cache uses `sync.Mutex` (not `RWMutex`) since Get needs write lock
+- `ErrDataLoadFailed` supports `Unwrap()` for `errors.Is` traversal
+- Platform naming standardized: 84 occurrences macos → darwin across 15 files
+- `config_test.go` rewritten to use `t.TempDir()` (NewConfigServiceWithDir)
+- 5 new data categories with 19 new commands
+
+### Statistics
+
+- 5 new data categories, 19 new commands, 84 platform name fixes
+
+## [1.3.0] - 2026-01-20
+
+### Added
+
+- `ExportToJSONCompact` CLI entry via `--compact` flag
+- `Reload` CLI command for hot-reloading data
+- TUI clipboard copy via atotto/clipboard (e key)
+- Build tools data files: Maven, Gradle, Make/CMake
+- `favoritesCmd` defaults to listing favorites when no subcommand
+- `exportAllCmd` `--compact` flag support
+
+### Changed
+
+- Duplicate summary type extracted to package level
+- `GetSortedCategories` bubble sort → `sort.Slice`
+- Dead code removed (i18n.go, empty validator blocks, duplicate embed.go)
+
+### Statistics
+
+- 4 new build tool data files, algorithm optimization, dead code cleanup
+
 ## [1.2.0] - 2026-01-07
 
 ### Added
@@ -126,6 +196,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | 版本 | 发布日期 | 命令总数 | K8s命令 | 主要特性 |
 |------|---------|---------|--------|---------|
+| 1.5.0 | 2026-04-03 | — | — | UX Revolution: fuzzy search, TUI overhaul, CLI polish, 6 new categories |
+| 1.4.0 | 2026-02-15 | — | — | Quality & Data Hardening: bug fixes, API safety, platform standardization |
+| 1.3.0 | 2026-01-20 | — | — | Feature Expansion: compact export, hot-reload, clipboard, build tools |
 | 1.2.0 | 2026-01-07 | 420+ | 165 | 监控与IaC工具完整覆盖 |
 | 1.1.0 | 2026-01-06 | 350+ | 128 | Kubernetes生态全栈集成 |
 | 1.0.0 | 2025-12-14 | 220 | 26 | 基础版本发布 |

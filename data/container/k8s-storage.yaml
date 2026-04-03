@@ -1,5 +1,5 @@
-category: "Kubernetes Storage"
-description: "Kubernetes storage management and package tools"
+category: "容器编排/K8s存储管理"
+description: "Kubernetes存储管理与Helm包工具"
 commands:
   - name: "helm repo add"
     description: "Add Helm chart repository"

@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/cmd4coder/cmd4coder/internal/data"
 	"github.com/cmd4coder/cmd4coder/internal/model"
@@ -68,9 +67,7 @@ func main() {
 
 	for _, dataFile := range metadata.DataFiles {
 		report.TotalFiles++
-		filePath := filepath.Join(*dataDir, dataFile)
-
-		cmdList, err := loader.LoadCommandList(filePath)
+		cmdList, err := loader.LoadCommandList(dataFile)
 		if err != nil {
 			report.FailedFiles++
 			report.Errors = append(report.Errors, ValidationError{
@@ -102,7 +99,6 @@ func main() {
 
 		// 检查警告项
 		for _, cmd := range cmdList.Commands {
-			// 检查是否缺少install_method
 			if cmd.InstallMethod == "" {
 				report.Warnings = append(report.Warnings, ValidationWarning{
 					File:    dataFile,
@@ -111,12 +107,6 @@ func main() {
 				})
 			}
 
-			// 检查是否缺少version_check
-			if cmd.Versions == nil && len(cmd.Usage) > 0 {
-				// 建议添加版本检查方法
-			}
-
-			// 检查examples数量
 			if len(cmd.Examples) < 2 {
 				report.Warnings = append(report.Warnings, ValidationWarning{
 					File:    dataFile,
@@ -126,7 +116,7 @@ func main() {
 			}
 
 			// 检查高风险命令是否有足够的风险说明
-			if cmd.GetHighestRisk() >= model.RiskLevelHigh {
+			if cmd.GetRiskLevel() >= model.RiskLevelHigh {
 				if len(cmd.Risks) < 2 {
 					report.Warnings = append(report.Warnings, ValidationWarning{
 						File:    dataFile,

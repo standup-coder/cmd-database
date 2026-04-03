@@ -28,11 +28,14 @@ commands:
         description: "反向DNS查询"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "nslookup"
       - "host"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
     references:
       - "https://linux.die.net/man/1/dig"
 
@@ -51,11 +54,14 @@ commands:
       - "nslookup已被弃用，建议使用dig或host"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "dig"
       - "host"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
 
   - name: host
     category: "网络工具/DNS工具"
@@ -76,8 +82,11 @@ commands:
         description: "查询MX记录"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "unix"
     related_commands:
       - "dig"
       - "nslookup"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"

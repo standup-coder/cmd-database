@@ -1,7 +1,7 @@
 # Build script for cmd4coder (PowerShell)
 # Builds executables for multiple platforms
 
-$VERSION = "1.0.0"
+$VERSION = "1.5.0"
 $BUILD_DIR = "build"
 $APP_NAME = "cmd4coder"
 $COMMIT_HASH = git rev-parse --short HEAD 2>$null

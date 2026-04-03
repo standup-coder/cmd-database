@@ -1,5 +1,5 @@
-category: "Java Diagnostic"
-description: "Alibaba Arthas - Java application diagnostic tool"
+category: "诊断工具/Java诊断"
+description: "阿里巴巴Arthas Java应用在线诊断工具"
 commands:
   - name: "arthas"
     description: "Start Arthas and attach to Java process"

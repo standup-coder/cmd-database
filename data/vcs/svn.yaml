@@ -1,5 +1,5 @@
-category: "Version Control"
-description: "Apache Subversion version control system"
+category: "版本控制/SVN命令"
+description: "Apache Subversion版本控制系统命令"
 commands:
   - name: "svn checkout"
     description: "Check out a working copy from a repository"
@@ -139,7 +139,7 @@ commands:
     risks:
       - level: "low"
         description: "Read-only operation; no risks"
-    install_subversion: "Install Subversion package"
+    install_method: "Install Subversion package"
     version_check: "svn --version"
 
   - name: "svn diff"

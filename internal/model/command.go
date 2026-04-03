@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // RiskLevel 风险级别
 type RiskLevel string
@@ -87,6 +90,13 @@ func (c *Command) Validate() error {
 		return ErrMissingField{Field: "platforms"}
 	}
 
+	validPlatforms := map[string]bool{"linux": true, "darwin": true, "windows": true, "unix": true}
+	for _, p := range c.Platforms {
+		if !validPlatforms[p] {
+			return fmt.Errorf("invalid platform %q in command %q", p, c.Name)
+		}
+	}
+
 	// 验证风险级别
 	for i, risk := range c.Risks {
 		if !risk.Level.IsValid() {
@@ -116,11 +126,6 @@ func (c *Command) GetRiskLevel() RiskLevel {
 	return highest
 }
 
-// GetHighestRisk 获取命令的最高风险级别（别名）
-func (c *Command) GetHighestRisk() RiskLevel {
-	return c.GetRiskLevel()
-}
-
 // riskLevelValue 获取风险级别的数值表示
 func riskLevelValue(level RiskLevel) int {
 	switch level {
@@ -133,7 +138,7 @@ func riskLevelValue(level RiskLevel) int {
 	case RiskLevelCritical:
 		return 4
 	default:
-		return 0
+		return 1
 	}
 }
 
@@ -145,11 +150,6 @@ func (c *Command) SupportsPlatform(platform string) bool {
 		}
 	}
 	return false
-}
-
-// HasPlatform 检查命令是否支持指定平台（别名）
-func (c *Command) HasPlatform(platform string) bool {
-	return c.SupportsPlatform(platform)
 }
 
 // CommandList 命令列表的包装类型

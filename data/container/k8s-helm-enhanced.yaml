@@ -1,5 +1,5 @@
-category: "Kubernetes Helm Package Management"
-description: "Helm 包管理增强命令，包括仓库管理、版本控制、模板调试等"
+category: "容器编排/K8s Helm包管理"
+description: "Helm包管理增强命令，包括仓库管理、版本控制、模板调试等"
 commands:
   # Helm Repository Management
   - name: "helm repo add"

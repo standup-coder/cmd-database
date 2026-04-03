@@ -1,5 +1,5 @@
-category: "Kubernetes Utilities"
-description: "Utility tools for Kubernetes cluster management and operations"
+category: "容器编排/K8s辅助工具"
+description: "Kubernetes集群管理与运维辅助工具"
 commands:
   - name: "k9s"
     description: "Interactive terminal UI for Kubernetes"

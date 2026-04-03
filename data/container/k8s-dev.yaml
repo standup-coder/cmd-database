@@ -1,5 +1,5 @@
-category: "Kubernetes Development"
-description: "Development and debugging tools for Kubernetes applications"
+category: "容器编排/K8s开发调试"
+description: "Kubernetes应用开发与调试工具"
 commands:
   - name: "skaffold dev"
     description: "Start Skaffold continuous development mode"

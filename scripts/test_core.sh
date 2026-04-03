@@ -70,7 +70,7 @@ done
 # 检查构建配置
 echo ""
 echo "5. 检查构建配置..."
-if [[ -f "build/config/go.mod" && -f "build/config/go.sum" ]]; then
+if [[ -f "go.mod" && -f "go.sum" ]]; then
     echo "✅ Go模块配置完整"
 else
     echo "❌ Go模块配置缺失"

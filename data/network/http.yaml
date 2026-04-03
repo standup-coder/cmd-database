@@ -1,5 +1,5 @@
-category: "Network Tools"
-description: "HTTP clients and web testing tools"
+category: "网络工具/HTTP工具"
+description: "HTTP客户端与Web测试工具"
 commands:
   - name: "wget"
     description: "Download files from the web"

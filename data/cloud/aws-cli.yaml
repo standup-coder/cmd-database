@@ -1,0 +1,159 @@
+category: "云平台/AWS CLI"
+description: "Amazon Web Services 命令行工具"
+commands:
+  - name: aws
+    category: "云平台/AWS CLI"
+    install_required: true
+    install_method: "pip install awscli 或 brew install awscli (macOS)"
+    description: "AWS 命令行接口，管理 AWS 服务和资源"
+    usage:
+      - "aws [服务] [操作] [参数]"
+    options:
+      - flag: "--profile"
+        description: "指定 AWS 配置文件"
+      - flag: "--region"
+        description: "指定 AWS 区域"
+      - flag: "--output"
+        description: "输出格式 (json/text/table)"
+      - flag: "--query"
+        description: "JMESPath 查询过滤输出"
+      - flag: "--dry-run"
+        description: "模拟运行不实际执行"
+    examples:
+      - command: "aws s3 ls"
+        description: "列出所有 S3 存储桶"
+      - command: "aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,State.Name]'"
+        description: "查询 EC2 实例 ID 和状态"
+      - command: "aws sts get-caller-identity"
+        description: "查看当前认证身份"
+      - command: "aws --profile prod s3 cp file.txt s3://my-bucket/"
+        description: "使用 prod 配置上传文件"
+    platforms:
+      - linux
+      - darwin
+      - windows
+    risks:
+      - level: high
+        description: "误操作可能产生费用或删除重要资源，建议开启 MFA"
+    related_commands:
+      - "aws configure"
+      - "aws sts"
+
+  - name: aws configure
+    category: "云平台/AWS CLI"
+    install_required: true
+    install_method: "同 aws cli"
+    description: "配置 AWS CLI 凭证和默认设置"
+    usage:
+      - "aws configure"
+      - "aws configure --profile <名称>"
+    options:
+      - flag: "--profile"
+        description: "指定配置文件名称"
+    examples:
+      - command: "aws configure"
+        description: "交互式配置默认凭证"
+      - command: "aws configure --profile production"
+        description: "配置生产环境凭证"
+      - command: "aws configure set region ap-northeast-1"
+        description: "设置默认区域"
+    platforms:
+      - linux
+      - darwin
+      - windows
+    risks:
+      - level: high
+        description: "凭证明文存储在 ~/.aws/credentials，确保文件权限为 600"
+    related_commands:
+      - "aws"
+      - "aws sts"
+
+  - name: aws s3
+    category: "云平台/AWS CLI"
+    install_required: true
+    install_method: "同 aws cli"
+    description: "S3 存储桶和对象管理"
+    usage:
+      - "aws s3 [命令] [参数]"
+    options:
+      - flag: "--recursive"
+        description: "递归操作"
+      - flag: "--exclude"
+        description: "排除匹配的文件"
+      - flag: "--include"
+        description: "包含匹配的文件"
+      - flag: "--acl"
+        description: "设置访问控制 (private/public-read)"
+    examples:
+      - command: "aws s3 mb s3://my-bucket"
+        description: "创建存储桶"
+      - command: "aws s3 cp ./dist s3://my-bucket/ --recursive"
+        description: "递归上传目录"
+      - command: "aws s3 sync ./local s3://my-bucket/ --delete"
+        description: "同步本地目录到 S3（删除多余文件）"
+      - command: "aws s3 rm s3://my-bucket/ --recursive"
+        description: "清空存储桶所有对象"
+    platforms:
+      - linux
+      - darwin
+      - windows
+    risks:
+      - level: high
+        description: "sync --delete 会删除目标端多余文件，操作不可逆"
+    related_commands:
+      - "aws"
+      - "aws configure"
+
+  - name: aws eks
+    category: "云平台/AWS CLI"
+    install_required: true
+    install_method: "同 aws cli"
+    description: "EKS Kubernetes 集群管理"
+    usage:
+      - "aws eks [命令] [参数]"
+    examples:
+      - command: "aws eks list-clusters"
+        description: "列出所有 EKS 集群"
+      - command: "aws eks update-kubeconfig --name my-cluster"
+        description: "更新 kubeconfig 连接 EKS"
+      - command: "aws eks describe-cluster --name my-cluster"
+        description: "查看集群详情"
+    platforms:
+      - linux
+      - darwin
+      - windows
+    related_commands:
+      - "aws"
+      - "kubectl"
+
+  - name: aws cloudformation
+    category: "云平台/AWS CLI"
+    install_required: true
+    install_method: "同 aws cli"
+    description: "CloudFormation 基础设施即代码管理"
+    usage:
+      - "aws cloudformation [命令] [参数]"
+    options:
+      - flag: "--template-body"
+        description: "指定模板内容"
+      - flag: "--parameters"
+        description: "传递参数"
+      - flag: "--capabilities"
+        description: "声明模板能力 (CAPABILITY_IAM)"
+    examples:
+      - command: "aws cloudformation deploy --template-file template.yaml --stack-name mystack"
+        description: "部署 CloudFormation 堆栈"
+      - command: "aws cloudformation describe-stacks --stack-name mystack"
+        description: "查看堆栈状态"
+      - command: "aws cloudformation delete-stack --stack-name mystack"
+        description: "删除堆栈"
+    platforms:
+      - linux
+      - darwin
+      - windows
+    risks:
+      - level: high
+        description: "delete-stack 会删除所有关联资源，操作不可逆"
+    related_commands:
+      - "aws"
+      - "terraform"

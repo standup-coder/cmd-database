@@ -1,5 +1,5 @@
-category: "Kubernetes MLOps"
-description: "Machine Learning operations tools for Kubernetes (KServe, Kubeflow)"
+category: "容器编排/K8s机器学习运维"
+description: "Kubernetes机器学习运维工具(KServe、Kubeflow)"
 commands:
   # ========== KServe Commands ==========
   - name: "kubectl apply -f inferenceservice.yaml"

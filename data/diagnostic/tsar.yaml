@@ -1,5 +1,5 @@
-category: "System Diagnostic"
-description: "Taobao System Activity Reporter - system performance monitoring tool"
+category: "诊断工具/系统诊断"
+description: "淘宝系统性能监控与诊断工具"
 commands:
   - name: "tsar"
     description: "Display system performance statistics"

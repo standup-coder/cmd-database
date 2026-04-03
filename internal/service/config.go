@@ -24,8 +24,12 @@ func NewConfigService() (*ConfigService, error) {
 	if err != nil {
 		return nil, fmt.Errorf("获取用户目录失败: %w", err)
 	}
+	return NewConfigServiceWithDir(homeDir)
+}
 
-	configDir := filepath.Join(homeDir, ".cmd4coder")
+// NewConfigServiceWithDir 使用指定目录创建配置服务（用于测试）
+func NewConfigServiceWithDir(baseDir string) (*ConfigService, error) {
+	configDir := filepath.Join(baseDir, ".cmd4coder")
 	configPath := filepath.Join(configDir, "config.json")
 	userDataPath := filepath.Join(configDir, "userdata.json")
 
@@ -49,11 +53,11 @@ func NewConfigService() (*ConfigService, error) {
 	}, nil
 }
 
-// GetConfig 获取配置
-func (s *ConfigService) GetConfig() *model.Config {
+// GetConfig 获取配置（返回副本）
+func (s *ConfigService) GetConfig() model.Config {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-	return s.config
+	return *s.config
 }
 
 // UpdateConfig 更新配置
@@ -61,11 +65,14 @@ func (s *ConfigService) UpdateConfig(updater func(*model.Config)) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	updater(s.config)
+	copy := *s.config
+	updater(&copy)
 
-	if err := s.config.Validate(); err != nil {
+	if err := copy.Validate(); err != nil {
 		return fmt.Errorf("配置验证失败: %w", err)
 	}
+
+	s.config = &copy
 
 	if err := s.config.Save(s.configPath); err != nil {
 		return fmt.Errorf("保存配置失败: %w", err)
@@ -95,8 +102,8 @@ func (s *ConfigService) GetUserData() *model.UserData {
 
 // SaveUserData 保存用户数据
 func (s *ConfigService) SaveUserData() error {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	return s.userData.Save(s.userDataPath)
 }
@@ -127,12 +134,13 @@ func (s *ConfigService) IsFavorite(commandName string) bool {
 	return s.userData.IsFavorite(commandName)
 }
 
-// GetFavorites 获取所有收藏
+// GetFavorites 获取所有收藏（返回副本）
 func (s *ConfigService) GetFavorites() []model.Favorite {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
-
-	return s.userData.Favorites
+	cp := make([]model.Favorite, len(s.userData.Favorites))
+	copy(cp, s.userData.Favorites)
+	return cp
 }
 
 // AddHistory 添加历史记录
@@ -179,13 +187,6 @@ func (s *ConfigService) SetTheme(theme string) error {
 func (s *ConfigService) SetPageSize(size int) error {
 	return s.UpdateConfig(func(c *model.Config) {
 		c.PageSize = size
-	})
-}
-
-// EnableTUI 启用/禁用TUI
-func (s *ConfigService) EnableTUI(enabled bool) error {
-	return s.UpdateConfig(func(c *model.Config) {
-		c.TUI.Enabled = enabled
 	})
 }
 

@@ -23,6 +23,8 @@ go.work
 bin/
 dist/
 build/
+/cli
+/validator
 
 # IDE
 .idea/

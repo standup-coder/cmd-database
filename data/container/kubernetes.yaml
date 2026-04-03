@@ -1,5 +1,5 @@
-category: "Container Orchestration"
-description: "Kubernetes command-line tool for managing containerized applications"
+category: "容器编排/Kubernetes命令"
+description: "Kubernetes命令行容器编排管理工具"
 commands:
   - name: "kubectl get"
     description: "Display one or many resources"

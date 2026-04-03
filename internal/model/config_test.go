@@ -362,3 +362,188 @@ func TestHistoryEntryStructure(t *testing.T) {
 		t.Errorf("Expected accessed at %v, got %v", now, entry.AccessedAt)
 	}
 }
+
+func TestUserData_AddFavorite_DuplicatePrevention(t *testing.T) {
+	ud := NewUserData()
+
+	ud.AddFavorite("git", "vcs", "")
+	ud.AddFavorite("git", "vcs", "different note")
+
+	if len(ud.Favorites) != 1 {
+		t.Fatalf("expected 1 favorite, got %d", len(ud.Favorites))
+	}
+
+	if ud.Favorites[0].Note != "" {
+		t.Errorf("note should remain empty after duplicate add, got %q", ud.Favorites[0].Note)
+	}
+}
+
+func TestUserData_RemoveFavorite_NotExists(t *testing.T) {
+	ud := NewUserData()
+	ud.AddFavorite("ls", "os", "")
+
+	ud.RemoveFavorite("nonexistent")
+
+	if len(ud.Favorites) != 1 {
+		t.Fatalf("expected 1 favorite after removing nonexistent, got %d", len(ud.Favorites))
+	}
+}
+
+func TestUserData_AddHistory_DedupAndOrdering(t *testing.T) {
+	ud := NewUserData()
+
+	ud.AddHistory("a", "cat1")
+	ud.AddHistory("b", "cat1")
+	ud.AddHistory("c", "cat1")
+	ud.AddHistory("a", "cat1")
+
+	if len(ud.History) != 3 {
+		t.Fatalf("expected 3 entries, got %d", len(ud.History))
+	}
+
+	if ud.History[0].CommandName != "a" {
+		t.Errorf("expected first entry to be 'a' after re-add, got %q", ud.History[0].CommandName)
+	}
+	if ud.History[1].CommandName != "c" {
+		t.Errorf("expected second entry to be 'c', got %q", ud.History[1].CommandName)
+	}
+	if ud.History[2].CommandName != "b" {
+		t.Errorf("expected third entry to be 'b', got %q", ud.History[2].CommandName)
+	}
+}
+
+func TestUserData_GetRecentHistory_ZeroLimit(t *testing.T) {
+	ud := NewUserData()
+	ud.AddHistory("ls", "os")
+
+	recent := ud.GetRecentHistory(0)
+	if recent != nil {
+		t.Fatalf("expected nil for limit 0, got %v", recent)
+	}
+}
+
+func TestUserData_GetRecentHistory_NegativeLimit(t *testing.T) {
+	ud := NewUserData()
+	ud.AddHistory("ls", "os")
+
+	recent := ud.GetRecentHistory(-1)
+	if recent != nil {
+		t.Fatalf("expected nil for negative limit, got %v", recent)
+	}
+}
+
+func TestUserData_ClearHistory_Empty(t *testing.T) {
+	ud := NewUserData()
+	ud.ClearHistory()
+
+	if len(ud.History) != 0 {
+		t.Fatalf("expected 0 entries after clear of empty history, got %d", len(ud.History))
+	}
+}
+
+func TestMetadata_Validate(t *testing.T) {
+	t.Run("valid metadata", func(t *testing.T) {
+		m := Metadata{
+			Version:   "1.0",
+			DataFiles: []string{"data.yaml"},
+			Categories: map[string]Category{
+				"cat1": {ID: "cat1", Name: "Cat1", Order: 1},
+			},
+		}
+		if err := m.Validate(); err != nil {
+			t.Errorf("expected valid, got err: %v", err)
+		}
+	})
+
+	t.Run("missing version", func(t *testing.T) {
+		m := Metadata{
+			DataFiles:  []string{"data.yaml"},
+			Categories: map[string]Category{"cat1": {ID: "cat1", Name: "Cat1", Order: 1}},
+		}
+		if err := m.Validate(); err == nil {
+			t.Error("expected error for missing version")
+		}
+	})
+
+	t.Run("missing categories", func(t *testing.T) {
+		m := Metadata{
+			Version:   "1.0",
+			DataFiles: []string{"data.yaml"},
+		}
+		if err := m.Validate(); err == nil {
+			t.Error("expected error for missing categories")
+		}
+	})
+
+	t.Run("missing data files", func(t *testing.T) {
+		m := Metadata{
+			Version:    "1.0",
+			Categories: map[string]Category{"cat1": {ID: "cat1", Name: "Cat1", Order: 1}},
+		}
+		if err := m.Validate(); err == nil {
+			t.Error("expected error for missing data files")
+		}
+	})
+
+	t.Run("invalid category in metadata", func(t *testing.T) {
+		m := Metadata{
+			Version:   "1.0",
+			DataFiles: []string{"data.yaml"},
+			Categories: map[string]Category{
+				"bad": {ID: "", Name: "Bad", Order: 1},
+			},
+		}
+		if err := m.Validate(); err == nil {
+			t.Error("expected error for invalid category in metadata")
+		}
+	})
+}
+
+func TestCommandList_Validate(t *testing.T) {
+	t.Run("valid command list", func(t *testing.T) {
+		cl := &CommandList{
+			Category:    "test-cat",
+			Description: "test desc",
+			Commands: []*Command{
+				{
+					Name:        "cmd1",
+					Category:    "test-cat",
+					Description: "a command",
+					Usage:       []string{"cmd1"},
+					Examples:    []Example{{Command: "cmd1", Description: "test"}},
+					Platforms:   []string{"linux"},
+				},
+			},
+		}
+		if err := cl.Validate(); err != nil {
+			t.Errorf("expected valid, got err: %v", err)
+		}
+	})
+
+	t.Run("missing category", func(t *testing.T) {
+		cl := &CommandList{Description: "test"}
+		if err := cl.Validate(); err == nil {
+			t.Error("expected error for missing category")
+		}
+	})
+
+	t.Run("missing description", func(t *testing.T) {
+		cl := &CommandList{Category: "test"}
+		if err := cl.Validate(); err == nil {
+			t.Error("expected error for missing description")
+		}
+	})
+
+	t.Run("invalid command in list", func(t *testing.T) {
+		cl := &CommandList{
+			Category:    "test-cat",
+			Description: "test desc",
+			Commands: []*Command{
+				{Name: "bad-cmd"},
+			},
+		}
+		if err := cl.Validate(); err == nil {
+			t.Error("expected error for invalid command in list")
+		}
+	})
+}

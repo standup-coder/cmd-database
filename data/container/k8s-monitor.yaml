@@ -1,5 +1,5 @@
-category: "Kubernetes Monitoring & Logging"
-description: "Monitoring and logging tools for Kubernetes clusters"
+category: "容器编排/K8s监控日志"
+description: "Kubernetes集群监控与日志采集工具"
 commands:
   # Prometheus Core Commands
   - name: "prometheus"

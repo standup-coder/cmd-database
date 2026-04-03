@@ -32,7 +32,7 @@ commands:
         description: "运行后自动删除容器"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker ps"
@@ -61,7 +61,7 @@ commands:
         description: "列出所有容器"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker run"
@@ -84,7 +84,7 @@ commands:
         description: "停止所有运行中的容器"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker start"
@@ -111,7 +111,7 @@ commands:
         description: "不使用缓存构建"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker run"
@@ -136,7 +136,7 @@ commands:
         description: "只显示镜像ID"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker rmi"
@@ -156,7 +156,7 @@ commands:
         description: "拉取指定版本"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker push"
@@ -184,7 +184,7 @@ commands:
         description: "删除容器会丢失容器内的数据(除非使用卷)"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker rmi"
@@ -211,7 +211,7 @@ commands:
         description: "在容器内执行ls命令"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "docker attach"
@@ -238,7 +238,7 @@ commands:
         description: "实时查看最后100行日志"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: docker-compose
@@ -264,7 +264,7 @@ commands:
         description: "停止并删除所有服务"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     references:
       - "https://docs.docker.com/compose/"

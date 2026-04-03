@@ -1,5 +1,5 @@
-category: "Kubernetes Backup & Recovery"
-description: "Disaster recovery and backup tools for Kubernetes"
+category: "容器编排/K8s备份恢复"
+description: "Kubernetes灾备恢复与备份工具集"
 commands:
   - name: "velero backup create"
     description: "Create backup of Kubernetes resources"

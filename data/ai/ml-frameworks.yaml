@@ -24,8 +24,13 @@ commands:
         description: "在单机4卡上运行分布式训练"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "tensorboard"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
     references:
       - "https://pytorch.org/docs/stable/distributed.html#launch-utility"
 
@@ -48,7 +53,12 @@ commands:
         description: "启动TensorBoard并读取'runs'目录下的日志"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "torchrun"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
     references:
       - "https://www.tensorflow.org/tensorboard"

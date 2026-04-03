@@ -1,5 +1,5 @@
-category: "Kubernetes Security"
-description: "Security scanning and compliance tools for Kubernetes"
+category: "容器编排/K8s安全工具"
+description: "Kubernetes安全扫描与合规检查工具"
 commands:
   - name: "trivy image"
     description: "Scan container image for vulnerabilities"
@@ -352,43 +352,23 @@ commands:
     install_method: "kubectl built-in command"
     version_check: "kubectl version --client"
 
-  - name: "kubectl get podsecuritypolicies"
-    description: "List PodSecurityPolicy resources (deprecated but still used)"
-    category: "Kubernetes Security"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    usage:
-      - "kubectl get podsecuritypolicies [name] [flags]"
-    examples:
-      - command: "kubectl get psp"
-        description: "List all PodSecurityPolicies"
-      - command: "kubectl describe psp restricted"
-        description: "Describe restricted PSP configuration"
-    risks:
-      - level: "low"
-        description: "Read-only operation; shows security policies"
-    install_method: "kubectl built-in command (deprecated in v1.25+)"
-    version_check: "kubectl version --client"
-
   - name: "kubectl get podsecuritystandards"
-    description: "List PodSecurity admission standards (v1.23+)"
+    description: "Check PodSecurity admission labels on namespaces (v1.23+)"
     category: "Kubernetes Security"
     platforms:
       - "linux"
       - "darwin"
       - "windows"
     usage:
-      - "kubectl get podsecuritystandards [name] [flags]"
+      - "kubectl get ns -o custom-columns=NAME:.metadata.name,PSA-LABEL:.metadata.labels.pod-security\\.enforce"
     examples:
-      - command: "kubectl get pss"
-        description: "List PodSecurityStandards"
-      - command: "kubectl describe pss restricted"
-        description: "Describe restricted security standard"
+      - command: "kubectl get ns -o custom-columns=NAME:.metadata.name,PSA-LABEL:.metadata.labels.pod-security\\.enforce"
+        description: "Check PodSecurity enforce level on all namespaces"
+      - command: "kubectl label namespace my-ns pod-security.kubernetes.io/enforce=restricted"
+        description: "Set namespace PodSecurity level to restricted"
     risks:
-      - level: "low"
-        description: "Read-only operation; shows security baselines"
+      - level: "medium"
+        description: "Changing enforce level may prevent pods from starting"
     install_method: "kubectl built-in command (v1.23+)"
     version_check: "kubectl version --client"
 

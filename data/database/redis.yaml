@@ -1,5 +1,5 @@
-category: "Database"
-description: "Redis in-memory data structure store commands and tools"
+category: "数据库工具/Redis工具"
+description: "Redis内存数据库管理与运维命令"
 commands:
   - name: "redis-cli"
     description: "Redis command-line interface client"

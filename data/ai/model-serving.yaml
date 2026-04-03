@@ -28,7 +28,13 @@ commands:
         description: "将Bento打包为Docker镜像"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "mlflow"
+      - "torchrun"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
     references:
       - "https://docs.bentoml.com/en/latest/reference/cli.html"

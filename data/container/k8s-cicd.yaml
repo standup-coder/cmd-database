@@ -1,5 +1,5 @@
-category: "Kubernetes CI/CD"
-description: "Kubernetes continuous integration and deployment tools"
+category: "容器编排/K8s持续集成"
+description: "Kubernetes持续集成与部署工具"
 commands:
   - name: "argocd login"
     description: "Login to ArgoCD server"

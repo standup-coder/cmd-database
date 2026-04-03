@@ -22,15 +22,6 @@ func (e ErrInvalidRiskLevel) Error() string {
 	return fmt.Sprintf("invalid risk level '%s' in command '%s' at index %d", e.Level, e.Command, e.Index)
 }
 
-// ErrInvalidCategory 无效的分类错误
-type ErrInvalidCategory struct {
-	Category string
-}
-
-func (e ErrInvalidCategory) Error() string {
-	return fmt.Sprintf("invalid category: %s", e.Category)
-}
-
 // ErrDuplicateCommand 重复的命令错误
 type ErrDuplicateCommand struct {
 	Name string
@@ -57,4 +48,8 @@ type ErrDataLoadFailed struct {
 
 func (e ErrDataLoadFailed) Error() string {
 	return fmt.Sprintf("failed to load data file '%s': %v", e.File, e.Err)
+}
+
+func (e ErrDataLoadFailed) Unwrap() error {
+	return e.Err
 }

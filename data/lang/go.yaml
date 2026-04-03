@@ -24,11 +24,14 @@ commands:
         description: "编译所有包并显示详细信息"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "go run"
       - "go install"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: go run
     category: "编程语言/Go工具链"
@@ -44,8 +47,14 @@ commands:
         description: "运行当前目录的包"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go build"
+      - "go test"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
 
   - name: go test
     category: "编程语言/Go工具链"
@@ -72,8 +81,14 @@ commands:
         description: "运行测试并显示覆盖率"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go build"
+      - "go vet"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"
 
   - name: go mod
     category: "编程语言/Go工具链"
@@ -98,8 +113,14 @@ commands:
         description: "整理依赖"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go get"
+      - "go build"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: go get
     category: "编程语言/Go工具链"
@@ -120,8 +141,14 @@ commands:
         description: "更新所有依赖"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go mod"
+      - "go build"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: go fmt
     category: "编程语言/Go工具链"
@@ -135,8 +162,14 @@ commands:
         description: "格式化所有Go文件"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go vet"
+      - "go build"
+    risks:
+      - level: medium
+        description: "会修改本地环境或依赖"
 
   - name: go vet
     category: "编程语言/Go工具链"
@@ -150,5 +183,11 @@ commands:
         description: "检查所有包"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
+    related_commands:
+      - "go test"
+      - "go fmt"
+    risks:
+      - level: low
+        description: "常规操作，无特殊风险"

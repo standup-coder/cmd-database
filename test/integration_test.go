@@ -1,3 +1,5 @@
+//go:build integration
+
 package test
 
 import (
@@ -116,7 +118,7 @@ func TestCommandServiceIntegration(t *testing.T) {
 
 		// 验证每个命令都是高风险
 		for _, cmd := range highRiskCommands {
-			risk := cmd.GetHighestRisk()
+			risk := cmd.GetRiskLevel()
 			if risk != model.RiskLevelHigh && risk != model.RiskLevelCritical {
 				t.Errorf("命令 %s 不是高风险命令", cmd.Name)
 			}
@@ -159,7 +161,7 @@ func TestCommandServiceIntegration(t *testing.T) {
 		// 验证terraform apply的Critical风险
 		cmd, err := cmdService.GetCommand("terraform apply")
 		if err == nil {
-			risk := cmd.GetHighestRisk()
+			risk := cmd.GetRiskLevel()
 			if risk != model.RiskLevelCritical {
 				t.Errorf("terraform apply应该是Critical风险，实际是 %s", risk)
 			}
@@ -168,7 +170,7 @@ func TestCommandServiceIntegration(t *testing.T) {
 		// 验证terraform destroy的Critical风险
 		cmd, err = cmdService.GetCommand("terraform destroy")
 		if err == nil {
-			risk := cmd.GetHighestRisk()
+			risk := cmd.GetRiskLevel()
 			if risk != model.RiskLevelCritical {
 				t.Errorf("terraform destroy应该是Critical风险，实际是 %s", risk)
 			}
@@ -199,19 +201,19 @@ func TestCommandServiceIntegration(t *testing.T) {
 
 	// 测试分类命令数量
 	t.Run("VerifyCategoryCommandCount", func(t *testing.T) {
-		// 测试Kubernetes Monitoring & Logging分类
-		monitorCommands := cmdService.ListCommandsByCategory("Kubernetes Monitoring & Logging")
+		// 测试容器编排/K8s监控日志分类
+		monitorCommands := cmdService.ListCommandsByCategory("容器编排/K8s监控日志")
 		if len(monitorCommands) < 25 {
-			t.Errorf("Kubernetes Monitoring & Logging分类命令数量不足: %d (期望至少25个)", len(monitorCommands))
+			t.Errorf("容器编排/K8s监控日志分类命令数量不足: %d (期望至少25个)", len(monitorCommands))
 		}
-		t.Logf("Kubernetes Monitoring & Logging分类有 %d 个命令", len(monitorCommands))
+		t.Logf("容器编排/K8s监控日志分类有 %d 个命令", len(monitorCommands))
 
-		// 测试Kubernetes Config Management分类
-		configCommands := cmdService.ListCommandsByCategory("Kubernetes Config Management")
+		// 测试容器编排/K8s配置管理分类
+		configCommands := cmdService.ListCommandsByCategory("容器编排/K8s配置管理")
 		if len(configCommands) < 20 {
-			t.Errorf("Kubernetes Config Management分类命令数量不足: %d (期望至少20个)", len(configCommands))
+			t.Errorf("容器编排/K8s配置管理分类命令数量不足: %d (期望至少20个)", len(configCommands))
 		}
-		t.Logf("Kubernetes Config Management分类有 %d 个命令", len(configCommands))
+		t.Logf("容器编排/K8s配置管理分类有 %d 个命令", len(configCommands))
 	})
 
 	// 测试总命令数量
@@ -279,9 +281,6 @@ func TestConfigServiceIntegration(t *testing.T) {
 	// 测试获取配置
 	t.Run("GetConfig", func(t *testing.T) {
 		config := cfgService.GetConfig()
-		if config == nil {
-			t.Fatal("配置不应该为nil")
-		}
 
 		if config.Language == "" {
 			t.Error("语言不应该为空")

@@ -6,29 +6,24 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/cmd4coder/cmd4coder/internal/version"
 )
+
+const maxHistoryLimit = 100
 
 // Config 应用程序配置
 type Config struct {
-	// 应用设置
-	Language string `json:"language"`  // 语言: zh/en
-	Theme    string `json:"theme"`     // 主题: default/dark/light
-	Editor   string `json:"editor"`    // 默认编辑器
-	PageSize int    `json:"page_size"` // 每页显示数量
+	Language string `json:"language"`
+	Theme    string `json:"theme"`
+	PageSize int    `json:"page_size"`
 
-	// TUI设置
 	TUI TUIConfig `json:"tui"`
 
-	// 搜索设置
 	Search SearchConfig `json:"search"`
 
-	// 导出设置
 	Export ExportConfig `json:"export"`
 
-	// 用户数据路径
-	UserDataPath string `json:"user_data_path"`
-
-	// 版本
 	Version string `json:"version"`
 }
 
@@ -85,16 +80,11 @@ type HistoryEntry struct {
 
 // DefaultConfig 返回默认配置
 func DefaultConfig() *Config {
-	homeDir, _ := os.UserHomeDir()
-	userDataPath := filepath.Join(homeDir, ".cmd4coder")
-
 	return &Config{
-		Language:     "zh",
-		Theme:        "default",
-		Editor:       "vim",
-		PageSize:     20,
-		UserDataPath: userDataPath,
-		Version:      "1.0.0",
+		Language: "zh",
+		Theme:    "default",
+		PageSize: 20,
+		Version:  version.Version,
 
 		TUI: TUIConfig{
 			Enabled:         true,
@@ -143,7 +133,7 @@ func LoadConfig(path string) (*Config, error) {
 func (c *Config) Save(path string) error {
 	// 确保目录存在
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	if err := os.MkdirAll(dir, 0700); err != nil {
 		return fmt.Errorf("创建配置目录失败: %w", err)
 	}
 
@@ -152,7 +142,7 @@ func (c *Config) Save(path string) error {
 		return fmt.Errorf("序列化配置失败: %w", err)
 	}
 
-	if err := os.WriteFile(path, data, 0644); err != nil {
+	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("写入配置文件失败: %w", err)
 	}
 
@@ -177,9 +167,14 @@ func (c *Config) Validate() error {
 		return fmt.Errorf("language 必须是 zh 或 en")
 	}
 
-	validFormats := map[string]bool{"markdown": true, "json": true}
+	validThemes := map[string]bool{"default": true, "dark": true, "light": true}
+	if !validThemes[c.Theme] {
+		return fmt.Errorf("theme 必须是 default、dark 或 light")
+	}
+
+	validFormats := map[string]bool{"markdown": true, "json": true, "yaml": true}
 	if !validFormats[c.Export.DefaultFormat] {
-		return fmt.Errorf("export.default_format 必须是 markdown 或 json")
+		return fmt.Errorf("export.default_format 必须是 markdown、json 或 yaml")
 	}
 
 	return nil
@@ -221,7 +216,7 @@ func (u *UserData) Save(path string) error {
 
 	// 确保目录存在
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	if err := os.MkdirAll(dir, 0700); err != nil {
 		return fmt.Errorf("创建用户数据目录失败: %w", err)
 	}
 
@@ -230,7 +225,7 @@ func (u *UserData) Save(path string) error {
 		return fmt.Errorf("序列化用户数据失败: %w", err)
 	}
 
-	if err := os.WriteFile(path, data, 0644); err != nil {
+	if err := os.WriteFile(path, data, 0600); err != nil {
 		return fmt.Errorf("写入用户数据文件失败: %w", err)
 	}
 
@@ -292,14 +287,16 @@ func (u *UserData) AddHistory(commandName, category string) {
 	}}, u.History...)
 
 	// 限制历史记录数量
-	maxHistory := 100
-	if len(u.History) > maxHistory {
-		u.History = u.History[:maxHistory]
+	if len(u.History) > maxHistoryLimit {
+		u.History = u.History[:maxHistoryLimit]
 	}
 }
 
 // GetRecentHistory 获取最近的历史记录
 func (u *UserData) GetRecentHistory(limit int) []HistoryEntry {
+	if limit <= 0 {
+		return nil
+	}
 	if limit > len(u.History) {
 		limit = len(u.History)
 	}

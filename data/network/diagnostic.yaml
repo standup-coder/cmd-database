@@ -21,7 +21,7 @@ commands:
         description: "发送4个包"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: netstat
@@ -48,7 +48,7 @@ commands:
         description: "显示监听端口和进程"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
 
   - name: ss
@@ -108,7 +108,7 @@ commands:
         description: "可能捕获敏感信息，注意数据安全"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
 
   - name: traceroute
     category: "网络工具/网络诊断"
@@ -129,7 +129,7 @@ commands:
         description: "跟踪路由不解析域名"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
 
   - name: curl
     category: "网络工具/网络诊断"
@@ -158,7 +158,7 @@ commands:
         description: "下载文件"
     platforms:
       - "linux"
-      - "macos"
+      - "darwin"
       - "windows"
     related_commands:
       - "wget"
