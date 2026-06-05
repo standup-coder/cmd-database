@@ -1,306 +1,464 @@
-category: "版本控制/Git命令"
-description: "Git分布式版本控制系统命令"
+category: 版本控制/Git命令
+description: Git分布式版本控制系统命令
 commands:
-  - name: git clone
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "克隆远程仓库到本地"
-    usage:
-      - "git clone <repository-url> [directory]"
-    options:
-      - flag: "--depth <n>"
-        description: "浅克隆，只克隆最近n次提交"
-      - flag: "--branch <name>"
-        description: "克隆指定分支"
-      - flag: "--single-branch"
-        description: "只克隆单个分支"
-    examples:
-      - command: "git clone https://github.com/user/repo.git"
-        description: "克隆GitHub仓库"
-      - command: "git clone --depth 1 https://github.com/user/repo.git"
-        description: "浅克隆，只获取最新代码"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git pull"
-      - "git fetch"
-
-  - name: git init
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "初始化新的Git仓库"
-    usage:
-      - "git init [directory]"
-    options:
-      - flag: "--bare"
-        description: "创建裸仓库（无工作目录）"
-    examples:
-      - command: "git init"
-        description: "在当前目录初始化Git仓库"
-      - command: "git init my-project"
-        description: "创建并初始化新目录"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-
-  - name: git add
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "添加文件到暂存区"
-    usage:
-      - "git add <file>..."
-    options:
-      - flag: "-A, --all"
-        description: "添加所有更改"
-      - flag: "-p, --patch"
-        description: "交互式选择更改部分"
-      - flag: "."
-        description: "添加当前目录所有更改"
-    examples:
-      - command: "git add file.txt"
-        description: "添加单个文件"
-      - command: "git add ."
-        description: "添加当前目录所有更改"
-      - command: "git add -A"
-        description: "添加所有更改（包括删除）"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git commit"
-      - "git status"
-
-  - name: git commit
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "提交暂存区的更改"
-    usage:
-      - "git commit [options]"
-    options:
-      - flag: "-m <message>"
-        description: "指定提交信息"
-      - flag: "-a"
-        description: "自动暂存已修改的文件"
-      - flag: "--amend"
-        description: "修改最近一次提交"
-    examples:
-      - command: "git commit -m 'Add new feature'"
-        description: "提交并添加说明"
-      - command: "git commit -am 'Fix bug'"
-        description: "暂存并提交已修改文件"
-      - command: "git commit --amend"
-        description: "修改上次提交"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git add"
-      - "git push"
-
-  - name: git status
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "显示工作区状态"
-    usage:
-      - "git status [options]"
-    options:
-      - flag: "-s, --short"
-        description: "简短格式输出"
-      - flag: "-b, --branch"
-        description: "显示分支信息"
-    examples:
-      - command: "git status"
-        description: "查看当前状态"
-      - command: "git status -s"
-        description: "简短格式显示"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-
-  - name: git push
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "推送本地提交到远程仓库"
-    usage:
-      - "git push [remote] [branch]"
-    options:
-      - flag: "-u, --set-upstream"
-        description: "设置上游分支"
-      - flag: "-f, --force"
-        description: "强制推送"
-      - flag: "--tags"
-        description: "推送标签"
-    examples:
-      - command: "git push origin main"
-        description: "推送到远程main分支"
-      - command: "git push -u origin feature"
-        description: "推送并设置上游分支"
-    notes:
-      - "首次推送分支需要使用-u选项"
-    risks:
-      - level: high
-        description: "使用--force可能覆盖他人的提交，务必谨慎"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git pull"
-      - "git fetch"
-
-  - name: git pull
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "拉取远程更改并合并"
-    usage:
-      - "git pull [remote] [branch]"
-    options:
-      - flag: "--rebase"
-        description: "使用rebase而非merge"
-      - flag: "--ff-only"
-        description: "只允许快进合并"
-    examples:
-      - command: "git pull"
-        description: "拉取并合并远程更改"
-      - command: "git pull --rebase"
-        description: "拉取并rebase"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git fetch"
-      - "git merge"
-
-  - name: git branch
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "列出、创建或删除分支"
-    usage:
-      - "git branch [options] [branch-name]"
-    options:
-      - flag: "-a"
-        description: "显示所有分支（包括远程）"
-      - flag: "-d"
-        description: "删除分支"
-      - flag: "-D"
-        description: "强制删除分支"
-      - flag: "-m"
-        description: "重命名分支"
-    examples:
-      - command: "git branch"
-        description: "列出本地分支"
-      - command: "git branch feature-x"
-        description: "创建新分支"
-      - command: "git branch -d old-feature"
-        description: "删除已合并的分支"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git checkout"
-      - "git switch"
-
-  - name: git checkout
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "切换分支或恢复文件"
-    usage:
-      - "git checkout <branch>"
-      - "git checkout <file>"
-    options:
-      - flag: "-b"
-        description: "创建并切换到新分支"
-    examples:
-      - command: "git checkout main"
-        description: "切换到main分支"
-      - command: "git checkout -b feature"
-        description: "创建并切换到新分支"
-      - command: "git checkout -- file.txt"
-        description: "恢复文件到最后提交状态"
-    notes:
-      - "Git 2.23+建议使用git switch切换分支"
-    risks:
-      - level: medium
-        description: "恢复文件会丢失未提交的更改"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git switch"
-      - "git restore"
-
-  - name: git merge
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "合并分支"
-    usage:
-      - "git merge <branch>"
-    options:
-      - flag: "--no-ff"
-        description: "禁用快进合并"
-      - flag: "--squash"
-        description: "压缩合并（不创建合并提交）"
-    examples:
-      - command: "git merge feature"
-        description: "合并feature分支到当前分支"
-      - command: "git merge --no-ff feature"
-        description: "非快进合并"
-    notes:
-      - "合并可能产生冲突，需要手动解决"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git rebase"
-      - "git pull"
-
-  - name: git log
-    category: "版本控制/Git命令"
-    install_required: true
-    install_method: "apt install git (Ubuntu) 或 yum install git (CentOS)"
-    description: "查看提交历史"
-    usage:
-      - "git log [options]"
-    options:
-      - flag: "--oneline"
-        description: "简洁显示（一行）"
-      - flag: "--graph"
-        description: "图形化显示分支"
-      - flag: "-n <number>"
-        description: "显示最近n次提交"
-      - flag: "--author=<name>"
-        description: "按作者过滤"
-    examples:
-      - command: "git log"
-        description: "查看提交历史"
-      - command: "git log --oneline --graph"
-        description: "图形化显示简洁历史"
-      - command: "git log -n 10"
-        description: "显示最近10次提交"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git show"
-      - "git diff"
+- name: git clone
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 克隆远程仓库到本地
+  usage:
+  - git clone <repository-url> [directory]
+  options:
+  - flag: --depth <n>
+    description: 浅克隆，只克隆最近n次提交
+  - flag: --branch <name>
+    description: 克隆指定分支
+  - flag: --single-branch
+    description: 只克隆单个分支
+  examples:
+  - command: git clone https://github.com/user/repo.git
+    description: 克隆GitHub仓库
+  - command: git clone --depth 1 https://github.com/user/repo.git
+    description: 浅克隆，只获取最新代码
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git pull
+  - git fetch
+- name: git init
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 初始化新的Git仓库
+  usage:
+  - git init [directory]
+  options:
+  - flag: --bare
+    description: 创建裸仓库（无工作目录）
+  examples:
+  - command: git init
+    description: 在当前目录初始化Git仓库
+  - command: git init my-project
+    description: 创建并初始化新目录
+  platforms:
+  - linux
+  - darwin
+  - windows
+- name: git add
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 添加文件到暂存区
+  usage:
+  - git add <file>...
+  options:
+  - flag: -A, --all
+    description: 添加所有更改
+  - flag: -p, --patch
+    description: 交互式选择更改部分
+  - flag: .
+    description: 添加当前目录所有更改
+  examples:
+  - command: git add file.txt
+    description: 添加单个文件
+  - command: git add .
+    description: 添加当前目录所有更改
+  - command: git add -A
+    description: 添加所有更改（包括删除）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git commit
+  - git status
+- name: git commit
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 提交暂存区的更改
+  usage:
+  - git commit [options]
+  options:
+  - flag: -m <message>
+    description: 指定提交信息
+  - flag: -a
+    description: 自动暂存已修改的文件
+  - flag: --amend
+    description: 修改最近一次提交
+  examples:
+  - command: git commit -m 'Add new feature'
+    description: 提交并添加说明
+  - command: git commit -am 'Fix bug'
+    description: 暂存并提交已修改文件
+  - command: git commit --amend
+    description: 修改上次提交
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git add
+  - git push
+- name: git status
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 显示工作区状态
+  usage:
+  - git status [options]
+  options:
+  - flag: -s, --short
+    description: 简短格式输出
+  - flag: -b, --branch
+    description: 显示分支信息
+  examples:
+  - command: git status
+    description: 查看当前状态
+  - command: git status -s
+    description: 简短格式显示
+  platforms:
+  - linux
+  - darwin
+  - windows
+- name: git push
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 推送本地提交到远程仓库
+  usage:
+  - git push [remote] [branch]
+  options:
+  - flag: -u, --set-upstream
+    description: 设置上游分支
+  - flag: -f, --force
+    description: 强制推送
+  - flag: --tags
+    description: 推送标签
+  examples:
+  - command: git push origin main
+    description: 推送到远程main分支
+  - command: git push -u origin feature
+    description: 推送并设置上游分支
+  notes:
+  - 首次推送分支需要使用-u选项
+  risks:
+  - level: high
+    description: 使用--force可能覆盖他人的提交，务必谨慎
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git pull
+  - git fetch
+- name: git pull
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 拉取远程更改并合并
+  usage:
+  - git pull [remote] [branch]
+  options:
+  - flag: --rebase
+    description: 使用rebase而非merge
+  - flag: --ff-only
+    description: 只允许快进合并
+  examples:
+  - command: git pull
+    description: 拉取并合并远程更改
+  - command: git pull --rebase
+    description: 拉取并rebase
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git fetch
+  - git merge
+- name: git branch
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 列出、创建或删除分支
+  usage:
+  - git branch [options] [branch-name]
+  options:
+  - flag: -a
+    description: 显示所有分支（包括远程）
+  - flag: -d
+    description: 删除分支
+  - flag: -D
+    description: 强制删除分支
+  - flag: -m
+    description: 重命名分支
+  examples:
+  - command: git branch
+    description: 列出本地分支
+  - command: git branch feature-x
+    description: 创建新分支
+  - command: git branch -d old-feature
+    description: 删除已合并的分支
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git checkout
+  - git switch
+- name: git checkout
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 切换分支或恢复文件
+  usage:
+  - git checkout <branch>
+  - git checkout <file>
+  options:
+  - flag: -b
+    description: 创建并切换到新分支
+  examples:
+  - command: git checkout main
+    description: 切换到main分支
+  - command: git checkout -b feature
+    description: 创建并切换到新分支
+  - command: git checkout -- file.txt
+    description: 恢复文件到最后提交状态
+  notes:
+  - Git 2.23+建议使用git switch切换分支
+  risks:
+  - level: medium
+    description: 恢复文件会丢失未提交的更改
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git switch
+  - git restore
+- name: git merge
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 合并分支
+  usage:
+  - git merge <branch>
+  options:
+  - flag: --no-ff
+    description: 禁用快进合并
+  - flag: --squash
+    description: 压缩合并（不创建合并提交）
+  examples:
+  - command: git merge feature
+    description: 合并feature分支到当前分支
+  - command: git merge --no-ff feature
+    description: 非快进合并
+  notes:
+  - 合并可能产生冲突，需要手动解决
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git rebase
+  - git pull
+- name: git log
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 查看提交历史
+  usage:
+  - git log [options]
+  options:
+  - flag: --oneline
+    description: 简洁显示（一行）
+  - flag: --graph
+    description: 图形化显示分支
+  - flag: -n <number>
+    description: 显示最近n次提交
+  - flag: --author=<name>
+    description: 按作者过滤
+  examples:
+  - command: git log
+    description: 查看提交历史
+  - command: git log --oneline --graph
+    description: 图形化显示简洁历史
+  - command: git log -n 10
+    description: 显示最近10次提交
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git show
+  - git diff
+- name: git fetch
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 从远程仓库下载对象和引用，但不合并
+  usage:
+  - git fetch [<remote>] [<refspec>...]
+  options:
+  - flag: --all
+    description: 获取所有远程仓库的更新
+  - flag: --prune
+    description: 删除远程已不存在的分支跟踪
+  - flag: --tags
+    description: 获取所有标签
+  - flag: --depth <n>
+    description: 浅获取，限制历史深度
+  examples:
+  - command: git fetch origin
+    description: 获取origin远程的最新提交
+  - command: git fetch --all --prune
+    description: 获取所有远程并清理已删除分支
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git pull
+  - git merge
+  - git clone
+- name: git diff
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 显示工作区与暂存区或提交之间的差异
+  usage:
+  - git diff [<options>] [<commit>] [--] [<path>...]
+  options:
+  - flag: --cached
+    description: 显示暂存区与最新提交的差异
+  - flag: --stat
+    description: 显示统计摘要而非完整差异
+  - flag: -w
+    description: 忽略空白字符差异
+  examples:
+  - command: git diff
+    description: 查看未暂存的修改
+  - command: git diff --cached
+    description: 查看已暂存但未提交的修改
+  - command: git diff HEAD~1
+    description: 查看最近一次提交的差异
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git status
+  - git add
+  - git log
+- name: git rebase
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 将当前分支变基到另一分支，重写提交历史
+  usage:
+  - git rebase [-i | --interactive] [<branch>]
+  options:
+  - flag: -i, --interactive
+    description: 交互式变基，可编辑/合并提交
+  - flag: --continue
+    description: 解决冲突后继续变基
+  - flag: --abort
+    description: 中止变基，恢复到变基前状态
+  - flag: --onto <newbase>
+    description: 将当前分支变基到新基础提交
+  examples:
+  - command: git rebase main
+    description: 将当前分支变基到main
+  - command: git rebase -i HEAD~3
+    description: 交互式合并最近3个提交
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git merge
+  - git cherry-pick
+  - git log
+- name: git switch
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 切换分支（Git 2.23+ 推荐替代checkout）
+  usage:
+  - git switch [<options>] [<branch-name>]
+  options:
+  - flag: -c, --create
+    description: 创建并切换到新分支
+  - flag: '-'
+    description: 切换到上一个分支
+  - flag: --detach
+    description: 切换到分离HEAD状态
+  examples:
+  - command: git switch feature-branch
+    description: 切换到feature分支
+  - command: git switch -c new-feature
+    description: 创建并切换到新分支
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git branch
+  - git checkout
+  - git merge
+- name: git restore
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 恢复工作区或暂存区文件（Git 2.23+ 推荐替代checkout）
+  usage:
+  - git restore [<options>] [<pathspec>...]
+  options:
+  - flag: --staged
+    description: 恢复暂存区中的文件
+  - flag: --source <tree>
+    description: 从指定提交恢复文件
+  - flag: --worktree
+    description: 恢复工作区文件（默认）
+  examples:
+  - command: git restore file.txt
+    description: 撤销对file.txt的修改
+  - command: git restore --staged file.txt
+    description: 取消暂存file.txt
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git checkout
+  - git reset
+  - git status
+- name: git show
+  category: 版本控制/Git命令
+  install_required: true
+  install_method: apt install git (Ubuntu) 或 yum install git (CentOS)
+  description: 显示提交、标签或对象的详细信息和差异
+  usage:
+  - git show [<options>] [<object>...]
+  options:
+  - flag: --stat
+    description: 显示修改统计
+  - flag: --name-only
+    description: 仅显示修改的文件名
+  - flag: -p
+    description: 显示补丁（默认）
+  examples:
+  - command: git show HEAD
+    description: 显示最新提交的详细信息
+  - command: git show abc1234
+    description: 显示指定提交的详细信息
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - git log
+  - git diff
+  - git cat-file

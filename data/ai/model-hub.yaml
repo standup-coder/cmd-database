@@ -1,0 +1,512 @@
+category: "AI基础设施/模型生态"
+description: "模型仓库、格式转换与量化工具，覆盖HuggingFace、ModelScope、ONNX等生态"
+commands:
+  - name: huggingface-cli
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install huggingface-hub"
+    description: "HuggingFace Hub命令行工具，支持模型/数据集/Space的上传下载管理"
+    usage:
+      - "huggingface-cli [COMMAND] [OPTIONS]"
+    options:
+      - flag: "download"
+        description: "下载模型或数据集"
+      - flag: "upload"
+        description: "上传文件到Hub"
+      - flag: "repo create"
+        description: "创建新仓库"
+      - flag: "scan-cache"
+        description: "扫描本地缓存"
+      - flag: "delete-cache"
+        description: "删除本地缓存"
+    examples:
+      - command: "huggingface-cli download meta-llama/Llama-3.1-8B-Instruct"
+        description: "下载LLaMA-3.1模型到本地缓存"
+      - command: "huggingface-cli download --local-dir ./models Qwen/Qwen2-7B-Instruct"
+        description: "下载模型到指定目录"
+      - command: "huggingface-cli repo create my-awesome-model --type model"
+        description: "创建新模型仓库"
+      - command: "huggingface-cli scan-cache --verbose"
+        description: "查看本地缓存占用详情"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "modelscope"
+      - "git-lfs"
+    risks:
+      - level: low
+        description: "下载操作无副作用，上传需确认权限"
+    references:
+      - "https://huggingface.co/docs/huggingface_hub"
+
+  - name: modelscope
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install modelscope"
+    description: "魔搭社区ModelScope命令行工具，国产开源模型仓库管理"
+    usage:
+      - "modelscope [COMMAND] [OPTIONS]"
+    options:
+      - flag: "download"
+        description: "下载模型或数据集"
+      - flag: "upload"
+        description: "上传模型到ModelScope"
+      - flag: "login"
+        description: "登录ModelScope账号"
+    examples:
+      - command: "modelscope download --model qwen/Qwen2-7B-Instruct"
+        description: "下载Qwen2模型"
+      - command: "modelscope download --model damo/cv_resnet --local_dir ./models"
+        description: "下载到指定目录"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "git-lfs"
+    risks:
+      - level: low
+        description: "下载操作无副作用"
+    references:
+      - "https://www.modelscope.cn/"
+
+  - name: git-lfs
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "git lfs install"
+    description: "Git Large File Storage，管理大模型权重文件(GB级)的版本控制"
+    usage:
+      - "git lfs [COMMAND] [OPTIONS]"
+    options:
+      - flag: "track"
+        description: "追踪指定格式的文件"
+      - flag: "pull"
+        description: "下载LFS文件"
+      - flag: "push"
+        description: "上传LFS文件"
+      - flag: "ls-files"
+        description: "列出已追踪的LFS文件"
+    examples:
+      - command: "git lfs track '*.bin' '*.safetensors' '*.gguf'"
+        description: "追踪模型权重文件"
+      - command: "git lfs pull"
+        description: "下载所有LFS文件"
+      - command: "git lfs ls-files --size"
+        description: "列出LFS文件及大小"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "safetensors-convert"
+    risks:
+      - level: medium
+        description: "LFS文件占用大量存储空间，push/pull可能耗时"
+    references:
+      - "https://git-lfs.com/"
+
+  - name: safetensors-convert
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install safetensors"
+    description: "Safetensors安全模型格式转换工具，替代pickle防止恶意代码执行"
+    usage:
+      - "python -m safetensors.convert [OPTIONS]"
+    options:
+      - flag: "--folder"
+        description: "包含PyTorch权重的目录"
+    examples:
+      - command: "python -m safetensors.convert --folder ./pytorch_model"
+        description: "将PyTorch权重转换为Safetensors格式"
+      - command: "python convert.py --src model.bin --dst model.safetensors"
+        description: "单个文件转换"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "optimum-cli"
+    risks:
+      - level: low
+        description: "格式转换不改变模型行为"
+    references:
+      - "https://github.com/huggingface/safetensors"
+
+  - name: optimum-cli
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install optimum[exporters]"
+    description: "HuggingFace Optimum模型优化工具，支持ONNX/TensorRT/OpenVINO导出和量化"
+    usage:
+      - "optimum-cli [COMMAND] [OPTIONS]"
+    options:
+      - flag: "export onnx"
+        description: "导出ONNX模型"
+      - flag: "export openvino"
+        description: "导出OpenVINO模型"
+      - flag: "export tflite"
+        description: "导出TensorFlow Lite模型"
+      - flag: "gptq"
+        description: "GPTQ量化"
+      - flag: "awq"
+        description: "AWQ量化"
+    examples:
+      - command: "optimum-cli export onnx --model meta-llama/Llama-2-7b-hf --task text-generation-with-past ./onnx_model"
+        description: "导出ONNX格式模型"
+      - command: "optimum-cli gptq --model meta-llama/Llama-2-7b-hf --dataset c4 --bits 4"
+        description: "4-bit GPTQ量化"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "onnxruntime"
+      - "auto-gptq"
+    risks:
+      - level: medium
+        description: "量化可能损失精度，需验证输出"
+    references:
+      - "https://huggingface.co/docs/optimum"
+
+  - name: auto-gptq
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install auto-gptq"
+    description: "GPTQ后训练量化工具，4-bit量化减少75%显存占用，适合消费级GPU部署"
+    usage:
+      - "python quantize.py (使用auto-gptq库)"
+    options:
+      - flag: "AutoGPTQForCausalLM.from_pretrained"
+        description: "加载模型用于量化"
+      - flag: "quantize"
+        description: "执行量化"
+    examples:
+      - command: "python quantize.py --model meta-llama/Llama-2-7b --bits 4 --group_size 128"
+        description: "4-bit GPTQ量化模型"
+      - command: "python quantize.py --model Qwen/Qwen2-72B --bits 4 --desc_act"
+        description: "大模型GPTQ量化(激活值重排)"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "optimum-cli"
+      - "autoawq"
+    risks:
+      - level: medium
+        description: "量化可能降低模型精度，需评估"
+    references:
+      - "https://github.com/PanQiWei/AutoGPTQ"
+
+  - name: autoawq
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install autoawq"
+    description: "AWQ激活感知的权重量化，4-bit量化精度优于GPTQ，推理速度提升3倍"
+    usage:
+      - "python quantize.py (使用autoawq库)"
+    options:
+      - flag: "AutoAWQForCausalLM.from_quantized"
+        description: "加载已量化模型"
+      - flag: "quantize"
+        description: "执行AWQ量化"
+    examples:
+      - command: "python awq_quantize.py --model_path meta-llama/Llama-2-7b --w_bit 4 --q_group_size 128"
+        description: "AWQ 4-bit量化模型"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "auto-gptq"
+      - "optimum-cli"
+    risks:
+      - level: medium
+        description: "量化可能降低模型精度"
+    references:
+      - "https://github.com/casper-hansen/AutoAWQ"
+
+  - name: gguf-convert
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install gguf"
+    description: "GGUF格式转换工具，将HuggingFace模型转换为llama.cpp兼容格式"
+    usage:
+      - "convert_hf_to_gguf.py [OPTIONS]"
+    options:
+      - flag: "--model"
+        description: "HuggingFace模型路径"
+      - flag: "--outfile"
+        description: "输出GGUF文件路径"
+      - flag: "--outtype"
+        description: "量化类型 (f32, f16, q4_0, q4_K_M, q5_K_M, q8_0)"
+    examples:
+      - command: "python convert_hf_to_gguf.py --model meta-llama/Llama-3.1-8B --outfile llama-3.1-8b.fp16.gguf --outtype f16"
+        description: "FP16格式转换"
+      - command: "python convert_hf_to_gguf.py --model Qwen/Qwen2-7B --outfile qwen2-7b.Q4_K_M.gguf --outtype q4_K_M"
+        description: "Q4_K_M量化转换(推荐)"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "llama.cpp"
+      - "ollama"
+    risks:
+      - level: low
+        description: "格式转换不改变模型行为"
+    references:
+      - "https://github.com/ggerganov/llama.cpp"
+
+  - name: model-card
+    category: "AI基础设施/模型生态"
+    install_required: false
+    install_method: ""
+    description: "模型卡片(model card)编写规范，记录模型用途、限制、训练数据等元信息"
+    usage:
+      - "创建 README.md 或 model_card.md 文件"
+    options:
+      - flag: "model_details"
+        description: "模型架构、版本、训练数据"
+      - flag: "intended_use"
+        description: "预期用途和限制"
+      - flag: "ethical_considerations"
+        description: "伦理考量和风险"
+      - flag: "evaluation"
+        description: "评估指标和结果"
+    examples:
+      - command: "huggingface-cli repo create my-model --type model && echo '# Model Card' > README.md"
+        description: "创建带模型卡片的仓库"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "modelscope"
+    risks:
+      - level: low
+        description: "文档编写无技术风险"
+    references:
+      - "https://huggingface.co/docs/hub/model-cards"
+
+  - name: model-pruner
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install torch-pruning"
+    description: "模型剪枝工具，移除不重要的权重或神经元，减小模型体积加速推理"
+    usage:
+      - "python prune.py (使用torch-pruning库)"
+    options:
+      - flag: "prune"
+        description: "执行剪枝操作"
+      - flag: "importance"
+        description: "重要性评估方法 (magnitude, taylor, random)"
+      - flag: "sparsity"
+        description: "目标稀疏率"
+    examples:
+      - command: "python prune.py --model resnet50 --sparsity 0.5 --importance magnitude"
+        description: "50%幅值剪枝"
+      - command: "python prune.py --model vit-base --sparsity 0.3 --importance taylor"
+        description: "30%泰勒重要性剪枝"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "optimum-cli"
+      - "auto-gptq"
+    risks:
+      - level: high
+        description: "剪枝可能显著降低模型精度，需充分评估"
+    references:
+      - "https://github.com/VainF/Torch-Pruning"
+
+  - name: mlc-llm
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install mlc-llm-nightly"
+    description: "MLC LLM全平台大模型部署，支持手机/浏览器/边缘设备/云端"
+    usage:
+      - "mlc_llm [COMMAND] [OPTIONS]"
+    options:
+      - flag: "convert_build"
+        description: "编译模型"
+      - flag: "chat"
+        description: "本地聊天"
+      - flag: "serve"
+        description: "启动REST服务"
+    examples:
+      - command: "mlc_llm convert_build ./dist/Llama-3-8B/ --quantization q4f16_1"
+        description: "编译4-bit量化模型"
+      - command: "mlc_llm chat ./dist/Llama-3-8B-q4f16_1"
+        description: "本地交互式聊天"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "llama.cpp"
+      - "gguf-convert"
+    risks:
+      - level: low
+        description: "编译过程安全"
+    references:
+      - "https://llm.mlc.ai/"
+
+  - name: ctranslate2
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install ctranslate2"
+    description: "CTranslate2高效推理引擎，支持INT8/INT16/FP16量化，CPU/GPU加速"
+    usage:
+      - "ct2-transformers-converter [OPTIONS]"
+      - "python inference.py (使用ctranslate2)"
+    options:
+      - flag: "--model"
+        description: "源模型路径"
+      - flag: "--output_dir"
+        description: "输出目录"
+      - flag: "--quantization"
+        description: "量化类型 (int8, int8_float16, int16, float16)"
+      - flag: "--force"
+        description: "强制覆盖"
+    examples:
+      - command: "ct2-transformers-converter --model facebook/m2m100_418M --output_dir m2m100_ct2 --quantization int8"
+        description: "INT8量化转换M2M100模型"
+      - command: "python -c \"import ctranslate2 as ct2; t = ct2.Translator('./m2m100_ct2'); print(t.translate_batch([['Hello world']]))\""
+        description: "CTranslate2翻译推理"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "optimum-cli"
+      - "onnxruntime"
+    risks:
+      - level: low
+        description: "格式转换安全"
+    references:
+      - "https://github.com/OpenNMT/CTranslate2"
+
+  - name: neuronx-cc
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install neuronx-cc"
+    description: "AWS Neuron编译器，将PyTorch/TensorFlow模型编译为Trainium/Inferentia高效执行格式"
+    usage:
+      - "neuronx-cc [COMMAND] [OPTIONS]"
+    options:
+      - flag: "compile"
+        description: "编译模型"
+      - flag: "--target"
+        description: "目标设备 (trn1, inf2)"
+    examples:
+      - command: "neuronx-cc compile model.pt --target trn1 --output model_neff"
+        description: "编译模型为Neuron格式"
+    platforms:
+      - "linux"
+    related_commands:
+      - "optimum-cli"
+      - "onnxruntime"
+    risks:
+      - level: medium
+        description: "AWS专用硬件编译"
+    references:
+      - "https://aws.amazon.com/machine-learning/neuron/"
+
+  - name: coremltools
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install coremltools"
+    description: "Apple CoreML模型转换工具，将PyTorch/TensorFlow转换为iOS/macOS原生格式"
+    usage:
+      - "python convert.py (使用coremltools库)"
+    options:
+      - flag: "ct.convert"
+        description: "转换模型"
+      - flag: "compute_units"
+        description: "计算单元 (cpu_only, cpu_and_gpu, all)"
+    examples:
+      - command: "python -c \"import coremltools as ct; mlmodel = ct.convert(traced_model, inputs=[ct.ImageType()]); mlmodel.save('model.mlpackage')\""
+        description: "转换PyTorch模型为CoreML"
+    platforms:
+      - "darwin"
+      - "linux"
+    related_commands:
+      - "onnxruntime"
+      - "optimum-cli"
+    risks:
+      - level: low
+        description: "转换操作安全"
+    references:
+      - "https://coremltools.readme.io/"
+
+  - name: tf2onnx
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install tf2onnx"
+    description: "TensorFlow到ONNX转换工具，支持SavedModel、Checkpoint、Keras模型"
+    usage:
+      - "python -m tf2onnx.convert [OPTIONS]"
+    options:
+      - flag: "--saved-model"
+        description: "SavedModel路径"
+      - flag: "--checkpoint"
+        description: "Checkpoint路径"
+      - flag: "--keras"
+        description: "Keras模型文件"
+      - flag: "--output"
+        description: "输出ONNX文件"
+    examples:
+      - command: "python -m tf2onnx.convert --saved-model ./saved_model --output model.onnx"
+        description: "转换SavedModel为ONNX"
+      - command: "python -m tf2onnx.convert --keras model.h5 --output model.onnx"
+        description: "转换Keras模型为ONNX"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "onnxruntime"
+      - "optimum-cli"
+    risks:
+      - level: low
+        description: "格式转换安全"
+    references:
+      - "https://github.com/onnx/tensorflow-onnx"
+
+  - name: paddle2onnx
+    category: "AI基础设施/模型生态"
+    install_required: true
+    install_method: "pip install paddle2onnx"
+    description: "PaddlePaddle到ONNX转换工具，支持Paddle模型导出为ONNX格式"
+    usage:
+      - "paddle2onnx [OPTIONS]"
+    options:
+      - flag: "--model_dir"
+        description: "Paddle模型目录"
+      - flag: "--model_filename"
+        description: "模型文件名"
+      - flag: "--save_file"
+        description: "输出ONNX文件"
+    examples:
+      - command: "paddle2onnx --model_dir ./inference_model --model_filename model.pdmodel --params_filename model.pdiparams --save_file model.onnx"
+        description: "转换Paddle模型为ONNX"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "tf2onnx"
+      - "onnxruntime"
+    risks:
+      - level: low
+        description: "格式转换安全"
+    references:
+      - "https://github.com/PaddlePaddle/Paddle2ONNX"

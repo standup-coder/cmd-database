@@ -1,0 +1,634 @@
+category: "AI基础设施/Harness工程"
+description: "LLM评测Harness、Agent评测、安全测试与基准测试工程化工具"
+commands:
+  - name: swe-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/princeton-nlp/SWE-bench.git && pip install -e ."
+    description: "SWE-bench软件工程评测基准，测试LLM解决真实GitHub Issue的能力"
+    usage:
+      - "python -m swebench.harness.run_evaluation [OPTIONS]"
+    options:
+      - flag: "--predictions_path"
+        description: "模型预测文件路径"
+      - flag: "--swe_bench_tasks"
+        description: "评测任务集"
+      - flag: "--log_dir"
+        description: "日志目录"
+    examples:
+      - command: "python -m swebench.harness.run_evaluation --predictions_path preds.json --swe_bench_tasks princeton-nlp/SWE-bench_Lite --log_dir logs"
+        description: "评测Lite数据集"
+      - command: "python -m swebench.harness.run_evaluation --predictions_path preds.json --swe_bench_tasks princeton-nlp/SWE-bench_Verified"
+        description: "评测Verified数据集"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "humaneval"
+      - "agent-bench"
+    risks:
+      - level: medium
+        description: "运行真实代码修改，需在隔离环境执行"
+    references:
+      - "https://www.swebench.com/"
+
+  - name: humaneval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/openai/human-eval.git && pip install -e ."
+    description: "HumanEval代码生成评测基准，164个Python编程问题，测试函数级代码生成能力"
+    usage:
+      - "evaluate_functional_correctness [OPTIONS]"
+    options:
+      - flag: "--sample_file"
+        description: "模型生成样本文件"
+      - flag: "--problem_file"
+        description: "问题定义文件"
+      - flag: "--k"
+        description: "pass@k中的k值"
+    examples:
+      - command: "evaluate_functional_correctness samples.jsonl --problem_file=data/HumanEval.jsonl.gz"
+        description: "评测代码生成样本"
+      - command: "python generate.py --model gpt-4 --output samples.jsonl && evaluate_functional_correctness samples.jsonl"
+        description: "生成并评测代码"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "mbpp"
+      - "swe-bench"
+    risks:
+      - level: high
+        description: "执行模型生成的代码有风险，需在沙箱运行"
+    references:
+      - "https://github.com/openai/human-eval"
+
+  - name: mbpp
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install datasets"
+    description: "MBPP (Mostly Basic Python Programming) 代码生成评测，974个Python编程任务"
+    usage:
+      - "python evaluate.py (使用datasets加载评测)"
+    options:
+      - flag: "--dataset"
+        description: "数据集名称 (mbpp, mbpp_sanitized)"
+      - flag: "--model_output"
+        description: "模型输出文件"
+    examples:
+      - command: "python evaluate_mbpp.py --dataset mbpp --model_output outputs.json"
+        description: "评测MBPP数据集"
+      - command: "python -c \"from datasets import load_dataset; ds = load_dataset('mbpp')\""
+        description: "加载MBPP数据集"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "humaneval"
+      - "ds-1000"
+    risks:
+      - level: high
+        description: "执行模型代码需在沙箱"
+    references:
+      - "https://github.com/google-research/google-research/tree/master/mbpp"
+
+  - name: ds-1000
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/HKUNLP/DS-1000.git"
+    description: "DS-1000数据科学代码评测基准，1000个真实数据科学问题，测试pandas/numpy/sklearn等库使用"
+    usage:
+      - "python test_ds1000.py [OPTIONS]"
+    options:
+      - flag: "--input_path"
+        description: "模型预测目录"
+      - flag: "--output_path"
+        description: "评测结果输出"
+    examples:
+      - command: "python test_ds1000.py --input_path ./predictions --output_path results.json"
+        description: "评测数据科学代码"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "humaneval"
+      - "mbpp"
+    risks:
+      - level: high
+        description: "执行数据科学代码可能修改文件系统"
+    references:
+      - "https://github.com/HKUNLP/DS-1000"
+
+  - name: big-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/google/BIG-bench.git"
+    description: "BIG-bench (Beyond the Imitation Game) 大规模行为评测，200+语言理解任务"
+    usage:
+      - "python bigbench/evaluate_task.py [OPTIONS]"
+    options:
+      - flag: "--task"
+        description: "任务名称"
+      - flag: "--models"
+        description: "评测模型列表"
+    examples:
+      - command: "python bigbench/evaluate_task.py --task simple_arithmetic --models gpt-4"
+        description: "评测简单算术任务"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "lm-eval"
+      - "opencompass"
+    risks:
+      - level: low
+        description: "评测操作安全"
+    references:
+      - "https://github.com/google/BIG-bench"
+
+  - name: arena
+    category: "AI基础设施/Harness工程"
+    install_required: false
+    install_method: ""
+    description: "LMSYS Chatbot Arena众测平台，人类盲测对比不同LLM的对话质量"
+    usage:
+      - "访问 chat.lmsys.org 参与评测"
+    options:
+      - flag: "battle"
+        description: "匿名对战模式"
+      - flag: "ranking"
+        description: "查看ELO排名"
+    examples:
+      - command: "curl https://chat.lmsys.org/api/leaderboard"
+        description: "获取Arena排行榜数据"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "mt-bench"
+      - "alpaca-eval"
+    risks:
+      - level: low
+        description: "众测平台，客观评测"
+    references:
+      - "https://chat.lmsys.org/"
+
+  - name: mt-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install fastchat"
+    description: "MT-Bench多轮对话评测基准，80个高质量多轮问题，GPT-4作为裁判评分"
+    usage:
+      - "python gen_judgment.py [OPTIONS]"
+    options:
+      - flag: "--bench-name"
+        description: "评测名称 (mt_bench, mt_bench_category)"
+      - flag: "--model-list"
+        description: "评测模型列表"
+      - flag: "--judge-model"
+        description: "裁判模型 (默认gpt-4)"
+    examples:
+      - command: "python gen_judgment.py --bench-name mt_bench --model-list llama-3-70b gpt-4 qwen-72b"
+        description: "多模型MT-Bench评测"
+      - command: "python gen_judgment.py --bench-name mt_bench --judge-model gpt-4-turbo"
+        description: "使用GPT-4-Turbo裁判"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "arena"
+      - "alpaca-eval"
+    risks:
+      - level: low
+        description: "调用GPT-4 API需消耗token"
+    references:
+      - "https://github.com/lm-sys/FastChat"
+
+  - name: prometheus-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install prometheus-eval"
+    description: "Prometheus开源LLM评估模型，无需GPT-4即可进行高质量指令评测"
+    usage:
+      - "python evaluate.py (使用prometheus-eval库)"
+    options:
+      - flag: "--model"
+        description: "Prometheus模型路径"
+      - flag: "--data"
+        description: "评测数据"
+    examples:
+      - command: "python evaluate.py --model prometheus-eval/prometheus-7b-v2.0 --data eval_set.json"
+        description: "使用开源模型评估"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "mt-bench"
+      - "alpaca-eval"
+    risks:
+      - level: low
+        description: "本地评估，无需API"
+    references:
+      - "https://github.com/prometheus-eval/prometheus-eval"
+
+  - name: judge-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install judge-eval"
+    description: "LLM-as-Judge评估框架，系统化评估裁判模型质量，减少位置偏见和长度偏见"
+    usage:
+      - "python evaluate_judge.py [OPTIONS]"
+    options:
+      - flag: "--judge_model"
+        description: "待评测的裁判模型"
+      - flag: "--reference_judge"
+        description: "参考裁判(默认GPT-4)"
+      - flag: "--bias_type"
+        description: "偏见类型 (position, length, verbosity)"
+    examples:
+      - command: "python evaluate_judge.py --judge_model prometheus-7b --reference_judge gpt-4"
+        description: "评估Prometheus作为裁判的质量"
+      - command: "python evaluate_judge.py --judge_model all --bias_type position,length"
+        description: "评测多个模型的位置偏见和长度偏见"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "prometheus-eval"
+      - "mt-bench"
+    risks:
+      - level: low
+        description: "评测框架操作安全"
+    references:
+      - "https://github.com/hemingkx/LLM-as-Judge"
+
+  - name: agent-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/THUDM/AgentBench.git"
+    description: "AgentBench多场景Agent能力评测，涵盖OS、数据库、知识图谱、数字卡牌、网页浏览"
+    usage:
+      - "python eval.py [OPTIONS]"
+    options:
+      - flag: "--task"
+        description: "评测任务 (os, db, kg, card, web)"
+      - flag: "--agent"
+        description: "Agent配置文件"
+    examples:
+      - command: "python eval.py --task os --agent configs/gpt-4.yaml"
+        description: "评测OS操作Agent"
+      - command: "python eval.py --task all --agent configs/claude-3.yaml"
+        description: "全场景Agent评测"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "swe-bench"
+      - "tool-bench"
+    risks:
+      - level: high
+        description: "OS任务Agent可能执行系统命令，需隔离环境"
+    references:
+      - "https://github.com/THUDM/AgentBench"
+
+  - name: tool-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/OpenBMB/ToolBench.git"
+    description: "ToolBench工具使用评测基准，16000+ API，测试LLM的工具选择、调用、组合能力"
+    usage:
+      - "python inference.py [OPTIONS]"
+    options:
+      - flag: "--tool_root_dir"
+        description: "工具定义目录"
+      - flag: "--model_path"
+        description: "模型路径"
+    examples:
+      - command: "python inference.py --tool_root_dir data/toolenv/tools --model_path gpt-4"
+        description: "评测工具使用能力"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "api-bench"
+      - "agent-bench"
+    risks:
+      - level: medium
+        description: "真实API调用可能产生副作用"
+    references:
+      - "https://github.com/OpenBMB/ToolBench"
+
+  - name: api-bench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install apibench"
+    description: "APIBench API理解评测，测试LLM理解REST API文档并生成正确调用的能力"
+    usage:
+      - "python evaluate.py [OPTIONS]"
+    options:
+      - flag: "--api_spec"
+        description: "API规格文件"
+      - flag: "--test_cases"
+        description: "测试用例"
+    examples:
+      - command: "python evaluate.py --api_spec swagger.json --test_cases tests.json"
+        description: "评测API理解能力"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "tool-bench"
+      - "swe-bench"
+    risks:
+      - level: medium
+        description: "真实API调用需注意"
+    references:
+      - "https://github.com/AILab-CVC/APIBench"
+
+  - name: llm-as-judge
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install llm-as-judge"
+    description: "LLM-as-Judge方法论实现，位置偏见校正、一致性检验、多维度评分"
+    usage:
+      - "python judge.py [OPTIONS]"
+    options:
+      - flag: "--judge"
+        description: "裁判模型"
+      - flag: "--swap"
+        description: "交换位置检测偏见"
+      - flag: "--criteria"
+        description: "评分维度"
+    examples:
+      - command: "python judge.py --judge gpt-4 --swap --criteria helpfulness,honesty,harmlessness"
+        description: "多维度评分并检测位置偏见"
+      - command: "python judge.py --judge prometheus --reference human_labels --compute_agreement"
+        description: "计算与人类标注的一致性"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "prometheus-eval"
+      - "judge-eval"
+    risks:
+      - level: low
+        description: "评测框架安全"
+    references:
+      - "https://github.com/hemingkx/LLM-as-Judge"
+
+  - name: pair-wise-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install pair-wise-eval"
+    description: "Pair-wise成对比较评测，ELO评分系统，适用于模型A/B测试和排序"
+    usage:
+      - "python evaluate.py [OPTIONS]"
+    options:
+      - flag: "--comparisons"
+        description: "比较结果文件"
+      - flag: "--method"
+        description: "评分方法 (elo, bradley-terry)"
+    examples:
+      - command: "python evaluate.py --comparisons results.json --method elo"
+        description: "ELO评分排名"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "arena"
+      - "mt-bench"
+    risks:
+      - level: low
+        description: "统计分析安全"
+    references:
+      - "https://en.wikipedia.org/wiki/Elo_rating_system"
+
+  - name: red-teaming
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install pyrit"
+    description: "PyRIT (Python Risk Identification Toolkit) 微软开源红队测试框架，自动化LLM安全测试"
+    usage:
+      - "python red_team.py (使用pyrit库)"
+    options:
+      - flag: "PromptTarget"
+        description: "攻击目标"
+      - flag: "Orchestrator"
+        description: "编排攻击策略"
+      - flag: "Scorer"
+        description: "评分结果"
+    examples:
+      - command: "python red_team.py --strategy tree_of_attacks --target gpt-4 --max_depth 5"
+        description: "树形攻击策略红队测试"
+      - command: "python -c \"from pyrit.orchestrator import PromptSendingOrchestrator; o = PromptSendingOrchestrator(prompt_target=target); await o.send_prompts_async(prompt_list=prompts)\""
+        description: "批量发送测试提示"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "safety-eval"
+      - "agent-bench"
+    risks:
+      - level: high
+        description: "红队测试可能触发安全机制，需授权环境"
+    references:
+      - "https://github.com/Azure/PyRIT"
+
+  - name: safety-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install ml-safety"
+    description: "MLSafety模型安全评测套件，覆盖毒性、偏见、隐私泄露、越狱抗性"
+    usage:
+      - "python evaluate.py [OPTIONS]"
+    options:
+      - flag: "--test_suite"
+        description: "测试套件 (toxicity, bias, privacy, jailbreak)"
+      - flag: "--model"
+        description: "待评测模型"
+    examples:
+      - command: "python evaluate.py --test_suite toxicity,jailbreak --model gpt-4"
+        description: "毒性和越狱抗性评测"
+      - command: "python evaluate.py --test_suite all --model llama-3-70b --output safety_report.json"
+        description: "全面安全评测"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "red-teaming"
+      - "big-bench"
+    risks:
+      - level: low
+        description: "评测操作安全"
+    references:
+      - "https://github.com/mlcommons/ailuminate"
+
+  - name: humaneval-exec
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/openai/human-eval"
+    description: "HumanEval代码评测执行器，运行模型生成的代码并通过单元测试，计算pass@k指标"
+    usage:
+      - "evaluate_functional_correctness [OPTIONS] SAMPLES_FILE"
+    options:
+      - flag: "--problem_file"
+        description: "题目定义文件"
+      - flag: "--k"
+        description: "pass@k的k值"
+      - flag: "--n_workers"
+        description: "并行工作进程"
+    examples:
+      - command: "evaluate_functional_correctness samples.jsonl --problem_file=HumanEval.jsonl.gz --k=1,10,100"
+        description: "计算pass@1/10/100"
+      - command: "python -m human_eval.evaluate --samples samples.jsonl --n_workers 4"
+        description: "4进程并行评测"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "humaneval"
+      - "mbpp"
+    risks:
+      - level: high
+        description: "执行生成的代码存在安全风险，需在隔离沙箱中运行"
+    references:
+      - "https://github.com/openai/human-eval"
+
+  - name: math-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install math-verify"
+    description: "数学能力评测工具，支持GSM8K、MATH、SVAMP等数据集，验证模型推理和计算准确性"
+    usage:
+      - "python eval.py (使用math_verify库)"
+    options:
+      - flag: "--dataset"
+        description: "数据集 (gsm8k, math, svamp)"
+      - flag: "--model"
+        description: "评测模型"
+      - flag: "--cot"
+        description: "链式思维提示"
+    examples:
+      - command: "python eval_math.py --dataset gsm8k --model gpt-4 --cot --output results.json"
+        description: "GSM8K链式思维评测"
+      - command: "python eval_math.py --dataset math --model llama-3-70b --n_shot 4"
+        description: "MATH数据集4-shot评测"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "lm-eval"
+      - "inspect-ai"
+    risks:
+      - level: low
+        description: "评测操作安全"
+    references:
+      - "https://github.com/huggingface/math-verify"
+
+  - name: long-context-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install ruler-benchmark"
+    description: "长上下文评测工具，Needle-in-Haystack、RULER等，测试模型在超长文本中的信息检索能力"
+    usage:
+      - "python eval.py (使用needle_in_haystack库)"
+    options:
+      - flag: "--context_length"
+        description: "上下文长度 (4k, 8k, 32k, 128k, 1M)"
+      - flag: "--depth_percent"
+        description: " needle 插入深度百分比"
+      - flag: "--model"
+        description: "评测模型"
+    examples:
+      - command: "python needle_eval.py --model llama-3.1-8b --context_length 128000 --depth_percent 50"
+        description: "128K上下文针海捞针"
+      - command: "python ruler_eval.py --model claude-3-opus --tasks retrieval,association --max_length 200000"
+        description: "RULER多任务长上下文评测"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "lm-eval"
+      - "inspect-ai"
+    risks:
+      - level: low
+        description: "长文本评测消耗大量token"
+    references:
+      - "https://github.com/gkamradt/LLMTest_NeedleInAHaystack"
+
+  - name: multilingual-eval
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "pip install lm-eval"
+    description: "多语言能力评测，支持C-Eval(中文)、MMLU多语言、XCOPA、XNLI等跨语言基准"
+    usage:
+      - "lm_eval [OPTIONS]"
+    options:
+      - flag: "--tasks"
+        description: "评测任务 (ceval, mmlu, xcopa, xnli)"
+      - flag: "--num_fewshot"
+        description: "few-shot数量"
+      - flag: "--batch_size"
+        description: "推理批次大小"
+    examples:
+      - command: "lm_eval --model hf --model_args pretrained=meta-llama/Llama-3-8B --tasks ceval,mmlu --num_fewshot 5 --batch_size 8"
+        description: "中文+英文多语言评测"
+      - command: "lm_eval --model hf --model_args pretrained=Qwen/Qwen2-72B --tasks xcopa,xnli --device cuda"
+        description: "跨语言推理评测"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "lm-eval"
+      - "opencompass"
+    risks:
+      - level: low
+        description: "多语言评测覆盖文化差异"
+    references:
+      - "https://github.com/EleutherAI/lm-evaluation-harness"
+
+  - name: livecodebench
+    category: "AI基础设施/Harness工程"
+    install_required: true
+    install_method: "git clone https://github.com/LiveCodeBench/LiveCodeBench"
+    description: "LiveCodeBench实时代码评测，持续更新的编程题 benchmark，防数据污染，反映模型真实代码能力"
+    usage:
+      - "python evaluation.py [OPTIONS]"
+    options:
+      - flag: "--model"
+        description: "评测模型"
+      - flag: "--scenario"
+        description: "场景 (code_generation, self_repair, test_output)"
+      - flag: "--release_version"
+        description: "评测版本"
+    examples:
+      - command: "python evaluation.py --model gpt-4 --scenario code_generation --release_version v4"
+        description: "代码生成能力评测"
+      - command: "python evaluation.py --model claude-3-5-sonnet --scenario self_repair --release_version v5"
+        description: "代码自修复能力评测"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "humaneval-exec"
+      - "swe-bench"
+    risks:
+      - level: high
+        description: "执行代码需在隔离环境"
+    references:
+      - "https://livecodebench.github.io/"

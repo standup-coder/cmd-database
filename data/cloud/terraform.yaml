@@ -1,0 +1,32 @@
+category: 云平台/Terraform
+description: 基础设施即代码工具，管理云资源生命周期
+commands:
+- name: terraform
+  category: 云平台/Terraform
+  install_required: true
+  install_method: 参考 https://developer.hashicorp.com/terraform/install
+  description: 基础设施即代码工具，管理云资源
+  usage:
+  - terraform <子命令> [选项]
+  options:
+  - flag: -version
+    description: 显示版本信息
+  - flag: -help
+    description: 显示帮助信息
+  examples:
+  - command: terraform init
+    description: 初始化工作目录
+  - command: terraform plan
+    description: 预览将要执行的资源变更
+  - command: terraform apply
+    description: 应用配置创建/更新资源
+  - command: terraform destroy
+    description: 销毁所有管理的基础设施
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - terraform plan
+  - terraform apply
+  - terraform init

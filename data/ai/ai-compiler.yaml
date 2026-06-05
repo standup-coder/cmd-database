@@ -1,0 +1,198 @@
+category: "AI基础设施/AI编译器"
+description: "模型编译器与推理优化工具，TVM、MLIR、TensorRT、XLA等端到端性能优化"
+commands:
+  - name: tvmc
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "pip install apache-tvm"
+    description: "TVM命令行编译器，将模型编译为高性能机器码，支持ARM/x86/GPU/FPGA多种后端"
+    usage:
+      - "tvmc [COMMAND] [OPTIONS]"
+    options:
+      - flag: "compile"
+        description: "编译模型"
+      - flag: "run"
+        description: "运行编译后的模型"
+      - flag: "tune"
+        description: "自动调优搜索最优算子"
+    examples:
+      - command: "tvmc compile model.onnx --target llvm -o model.tar"
+        description: "ONNX模型编译为CPU可执行文件"
+      - command: "tvmc compile model.onnx --target cuda -o model_cuda.tar"
+        description: "ONNX模型编译为CUDA后端"
+      - command: "tvmc tune --target llvm model.onnx --trials 1000 -o tuning_records.json"
+        description: "自动调优搜索1000次最优算子实现"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "iree-compile"
+      - "trtexec"
+    risks:
+      - level: medium
+        description: "编译过程消耗大量CPU/GPU资源"
+    references:
+      - "https://tvm.apache.org/docs/reference/microtvm/index.html"
+
+  - name: iree-compile
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "pip install iree-compiler"
+    description: "Google IREE MLIR编译器，将深度学习模型编译为Vulkan/SPIR-V/Metal/WebGPU可执行代码"
+    usage:
+      - "iree-compile [OPTIONS] INPUT -o OUTPUT"
+    options:
+      - flag: "--iree-hal-target-backends"
+        description: "目标后端 (llvm-cpu, vulkan-spirv, cuda)"
+      - flag: "--iree-input-type"
+        description: "输入类型 (mlir, torch, onnx, tflite)"
+      - flag: "--iree-llvm-target-triple"
+        description: "LLVM目标三元组"
+    examples:
+      - command: "iree-compile model.mlir --iree-hal-target-backends=llvm-cpu -o model.vmfb"
+        description: "MLIR编译为CPU字节码"
+      - command: "iree-compile model.onnx --iree-hal-target-backends=vulkan-spirv --iree-input-type=onnx -o model_gpu.vmfb"
+        description: "ONNX编译为Vulkan GPU可执行代码"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "tvmc"
+      - "mlir-opt"
+    risks:
+      - level: medium
+        description: "编译过程消耗大量资源"
+    references:
+      - "https://iree.dev/"
+
+  - name: mlir-opt
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "pip install mlir-python-bindings"
+    description: "MLIR中间表示优化器，对计算图进行 lowering、融合、循环变换等编译优化"
+    usage:
+      - "mlir-opt [OPTIONS] INPUT"
+    options:
+      - flag: "--pass-pipeline"
+        description: "优化管线字符串"
+      - flag: "--canonicalize"
+        description: "规范化变换"
+      - flag: "--cse"
+        description: "公共子表达式消除"
+      - flag: "--loop-unroll"
+        description: "循环展开"
+    examples:
+      - command: "mlir-opt input.mlir --canonicalize --cse --inline -o output.mlir"
+        description: "规范化+消除冗余+内联优化"
+      - command: "mlir-opt input.mlir --pass-pipeline='builtin.module(func.func(convert-linalg-to-loops))' -o lowered.mlir"
+        description: "Linalg方言 lowering 为循环"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "iree-compile"
+      - "tvmc"
+    risks:
+      - level: low
+        description: "只读变换不改变原始文件"
+    references:
+      - "https://mlir.llvm.org/"
+
+  - name: trtexec
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "docker pull nvcr.io/nvidia/tensorrt"
+    description: "TensorRT引擎构建与性能测试工具，将ONNX/UFF转为TensorRT序列化引擎，极致NVIDIA GPU优化"
+    usage:
+      - "trtexec [OPTIONS]"
+    options:
+      - flag: "--onnx"
+        description: "输入ONNX模型路径"
+      - flag: "--saveEngine"
+        description: "输出引擎文件路径"
+      - flag: "--fp16"
+        description: "启用FP16混合精度"
+      - flag: "--int8"
+        description: "启用INT8量化"
+      - flag: "--workspace"
+        description: "工作区大小(MB)"
+      - flag: "--maxBatch"
+        description: "最大批处理大小"
+    examples:
+      - command: "trtexec --onnx=model.onnx --saveEngine=model.trt --fp16 --workspace=4096"
+        description: "ONNX转TensorRT FP16引擎"
+      - command: "trtexec --loadEngine=model.trt --batch=8 --iterations=100 --avgRuns=10"
+        description: "TensorRT引擎性能基准测试"
+      - command: "trtexec --onnx=model.onnx --saveEngine=model_int8.trt --int8 --calib=calibration.cache"
+        description: "INT8量化引擎构建"
+    platforms:
+      - "linux"
+    related_commands:
+      - "tensorrt-llm"
+      - "onnx-optimizer"
+    risks:
+      - level: medium
+        description: "量化可能损失精度，需验证"
+    references:
+      - "https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html"
+
+  - name: onnx-optimizer
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "pip install onnxoptimizer"
+    description: "ONNX模型图优化器，常量折叠、算子融合、死代码消除，跨平台推理前必备优化"
+    usage:
+      - "python optimize.py (使用onnxoptimizer库)"
+    options:
+      - flag: "optimize"
+        description: "执行优化"
+      - flag: "--passes"
+        description: "优化pass列表"
+    examples:
+      - command: "python -c \"import onnx, onnxoptimizer; model = onnx.load('model.onnx'); model_opt = onnxoptimizer.optimize(model); onnx.save(model_opt, 'model_opt.onnx')\""
+        description: "默认优化pass优化ONNX模型"
+      - command: "python -c \"import onnxoptimizer; passes = ['fuse_bn_into_conv', 'fuse_pad_into_conv', 'extract_constant_to_initializer']; model_opt = onnxoptimizer.optimize(model, passes)\""
+        description: "指定融合和常量提取优化"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "trtexec"
+      - "iree-compile"
+    risks:
+      - level: low
+        description: "优化后需验证输出一致性"
+    references:
+      - "https://github.com/onnx/optimizer"
+
+  - name: xla_compile
+    category: "AI基础设施/AI编译器"
+    install_required: true
+    install_method: "pip install tensorflow"
+    description: "TensorFlow XLA(Accelerated Linear Algebra)即时编译，将计算图编译为机器码，TPU训练推理加速"
+    usage:
+      - "TF_XLA_FLAGS='--tf_xla_auto_jit=2' python train.py"
+    options:
+      - flag: "TF_XLA_FLAGS"
+        description: "XLA编译标志"
+      - flag: "--tf_xla_auto_jit"
+        description: "自动JIT编译级别 (0/1/2)"
+      - flag: "--tf_xla_cpu_global_jit"
+        description: "CPU全局JIT"
+    examples:
+      - command: "TF_XLA_FLAGS='--tf_xla_auto_jit=2 --tf_xla_cpu_global_jit' python train.py"
+        description: "全局XLA JIT加速训练"
+      - command: "python -c \"import tensorflow as tf; tf.config.optimizer.set_jit(True)\""
+        description: "代码中启用XLA"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "tvmc"
+      - "trtexec"
+    risks:
+      - level: low
+        description: "JIT编译首次运行较慢"
+    references:
+      - "https://www.tensorflow.org/xla"

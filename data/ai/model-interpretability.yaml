@@ -1,0 +1,166 @@
+category: "AI基础设施/模型可解释性"
+description: "模型决策解释、特征归因、注意力可视化与偏见检测，确保AI系统可信与合规"
+commands:
+  - name: shap
+    category: "AI基础设施/模型可解释性"
+    install_required: true
+    install_method: "pip install shap"
+    description: "SHAP (SHapley Additive exPlanations) 博弈论特征归因，精确量化每个特征对预测的贡献"
+    usage:
+      - "python explain.py (使用shap库)"
+    options:
+      - flag: "shap.TreeExplainer"
+        description: "树模型解释器"
+      - flag: "shap.DeepExplainer"
+        description: "深度学习解释器"
+      - flag: "shap.KernelExplainer"
+        description: "通用模型解释器"
+      - flag: "shap.summary_plot"
+        description: "特征重要性汇总图"
+      - flag: "shap.waterfall_plot"
+        description: "单样本瀑布图"
+    examples:
+      - command: "python -c \"import shap; explainer = shap.TreeExplainer(model); shap_values = explainer.shap_values(X); shap.summary_plot(shap_values, X)\""
+        description: "树模型全局特征重要性"
+      - command: "python -c \"import shap; explainer = shap.DeepExplainer(model, background); shap_values = explainer.shap_values(X); shap.waterfall_plot(shap.Explanation(shap_values[0]))\""
+        description: "深度模型单样本归因"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "lime"
+      - "captum"
+    risks:
+      - level: low
+        description: "解释计算可能较慢，大样本需采样"
+    references:
+      - "https://shap.readthedocs.io/"
+
+  - name: lime
+    category: "AI基础设施/模型可解释性"
+    install_required: true
+    install_method: "pip install lime"
+    description: "LIME (Local Interpretable Model-agnostic Explanations) 局部代理模型解释，扰动样本训练可解释模型"
+    usage:
+      - "python explain.py (使用lime库)"
+    options:
+      - flag: "LimeTabularExplainer"
+        description: "表格数据解释器"
+      - flag: "LimeTextExplainer"
+        description: "文本数据解释器"
+      - flag: "LimeImageExplainer"
+        description: "图像数据解释器"
+    examples:
+      - command: "python -c \"from lime.lime_tabular import LimeTabularExplainer; explainer = LimeTabularExplainer(X, feature_names=names); exp = explainer.explain_instance(x, model.predict_proba)\""
+        description: "表格数据局部解释"
+      - command: "python -c \"from lime.lime_text import LimeTextExplainer; explainer = LimeTextExplainer(); exp = explainer.explain_instance(text, classifier)\""
+        description: "文本分类局部解释"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "shap"
+      - "captum"
+    risks:
+      - level: low
+        description: "局部解释不代表全局行为"
+    references:
+      - "https://github.com/marcotcr/lime"
+
+  - name: captum
+    category: "AI基础设施/模型可解释性"
+    install_required: true
+    install_method: "pip install captum"
+    description: "Captum PyTorch模型可解释性库，集成梯度、DeepLIFT、集成梯度、特征消融等多种归因方法"
+    usage:
+      - "python explain.py (使用captum库)"
+    options:
+      - flag: "IntegratedGradients"
+        description: "集成梯度归因"
+      - flag: "DeepLift"
+        description: "DeepLIFT归因"
+      - flag: "GradientShap"
+        description: "梯度SHAP"
+      - flag: "LayerConductance"
+        description: "层导电性分析"
+      - flag: "FeatureAblation"
+        description: "特征消融测试"
+    examples:
+      - command: "python -c \"from captum.attr import IntegratedGradients; ig = IntegratedGradients(model); attrs = ig.attribute(input, target=0)\""
+        description: "集成梯度特征归因"
+      - command: "python -c \"from captum.attr import LayerConductance; lc = LayerConductance(model, model.layer); attrs = lc.attribute(input, target=0)\""
+        description: "中间层神经元贡献分析"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "shap"
+      - "lime"
+    risks:
+      - level: low
+        description: "归因方法选择影响结论"
+    references:
+      - "https://captum.ai/"
+
+  - name: token-heatmap
+    category: "AI基础设施/模型可解释性"
+    install_required: true
+    install_method: "pip install transformers-interpret"
+    description: "Token级别归因热图，可视化每个输入token对模型输出的贡献度，定位幻觉和错误关注"
+    usage:
+      - "python visualize.py (使用transformers_interpret库)"
+    options:
+      - flag: "SequenceClassificationExplainer"
+        description: "序列分类解释器"
+      - flag: "explainer"
+        description: "调用解释方法"
+    examples:
+      - command: "python -c \"from transformers_interpret import SequenceClassificationExplainer; explainer = SequenceClassificationExplainer(model, tokenizer); word_attributions = explainer(text)\""
+        description: "生成分类token归因"
+      - command: "python token_heatmap.py --model bert-base-uncased --text 'This movie is terrible' --class 0"
+        description: "负面分类的token贡献热图"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "bertviz"
+      - "captum"
+    risks:
+      - level: low
+        description: "可视化工具安全"
+    references:
+      - "https://github.com/cdpierse/transformers-interpret"
+
+  - name: attention-rollout
+    category: "AI基础设施/模型可解释性"
+    install_required: true
+    install_method: "pip install attention-rollout"
+    description: "Attention Rollout跨层注意力传播追踪，识别输入token到输出token的完整注意力路径"
+    usage:
+      - "python visualize.py (使用attention_rollout库)"
+    options:
+      - flag: "AttentionRollout"
+        description: "Rollout分析器"
+      - flag: "discard_ratio"
+        description: "低注意力阈值过滤"
+    examples:
+      - command: "python -c \"from attention_rollout import AttentionRollout; rollout = AttentionRollout(model, discard_ratio=0.9); mask = rollout(input_ids)\""
+        description: "生成注意力rollout掩码"
+      - command: "python rollout_viz.py --model vit-base --image cat.jpg --layer 11"
+        description: "ViT第11层注意力rollout可视化"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "bertviz"
+      - "token-heatmap"
+    risks:
+      - level: low
+        description: "可视化工具安全"
+    references:
+      - "https://github.com/jacobgil/vit-explain"

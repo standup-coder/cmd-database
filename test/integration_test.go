@@ -9,6 +9,7 @@ import (
 
 	"github.com/cmd4coder/cmd4coder/internal/model"
 	"github.com/cmd4coder/cmd4coder/internal/service"
+	"github.com/cmd4coder/cmd4coder/pkg/export"
 )
 
 // TestCommandServiceIntegration 命令服务集成测试
@@ -201,19 +202,19 @@ func TestCommandServiceIntegration(t *testing.T) {
 
 	// 测试分类命令数量
 	t.Run("VerifyCategoryCommandCount", func(t *testing.T) {
-		// 测试容器编排/K8s监控日志分类
-		monitorCommands := cmdService.ListCommandsByCategory("容器编排/K8s监控日志")
+		// 测试 Kubernetes Monitoring & Logging 分类
+		monitorCommands := cmdService.ListCommandsByCategory("Kubernetes Monitoring & Logging")
 		if len(monitorCommands) < 25 {
-			t.Errorf("容器编排/K8s监控日志分类命令数量不足: %d (期望至少25个)", len(monitorCommands))
+			t.Errorf("Kubernetes Monitoring & Logging 分类命令数量不足: %d (期望至少25个)", len(monitorCommands))
 		}
-		t.Logf("容器编排/K8s监控日志分类有 %d 个命令", len(monitorCommands))
+		t.Logf("Kubernetes Monitoring & Logging 分类有 %d 个命令", len(monitorCommands))
 
-		// 测试容器编排/K8s配置管理分类
-		configCommands := cmdService.ListCommandsByCategory("容器编排/K8s配置管理")
+		// 测试 Kubernetes Config Management 分类
+		configCommands := cmdService.ListCommandsByCategory("Kubernetes Config Management")
 		if len(configCommands) < 20 {
-			t.Errorf("容器编排/K8s配置管理分类命令数量不足: %d (期望至少20个)", len(configCommands))
+			t.Errorf("Kubernetes Config Management 分类命令数量不足: %d (期望至少20个)", len(configCommands))
 		}
-		t.Logf("容器编排/K8s配置管理分类有 %d 个命令", len(configCommands))
+		t.Logf("Kubernetes Config Management 分类有 %d 个命令", len(configCommands))
 	})
 
 	// 测试总命令数量
@@ -443,5 +444,186 @@ func BenchmarkGetByCategory(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		cmdService.ListCommandsByCategory(category)
+	}
+}
+
+// TestExportIntegration 导出功能集成测试
+func TestExportIntegration(t *testing.T) {
+	dataDir := filepath.Join("..", "data")
+	if _, err := os.Stat(dataDir); os.IsNotExist(err) {
+		t.Skip("数据目录不存在，跳过集成测试")
+	}
+
+	cmdService, err := service.NewCommandService(dataDir)
+	if err != nil {
+		t.Fatalf("创建服务失败: %v", err)
+	}
+
+	t.Run("ExportToJSON", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		if len(commands) == 0 {
+			t.Skip("没有命令可导出")
+		}
+
+		tmpFile := filepath.Join(t.TempDir(), "export.json")
+		err := export.ExportToJSON(commands[:5], tmpFile)
+		if err != nil {
+			t.Fatalf("导出JSON失败: %v", err)
+		}
+
+		data, err := os.ReadFile(tmpFile)
+		if err != nil {
+			t.Fatalf("读取导出文件失败: %v", err)
+		}
+
+		if len(data) == 0 {
+			t.Error("导出文件为空")
+		}
+	})
+
+	t.Run("ExportToYAML", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		if len(commands) == 0 {
+			t.Skip("没有命令可导出")
+		}
+
+		tmpFile := filepath.Join(t.TempDir(), "export.yaml")
+		err := export.ExportToYAML(commands[:5], tmpFile)
+		if err != nil {
+			t.Fatalf("导出YAML失败: %v", err)
+		}
+
+		data, err := os.ReadFile(tmpFile)
+		if err != nil {
+			t.Fatalf("读取导出文件失败: %v", err)
+		}
+
+		if len(data) == 0 {
+			t.Error("导出文件为空")
+		}
+	})
+
+	t.Run("ExportToMarkdown", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		if len(commands) == 0 {
+			t.Skip("没有命令可导出")
+		}
+
+		tmpFile := filepath.Join(t.TempDir(), "export.md")
+		err := export.ExportToMarkdown(commands[:5], tmpFile)
+		if err != nil {
+			t.Fatalf("导出Markdown失败: %v", err)
+		}
+
+		data, err := os.ReadFile(tmpFile)
+		if err != nil {
+			t.Fatalf("读取导出文件失败: %v", err)
+		}
+
+		if len(data) == 0 {
+			t.Error("导出文件为空")
+		}
+	})
+}
+
+// TestDataIntegrity 数据完整性集成测试
+func TestDataIntegrity(t *testing.T) {
+	dataDir := filepath.Join("..", "data")
+	if _, err := os.Stat(dataDir); os.IsNotExist(err) {
+		t.Skip("数据目录不存在，跳过集成测试")
+	}
+
+	cmdService, err := service.NewCommandService(dataDir)
+	if err != nil {
+		t.Fatalf("创建服务失败: %v", err)
+	}
+
+	t.Run("NoDuplicateNames", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		nameSet := make(map[string]bool)
+		for _, cmd := range commands {
+			if nameSet[cmd.Name] {
+				t.Errorf("发现重复命令名: %s", cmd.Name)
+			}
+			nameSet[cmd.Name] = true
+		}
+	})
+
+	t.Run("AllCommandsHaveCategory", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		for _, cmd := range commands {
+			if cmd.Category == "" {
+				t.Errorf("命令 %s 缺少分类", cmd.Name)
+			}
+		}
+	})
+
+	t.Run("AllCommandsHaveDescription", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		for _, cmd := range commands {
+			if cmd.Description == "" {
+				t.Errorf("命令 %s 缺少描述", cmd.Name)
+			}
+		}
+	})
+
+	t.Run("AllCommandsHaveUsage", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		for _, cmd := range commands {
+			if len(cmd.Usage) == 0 {
+				t.Errorf("命令 %s 缺少用法", cmd.Name)
+			}
+		}
+	})
+
+	t.Run("AllCommandsHavePlatforms", func(t *testing.T) {
+		commands := cmdService.GetAllCommands()
+		for _, cmd := range commands {
+			if len(cmd.Platforms) == 0 {
+				t.Errorf("命令 %s 缺少平台信息", cmd.Name)
+			}
+		}
+	})
+}
+
+// BenchmarkSearchConcurrent 并发搜索基准测试
+func BenchmarkSearchConcurrent(b *testing.B) {
+	dataDir := filepath.Join("..", "data")
+
+	cmdService, err := service.NewCommandService(dataDir)
+	if err != nil {
+		b.Fatalf("创建服务失败: %v", err)
+	}
+
+	queries := []string{"ls", "docker", "git", "kubectl", "java", "nginx", "mysql", "redis"}
+
+	b.ResetTimer()
+	b.RunParallel(func(pb *testing.PB) {
+		i := 0
+		for pb.Next() {
+			query := queries[i%len(queries)]
+			cmdService.SearchCommands(query)
+			i++
+		}
+	})
+}
+
+// BenchmarkGetCommandByName 按名称获取命令基准测试
+func BenchmarkGetCommandByName(b *testing.B) {
+	dataDir := filepath.Join("..", "data")
+
+	cmdService, err := service.NewCommandService(dataDir)
+	if err != nil {
+		b.Fatalf("创建服务失败: %v", err)
+	}
+
+	names := cmdService.GetAllCommandNames()
+	if len(names) == 0 {
+		b.Skip("没有命令")
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		cmdService.GetCommand(names[i%len(names)])
 	}
 }

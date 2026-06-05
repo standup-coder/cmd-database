@@ -1,0 +1,134 @@
+category: "AI基础设施/边缘AI"
+description: "移动端、嵌入式、IoT设备上的模型推理部署，端侧AI运行时与优化工具"
+commands:
+  - name: tflite
+    category: "AI基础设施/边缘AI"
+    install_required: true
+    install_method: "pip install tensorflow"
+    description: "TensorFlow Lite移动端和嵌入式推理框架，支持Android/iOS/ARM/Raspberry Pi"
+    usage:
+      - "tflite_convert [OPTIONS]"
+      - "python inference.py (使用tflite_runtime)"
+    options:
+      - flag: "--saved_model_dir"
+        description: "SavedModel路径"
+      - flag: "--output_file"
+        description: "输出TFLite文件"
+      - flag: "--optimizations"
+        description: "优化选项 (DEFAULT, OPTIMIZE_FOR_SIZE, OPTIMIZE_FOR_LATENCY)"
+    examples:
+      - command: "tflite_convert --saved_model_dir ./saved_model --output_file model.tflite"
+        description: "转换SavedModel为TFLite"
+      - command: "python -c \"import tflite_runtime.interpreter as tflite; interpreter = tflite.Interpreter(model_path='model.tflite'); interpreter.allocate_tensors()\""
+        description: "TFLite推理"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "executorch"
+      - "coremltools"
+    risks:
+      - level: low
+        description: "转换操作安全"
+    references:
+      - "https://www.tensorflow.org/lite"
+
+  - name: executorch
+    category: "AI基础设施/边缘AI"
+    install_required: true
+    install_method: "git clone https://github.com/pytorch/executorch.git && ./install_requirements.sh"
+    description: "ExecuTorch PyTorch移动端运行时，支持iOS/Android/嵌入式，端到端推理优化"
+    usage:
+      - "python -m executorch.exir [OPTIONS]"
+    options:
+      - flag: "to_edge"
+        description: "导出Edge Dialect"
+      - flag: "to_executorch"
+        description: "导出ExecuTorch"
+      - flag: "--quantization"
+        description: "量化配置"
+    examples:
+      - command: "python export.py --model mv3 --backend xnnpack --quantization "
+        description: "XNNPack后端导出MobileNet"
+      - command: "python -m examples.portable.scripts.export --model_name=add"
+        description: "导出示例模型"
+    platforms:
+      - "linux"
+      - "darwin"
+    related_commands:
+      - "tflite"
+      - "coremltools"
+    risks:
+      - level: low
+        description: "导出操作安全"
+    references:
+      - "https://pytorch.org/executorch/"
+
+  - name: mediapipe
+    category: "AI基础设施/边缘AI"
+    install_required: true
+    install_method: "pip install mediapipe"
+    description: "Google MediaPipe端侧ML流水线，支持人脸检测、姿态估计、手势识别、文本分类"
+    usage:
+      - "python app.py (使用mediapipe库)"
+    options:
+      - flag: "FaceDetection"
+        description: "人脸检测"
+      - flag: "Pose"
+        description: "姿态估计"
+      - flag: "Hands"
+        description: "手势识别"
+      - flag: "ImageClassifier"
+        description: "图像分类"
+    examples:
+      - command: "python -c \"import mediapipe as mp; detector = mp.solutions.face_detection.FaceDetection(); results = detector.process(image)\""
+        description: "人脸检测"
+      - command: "python -c \"import mediapipe as mp; pose = mp.solutions.pose.Pose(); results = pose.process(image)\""
+        description: "人体姿态估计"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "tflite"
+      - "coremltools"
+    risks:
+      - level: low
+        description: "端侧推理安全"
+    references:
+      - "https://mediapipe.dev/"
+
+  - name: paddle-lite
+    category: "AI基础设施/边缘AI"
+    install_required: true
+    install_method: "pip install paddlelite"
+    description: "Paddle Lite百度端侧推理框架，支持ARM Cortex-M到服务器GPU，极致轻量"
+    usage:
+      - "paddle_lite_opt [OPTIONS]"
+    options:
+      - flag: "--model_file"
+        description: "Paddle模型文件"
+      - flag: "--param_file"
+        description: "参数文件"
+      - flag: "--optimize_out"
+        description: "优化输出路径"
+      - flag: "--valid_targets"
+        description: "目标平台 (arm, opencl, x86)"
+    examples:
+      - command: "paddle_lite_opt --model_file=model.pdmodel --param_file=model.pdiparams --optimize_out=opt_model --valid_targets=arm"
+        description: "ARM端侧优化"
+      - command: "paddle_lite_opt --model_file=model.pdmodel --param_file=model.pdiparams --optimize_out=opt_model --valid_targets=opencl"
+        description: "OpenCL GPU优化"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "tflite"
+      - "executorch"
+    risks:
+      - level: low
+        description: "模型转换安全"
+    references:
+      - "https://paddle-lite.readthedocs.io/"

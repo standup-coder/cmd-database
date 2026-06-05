@@ -1,0 +1,866 @@
+category: AI基础设施/大模型推理
+description: 大语言模型推理部署工具链，涵盖高性能推理引擎、本地运行、服务化部署、交互式Demo
+commands:
+- name: vllm
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install vllm
+  description: vLLM高性能大模型推理引擎，采用PagedAttention实现最高24倍吞吐提升
+  usage:
+  - vllm serve [OPTIONS]
+  - python -m vllm.entrypoints.openai.api_server [OPTIONS]
+  options:
+  - flag: --model
+    description: 模型路径或HuggingFace模型ID
+  - flag: --tensor-parallel-size
+    description: 张量并行GPU数量
+  - flag: --max-model-len
+    description: 最大序列长度
+  - flag: --gpu-memory-utilization
+    description: GPU内存利用率上限(0.0-1.0)
+  - flag: --quantization
+    description: 量化方式 (awq, gptq, fp8)
+  examples:
+  - command: vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 2
+    description: 2卡张量并行部署LLaMA-3.1-8B
+  - command: vllm serve Qwen/Qwen2-72B --tensor-parallel-size 8 --max-model-len 32768
+    description: 8卡部署Qwen2-72B，支持32K上下文
+  - command: vllm serve TheBloke/Llama-2-70B-AWQ --quantization awq --gpu-memory-utilization
+      0.9
+    description: AWQ量化部署，节省显存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sglang
+  - lmdeploy
+  risks:
+  - level: medium
+    description: 高并发推理可能耗尽GPU资源
+  references:
+  - https://docs.vllm.ai/
+- name: sglang
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install sglang
+  description: SGLang结构化生成语言模型服务，支持RadixAttention缓存、多模态推理
+  usage:
+  - python -m sglang.launch_server [OPTIONS]
+  options:
+  - flag: --model-path
+    description: 模型路径
+  - flag: --tp-size
+    description: 张量并行大小
+  - flag: --mem-fraction-static
+    description: 静态内存分配比例
+  - flag: --enable-torch-compile
+    description: 启用PyTorch编译优化
+  examples:
+  - command: python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct
+      --tp-size 2
+    description: 2卡部署LLaMA-3.1推理服务
+  - command: python -m sglang.launch_server --model-path Qwen/Qwen2-VL-7B-Instruct
+    description: 部署Qwen2-VL多模态推理服务
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vllm
+  - lmdeploy
+  risks:
+  - level: medium
+    description: 推理服务需合理配置并发限制
+  references:
+  - https://github.com/sgl-project/sglang
+- name: lmdeploy
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install lmdeploy
+  description: 上海AI Lab开源的大模型部署工具，支持TurboMind引擎和PyTorch引擎
+  usage:
+  - lmdeploy [COMMAND] [OPTIONS]
+  options:
+  - flag: serve
+    description: 启动推理服务
+  - flag: lite
+    description: 轻量级本地推理
+  - flag: chat
+    description: 交互式对话
+  - flag: convert
+    description: 模型格式转换
+  examples:
+  - command: lmdeploy serve api_server internlm/internlm2_5-7b-chat
+    description: 部署InternLM2.5 API服务
+  - command: lmdeploy lite auto_awq internlm/internlm2_5-7b-chat --work-dir ./awq_model
+    description: AWQ量化模型
+  - command: lmdeploy chat internlm/internlm2_5-7b-chat
+    description: 本地交互式对话
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vllm
+  - sglang
+  risks:
+  - level: medium
+    description: 模型转换后需验证输出一致性
+  references:
+  - https://github.com/InternLM/lmdeploy
+- name: llama.cpp
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: git clone https://github.com/ggerganov/llama.cpp && make
+  description: llama.cpp纯C/C++实现的LLM推理，支持GGUF量化，可在CPU/边缘设备运行
+  usage:
+  - ./main [OPTIONS]
+  - ./server [OPTIONS]
+  options:
+  - flag: -m
+    description: GGUF模型文件路径
+  - flag: -n
+    description: 生成token数量
+  - flag: --temp
+    description: 采样温度(默认0.8)
+  - flag: -ngl
+    description: GPU加载的层数
+  - flag: -c
+    description: 上下文大小
+  examples:
+  - command: ./main -m models/llama-3.1-8b.Q4_K_M.gguf -n 512 --temp 0.7 -p 'What
+      is machine learning?'
+    description: CPU推理运行量化模型
+  - command: ./server -m models/llama-3.1-8b.Q4_K_M.gguf --host 0.0.0.0 --port 8080
+    description: 启动HTTP推理服务
+  - command: ./main -m model.gguf -ngl 35 -c 8192
+    description: GPU卸载35层，8K上下文推理
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - ollama
+  - gguf-convert
+  risks:
+  - level: low
+    description: 本地推理无网络风险
+  references:
+  - https://github.com/ggerganov/llama.cpp
+- name: ollama
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: curl -fsSL https://ollama.com/install.sh | sh
+  description: Ollama本地大模型运行管理工具，一键下载和运行各类开源模型
+  usage:
+  - ollama [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 运行模型
+  - flag: pull
+    description: 下载模型
+  - flag: list
+    description: 列出本地模型
+  - flag: serve
+    description: 启动API服务
+  - flag: create
+    description: 从Modelfile创建模型
+  examples:
+  - command: ollama run llama3.1
+    description: 下载并运行LLaMA-3.1模型
+  - command: ollama run qwen2:72b
+    description: 运行Qwen2-72B模型
+  - command: ollama serve
+    description: 启动Ollama API服务(默认端口11434)
+  - command: ollama create my-model -f Modelfile
+    description: 使用Modelfile创建自定义模型
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - llama.cpp
+  - vllm
+  risks:
+  - level: low
+    description: 本地运行，风险可控
+  references:
+  - https://ollama.com/
+- name: text-generation-inference
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: docker pull ghcr.io/huggingface/text-generation-inference:latest
+  description: HuggingFace TGI文本生成推理服务，生产级部署方案
+  usage:
+  - docker run [OPTIONS] ghcr.io/huggingface/text-generation-inference:latest
+  options:
+  - flag: --model-id
+    description: HuggingFace模型ID
+  - flag: --sharded
+    description: 启用模型分片
+  - flag: --num-shard
+    description: 分片数量(GPU数)
+  - flag: --quantize
+    description: 量化方式(awq,gptq,bitsandbytes)
+  examples:
+  - command: docker run --gpus all -p 8080:80 ghcr.io/huggingface/text-generation-inference:latest
+      --model-id meta-llama/Llama-3.1-8B-Instruct
+    description: Docker部署LLaMA-3.1推理服务
+  - command: docker run --gpus all -p 8080:80 ghcr.io/huggingface/text-generation-inference:latest
+      --model-id meta-llama/Llama-3.1-70B-Instruct --sharded true --num-shard 4
+    description: 4卡分片部署70B模型
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - vllm
+  - sglang
+  risks:
+  - level: medium
+    description: 生产部署需配置安全认证
+  references:
+  - https://huggingface.co/docs/text-generation-inference
+- name: tensorrt-llm
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install tensorrt-llm
+  description: NVIDIA TensorRT-LLM推理优化库，针对NVIDIA GPU极致优化
+  usage:
+  - trtllm-build [OPTIONS]
+  - python run.py [OPTIONS]
+  options:
+  - flag: --checkpoint_dir
+    description: 检查点目录
+  - flag: --output_dir
+    description: TensorRT引擎输出目录
+  - flag: --dtype
+    description: 数据类型 (float16, bfloat16, float32)
+  - flag: --max_batch_size
+    description: 最大批次大小
+  examples:
+  - command: trtllm-build --checkpoint_dir ./tllm_checkpoint --output_dir ./trt_engines
+      --gemm_plugin float16
+    description: 构建TensorRT推理引擎
+  - command: python run.py --engine_dir=./trt_engines --max_output_len=512
+    description: 使用TensorRT引擎推理
+  platforms:
+  - linux
+  - windows
+  related_commands:
+  - vllm
+  - onnxruntime
+  risks:
+  - level: medium
+    description: 需NVIDIA GPU和CUDA环境，引擎构建耗时
+  notes:
+  - 仅支持NVIDIA GPU
+  - 引擎绑定特定GPU架构，不同GPU需重新构建
+  references:
+  - https://github.com/NVIDIA/TensorRT-LLM
+- name: onnxruntime
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install onnxruntime-gpu
+  description: ONNX Runtime跨平台推理加速引擎，支持CPU/GPU/边缘设备
+  usage:
+  - python inference.py (使用onnxruntime库)
+  options:
+  - flag: InferenceSession
+    description: 创建推理会话
+  - flag: run
+    description: 执行推理
+  examples:
+  - command: python -c "import onnxruntime as ort; sess = ort.InferenceSession('model.onnx');
+      outputs = sess.run(None, inputs)"
+    description: 加载ONNX模型并推理
+  - command: python export_onnx.py --model meta-llama/Llama-2-7b --output model.onnx
+    description: 将HuggingFace模型导出为ONNX格式
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - optimum-cli
+  - openvino
+  risks:
+  - level: low
+    description: 推理操作无副作用
+  references:
+  - https://onnxruntime.ai/
+- name: openvino
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install openvino
+  description: Intel OpenVINO工具包，针对Intel CPU/GPU/NPU优化的推理框架
+  usage:
+  - ovc [OPTIONS]
+  - benchmark_app [OPTIONS]
+  options:
+  - flag: --input_model
+    description: 输入模型路径
+  - flag: --output_model
+    description: 输出IR模型路径
+  - flag: --compress_to_fp16
+    description: 压缩为FP16
+  examples:
+  - command: ovc model.onnx --compress_to_fp16
+    description: 将ONNX模型转换为OpenVINO IR并压缩为FP16
+  - command: benchmark_app -m model.xml -d CPU
+    description: 在Intel CPU上基准测试模型性能
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - onnxruntime
+  - optimum-cli
+  risks:
+  - level: low
+    description: 推理操作无副作用
+  references:
+  - https://docs.openvino.ai/
+- name: transformers-pipeline
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install transformers
+  description: HuggingFace Transformers Pipeline快速推理接口，一行代码完成文本生成/分类/问答
+  usage:
+  - python inference.py (使用transformers库)
+  options:
+  - flag: pipeline
+    description: 创建推理管道(task, model, device)
+  - flag: AutoModelForCausalLM
+    description: 加载因果语言模型
+  - flag: AutoTokenizer
+    description: 加载分词器
+  examples:
+  - command: python -c "from transformers import pipeline; pipe = pipeline('text-generation',
+      model='gpt2'); print(pipe('Hello')[0]['generated_text'])"
+    description: 一行代码创建文本生成管道
+  - command: python -c "from transformers import pipeline; pipe = pipeline('sentiment-analysis');
+      print(pipe('I love this product!'))"
+    description: 情感分析管道
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - vllm
+  - onnxruntime
+  risks:
+  - level: low
+    description: 推理操作无副作用
+  references:
+  - https://huggingface.co/docs/transformers
+- name: gradio
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install gradio
+  description: Gradio快速构建ML模型交互式Demo，自动生成可分享的Web界面
+  usage:
+  - python app.py (使用gradio库)
+  options:
+  - flag: gr.Interface
+    description: 创建交互界面
+  - flag: gr.ChatInterface
+    description: 创建聊天界面
+  - flag: gr.Blocks
+    description: 构建复杂多页面应用
+  examples:
+  - command: python app.py --share
+    description: 启动Gradio应用并生成公网链接
+  - command: python -c "import gradio as gr; gr.Interface(fn=predict, inputs='text',
+      outputs='text').launch()"
+    description: 单行代码创建文本生成Demo
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - streamlit
+  - chainlit
+  risks:
+  - level: medium
+    description: --share生成公网链接，注意数据安全
+  references:
+  - https://www.gradio.app/
+- name: streamlit
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install streamlit
+  description: Streamlit数据应用与模型展示框架，纯Python构建数据科学应用
+  usage:
+  - streamlit [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 运行Streamlit应用
+  - flag: --server.port
+    description: 服务端口号
+  - flag: --server.address
+    description: 绑定地址
+  examples:
+  - command: streamlit run app.py
+    description: 启动Streamlit应用
+  - command: streamlit run app.py --server.port 8501
+    description: 指定端口启动
+  - command: streamlit run app.py --theme.base dark
+    description: 使用深色主题启动
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - gradio
+  - chainlit
+  risks:
+  - level: low
+    description: 本地开发工具，风险较低
+  references:
+  - https://streamlit.io/
+- name: chainlit
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install chainlit
+  description: Chainlit对话式AI应用框架，专为LLM应用设计的Python框架
+  usage:
+  - chainlit [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 运行Chainlit应用
+  - flag: init
+    description: 初始化新项目
+  - flag: --host
+    description: 绑定主机
+  - flag: --port
+    description: 绑定端口
+  examples:
+  - command: chainlit init
+    description: 初始化Chainlit项目
+  - command: chainlit run app.py -w
+    description: 热重载模式运行
+  - command: chainlit run app.py --host 0.0.0.0 --port 8000
+    description: 绑定所有网卡，端口8000
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - gradio
+  - streamlit
+  risks:
+  - level: low
+    description: 开发框架，风险较低
+  references:
+  - https://github.com/Chainlit/chainlit
+- name: marimo
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install marimo
+  description: Marimo响应式Python Notebook，支持交互式数据探索和模型实验
+  usage:
+  - marimo [COMMAND] [OPTIONS]
+  options:
+  - flag: edit
+    description: 编辑Notebook
+  - flag: run
+    description: 运行Notebook
+  - flag: tutorial
+    description: 启动交互式教程
+  examples:
+  - command: marimo edit notebook.py
+    description: 编辑Notebook文件
+  - command: marimo run notebook.py --port 8080
+    description: 以应用模式运行Notebook
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - streamlit
+  - gradio
+  risks:
+  - level: low
+    description: Notebook工具，风险较低
+  references:
+  - https://marimo.io/
+- name: tensor-parallel
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install tensor_parallel
+  description: Tensor Parallel通用张量并行推理库，支持任意HuggingFace模型多卡推理
+  usage:
+  - python inference.py (使用tensor_parallel库)
+  options:
+  - flag: tensor_parallel.TensorParallelPreTrainedModel
+    description: 包装模型为张量并行
+  - flag: tensor_parallel_config
+    description: 并行配置
+  examples:
+  - command: python -c "import tensor_parallel as tp; model = tp.TensorParallelPreTrainedModel(model,
+      device_ids=[0,1,2,3])"
+    description: 4卡张量并行包装模型
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vllm
+  - deepspeed
+  risks:
+  - level: medium
+    description: 多卡并行需合理配置
+  references:
+  - https://github.com/BlackSamorez/tensor_parallel
+- name: ray-serve
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install ray[serve]
+  description: Ray Serve可扩展模型服务框架，支持多模型组合、A/B测试、自动扩缩容
+  usage:
+  - serve run [OPTIONS]
+  - serve deploy [OPTIONS]
+  options:
+  - flag: run
+    description: 运行Serve应用
+  - flag: deploy
+    description: 部署到Ray集群
+  - flag: config_file
+    description: Serve配置文件
+  examples:
+  - command: serve run app:my_model
+    description: 本地运行模型服务
+  - command: serve deploy config.yaml
+    description: 部署多模型服务配置
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - vllm
+  - tritonserver
+  risks:
+  - level: medium
+    description: 生产部署需配置资源限制
+  references:
+  - https://docs.ray.io/en/latest/serve/index.html
+- name: sky-pilot
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install skypilot
+  description: SkyPilot云端ML任务调度器，一键在AWS/GCP/Azure/Lambda运行训练/推理
+  usage:
+  - sky [COMMAND] [OPTIONS]
+  options:
+  - flag: launch
+    description: 启动任务
+  - flag: serve up
+    description: 部署服务
+  - flag: show-gpus
+    description: 查看可用GPU
+  - flag: spot
+    description: 使用Spot实例降低成本
+  examples:
+  - command: sky launch -c mycluster task.yaml
+    description: 在云端启动训练集群
+  - command: sky serve up service.yaml
+    description: 部署推理服务
+  - command: sky show-gpus --cloud aws
+    description: 查看AWS可用GPU类型和价格
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - modal
+  - vllm
+  risks:
+  - level: medium
+    description: 云端计费，注意成本控制
+  references:
+  - https://skypilot.readthedocs.io/
+- name: cortex
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install cortex
+  description: Cortex本地LLM平台，一键运行和管理多种开源模型
+  usage:
+  - cortex [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 运行模型
+  - flag: models
+    description: 模型管理
+  - flag: pull
+    description: 拉取模型
+  examples:
+  - command: cortex run llama3.1
+    description: 本地运行LLaMA-3.1
+  - command: cortex pull mistral
+    description: 下载Mistral模型
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - ollama
+  - llama.cpp
+  risks:
+  - level: low
+    description: 本地运行，风险可控
+  references:
+  - https://cortex.so/
+- name: together
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install together
+  description: Together AI API客户端，访问高性能开源模型推理API
+  usage:
+  - python app.py (使用together库)
+  options:
+  - flag: Together(api_key=...)
+    description: 初始化客户端
+  - flag: chat.completions.create
+    description: 创建聊天补全
+  examples:
+  - command: python -c "from together import Together; c = Together(); r = c.chat.completions.create(model='meta-llama/Llama-3-70b',
+      messages=[{'role':'user','content':'Hello'}])"
+    description: 调用Together AI API推理
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - groq
+  - fireworks
+  risks:
+  - level: low
+    description: API调用计费，注意token消耗
+  references:
+  - https://www.together.ai/
+- name: fireworks
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install fireworks-ai
+  description: Fireworks AI快速推理API，针对开源模型优化的高性能端点
+  usage:
+  - python app.py (使用fireworks库)
+  options:
+  - flag: Fireworks(api_key=...)
+    description: 初始化客户端
+  - flag: completion.create
+    description: 创建补全
+  examples:
+  - command: python -c "from fireworks.client import Fireworks; fw = Fireworks();
+      r = fw.completion.create(model='accounts/fireworks/models/llama-v3-70b', prompt='Hello')"
+    description: 调用Fireworks API推理
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - together
+  - groq
+  risks:
+  - level: low
+    description: API调用计费
+  references:
+  - https://fireworks.ai/
+- name: groq
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install groq
+  description: Groq极速推理API，基于LPU芯片实现业界最快token生成速度
+  usage:
+  - python app.py (使用groq库)
+  options:
+  - flag: Groq(api_key=...)
+    description: 初始化客户端
+  - flag: chat.completions.create
+    description: 创建聊天补全
+  examples:
+  - command: python -c "from groq import Groq; g = Groq(); r = g.chat.completions.create(model='llama-3.1-70b',
+      messages=[{'role':'user','content':'Explain quantum computing'}])"
+    description: 使用Groq极速推理
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - together
+  - fireworks
+  risks:
+  - level: low
+    description: API调用计费
+  references:
+  - https://groq.com/
+- name: replicate
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install replicate
+  description: Replicate模型托管云平台，一键部署和运行开源模型
+  usage:
+  - python app.py (使用replicate库)
+  options:
+  - flag: replicate.run()
+    description: 运行模型预测
+  - flag: replicate.deploy()
+    description: 部署自定义模型
+  examples:
+  - command: python -c "import replicate; output = replicate.run('meta/meta-llama-3-70b',
+      input={'prompt':'Hello'})"
+    description: 运行Replicate托管的LLaMA-3模型
+  - command: replicate deploy --model=my-model
+    description: 部署自己的模型
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - modal
+  - sky-pilot
+  risks:
+  - level: low
+    description: 托管服务，按量计费
+  references:
+  - https://replicate.com/
+- name: openai-function-calling
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install openai
+  description: OpenAI Function Calling工具调用，让LLM自主决定调用外部API获取实时数据或执行操作
+  usage:
+  - python app.py (使用openai库)
+  options:
+  - flag: tools
+    description: 工具定义列表
+  - flag: tool_choice
+    description: 工具选择策略 (auto, required, none)
+  - flag: function
+    description: 具体函数定义
+  examples:
+  - command: python -c "import openai; r = client.chat.completions.create(model='gpt-4',
+      messages=[...], tools=[{'type':'function','function':{'name':'get_weather'}}],
+      tool_choice='auto')"
+    description: 配置Function Calling
+  - command: python function_calling.py --tools tools.json --conversation
+    description: 交互式工具调用对话
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - instructor
+  - langchain
+  risks:
+  - level: medium
+    description: 工具调用可能执行副作用操作，需严格权限控制
+  references:
+  - https://platform.openai.com/docs/guides/function-calling
+- name: instructor
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install instructor
+  description: Instructor结构化输出框架，基于Pydantic让LLM返回类型安全的结构化数据
+  usage:
+  - python app.py (使用instructor库)
+  options:
+  - flag: client.chat.completions.create_with_completion
+    description: 创建结构化输出
+  - flag: response_model
+    description: Pydantic响应模型
+  examples:
+  - command: python -c "import instructor, openai; client = instructor.from_openai(openai.OpenAI());
+      user = client.chat.completions.create(model='gpt-4', response_model=User, messages=[...])"
+    description: 提取结构化用户信息
+  - command: python extract.py --schema schema.json --input documents/
+    description: 批量文档结构化提取
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - openai-function-calling
+  - pydantic-ai
+  risks:
+  - level: low
+    description: 结构化提取安全
+  references:
+  - https://github.com/jxnl/instructor
+- name: speculative-decoding
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install transformers
+  description: 推测解码(Speculative Decoding)加速推理，用小草稿模型预测大目标模型输出，2-3倍加速
+  usage:
+  - python infer.py (使用transformers的 assisted_generation)
+  options:
+  - flag: assistant_model
+    description: 草稿模型
+  - flag: num_assistant_tokens
+    description: 每次推测token数
+  examples:
+  - command: python -c "from transformers import pipeline; gen = pipeline('text-generation',
+      model='meta-llama/Llama-2-70b', assistant_model='TinyLlama/TinyLlama-1.1B');
+      gen('Hello', num_assistant_tokens=5)"
+    description: TinyLlama草稿加速LLaMA-70B
+  - command: python speculative.py --target llama-70b --draft tinyllama --speedup
+      2.5
+    description: 配置推测解码参数
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vllm
+  - sglang
+  risks:
+  - level: low
+    description: 推理加速技术
+  references:
+  - https://huggingface.co/blog/assisted-generation
+- name: prefix-caching
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install vllm
+  description: Prefix Caching前缀缓存，复用共享系统Prompt的KV Cache，大幅降低多轮推理延迟和显存
+  usage:
+  - python -m vllm.entrypoints.openai.api_server [OPTIONS]
+  options:
+  - flag: --enable-prefix-caching
+    description: 启用前缀缓存
+  examples:
+  - command: python -m vllm.entrypoints.openai.api_server --model llama-3-8b --enable-prefix-caching
+    description: 启用前缀缓存服务
+  - command: python benchmark.py --enable-prefix-caching --shared-prompt 'You are
+      a helpful assistant' --num-turns 100
+    description: 多轮对话前缀缓存加速
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vllm
+  - sglang
+  risks:
+  - level: low
+    description: 缓存优化技术
+  references:
+  - https://docs.vllm.ai/en/latest/automatic_prefix_caching.html
+- name: outlines
+  category: AI基础设施/大模型推理
+  install_required: true
+  install_method: pip install outlines
+  description: LLM结构化生成库，强制模型输出JSON/Regex格式
+  usage:
+  - python -c "import outlines; ..."
+  options: []
+  examples:
+  - command: python -c "import outlines; model = outlines.models.transformers('gpt2')"
+    description: 加载模型
+  - command: python -c "import outlines; generator = outlines.generate.json(model,
+      schema)"
+    description: 生成JSON格式输出
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - instructor
+  - guidance
+  - langchain

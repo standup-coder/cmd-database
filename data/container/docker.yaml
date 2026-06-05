@@ -1,270 +1,411 @@
-category: "容器编排/Docker命令"
-description: "Docker容器管理命令"
+category: 容器编排/Docker命令
+description: Docker容器管理命令
 commands:
-  - name: docker run
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "运行一个新容器"
-    usage:
-      - "docker run [OPTIONS] IMAGE [COMMAND] [ARG...]"
-    options:
-      - flag: "-d, --detach"
-        description: "后台运行容器"
-      - flag: "-p, --publish"
-        description: "端口映射 (host:container)"
-      - flag: "-v, --volume"
-        description: "挂载卷"
-      - flag: "--name"
-        description: "指定容器名称"
-      - flag: "-e, --env"
-        description: "设置环境变量"
-      - flag: "--rm"
-        description: "退出时自动删除容器"
-      - flag: "-it"
-        description: "交互式终端"
-    examples:
-      - command: "docker run -d -p 80:80 nginx"
-        description: "后台运行nginx并映射80端口"
-      - command: "docker run -it ubuntu bash"
-        description: "交互式运行Ubuntu容器"
-      - command: "docker run --rm alpine echo hello"
-        description: "运行后自动删除容器"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker ps"
-      - "docker stop"
-    references:
-      - "https://docs.docker.com/engine/reference/commandline/run/"
-
-  - name: docker ps
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "列出运行中的容器"
-    usage:
-      - "docker ps [OPTIONS]"
-    options:
-      - flag: "-a, --all"
-        description: "显示所有容器(包括已停止的)"
-      - flag: "-q, --quiet"
-        description: "只显示容器ID"
-      - flag: "-s, --size"
-        description: "显示容器大小"
-    examples:
-      - command: "docker ps"
-        description: "列出运行中的容器"
-      - command: "docker ps -a"
-        description: "列出所有容器"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker run"
-      - "docker inspect"
-
-  - name: docker stop
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "停止运行中的容器"
-    usage:
-      - "docker stop [OPTIONS] CONTAINER [CONTAINER...]"
-    options:
-      - flag: "-t, --time"
-        description: "超时时间(秒)"
-    examples:
-      - command: "docker stop my-container"
-        description: "停止指定容器"
-      - command: "docker stop $(docker ps -q)"
-        description: "停止所有运行中的容器"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker start"
-      - "docker restart"
-
-  - name: docker build
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "从Dockerfile构建镜像"
-    usage:
-      - "docker build [OPTIONS] PATH"
-    options:
-      - flag: "-t, --tag"
-        description: "镜像名称和标签"
-      - flag: "-f, --file"
-        description: "指定Dockerfile路径"
-      - flag: "--no-cache"
-        description: "不使用缓存"
-    examples:
-      - command: "docker build -t myapp:1.0 ."
-        description: "构建镜像并打标签"
-      - command: "docker build --no-cache -t myapp ."
-        description: "不使用缓存构建"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker run"
-      - "docker push"
-
-  - name: docker images
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "列出本地镜像"
-    usage:
-      - "docker images [OPTIONS]"
-    options:
-      - flag: "-a, --all"
-        description: "显示所有镜像"
-      - flag: "-q, --quiet"
-        description: "只显示镜像ID"
-    examples:
-      - command: "docker images"
-        description: "列出所有镜像"
-      - command: "docker images -q"
-        description: "只显示镜像ID"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker rmi"
-      - "docker pull"
-
-  - name: docker pull
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "从镜像仓库拉取镜像"
-    usage:
-      - "docker pull [OPTIONS] NAME[:TAG]"
-    examples:
-      - command: "docker pull nginx"
-        description: "拉取nginx最新镜像"
-      - command: "docker pull nginx:1.21"
-        description: "拉取指定版本"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker push"
-      - "docker images"
-
-  - name: docker rm
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "删除容器"
-    usage:
-      - "docker rm [OPTIONS] CONTAINER [CONTAINER...]"
-    options:
-      - flag: "-f, --force"
-        description: "强制删除运行中的容器"
-      - flag: "-v"
-        description: "删除关联的卷"
-    examples:
-      - command: "docker rm my-container"
-        description: "删除已停止的容器"
-      - command: "docker rm -f my-container"
-        description: "强制删除容器"
-    risks:
-      - level: medium
-        description: "删除容器会丢失容器内的数据(除非使用卷)"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker rmi"
-      - "docker ps"
-
-  - name: docker exec
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "在运行中的容器内执行命令"
-    usage:
-      - "docker exec [OPTIONS] CONTAINER COMMAND [ARG...]"
-    options:
-      - flag: "-it"
-        description: "交互式终端"
-      - flag: "-d"
-        description: "后台执行"
-      - flag: "-u, --user"
-        description: "指定用户"
-    examples:
-      - command: "docker exec -it my-container bash"
-        description: "进入容器bash终端"
-      - command: "docker exec my-container ls /app"
-        description: "在容器内执行ls命令"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "docker attach"
-      - "docker run"
-
-  - name: docker logs
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "参考 https://docs.docker.com/engine/install/"
-    description: "查看容器日志"
-    usage:
-      - "docker logs [OPTIONS] CONTAINER"
-    options:
-      - flag: "-f, --follow"
-        description: "实时跟踪日志"
-      - flag: "--tail <n>"
-        description: "显示最后n行"
-      - flag: "-t, --timestamps"
-        description: "显示时间戳"
-    examples:
-      - command: "docker logs my-container"
-        description: "查看容器日志"
-      - command: "docker logs -f --tail 100 my-container"
-        description: "实时查看最后100行日志"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-
-  - name: docker-compose
-    category: "容器编排/Docker命令"
-    install_required: true
-    install_method: "pip install docker-compose 或参考官方文档"
-    description: "管理多容器应用"
-    usage:
-      - "docker-compose [OPTIONS] COMMAND"
-    options:
-      - flag: "up"
-        description: "创建并启动容器"
-      - flag: "down"
-        description: "停止并删除容器"
-      - flag: "ps"
-        description: "列出容器"
-      - flag: "logs"
-        description: "查看日志"
-    examples:
-      - command: "docker-compose up -d"
-        description: "后台启动所有服务"
-      - command: "docker-compose down"
-        description: "停止并删除所有服务"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    references:
-      - "https://docs.docker.com/compose/"
+- name: docker run
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 运行一个新容器
+  usage:
+  - docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+  options:
+  - flag: -d, --detach
+    description: 后台运行容器
+  - flag: -p, --publish
+    description: 端口映射 (host:container)
+  - flag: -v, --volume
+    description: 挂载卷
+  - flag: --name
+    description: 指定容器名称
+  - flag: -e, --env
+    description: 设置环境变量
+  - flag: --rm
+    description: 退出时自动删除容器
+  - flag: -it
+    description: 交互式终端
+  examples:
+  - command: docker run -d -p 80:80 nginx
+    description: 后台运行nginx并映射80端口
+  - command: docker run -it ubuntu bash
+    description: 交互式运行Ubuntu容器
+  - command: docker run --rm alpine echo hello
+    description: 运行后自动删除容器
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker ps
+  - docker stop
+  references:
+  - https://docs.docker.com/engine/reference/commandline/run/
+- name: docker ps
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 列出运行中的容器
+  usage:
+  - docker ps [OPTIONS]
+  options:
+  - flag: -a, --all
+    description: 显示所有容器(包括已停止的)
+  - flag: -q, --quiet
+    description: 只显示容器ID
+  - flag: -s, --size
+    description: 显示容器大小
+  examples:
+  - command: docker ps
+    description: 列出运行中的容器
+  - command: docker ps -a
+    description: 列出所有容器
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker run
+  - docker inspect
+- name: docker stop
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 停止运行中的容器
+  usage:
+  - docker stop [OPTIONS] CONTAINER [CONTAINER...]
+  options:
+  - flag: -t, --time
+    description: 超时时间(秒)
+  examples:
+  - command: docker stop my-container
+    description: 停止指定容器
+  - command: docker stop $(docker ps -q)
+    description: 停止所有运行中的容器
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker start
+  - docker restart
+- name: docker build
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 从Dockerfile构建镜像
+  usage:
+  - docker build [OPTIONS] PATH
+  options:
+  - flag: -t, --tag
+    description: 镜像名称和标签
+  - flag: -f, --file
+    description: 指定Dockerfile路径
+  - flag: --no-cache
+    description: 不使用缓存
+  examples:
+  - command: docker build -t myapp:1.0 .
+    description: 构建镜像并打标签
+  - command: docker build --no-cache -t myapp .
+    description: 不使用缓存构建
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker run
+  - docker push
+- name: docker images
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 列出本地镜像
+  usage:
+  - docker images [OPTIONS]
+  options:
+  - flag: -a, --all
+    description: 显示所有镜像
+  - flag: -q, --quiet
+    description: 只显示镜像ID
+  examples:
+  - command: docker images
+    description: 列出所有镜像
+  - command: docker images -q
+    description: 只显示镜像ID
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker rmi
+  - docker pull
+- name: docker pull
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 从镜像仓库拉取镜像
+  usage:
+  - docker pull [OPTIONS] NAME[:TAG]
+  examples:
+  - command: docker pull nginx
+    description: 拉取nginx最新镜像
+  - command: docker pull nginx:1.21
+    description: 拉取指定版本
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker push
+  - docker images
+- name: docker rm
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 删除容器
+  usage:
+  - docker rm [OPTIONS] CONTAINER [CONTAINER...]
+  options:
+  - flag: -f, --force
+    description: 强制删除运行中的容器
+  - flag: -v
+    description: 删除关联的卷
+  examples:
+  - command: docker rm my-container
+    description: 删除已停止的容器
+  - command: docker rm -f my-container
+    description: 强制删除容器
+  risks:
+  - level: medium
+    description: 删除容器会丢失容器内的数据(除非使用卷)
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker rmi
+  - docker ps
+- name: docker exec
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 在运行中的容器内执行命令
+  usage:
+  - docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+  options:
+  - flag: -it
+    description: 交互式终端
+  - flag: -d
+    description: 后台执行
+  - flag: -u, --user
+    description: 指定用户
+  examples:
+  - command: docker exec -it my-container bash
+    description: 进入容器bash终端
+  - command: docker exec my-container ls /app
+    description: 在容器内执行ls命令
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker attach
+  - docker run
+- name: docker logs
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 查看容器日志
+  usage:
+  - docker logs [OPTIONS] CONTAINER
+  options:
+  - flag: -f, --follow
+    description: 实时跟踪日志
+  - flag: --tail <n>
+    description: 显示最后n行
+  - flag: -t, --timestamps
+    description: 显示时间戳
+  examples:
+  - command: docker logs my-container
+    description: 查看容器日志
+  - command: docker logs -f --tail 100 my-container
+    description: 实时查看最后100行日志
+  platforms:
+  - linux
+  - darwin
+  - windows
+- name: docker-compose
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: pip install docker-compose 或参考官方文档
+  description: 管理多容器应用
+  usage:
+  - docker-compose [OPTIONS] COMMAND
+  options:
+  - flag: up
+    description: 创建并启动容器
+  - flag: down
+    description: 停止并删除容器
+  - flag: ps
+    description: 列出容器
+  - flag: logs
+    description: 查看日志
+  examples:
+  - command: docker-compose up -d
+    description: 后台启动所有服务
+  - command: docker-compose down
+    description: 停止并删除所有服务
+  platforms:
+  - linux
+  - darwin
+  - windows
+  references:
+  - https://docs.docker.com/compose/
+- name: docker push
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 将本地镜像推送到镜像仓库
+  usage:
+  - docker push [OPTIONS] NAME[:TAG]
+  options:
+  - flag: --all-tags
+    description: 推送所有标签
+  - flag: --disable-content-trust
+    description: 跳过镜像签名验证
+  examples:
+  - command: docker push myrepo/myimage:latest
+    description: 推送镜像到仓库
+  - command: docker push username/nginx:v1.0
+    description: 推送带标签的镜像
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker pull
+  - docker build
+  - docker tag
+- name: docker inspect
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 获取容器或镜像的底层信息
+  usage:
+  - docker inspect [OPTIONS] NAME|ID [NAME|ID...]
+  options:
+  - flag: -f, --format
+    description: 使用Go模板格式化输出
+  - flag: -s, --size
+    description: 显示总文件大小
+  - flag: --type
+    description: 指定对象类型（container/image/network/volume）
+  examples:
+  - command: docker inspect nginx
+    description: 查看nginx镜像详细信息
+  - command: docker inspect -f '{{.NetworkSettings.IPAddress}}' mycontainer
+    description: 获取容器IP地址
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker ps
+  - docker logs
+  - docker exec
+- name: docker rmi
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 删除本地镜像
+  usage:
+  - docker rmi [OPTIONS] IMAGE [IMAGE...]
+  options:
+  - flag: -f, --force
+    description: 强制删除镜像
+  - flag: --no-prune
+    description: 不删除未标记的父镜像
+  examples:
+  - command: docker rmi nginx:latest
+    description: 删除指定镜像
+  - command: docker rmi $(docker images -q -f dangling=true)
+    description: 删除所有悬空镜像
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker images
+  - docker pull
+  - docker system prune
+- name: docker start
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 启动一个或多个已停止的容器
+  usage:
+  - docker start [OPTIONS] CONTAINER [CONTAINER...]
+  options:
+  - flag: -a, --attach
+    description: 附加到容器的标准输出
+  - flag: -i, --interactive
+    description: 附加标准输入
+  examples:
+  - command: docker start mycontainer
+    description: 启动已停止的容器
+  - command: docker start -a mycontainer
+    description: 启动并查看输出
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker stop
+  - docker restart
+  - docker run
+- name: docker restart
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 重启一个或多个容器
+  usage:
+  - docker restart [OPTIONS] CONTAINER [CONTAINER...]
+  options:
+  - flag: -t, --time
+    description: 关闭前等待的秒数（默认10秒）
+  examples:
+  - command: docker restart mycontainer
+    description: 重启容器
+  - command: docker restart -t 30 mycontainer
+    description: 30秒优雅重启
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker start
+  - docker stop
+  - docker kill
+- name: docker attach
+  category: 容器编排/Docker命令
+  install_required: true
+  install_method: 参考 https://docs.docker.com/engine/install/
+  description: 附加到正在运行的容器
+  usage:
+  - docker attach [OPTIONS] CONTAINER
+  options:
+  - flag: --detach-keys
+    description: 覆盖分离序列键
+  - flag: --no-stdin
+    description: 不附加标准输入
+  - flag: --sig-proxy
+    description: 代理所有接收到的信号（默认true）
+  examples:
+  - command: docker attach mycontainer
+    description: 附加到运行中的容器
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker exec
+  - docker run
+  - docker logs

@@ -1,0 +1,221 @@
+category: AI基础设施/AI应用
+description: AI应用落地工具，Prompt工作流、AI自动化、知识图谱与Text2SQL等场景化解决方案
+commands:
+- name: promptflow
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install promptflow
+  description: 微软PromptFlow Prompt工程与LLM应用开发框架，可视化编排、评估、部署一体化
+  usage:
+  - pf [COMMAND] [OPTIONS]
+  options:
+  - flag: flow init
+    description: 初始化工作流
+  - flag: flow test
+    description: 测试工作流
+  - flag: run create
+    description: 创建批量运行
+  - flag: connection create
+    description: 创建连接
+  examples:
+  - command: pf flow init --flow ./my_chatbot --type chat
+    description: 初始化聊天机器人工作流
+  - command: pf flow test --flow ./my_chatbot --inputs question='Hello'
+    description: 测试工作流
+  - command: pf run create --flow ./my_chatbot --data ./data.jsonl --column-mapping
+      question='${data.question}'
+    description: 批量评测工作流
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - langchain
+  - dify
+  risks:
+  - level: low
+    description: 注意API密钥配置安全
+  references:
+  - https://microsoft.github.io/promptflow/
+- name: n8n
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: npm install -g n8n
+  description: n8n开源AI工作流自动化平台，低代码编排LLM、数据库、API、通知等节点
+  usage:
+  - n8n [COMMAND] [OPTIONS]
+  options:
+  - flag: start
+    description: 启动服务
+  - flag: webhook
+    description: 测试Webhook
+  - flag: execute
+    description: 执行工作流
+  - flag: --tunnel
+    description: 启用隧道
+  examples:
+  - command: n8n start
+    description: 启动n8n服务
+  - command: n8n webhook --url http://localhost:5678/webhook/xxx
+    description: 测试Webhook
+  - command: n8n execute --file workflow.json
+    description: 执行工作流文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - dify
+  - flowise
+  risks:
+  - level: medium
+    description: 工作流执行权限需管控
+  references:
+  - https://n8n.io/
+- name: langchain-hub
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install langchainhub
+  description: LangChain Hub Prompt模板共享平台，复用社区验证的Prompt模板和链式组件
+  usage:
+  - python app.py (使用langchainhub库)
+  options:
+  - flag: hub.pull()
+    description: 拉取模板
+  - flag: hub.push()
+    description: 推送模板
+  examples:
+  - command: python -c "from langchain import hub; prompt = hub.pull('hwchase17/openai-functions-agent')"
+    description: 拉取OpenAI Functions Agent模板
+  - command: python -c "from langchain import hub; hub.push('my-repo/my-prompt', prompt)"
+    description: 推送自定义Prompt
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - langchain
+  - promptflow
+  risks:
+  - level: low
+    description: 模板共享安全
+  references:
+  - https://github.com/hwchase17/langchain-hub
+- name: text2sql
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install text2sql
+  description: Text2SQL自然语言转SQL工具，基于LLM将业务问题转换为可执行的数据库查询
+  usage:
+  - python app.py (使用text2sql库)
+  options:
+  - flag: --schema
+    description: 数据库Schema文件
+  - flag: --model
+    description: LLM模型
+  - flag: --dialect
+    description: SQL方言 (mysql, postgresql, sqlite)
+  examples:
+  - command: python -c "from text2sql import Text2SQL; t = Text2SQL(schema='schema.json',
+      model='gpt-4'); sql = t.convert('Show me top 10 customers by revenue')"
+    description: 自然语言生成SQL
+  - command: python text2sql.py --schema schema.sql --dialect mysql --question 'What
+      is the average order value?'
+    description: 命令行生成MySQL查询
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - langchain
+  - dify
+  risks:
+  - level: high
+    description: 生成的SQL可能包含DELETE/DROP，需审查和沙箱执行
+  references:
+  - https://github.com/eosphoros-ai/DB-GPT
+- name: neo4j-llm
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install neo4j langchain-neo4j
+  description: Neo4j图数据库+LLM知识图谱构建工具，从非结构化文本自动抽取实体关系构建图谱
+  usage:
+  - python kg.py (使用langchain_neo4j库)
+  options:
+  - flag: Neo4jGraph
+    description: 图数据库连接
+  - flag: GraphCypherQAChain
+    description: Cypher问答链
+  examples:
+  - command: python -c "from langchain_neo4j import Neo4jGraph; graph = Neo4jGraph(url='bolt://localhost:7687',
+      username='neo4j', password='password')"
+    description: 连接Neo4j图数据库
+  - command: python kg_build.py --docs ./documents/ --schema schema.cypher
+    description: 从文档自动构建知识图谱
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - langchain
+  - llama-index
+  risks:
+  - level: medium
+    description: 图数据库写入操作需谨慎
+  references:
+  - https://neo4j.com/labs/genai-ecosystem/
+- name: vanna
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install vanna
+  description: Vanna AI SQL生成框架，RAG增强的Text2SQL，支持训练领域Schema并持续优化
+  usage:
+  - python app.py (使用vanna库)
+  options:
+  - flag: VN.train
+    description: 训练Schema和查询样例
+  - flag: VN.ask
+    description: 自然语言提问
+  - flag: VN.generate_sql
+    description: 生成SQL
+  examples:
+  - command: 'python -c "import vanna; vn = vanna.DefaultVanna(config={''api_key'':
+      ''...''}); vn.train(ddl=''CREATE TABLE ...''); print(vn.ask(''How many users?''))"'
+    description: 训练Schema并提问
+  - command: python train_vanna.py --ddl schema.sql --questions questions.csv
+    description: 批量训练领域知识
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - text2sql
+  - langchain
+  risks:
+  - level: high
+    description: SQL生成需审查，防止数据泄露和误操作
+  references:
+  - https://github.com/vanna-ai/vanna
+- name: runpod
+  category: AI基础设施/AI应用
+  install_required: true
+  install_method: pip install runpod
+  description: RunPod GPU云平台，按需租用GPU进行AI训练和推理
+  usage:
+  - runpodctl [选项] [命令]
+  options:
+  - flag: --api-key
+    description: 指定API密钥
+  examples:
+  - command: runpodctl config --apiKey YOUR_API_KEY
+    description: 配置API密钥
+  - command: runpodctl create pod --gpu A100 --image pytorch/pytorch
+    description: 创建A100 GPU实例
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - modal
+  - sky-pilot
+  - vast.ai

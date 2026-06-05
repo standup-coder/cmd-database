@@ -1,0 +1,191 @@
+category: "AI基础设施/AI网关"
+description: "LLM API统一网关、负载均衡、成本监控与语义缓存，生产环境部署核心基础设施"
+commands:
+  - name: helicone
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "pip install helicone"
+    description: "Helicone LLM可观测性网关，一行代码接入，支持缓存、重试、成本追踪、A/B测试"
+    usage:
+      - "python app.py (替换base_url为helicone)"
+    options:
+      - flag: "base_url='https://oai.hconeai.com/v1'"
+        description: "代理OpenAI请求"
+      - flag: "Helicone-Auth"
+        description: "认证Header"
+      - flag: "Helicone-Cache-Enabled"
+        description: "启用语义缓存"
+    examples:
+      - command: "python -c \"import openai; client = openai.OpenAI(api_key='sk-xxx', base_url='https://oai.hconeai.com/v1')\""
+        description: "一行代码接入Helicone代理"
+      - command: "curl https://oai.hconeai.com/v1/chat/completions -H 'Helicone-Auth: Bearer hk-xxx' -H 'Content-Type: application/json' -d '{\"model\":\"gpt-4\",\"messages\":[]}'"
+        description: "cURL通过Helicone调用API"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "portkey"
+      - "openrouter"
+    risks:
+      - level: low
+        description: "代理服务，注意数据隐私"
+    references:
+      - "https://www.helicone.ai/"
+
+  - name: portkey
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "pip install portkey-ai"
+    description: "Portkey AI网关，支持语义缓存、智能重试、负载均衡、多模型Fallback"
+    usage:
+      - "python app.py (使用portkey库)"
+    options:
+      - flag: "Portkey(api_key=...)"
+        description: "初始化客户端"
+      - flag: "Config"
+        description: "配置缓存、重试、路由策略"
+      - flag: "cache"
+        description: "语义缓存配置"
+    examples:
+      - command: "python -c \"from portkey_ai import Portkey; client = Portkey(api_key='pk-xxx')\""
+        description: "初始化Portkey客户端"
+      - command: "python app.py --cache_enabled --retry_count=3 --fallback_models=gpt-4,gpt-3.5-turbo"
+        description: "配置缓存+重试+Fallback"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "helicone"
+      - "litellm-proxy"
+    risks:
+      - level: low
+        description: "网关代理，注意数据隐私"
+    references:
+      - "https://portkey.ai/"
+
+  - name: openrouter
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "pip install openrouter"
+    description: "OpenRouter统一访问100+开源和商用模型API，标准化接口、自动竞价"
+    usage:
+      - "python app.py (使用openrouter库)"
+      - "curl https://openrouter.ai/api/v1/chat/completions"
+    options:
+      - flag: "HTTP-Referer"
+        description: "应用来源标识"
+      - flag: "X-Title"
+        description: "应用名称"
+    examples:
+      - command: "python -c \"import openai; client = openai.OpenAI(base_url='https://openrouter.ai/api/v1', api_key='sk-or-xxx'); r = client.chat.completions.create(model='anthropic/claude-3.5-sonnet', messages=[{'role':'user','content':'Hello'}])\""
+        description: "通过OpenRouter调用Claude"
+      - command: "curl https://openrouter.ai/api/v1/models | jq '.data[].id'"
+        description: "列出所有可用模型"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "helicone"
+      - "portkey"
+    risks:
+      - level: low
+        description: "第三方API聚合，注意数据安全"
+    references:
+      - "https://openrouter.ai/"
+
+  - name: promptfoo
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "npm install -g promptfoo"
+    description: "Promptfoo Prompt测试与回归框架，CI/CD集成，防止Prompt退化"
+    usage:
+      - "promptfoo [COMMAND] [OPTIONS]"
+    options:
+      - flag: "eval"
+        description: "运行评测"
+      - flag: "init"
+        description: "初始化项目"
+      - flag: "share"
+        description: "分享结果"
+    examples:
+      - command: "promptfoo init"
+        description: "初始化Promptfoo项目"
+      - command: "promptfoo eval -c promptfooconfig.yaml"
+        description: "运行Prompt回归测试"
+      - command: "promptfoo eval --providers openai:gpt-4,anthropic:claude-3 --tests tests.csv"
+        description: "多模型Prompt对比评测"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langfuse"
+      - "langsmith"
+    risks:
+      - level: low
+        description: "测试框架安全"
+    references:
+      - "https://www.promptfoo.dev/"
+
+  - name: keywords-ai
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "pip install keywordsai"
+    description: "Keywords AI统一LLM API管理平台，支持多密钥管理、日志分析、用户追踪"
+    usage:
+      - "python app.py (使用keywordsai库)"
+    options:
+      - flag: "KeywordsAIClient"
+        description: "客户端初始化"
+      - flag: "log_inference"
+        description: "记录推理调用"
+    examples:
+      - command: "python -c \"from keywordsai import KeywordsAIClient; c = KeywordsAIClient(api_key='kw-xxx')\""
+        description: "初始化Keywords AI客户端"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "helicone"
+      - "portkey"
+    risks:
+      - level: low
+        description: "注意API密钥安全"
+    references:
+      - "https://www.keywordsai.co/"
+
+  - name: kong-ai-gateway
+    category: "AI基础设施/AI网关"
+    install_required: true
+    install_method: "docker pull kong:3.5"
+    description: "Kong企业级AI网关，支持LLM路由、速率限制、语义缓存、令牌消耗控制"
+    usage:
+      - "docker run [OPTIONS] kong:3.5"
+    options:
+      - flag: "KONG_PLUGINS"
+        description: "启用AI相关插件"
+      - flag: "ai-proxy"
+        description: "AI代理插件"
+      - flag: "ai-prompt-guard"
+        description: "Prompt安全检查"
+    examples:
+      - command: "docker run -e KONG_PLUGINS=bundled,ai-proxy -p 8000:8000 kong:3.5"
+        description: "启动Kong AI网关"
+      - command: "curl http://localhost:8001/plugins -d name=ai-proxy -d config.route_type=llm/v1/chat"
+        description: "配置AI代理路由"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "helicone"
+      - "portkey"
+    risks:
+      - level: medium
+        description: "企业级网关需正确配置安全策略"
+    references:
+      - "https://konghq.com/products/kong-ai-gateway"

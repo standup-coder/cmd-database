@@ -275,6 +275,11 @@ func executeTestCommand(t *testing.T, args ...string) (string, int) {
 	t.Helper()
 	initTestServices(t)
 
+	// Reset root command state to avoid cross-test pollution
+	rootCmd.SilenceErrors = false
+	rootCmd.SilenceUsage = false
+	rootCmd.SetArgs(nil)
+
 	oldStdout := os.Stdout
 	oldStderr := os.Stderr
 	rOut, wOut, _ := os.Pipe()

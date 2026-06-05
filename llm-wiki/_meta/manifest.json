@@ -1,0 +1,1357 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-06-01T17:21:38.679705",
+  "sources": [
+    {
+      "file": "data/database/mysql.yaml",
+      "commands_generated": [
+        "mysql",
+        "mysqldump",
+        "mysqlimport",
+        "mysqladmin",
+        "mysqlcheck",
+        "mysql_secure_installation",
+        "mysqlshow",
+        "mysqlbinlog"
+      ],
+      "mocs_generated": [
+        "数据库工具/MySQL工具"
+      ],
+      "timestamp": "2026-06-01T17:21:35.963724"
+    },
+    {
+      "file": "data/database/postgresql.yaml",
+      "commands_generated": [
+        "psql",
+        "pg_dump",
+        "pg_restore",
+        "createdb",
+        "dropdb",
+        "pg_isready",
+        "vacuumdb",
+        "pg_basebackup",
+        "createuser",
+        "dropuser"
+      ],
+      "mocs_generated": [
+        "数据库工具/PostgreSQL工具"
+      ],
+      "timestamp": "2026-06-01T17:21:35.996994"
+    },
+    {
+      "file": "data/database/redis.yaml",
+      "commands_generated": [
+        "redis-cli",
+        "redis-server",
+        "redis-benchmark",
+        "redis-check-aof",
+        "redis-check-rdb",
+        "redis-sentinel",
+        "redis-cli INFO",
+        "redis-cli MONITOR",
+        "redis-cli SAVE",
+        "redis-cli FLUSHDB"
+      ],
+      "mocs_generated": [
+        "数据库工具/Redis工具"
+      ],
+      "timestamp": "2026-06-01T17:21:36.022194"
+    },
+    {
+      "file": "data/shell/bash.yaml",
+      "commands_generated": [
+        "bash",
+        "shellcheck",
+        "shfmt",
+        "source",
+        "trap"
+      ],
+      "mocs_generated": [
+        "Shell脚本/Bash工具"
+      ],
+      "timestamp": "2026-06-01T17:21:36.037827"
+    },
+    {
+      "file": "data/diagnostic/arthas.yaml",
+      "commands_generated": [
+        "arthas",
+        "dashboard",
+        "thread",
+        "jad",
+        "watch",
+        "trace",
+        "stack",
+        "heapdump",
+        "sc",
+        "sm",
+        "classloader",
+        "logger"
+      ],
+      "mocs_generated": [
+        "诊断工具/Java诊断"
+      ],
+      "timestamp": "2026-06-01T17:21:36.058532"
+    },
+    {
+      "file": "data/diagnostic/tsar.yaml",
+      "commands_generated": [
+        "tsar",
+        "tsar --check",
+        "tsar --list",
+        "tsar --cpu",
+        "tsar --mem",
+        "tsar --load",
+        "tsar --io",
+        "tsar --traffic",
+        "tsar --tcp",
+        "tsar --partition"
+      ],
+      "mocs_generated": [
+        "诊断工具/系统诊断"
+      ],
+      "timestamp": "2026-06-01T17:21:36.080175"
+    },
+    {
+      "file": "data/network/http.yaml",
+      "commands_generated": [
+        "wget",
+        "httpie",
+        "ab",
+        "postman",
+        "siege"
+      ],
+      "mocs_generated": [
+        "网络工具/HTTP工具"
+      ],
+      "timestamp": "2026-06-01T17:21:36.092213"
+    },
+    {
+      "file": "data/network/dns.yaml",
+      "commands_generated": [
+        "dig",
+        "nslookup",
+        "host"
+      ],
+      "mocs_generated": [
+        "网络工具/DNS工具"
+      ],
+      "timestamp": "2026-06-01T17:21:36.101972"
+    },
+    {
+      "file": "data/network/diagnostic.yaml",
+      "commands_generated": [
+        "ping",
+        "netstat",
+        "ss",
+        "tcpdump",
+        "traceroute",
+        "curl"
+      ],
+      "mocs_generated": [
+        "网络工具/网络诊断"
+      ],
+      "timestamp": "2026-06-01T17:21:36.118775"
+    },
+    {
+      "file": "data/cicd/github-actions.yaml",
+      "commands_generated": [
+        "gh workflow",
+        "gh run",
+        "gh run cancel",
+        "gh action",
+        "act"
+      ],
+      "mocs_generated": [
+        "CI-CD/GitHub Actions"
+      ],
+      "timestamp": "2026-06-01T17:21:36.134748"
+    },
+    {
+      "file": "data/lang/java.yaml",
+      "commands_generated": [
+        "java",
+        "javac",
+        "jps",
+        "jstat",
+        "jmap",
+        "jstack",
+        "jcmd",
+        "jar",
+        "javadoc"
+      ],
+      "mocs_generated": [
+        "编程语言/Java工具链"
+      ],
+      "timestamp": "2026-06-01T17:21:36.152116"
+    },
+    {
+      "file": "data/lang/go.yaml",
+      "commands_generated": [
+        "go build",
+        "go run",
+        "go test",
+        "go mod",
+        "go get",
+        "go fmt",
+        "go vet"
+      ],
+      "mocs_generated": [
+        "编程语言/Go工具链"
+      ],
+      "timestamp": "2026-06-01T17:21:36.175765"
+    },
+    {
+      "file": "data/lang/rust.yaml",
+      "commands_generated": [
+        "rustup",
+        "cargo",
+        "rustc",
+        "cargo fmt",
+        "cargo clippy"
+      ],
+      "mocs_generated": [
+        "编程语言/Rust工具链"
+      ],
+      "timestamp": "2026-06-01T17:21:36.190298"
+    },
+    {
+      "file": "data/lang/python.yaml",
+      "commands_generated": [
+        "python",
+        "pip",
+        "virtualenv",
+        "pytest",
+        "pylint"
+      ],
+      "mocs_generated": [
+        "编程语言/Python工具链"
+      ],
+      "timestamp": "2026-06-01T17:21:36.203892"
+    },
+    {
+      "file": "data/lang/nodejs.yaml",
+      "commands_generated": [
+        "node",
+        "npm install",
+        "npm start",
+        "npm test",
+        "npm run",
+        "npx",
+        "npm update",
+        "npm outdated",
+        "npm audit",
+        "npm publish"
+      ],
+      "mocs_generated": [
+        "编程语言/Node.js工具链"
+      ],
+      "timestamp": "2026-06-01T17:21:36.227718"
+    },
+    {
+      "file": "data/container/k8s-network.yaml",
+      "commands_generated": [
+        "calicoctl get nodes",
+        "calicoctl get networkpolicies",
+        "calicoctl apply",
+        "calicoctl delete networkpolicy",
+        "cilium status",
+        "cilium connectivity test",
+        "cilium hubble status",
+        "kubectl get ingress",
+        "kubectl get ingressclasses",
+        "istioctl version",
+        "istioctl proxy-status",
+        "istioctl analyze",
+        "istioctl proxy-config",
+        "kubectl get ciliumnetworkpolicies",
+        "kubectl get ciliumclusterwidenetworkpolicies",
+        "kubectl get gateways",
+        "kubectl get httproutes",
+        "kubectl get tlsroutes",
+        "kubectl exec -it",
+        "kubectl port-forward",
+        "kubectl get endpointslices"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s网络插件"
+      ],
+      "timestamp": "2026-06-01T17:21:36.280808"
+    },
+    {
+      "file": "data/container/k8s-backup.yaml",
+      "commands_generated": [
+        "velero backup create",
+        "velero backup list",
+        "velero restore create",
+        "velero schedule create",
+        "restic init",
+        "restic backup",
+        "restic restore",
+        "restic snapshots"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s备份恢复"
+      ],
+      "timestamp": "2026-06-01T17:21:36.302699"
+    },
+    {
+      "file": "data/container/k8s-cluster.yaml",
+      "commands_generated": [
+        "kubeadm init",
+        "kubeadm join",
+        "kubeadm upgrade",
+        "kubeadm reset",
+        "kubeadm token list",
+        "kubeadm config view",
+        "systemctl status kubelet",
+        "journalctl -u kubelet",
+        "etcdctl snapshot save",
+        "etcdctl snapshot restore",
+        "etcdctl member list",
+        "etcdctl get",
+        "kubectl taint nodes",
+        "kubectl label nodes"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s集群管理"
+      ],
+      "timestamp": "2026-06-01T17:21:36.346187"
+    },
+    {
+      "file": "data/container/k8s-storage.yaml",
+      "commands_generated": [
+        "helm repo add",
+        "helm repo update",
+        "helm install",
+        "helm upgrade",
+        "helm uninstall",
+        "helm list",
+        "helm status",
+        "helm template"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s存储管理"
+      ],
+      "timestamp": "2026-06-01T17:21:36.384159"
+    },
+    {
+      "file": "data/container/kubernetes.yaml",
+      "commands_generated": [
+        "kubectl get",
+        "kubectl describe",
+        "kubectl apply",
+        "kubectl create",
+        "kubectl delete",
+        "kubectl logs",
+        "kubectl exec",
+        "kubectl port-forward",
+        "kubectl scale",
+        "kubectl rollout",
+        "kubectl config",
+        "kubectl top",
+        "kubectl drain",
+        "kubectl cordon",
+        "kubectl label",
+        "kubectl annotate"
+      ],
+      "mocs_generated": [
+        "容器编排/Kubernetes命令"
+      ],
+      "timestamp": "2026-06-01T17:21:36.448487"
+    },
+    {
+      "file": "data/container/k8s-config.yaml",
+      "commands_generated": [
+        "ansible-playbook",
+        "ansible all -m ping",
+        "terraform init",
+        "terraform plan",
+        "terraform apply",
+        "terraform destroy",
+        "terraform output",
+        "terraform validate",
+        "terraform fmt",
+        "terraform state list",
+        "terraform state show",
+        "terraform state rm",
+        "terraform workspace list",
+        "terraform workspace new",
+        "terraform workspace select",
+        "terraform import",
+        "terraform taint",
+        "terraform refresh",
+        "ansible",
+        "ansible-galaxy install",
+        "ansible-vault encrypt",
+        "ansible-vault decrypt",
+        "ansible-inventory --list",
+        "ansible-config dump",
+        "ansible-doc",
+        "ansible-pull",
+        "ansible-console"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s配置管理"
+      ],
+      "timestamp": "2026-06-01T17:21:36.525823"
+    },
+    {
+      "file": "data/container/k8s-security.yaml",
+      "commands_generated": [
+        "trivy image",
+        "trivy fs",
+        "trivy k8s",
+        "trivy config",
+        "kube-bench run",
+        "systemctl status falco",
+        "kubectl auth can-i",
+        "kubectl get roles",
+        "kubectl get clusterroles",
+        "kubectl get rolebindings",
+        "kubectl get clusterrolebindings",
+        "kubectl get serviceaccounts",
+        "kubectl get networkpolicies",
+        "kubectl get podsecuritystandards",
+        "kubectl get limitranges",
+        "kubectl get resourcequotas",
+        "kubectl get imagepolicies",
+        "kubectl get constrainttemplates",
+        "kubectl get constraints",
+        "falco"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s安全工具"
+      ],
+      "timestamp": "2026-06-01T17:21:36.624788"
+    },
+    {
+      "file": "data/container/k8s-dev.yaml",
+      "commands_generated": [
+        "skaffold dev",
+        "skaffold run",
+        "skaffold build",
+        "skaffold delete",
+        "tilt up",
+        "tilt down",
+        "telepresence connect",
+        "telepresence intercept"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s开发调试"
+      ],
+      "timestamp": "2026-06-01T17:21:36.654150"
+    },
+    {
+      "file": "data/container/k8s-cicd.yaml",
+      "commands_generated": [
+        "argocd login",
+        "argocd app create",
+        "argocd app list",
+        "argocd app sync",
+        "argocd app delete",
+        "flux bootstrap git",
+        "flux get kustomizations",
+        "flux reconcile source git",
+        "tkn pipeline list",
+        "tkn pipeline start",
+        "tkn pipelinerun logs"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s持续集成"
+      ],
+      "timestamp": "2026-06-01T17:21:36.709410"
+    },
+    {
+      "file": "data/container/k8s-monitor.yaml",
+      "commands_generated": [
+        "prometheus",
+        "promtool check config",
+        "promtool query instant",
+        "promtool test rules",
+        "promtool tsdb analyze",
+        "alertmanager",
+        "amtool check-config",
+        "amtool alert query",
+        "amtool silence add",
+        "node_exporter",
+        "grafana-server",
+        "grafana-cli plugins install",
+        "grafana-cli plugins list-remote",
+        "grafana-cli plugins update",
+        "grafana-cli admin reset-admin-password",
+        "otelcol",
+        "otelcol validate",
+        "otelcol-contrib",
+        "otel-cli span",
+        "otel-cli status server",
+        "fluentd -c",
+        "fluent-bit -c",
+        "systemctl status prometheus",
+        "systemctl status grafana-server",
+        "systemctl status loki",
+        "systemctl status promtail",
+        "kubectl get prometheuses",
+        "kubectl get servicemonitors",
+        "kubectl get podmonitors",
+        "kubectl get prometheusrules",
+        "kubectl get thanosrulers",
+        "kubectl port-forward svc/prometheus-operated",
+        "kubectl port-forward svc/grafana",
+        "kubectl port-forward svc/alertmanager-operated",
+        "kubectl logs -f deployment/prometheus-operator",
+        "kubectl get prometheusagents",
+        "kubectl get scrapeconfigs",
+        "systemctl status fluentd",
+        "systemctl status kube-state-metrics"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s监控日志"
+      ],
+      "timestamp": "2026-06-01T17:21:36.843126"
+    },
+    {
+      "file": "data/container/k8s-troubleshooting.yaml",
+      "commands_generated": [
+        "kubectl describe pod",
+        "kubectl get events",
+        "kubectl get componentstatuses",
+        "kubectl exec -it",
+        "kubectl port-forward",
+        "kubectl top",
+        "kubectl get resourcequota",
+        "kubectl get limitrange",
+        "kubectl logs",
+        "kubectl debug",
+        "kubectl api-resources",
+        "kubectl api-versions",
+        "kubectl auth can-i",
+        "kubectl cluster-info",
+        "kubectl config current-context"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s故障排查"
+      ],
+      "timestamp": "2026-06-01T17:21:36.887596"
+    },
+    {
+      "file": "data/container/k8s-helm-enhanced.yaml",
+      "commands_generated": [
+        "helm repo add",
+        "helm repo update",
+        "helm repo remove",
+        "helm search repo",
+        "helm install",
+        "helm upgrade",
+        "helm rollback",
+        "helm list",
+        "helm status",
+        "helm history",
+        "helm uninstall",
+        "helm create",
+        "helm template",
+        "helm lint",
+        "helm package",
+        "helm dependency",
+        "helm plugin list",
+        "helm env",
+        "helm version"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s Helm包管理"
+      ],
+      "timestamp": "2026-06-01T17:21:36.944644"
+    },
+    {
+      "file": "data/container/k8s-mlops.yaml",
+      "commands_generated": [
+        "kubectl apply -f inferenceservice.yaml",
+        "kubectl get inferenceservices",
+        "kubectl describe inferenceservice",
+        "kubectl delete inferenceservice",
+        "kubectl logs -l serving.kserve.io/inferenceservice",
+        "kfctl apply",
+        "kfctl delete",
+        "kubectl get notebooks",
+        "kubectl get experiments.kubeflow.org",
+        "kubectl get tfjobs",
+        "kubectl get pytorchjobs",
+        "kubectl get workflows",
+        "kfp run submit",
+        "kfp pipeline upload",
+        "kfp pipeline list",
+        "kfp experiment create",
+        "kubectl port-forward svc/ml-pipeline-ui",
+        "kubectl port-forward svc/istio-ingressgateway"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s机器学习运维"
+      ],
+      "timestamp": "2026-06-01T17:21:37.014891"
+    },
+    {
+      "file": "data/container/k8s-storage-management.yaml",
+      "commands_generated": [
+        "kubectl get pv",
+        "kubectl get pvc",
+        "kubectl get storageclass",
+        "kubectl patch storageclass",
+        "kubectl get volumesnapshot",
+        "kubectl get volumesnapshotclass",
+        "kubectl get volumesnapshotcontent",
+        "kubectl get csidrivers",
+        "kubectl get csinodes",
+        "kubectl get csistoragecapacities",
+        "kubectl get volumeattachments",
+        "kubectl get storagepools",
+        "kubectl top pvc",
+        "kubectl exec -it",
+        "kubectl cp",
+        "kubectl delete pvc",
+        "kubectl delete pv"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s存储增强"
+      ],
+      "timestamp": "2026-06-01T17:21:37.057644"
+    },
+    {
+      "file": "data/container/docker.yaml",
+      "commands_generated": [
+        "docker run",
+        "docker ps",
+        "docker stop",
+        "docker build",
+        "docker images",
+        "docker pull",
+        "docker rm",
+        "docker exec",
+        "docker logs",
+        "docker-compose"
+      ],
+      "mocs_generated": [
+        "容器编排/Docker命令"
+      ],
+      "timestamp": "2026-06-01T17:21:37.100085"
+    },
+    {
+      "file": "data/container/k8s-runtime.yaml",
+      "commands_generated": [
+        "crictl images",
+        "crictl pods",
+        "crictl ps",
+        "crictl logs",
+        "crictl exec",
+        "crictl stats",
+        "ctr images list",
+        "ctr containers list",
+        "systemctl status containerd"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s容器运行时"
+      ],
+      "timestamp": "2026-06-01T17:21:37.123206"
+    },
+    {
+      "file": "data/container/k8s-cloud.yaml",
+      "commands_generated": [
+        "eksctl create cluster",
+        "eksctl get cluster",
+        "eksctl delete cluster",
+        "az aks create",
+        "az aks list",
+        "az aks delete",
+        "gcloud container clusters create",
+        "gcloud container clusters list",
+        "gcloud container clusters delete"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s云平台工具"
+      ],
+      "timestamp": "2026-06-01T17:21:37.152082"
+    },
+    {
+      "file": "data/container/k8s-utilities.yaml",
+      "commands_generated": [
+        "k9s",
+        "kubectx",
+        "kubens",
+        "stern",
+        "popeye"
+      ],
+      "mocs_generated": [
+        "容器编排/K8s辅助工具"
+      ],
+      "timestamp": "2026-06-01T17:21:37.169402"
+    },
+    {
+      "file": "data/vcs/svn.yaml",
+      "commands_generated": [
+        "svn checkout",
+        "svn update",
+        "svn commit",
+        "svn add",
+        "svn delete",
+        "svn status",
+        "svn diff",
+        "svn log",
+        "svn revert",
+        "svn merge",
+        "svn copy",
+        "svn switch",
+        "svn info",
+        "svn cleanup"
+      ],
+      "mocs_generated": [
+        "版本控制/SVN命令"
+      ],
+      "timestamp": "2026-06-01T17:21:37.207564"
+    },
+    {
+      "file": "data/vcs/git.yaml",
+      "commands_generated": [
+        "git clone",
+        "git init",
+        "git add",
+        "git commit",
+        "git status",
+        "git push",
+        "git pull",
+        "git branch",
+        "git checkout",
+        "git merge",
+        "git log"
+      ],
+      "mocs_generated": [
+        "版本控制/Git命令"
+      ],
+      "timestamp": "2026-06-01T17:21:37.241566"
+    },
+    {
+      "file": "data/ai/model-interpretability.yaml",
+      "commands_generated": [
+        "shap",
+        "lime",
+        "captum",
+        "token-heatmap",
+        "attention-rollout"
+      ],
+      "mocs_generated": [
+        "AI基础设施/模型可解释性"
+      ],
+      "timestamp": "2026-06-01T17:21:37.255384"
+    },
+    {
+      "file": "data/ai/multimodal.yaml",
+      "commands_generated": [
+        "comfyui",
+        "whisper",
+        "faster-whisper",
+        "llava",
+        "clip",
+        "stable-diffusion-cli"
+      ],
+      "mocs_generated": [
+        "AI基础设施/多模态"
+      ],
+      "timestamp": "2026-06-01T17:21:37.278549"
+    },
+    {
+      "file": "data/ai/ai-gateway.yaml",
+      "commands_generated": [
+        "helicone",
+        "portkey",
+        "openrouter",
+        "promptfoo",
+        "keywords-ai",
+        "kong-ai-gateway"
+      ],
+      "mocs_generated": [
+        "AI基础设施/AI网关"
+      ],
+      "timestamp": "2026-06-01T17:21:37.299111"
+    },
+    {
+      "file": "data/ai/mlops.yaml",
+      "commands_generated": [
+        "kfp",
+        "mlflow"
+      ],
+      "mocs_generated": [
+        "AI基础设施/MLOps平台"
+      ],
+      "timestamp": "2026-06-01T17:21:37.305661"
+    },
+    {
+      "file": "data/ai/harness-engineering.yaml",
+      "commands_generated": [
+        "swe-bench",
+        "humaneval",
+        "mbpp",
+        "ds-1000",
+        "big-bench",
+        "arena",
+        "mt-bench",
+        "prometheus-eval",
+        "judge-eval",
+        "agent-bench",
+        "tool-bench",
+        "api-bench",
+        "llm-as-judge",
+        "pair-wise-eval",
+        "red-teaming",
+        "safety-eval",
+        "humaneval-exec",
+        "math-eval",
+        "long-context-eval",
+        "multilingual-eval",
+        "livecodebench"
+      ],
+      "mocs_generated": [
+        "AI基础设施/Harness工程"
+      ],
+      "timestamp": "2026-06-01T17:21:37.381787"
+    },
+    {
+      "file": "data/ai/ai-coding.yaml",
+      "commands_generated": [
+        "aider",
+        "openhands",
+        "swe-agent",
+        "continue-dev",
+        "codeium"
+      ],
+      "mocs_generated": [
+        "AI基础设施/AI编程"
+      ],
+      "timestamp": "2026-06-01T17:21:37.403297"
+    },
+    {
+      "file": "data/ai/model-serving.yaml",
+      "commands_generated": [
+        "bentoml",
+        "tritonserver",
+        "torchserve",
+        "kserve"
+      ],
+      "mocs_generated": [
+        "AI基础设施/模型服务"
+      ],
+      "timestamp": "2026-06-01T17:21:37.421012"
+    },
+    {
+      "file": "data/ai/llm-training.yaml",
+      "commands_generated": [
+        "deepspeed",
+        "accelerate",
+        "lightning",
+        "axolotl",
+        "unsloth",
+        "trl",
+        "peft",
+        "bitsandbytes",
+        "flash-attn",
+        "xformers",
+        "lm-eval",
+        "opencompass",
+        "alpaca-eval",
+        "llm-factory",
+        "megatron-lm",
+        "colossal-ai",
+        "composer",
+        "mosaicml-streaming",
+        "neuronx-nxdt",
+        "cerebras",
+        "modal",
+        "torch-titan",
+        "grpo",
+        "dpo",
+        "mergekit",
+        "llama-factory",
+        "distilabel"
+      ],
+      "mocs_generated": [
+        "AI基础设施/大模型训练"
+      ],
+      "timestamp": "2026-06-01T17:21:37.512474"
+    },
+    {
+      "file": "data/ai/ai-safety.yaml",
+      "commands_generated": [
+        "garak",
+        "modelscan",
+        "llm-guard",
+        "inspect-ai",
+        "neuralsecure"
+      ],
+      "mocs_generated": [
+        "AI基础设施/AI安全"
+      ],
+      "timestamp": "2026-06-01T17:21:37.540671"
+    },
+    {
+      "file": "data/ai/ai-compiler.yaml",
+      "commands_generated": [
+        "tvmc",
+        "iree-compile",
+        "mlir-opt",
+        "trtexec",
+        "onnx-optimizer",
+        "xla_compile"
+      ],
+      "mocs_generated": [
+        "AI基础设施/AI编译器"
+      ],
+      "timestamp": "2026-06-01T17:21:37.560097"
+    },
+    {
+      "file": "data/ai/agent-engineering.yaml",
+      "commands_generated": [
+        "langchain",
+        "langgraph",
+        "crewai",
+        "autogen",
+        "agno",
+        "openai-agents",
+        "smolagents",
+        "dspy",
+        "praisonai",
+        "phidata",
+        "haystack",
+        "llama-index",
+        "embedchain",
+        "semantic-kernel",
+        "guidance",
+        "instructor",
+        "pydantic-ai",
+        "dify",
+        "flowise"
+      ],
+      "mocs_generated": [
+        "AI基础设施/Agent工程"
+      ],
+      "timestamp": "2026-06-01T17:21:37.651071"
+    },
+    {
+      "file": "data/ai/rag-infra.yaml",
+      "commands_generated": [
+        "unstructured",
+        "llamaparse",
+        "docling",
+        "marker",
+        "pymupdf"
+      ],
+      "mocs_generated": [
+        "AI基础设施/RAG基础设施"
+      ],
+      "timestamp": "2026-06-01T17:21:37.676213"
+    },
+    {
+      "file": "data/ai/ai-applications.yaml",
+      "commands_generated": [
+        "promptflow",
+        "n8n",
+        "langchain-hub",
+        "text2sql",
+        "neo4j-llm",
+        "vanna"
+      ],
+      "mocs_generated": [
+        "AI基础设施/AI应用"
+      ],
+      "timestamp": "2026-06-01T17:21:37.699709"
+    },
+    {
+      "file": "data/ai/data-labeling.yaml",
+      "commands_generated": [
+        "datasets-cli",
+        "webdataset",
+        "img2dataset",
+        "datacompy",
+        "label-studio",
+        "argilla",
+        "snorkel",
+        "cleanlab",
+        "dvc",
+        "feast",
+        "whylogs",
+        "great-expectations",
+        "evidently"
+      ],
+      "mocs_generated": [
+        "AI基础设施/数据与标注"
+      ],
+      "timestamp": "2026-06-01T17:21:37.733252"
+    },
+    {
+      "file": "data/ai/federated-learning.yaml",
+      "commands_generated": [
+        "flower",
+        "opacus",
+        "pyvertical",
+        "crypten"
+      ],
+      "mocs_generated": [
+        "AI基础设施/联邦学习"
+      ],
+      "timestamp": "2026-06-01T17:21:37.746058"
+    },
+    {
+      "file": "data/ai/model-architecture.yaml",
+      "commands_generated": [
+        "transformers-cli",
+        "bertviz",
+        "calflops",
+        "modelcards",
+        "accelerate-config",
+        "mamba",
+        "diffusers-cli",
+        "einops",
+        "timm"
+      ],
+      "mocs_generated": [
+        "AI基础设施/模型架构"
+      ],
+      "timestamp": "2026-06-01T17:21:37.769271"
+    },
+    {
+      "file": "data/ai/edge-ai.yaml",
+      "commands_generated": [
+        "tflite",
+        "executorch",
+        "mediapipe",
+        "paddle-lite"
+      ],
+      "mocs_generated": [
+        "AI基础设施/边缘AI"
+      ],
+      "timestamp": "2026-06-01T17:21:37.783692"
+    },
+    {
+      "file": "data/ai/ml-frameworks.yaml",
+      "commands_generated": [
+        "torchrun",
+        "tensorboard",
+        "accelerate",
+        "pytorch-lightning"
+      ],
+      "mocs_generated": [
+        "AI基础设施/ML框架"
+      ],
+      "timestamp": "2026-06-01T17:21:37.802327"
+    },
+    {
+      "file": "data/ai/llm-inference.yaml",
+      "commands_generated": [
+        "vllm",
+        "sglang",
+        "lmdeploy",
+        "llama.cpp",
+        "ollama",
+        "text-generation-inference",
+        "tensorrt-llm",
+        "onnxruntime",
+        "openvino",
+        "transformers-pipeline",
+        "gradio",
+        "streamlit",
+        "chainlit",
+        "marimo",
+        "tensor-parallel",
+        "ray-serve",
+        "sky-pilot",
+        "cortex",
+        "together",
+        "fireworks",
+        "groq",
+        "replicate",
+        "openai-function-calling",
+        "instructor",
+        "speculative-decoding",
+        "prefix-caching"
+      ],
+      "mocs_generated": [
+        "AI基础设施/大模型推理"
+      ],
+      "timestamp": "2026-06-01T17:21:37.880546"
+    },
+    {
+      "file": "data/ai/vector-db.yaml",
+      "commands_generated": [
+        "chroma",
+        "milvus-cli",
+        "qdrant",
+        "weaviate-cli",
+        "pgvector",
+        "faiss-cli",
+        "pinecone",
+        "redisearch",
+        "vespa-cli",
+        "marqo",
+        "lancedb",
+        "turbopuffer",
+        "typesense",
+        "opensearch",
+        "elasticsearch"
+      ],
+      "mocs_generated": [
+        "AI基础设施/向量数据库"
+      ],
+      "timestamp": "2026-06-01T17:21:37.926731"
+    },
+    {
+      "file": "data/ai/model-hub.yaml",
+      "commands_generated": [
+        "huggingface-cli",
+        "modelscope",
+        "git-lfs",
+        "safetensors-convert",
+        "optimum-cli",
+        "auto-gptq",
+        "autoawq",
+        "gguf-convert",
+        "model-card",
+        "model-pruner",
+        "mlc-llm",
+        "ctranslate2",
+        "neuronx-cc",
+        "coremltools",
+        "tf2onnx",
+        "paddle2onnx"
+      ],
+      "mocs_generated": [
+        "AI基础设施/模型生态"
+      ],
+      "timestamp": "2026-06-01T17:21:37.967659"
+    },
+    {
+      "file": "data/ai/monitoring.yaml",
+      "commands_generated": [
+        "wandb",
+        "neptune",
+        "clearml",
+        "langsmith",
+        "langfuse",
+        "promptlayer",
+        "weights-biases-sweep",
+        "mlflow-tracking",
+        "tensorboard-profiler",
+        "aim",
+        "arize",
+        "phoenix",
+        "langtrace",
+        "litellm-proxy",
+        "opik",
+        "pulsar"
+      ],
+      "mocs_generated": [
+        "AI基础设施/监控与评估"
+      ],
+      "timestamp": "2026-06-01T17:21:38.012019"
+    },
+    {
+      "file": "data/cloud/aws-cli.yaml",
+      "commands_generated": [
+        "aws",
+        "aws configure",
+        "aws s3",
+        "aws eks",
+        "aws cloudformation"
+      ],
+      "mocs_generated": [
+        "云平台/AWS CLI"
+      ],
+      "timestamp": "2026-06-01T17:21:38.026804"
+    },
+    {
+      "file": "data/os/centos.yaml",
+      "commands_generated": [
+        "yum update",
+        "yum install",
+        "yum remove",
+        "yum search",
+        "yum info",
+        "yum list installed",
+        "rpm -i",
+        "rpm -qa",
+        "rpm -e",
+        "rpm -qi",
+        "dnf install",
+        "firewall-cmd --add-port",
+        "firewall-cmd --list-all",
+        "setenforce",
+        "getenforce",
+        "sestatus"
+      ],
+      "mocs_generated": [
+        "操作系统/CentOS系统命令"
+      ],
+      "timestamp": "2026-06-01T17:21:38.426771"
+    },
+    {
+      "file": "data/os/common.yaml",
+      "commands_generated": [
+        "ls",
+        "grep",
+        "find",
+        "rm",
+        "cat",
+        "cd",
+        "pwd",
+        "cp",
+        "mv"
+      ],
+      "mocs_generated": [
+        "操作系统/通用Linux命令"
+      ],
+      "timestamp": "2026-06-01T17:21:38.565470"
+    },
+    {
+      "file": "data/os/ubuntu.yaml",
+      "commands_generated": [
+        "apt update",
+        "apt upgrade",
+        "apt install",
+        "apt remove",
+        "apt search",
+        "apt-cache show",
+        "dpkg -i",
+        "dpkg -l",
+        "dpkg -r",
+        "systemctl start",
+        "systemctl stop",
+        "systemctl status",
+        "systemctl enable",
+        "systemctl disable",
+        "systemctl restart",
+        "ufw enable",
+        "ufw allow",
+        "ufw deny",
+        "ufw status",
+        "snap install"
+      ],
+      "mocs_generated": [
+        "操作系统/Ubuntu系统命令"
+      ],
+      "timestamp": "2026-06-01T17:21:38.644484"
+    },
+    {
+      "file": "data/build/make.yaml",
+      "commands_generated": [
+        "make",
+        "cmake",
+        "make install"
+      ],
+      "mocs_generated": [
+        "构建工具/Make"
+      ],
+      "timestamp": "2026-06-01T17:21:38.657265"
+    },
+    {
+      "file": "data/build/maven.yaml",
+      "commands_generated": [
+        "mvn",
+        "mvn dependency",
+        "mvn archetype",
+        "mvn clean"
+      ],
+      "mocs_generated": [
+        "构建工具/Maven"
+      ],
+      "timestamp": "2026-06-01T17:21:38.669610"
+    },
+    {
+      "file": "data/build/gradle.yaml",
+      "commands_generated": [
+        "gradle",
+        "gradle init",
+        "gradlew"
+      ],
+      "mocs_generated": [
+        "构建工具/Gradle"
+      ],
+      "timestamp": "2026-06-01T17:21:38.678412"
+    },
+    {
+      "file": "scripts/generate_scenes_and_faqs.py",
+      "type": "scene",
+      "pages_generated": [
+        "单卡4090微调7B模型",
+        "生产环境推理部署",
+        "RAG应用构建",
+        "模型量化与压缩"
+      ],
+      "timestamp": "2026-06-01T17:25:03.809780"
+    },
+    {
+      "file": "scripts/generate_scenes_and_faqs.py",
+      "type": "faq",
+      "pages_generated": [
+        "单卡4090能训练多大模型",
+        "deepspeed-vs-accelerate",
+        "vllm-vs-sglang",
+        "rlhf-vs-dpo",
+        "模型安全扫描"
+      ],
+      "timestamp": "2026-06-01T17:25:03.809794"
+    },
+    {
+      "file": "scripts/generate_scenes_and_faqs.py",
+      "type": "concept",
+      "pages_generated": [
+        "ZeRO优化",
+        "KV-Cache",
+        "推测解码",
+        "LoRA原理"
+      ],
+      "timestamp": "2026-06-01T17:25:03.809797"
+    },
+    {
+      "type": "setup",
+      "description": "obsidian-wiki standard structure applied",
+      "directories_created": [
+        "entities/commands",
+        "concepts",
+        "skills/cmd4coder",
+        "references/faqs",
+        "synthesis/scenes",
+        "journal",
+        "projects/cmd4coder",
+        "_archives",
+        "_staging"
+      ],
+      "files_created": [
+        "index.md",
+        "log.md",
+        "hot.md",
+        ".env",
+        ".obsidian/app.json",
+        ".obsidian/appearance.json"
+      ],
+      "timestamp": "2026-06-01T17:51:21.751466"
+    },
+    {
+      "file": "data/metadata.yaml",
+      "type": "metadata",
+      "pages_created": [
+        "references/metadata-overview"
+      ],
+      "timestamp": "2026-06-03T12:46:19.568708"
+    },
+    {
+      "file": "data/container/kafka.yaml",
+      "type": "yaml",
+      "ingested_at": "2026-06-04T12:11:45.650163"
+    },
+    {
+      "file": "data/cloud/terraform.yaml",
+      "type": "yaml",
+      "ingested_at": "2026-06-04T12:11:45.650173"
+    }
+  ],
+  "total_pages": 756,
+  "total_commands": 693,
+  "total_scenes": 4,
+  "total_faqs": 5,
+  "total_concepts": 4,
+  "vault_structure": "obsidian-wiki-standard"
+}

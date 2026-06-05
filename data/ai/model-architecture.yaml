@@ -1,0 +1,292 @@
+category: "AI基础设施/模型架构"
+description: "大模型架构分析、配置管理、注意力可视化与参数量计算，深入理解Transformer及变体"
+commands:
+  - name: transformers-cli
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install transformers"
+    description: "HuggingFace Transformers命令行工具，查看模型配置、下载模型、转换格式"
+    usage:
+      - "transformers-cli [COMMAND] [OPTIONS]"
+    options:
+      - flag: "env"
+        description: "查看环境信息"
+      - flag: "download"
+        description: "下载模型"
+      - flag: "convert"
+        description: "格式转换"
+      - flag: "run"
+        description: "运行示例脚本"
+    examples:
+      - command: "transformers-cli env"
+        description: "查看Transformers环境配置"
+      - command: "transformers-cli download meta-llama/Llama-2-7b-hf"
+        description: "下载LLaMA-2模型"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "safetensors-convert"
+    risks:
+      - level: low
+        description: "模型下载占用存储空间"
+    references:
+      - "https://huggingface.co/docs/transformers"
+
+  - name: bertviz
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install bertviz"
+    description: "BertViz Transformer注意力可视化工具，交互式查看各层各头的注意力权重分布"
+    usage:
+      - "python visualize.py (使用bertviz库)"
+    options:
+      - flag: "model_view"
+        description: "模型层级注意力视图"
+      - flag: "head_view"
+        description: "单头注意力动态视图"
+      - flag: "neuron_view"
+        description: "神经元级别视图"
+    examples:
+      - command: "python -c \"from bertviz import head_view; head_view(attention, tokens)\""
+        description: "生成注意力头可视化"
+      - command: "python -c \"from bertviz import model_view; model_view(attention, tokens)\""
+        description: "生成模型层级视图"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "transformers-cli"
+      - "calflops"
+    risks:
+      - level: low
+        description: "可视化工具安全"
+    references:
+      - "https://github.com/jessevig/bertviz"
+
+  - name: calflops
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install calflops"
+    description: "CalFlops模型参数量与FLOPs计算工具，精确统计前向/反向传播计算量"
+    usage:
+      - "python calculate.py (使用calflops库)"
+    options:
+      - flag: "calculate_flops"
+        description: "计算FLOPs"
+      - flag: "calculate_params"
+        description: "计算参数量"
+    examples:
+      - command: "python -c \"from calflops import calculate_flops; flops, macs, params = calculate_flops(model=model, input_shape=(1,3,224,224))\""
+        description: "计算模型FLOPs和参数量"
+      - command: "python profile.py --model llama-7b --seq_len 2048 --batch_size 1"
+        description: "LLaMA模型推理计算量分析"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "transformers-cli"
+      - "deepspeed"
+    risks:
+      - level: low
+        description: "分析工具安全"
+    references:
+      - "https://github.com/MrYxJ/calculate-flops"
+
+  - name: modelcards
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install modelcards"
+    description: "HuggingFace Model Card工具，生成和管理模型文档，确保模型可追溯和合规"
+    usage:
+      - "python card.py (使用modelcards库)"
+    options:
+      - flag: "ModelCard"
+        description: "模型卡对象"
+      - flag: "save"
+        description: "保存模型卡"
+      - flag: "validate"
+        description: "验证模型卡格式"
+    examples:
+      - command: "python -c \"from modelcards import ModelCard; card = ModelCard.load('meta-llama/Llama-2-7b'); print(card.data)\""
+        description: "加载并查看模型卡"
+      - command: "python -c \"from modelcards import ModelCard; card = ModelCard.from_template(); card.save('README.md')\""
+        description: "从模板创建模型卡"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "huggingface-cli"
+      - "transformers-cli"
+    risks:
+      - level: low
+        description: "文档工具安全"
+    references:
+      - "https://github.com/huggingface/modelcards"
+
+  - name: accelerate-config
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install accelerate"
+    description: "HuggingFace Accelerate配置向导，交互式生成分布式训练配置文件"
+    usage:
+      - "accelerate config [OPTIONS]"
+    options:
+      - flag: "--config_file"
+        description: "配置文件输出路径"
+      - flag: "--machine_rank"
+        description: "机器rank"
+      - flag: "--num_machines"
+        description: "机器数量"
+      - flag: "--num_processes"
+        description: "进程数量"
+    examples:
+      - command: "accelerate config"
+        description: "交互式生成配置文件"
+      - command: "accelerate config --config_file default_config.yaml"
+        description: "指定输出路径"
+      - command: "accelerate launch --config_file config.yaml train.py"
+        description: "使用配置文件启动训练"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "accelerate"
+      - "deepspeed"
+    risks:
+      - level: low
+        description: "配置工具安全"
+    references:
+      - "https://huggingface.co/docs/accelerate"
+
+  - name: mamba
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install mamba-ssm"
+    description: "Mamba状态空间模型(SSM)实现，线性复杂度序列建模，替代Transformer注意力机制"
+    usage:
+      - "python model.py (使用mamba_ssm库)"
+    options:
+      - flag: "Mamba"
+        description: "Mamba层"
+      - flag: "d_model"
+        description: "模型维度"
+      - flag: "d_state"
+        description: "状态维度"
+    examples:
+      - command: "python -c \"from mamba_ssm import Mamba; model = Mamba(d_model=768, d_state=16, d_conv=4, expand=2)\""
+        description: "初始化Mamba层"
+      - command: "python train_mamba.py --d_model 768 --d_state 16 --seq_len 8192"
+        description: "训练Mamba模型"
+    platforms:
+      - "linux"
+    related_commands:
+      - "transformers-cli"
+      - "calflops"
+    risks:
+      - level: low
+        description: "需CUDA环境编译"
+    references:
+      - "https://github.com/state-spaces/mamba"
+
+  - name: diffusers-cli
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install diffusers"
+    description: "HuggingFace Diffusers扩散模型工具，管理文生图/视频模型管线、调度器配置"
+    usage:
+      - "diffusers-cli [COMMAND] [OPTIONS]"
+    options:
+      - flag: "env"
+        description: "环境信息"
+      - flag: "convert"
+        description: "模型转换"
+    examples:
+      - command: "diffusers-cli env"
+        description: "查看Diffusers环境"
+      - command: "python -c \"from diffusers import StableDiffusionPipeline; pipe = StableDiffusionPipeline.from_pretrained('runwayml/stable-diffusion-v1-5')\""
+        description: "加载扩散模型管线"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "transformers-cli"
+      - "comfyui"
+    risks:
+      - level: low
+        description: "模型下载占用存储"
+    references:
+      - "https://huggingface.co/docs/diffusers"
+
+  - name: einops
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install einops"
+    description: "Einops张量操作语义化库，清晰表达reshape、transpose、reduce等维度变换操作"
+    usage:
+      - "python model.py (使用einops库)"
+    options:
+      - flag: "rearrange"
+        description: "重排维度"
+      - flag: "reduce"
+        description: "降维聚合"
+      - flag: "repeat"
+        description: "维度扩展"
+    examples:
+      - command: "python -c \"from einops import rearrange; y = rearrange(x, 'b h w c -> b c h w')\""
+        description: "HWC转CHW格式"
+      - command: "python -c \"from einops import reduce; y = reduce(x, 'b h w c -> b c', 'mean')\""
+        description: "空间维度平均池化"
+      - command: "python -c \"from einops import repeat; y = repeat(x, 'b c -> b c h w', h=32, w=32)\""
+        description: "扩展空间维度"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "transformers-cli"
+      - "calflops"
+    risks:
+      - level: low
+        description: "库函数安全"
+    references:
+      - "https://github.com/arogozhnikov/einops"
+
+  - name: timm
+    category: "AI基础设施/模型架构"
+    install_required: true
+    install_method: "pip install timm"
+    description: "PyTorch Image Models库，800+预训练视觉模型，涵盖ViT、ConvNeXt、Swin Transformer等"
+    usage:
+      - "python vision.py (使用timm库)"
+    options:
+      - flag: "create_model"
+        description: "创建模型"
+      - flag: "list_models"
+        description: "列出模型"
+      - flag: "pretrained"
+        description: "加载预训练权重"
+    examples:
+      - command: "python -c \"import timm; model = timm.create_model('vit_base_patch16_224', pretrained=True)\""
+        description: "加载ViT-B/16预训练模型"
+      - command: "python -c \"import timm; print(timm.list_models('*vit*'))\""
+        description: "列出所有ViT变体"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "transformers-cli"
+      - "clip"
+    risks:
+      - level: low
+        description: "模型下载占用存储"
+    references:
+      - "https://github.com/huggingface/pytorch-image-models"

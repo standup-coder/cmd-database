@@ -1,0 +1,518 @@
+category: "AI基础设施/监控与评估"
+description: "ML实验跟踪、模型监控与LLM应用可观测性工具"
+commands:
+  - name: wandb
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install wandb"
+    description: "Weights & Biases实验跟踪平台，记录指标、超参数、模型版本、数据集血缘"
+    usage:
+      - "wandb [COMMAND] [OPTIONS]"
+    options:
+      - flag: "login"
+        description: "登录W&B账号"
+      - flag: "init"
+        description: "初始化项目"
+      - flag: "sync"
+        description: "同步离线实验数据"
+      - flag: "artifact"
+        description: "管理模型和数据集制品"
+    examples:
+      - command: "wandb login"
+        description: "登录Weights & Biases"
+      - command: "python train.py --use_wandb --project my-project --name experiment-1"
+        description: "训练并自动记录到W&B"
+      - command: "wandb artifact put model.pt --name my-model --type model"
+        description: "上传模型制品"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "neptune"
+      - "clearml"
+    risks:
+      - level: low
+        description: "云端记录需注意数据隐私"
+    references:
+      - "https://wandb.ai/"
+
+  - name: neptune
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install neptune"
+    description: "Neptune ML实验管理平台，支持指标跟踪、模型版本、数据集版本管理"
+    usage:
+      - "neptune [COMMAND] [OPTIONS]"
+    options:
+      - flag: "sync"
+        description: "同步离线数据"
+      - flag: "status"
+        description: "查看同步状态"
+    examples:
+      - command: "python -c \"import neptune; run = neptune.init_run(project='my-workspace/my-project')\""
+        description: "初始化Neptune实验运行"
+      - command: "python train.py --use_neptune --api_token $NEPTUNE_API_TOKEN"
+        description: "训练并记录到Neptune"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "wandb"
+      - "clearml"
+    risks:
+      - level: low
+        description: "云端记录需注意数据隐私"
+    references:
+      - "https://neptune.ai/"
+
+  - name: clearml
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install clearml"
+    description: "ClearML端到端MLOps平台，涵盖实验跟踪、数据管理、Pipeline编排、模型服务"
+    usage:
+      - "clearml-init"
+      - "clearml-agent [COMMAND]"
+    options:
+      - flag: "clearml-init"
+        description: "配置服务器连接"
+      - flag: "clearml-agent daemon"
+        description: "启动代理守护进程"
+      - flag: "clearml-agent execute"
+        description: "执行实验任务"
+    examples:
+      - command: "clearml-init"
+        description: "初始化ClearML配置"
+      - command: "clearml-agent daemon --gpus 0 --queue default"
+        description: "在GPU0上启动代理监听默认队列"
+      - command: "clearml-agent execute --id <task_id>"
+        description: "执行指定实验任务"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "wandb"
+      - "neptune"
+    risks:
+      - level: medium
+        description: "代理执行远程代码，需信任任务来源"
+    references:
+      - "https://clear.ml/"
+
+  - name: langsmith
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install langsmith"
+    description: "LangSmith LLM应用全链路追踪与评估平台，记录输入输出、token消耗、延迟"
+    usage:
+      - "python app.py (使用langsmith库)"
+    options:
+      - flag: "@traceable"
+        description: "装饰器自动追踪函数调用"
+      - flag: "Client"
+        description: "创建LangSmith客户端"
+      - flag: "evaluate"
+        description: "运行评估数据集"
+    examples:
+      - command: "export LANGCHAIN_API_KEY=ls-xxx && python app.py"
+        description: "配置API Key并运行追踪"
+      - command: "python evaluate.py --dataset my-dataset --evaluator qa"
+        description: "在数据集上运行QA评估"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langfuse"
+      - "promptlayer"
+    risks:
+      - level: low
+        description: "追踪数据上传云端，注意隐私"
+    references:
+      - "https://smith.langchain.com/"
+
+  - name: langfuse
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install langfuse"
+    description: "Langfuse开源LLM可观测性平台，支持自托管，追踪成本、延迟、质量指标"
+    usage:
+      - "docker compose up (自托管)"
+      - "python app.py (使用langfuse库)"
+    options:
+      - flag: "Langfuse"
+        description: "初始化追踪客户端"
+      - flag: "trace"
+        description: "创建追踪会话"
+      - flag: "span"
+        description: "记录调用跨度"
+    examples:
+      - command: "git clone https://github.com/langfuse/langfuse.git && cd langfuse && docker compose up"
+        description: "Docker自托管Langfuse"
+      - command: "python app.py --langfuse_host http://localhost:3000 --public_key pk-xxx --secret_key sk-xxx"
+        description: "连接自托管Langfuse"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langsmith"
+      - "promptlayer"
+    risks:
+      - level: low
+        description: "自托管数据安全可控"
+    references:
+      - "https://langfuse.com/"
+
+  - name: promptlayer
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install promptlayer"
+    description: "PromptLayer提示词版本管理与追踪，记录提示词迭代历史和效果对比"
+    usage:
+      - "python app.py (使用promptlayer库)"
+    options:
+      - flag: "promptlayer.track.prompt"
+        description: "追踪提示词模板"
+      - flag: "promptlayer.track.score"
+        description: "记录输出质量评分"
+      - flag: "promptlayer.templates.get"
+        description: "获取已发布的提示词模板"
+    examples:
+      - command: "python -c \"import promptlayer; promptlayer.api_key = 'pl-xxx'; promptlayer.templates.publish('greeting', template)\""
+        description: "发布提示词模板"
+      - command: "python track_prompts.py --track_all --score_function human_eval"
+        description: "追踪所有提示词并收集人工评分"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langsmith"
+      - "langfuse"
+    risks:
+      - level: low
+        description: "提示词追踪无技术风险"
+    references:
+      - "https://www.promptlayer.com/"
+
+  - name: weights-biases-sweep
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install wandb"
+    description: "W&B超参数搜索(Sweep)，支持网格搜索、随机搜索、贝叶斯优化"
+    usage:
+      - "wandb sweep [OPTIONS]"
+      - "wandb agent [OPTIONS]"
+    options:
+      - flag: "sweep"
+        description: "创建超参数搜索配置"
+      - flag: "agent"
+        description: "启动搜索代理"
+      - flag: "--project"
+        description: "W&B项目名称"
+    examples:
+      - command: "wandb sweep sweep_config.yaml"
+        description: "创建sweep并获取sweep ID"
+      - command: "wandb agent my-workspace/my-project/sweep_id"
+        description: "启动代理执行超参数搜索"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "wandb"
+      - "optimum-cli"
+    risks:
+      - level: medium
+        description: "大规模搜索消耗大量计算资源"
+    references:
+      - "https://docs.wandb.ai/guides/sweeps"
+
+  - name: mlflow-tracking
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install mlflow"
+    description: "MLflow Tracking模块，本地实验跟踪与模型注册"
+    usage:
+      - "mlflow ui [OPTIONS]"
+      - "python train.py (使用mlflow库)"
+    options:
+      - flag: "ui"
+        description: "启动跟踪UI"
+      - flag: "--backend-store-uri"
+        description: "后端存储URI"
+      - flag: "--default-artifact-root"
+        description: "制品默认存储路径"
+    examples:
+      - command: "mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000"
+        description: "本地启动MLflow UI"
+      - command: "mlflow server --backend-store-uri postgresql://mlflow@localhost/mlflow --default-artifact-root s3://mlflow-artifacts"
+        description: "生产级MLflow跟踪服务器"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "wandb"
+      - "neptune"
+    risks:
+      - level: low
+        description: "本地部署数据安全"
+    references:
+      - "https://mlflow.org/docs/latest/tracking.html"
+
+  - name: tensorboard-profiler
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install tensorboard-plugin-profile"
+    description: "TensorBoard Profiler性能分析插件，分析模型训练中的CPU/GPU瓶颈"
+    usage:
+      - "tensorboard --logdir=logs --bind_all"
+    options:
+      - flag: "torch.profiler.profile"
+        description: "PyTorch Profiler配置"
+      - flag: "with_stack"
+        description: "记录调用栈"
+      - flag: "profile_memory"
+        description: "分析内存使用"
+    examples:
+      - command: "python profile_train.py --profile --log_dir=logs/profiler"
+        description: "记录训练性能数据"
+      - command: "tensorboard --logdir=logs/profiler --port 6006"
+        description: "查看Profiler分析结果"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "tensorboard"
+      - "deepspeed"
+    risks:
+      - level: low
+        description: "性能分析不改变训练行为"
+    references:
+      - "https://www.tensorflow.org/tensorboard/tensorboard_profiling_keras"
+
+  - name: aim
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install aim"
+    description: "Aim开源超大规模实验跟踪工具，支持百万级实验，高性能查询"
+    usage:
+      - "aim [COMMAND] [OPTIONS]"
+    options:
+      - flag: "up"
+        description: "启动Aim UI"
+      - flag: "init"
+        description: "初始化仓库"
+      - flag: "reindex"
+        description: "重新索引数据"
+    examples:
+      - command: "aim init"
+        description: "初始化Aim仓库"
+      - command: "aim up --host 0.0.0.0 --port 43800"
+        description: "启动Aim UI服务"
+      - command: "python train.py --use_aim --experiment bert-finetune"
+        description: "训练并记录到Aim"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "wandb"
+      - "tensorboard"
+    risks:
+      - level: low
+        description: "本地部署，数据安全"
+    references:
+      - "https://aimstack.io/"
+
+  - name: arize
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install arize"
+    description: "Arize AI ML可观测性平台，支持漂移检测、性能监控、根因分析"
+    usage:
+      - "python monitor.py (使用arize库)"
+    options:
+      - flag: "Client"
+        description: "Arize客户端"
+      - flag: "log"
+        description: "记录预测日志"
+    examples:
+      - command: "python -c \"from arize.api import Client; c = Client(space_key='xxx', api_key='xxx'); c.log(prediction_id='1', model_id='m', prediction_label='cat')\""
+        description: "记录模型预测到Arize"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "phoenix"
+      - "langfuse"
+    risks:
+      - level: low
+        description: "云端上传注意隐私"
+    references:
+      - "https://arize.com/"
+
+  - name: phoenix
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install arize-phoenix"
+    description: "Arize Phoenix开源LLM可观测性和评估工具，支持追踪、评估、数据集管理"
+    usage:
+      - "phoenix server [OPTIONS]"
+      - "python app.py (使用phoenix库)"
+    options:
+      - flag: "server"
+        description: "启动Phoenix服务"
+      - flag: "--port"
+        description: "服务端口号"
+      - flag: "--host"
+        description: "绑定主机"
+    examples:
+      - command: "phoenix server --port 6006"
+        description: "启动Phoenix UI服务"
+      - command: "python -c \"import phoenix as px; px.launch_app()\""
+        description: "Python内嵌启动Phoenix"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langfuse"
+      - "arize"
+    risks:
+      - level: low
+        description: "开源可自托管"
+    references:
+      - "https://github.com/Arize-ai/phoenix"
+
+  - name: langtrace
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install langtrace-python-sdk"
+    description: "Langtrace开源LLM应用追踪，兼容OpenTelemetry，支持多框架"
+    usage:
+      - "python app.py (使用langtrace库)"
+    options:
+      - flag: "langtrace.init"
+        description: "初始化追踪"
+      - flag: "with_langtrace_root_span"
+        description: "装饰器追踪根跨度"
+    examples:
+      - command: "python -c \"import langtrace; langtrace.init(api_key='xxx')\""
+        description: "初始化Langtrace追踪"
+      - command: "python app.py --trace_llm --trace_vectorstore --trace_framework"
+        description: "追踪LLM、向量库和框架调用"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "langsmith"
+      - "phoenix"
+    risks:
+      - level: low
+        description: "追踪数据上传注意隐私"
+    references:
+      - "https://langtrace.ai/"
+
+  - name: litellm-proxy
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install litellm[proxy]"
+    description: "LiteLLM代理网关，统一管理100+ LLM API，支持负载均衡、速率限制、成本追踪"
+    usage:
+      - "litellm [COMMAND] [OPTIONS]"
+    options:
+      - flag: "--config"
+        description: "配置文件路径"
+      - flag: "--model"
+        description: "默认模型"
+      - flag: "--port"
+        description: "代理端口"
+    examples:
+      - command: "litellm --config proxy_config.yaml"
+        description: "启动LLM代理网关"
+      - command: "litellm --model gpt-4 --port 8000"
+        description: "快速启动单模型代理"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "vllm"
+      - "langfuse"
+    risks:
+      - level: medium
+        description: "代理网关需配置认证防止未授权访问"
+    references:
+      - "https://docs.litellm.ai/docs/simple_proxy"
+
+  - name: opik
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "pip install opik"
+    description: "Comet Opik开源LLM评估与追踪平台，支持RAG评估、提示工程、实验管理"
+    usage:
+      - "opik [COMMAND] [OPTIONS]"
+    options:
+      - flag: "configure"
+        description: "配置Opik"
+      - flag: "--server"
+        description: "自托管模式启动"
+    examples:
+      - command: "opik configure"
+        description: "配置Opik连接"
+      - command: "python -c \"import opik; opik.configure(use_local=True)\""
+        description: "配置本地模式"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "phoenix"
+      - "langsmith"
+    risks:
+      - level: low
+        description: "可自托管，数据安全"
+    references:
+      - "https://www.comet.com/site/products/opik/"
+
+  - name: pulsar
+    category: "AI基础设施/监控与评估"
+    install_required: true
+    install_method: "docker pull apachepulsar/pulsar"
+    description: "Apache Pulsar分布式消息流平台，用于AI流水线事件驱动和数据流处理"
+    usage:
+      - "pulsar-admin [COMMAND] [OPTIONS]"
+      - "pulsar-client [COMMAND] [OPTIONS]"
+    options:
+      - flag: "topics create"
+        description: "创建Topic"
+      - flag: "topics produce"
+        description: "生产消息"
+      - flag: "topics consume"
+        description: "消费消息"
+    examples:
+      - command: "pulsar-admin topics create persistent://public/default/ml-events"
+        description: "创建AI事件Topic"
+      - command: "pulsar-client produce ml-events --messages '{\"model\":\"v1\",\"latency\":120}'"
+        description: "发送模型推理事件"
+    platforms:
+      - "linux"
+      - "darwin"
+      - "windows"
+    related_commands:
+      - "kafka"
+      - "redis"
+    risks:
+      - level: medium
+        description: "消息队列配置不当可能导致数据丢失"
+    references:
+      - "https://pulsar.apache.org/"

@@ -1,0 +1,135 @@
+category: AI基础设施/联邦学习
+description: 联邦学习与隐私计算工具，跨机构联合建模、差分隐私、加密推理，满足数据合规要求
+commands:
+- name: flower
+  category: AI基础设施/联邦学习
+  install_required: true
+  install_method: pip install flwr
+  description: Flower联邦学习框架，支持横向/纵向联邦、差分隐私、安全聚合，工业级跨设备联合训练
+  usage:
+  - flwr [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 运行Flower应用
+  - flag: server
+    description: 启动聚合服务器
+  - flag: superlink
+    description: 启动SuperLink
+  - flag: supernode
+    description: 启动SuperNode
+  examples:
+  - command: flwr run .
+    description: 运行Flower项目
+  - command: flwr server --insecure
+    description: 启动开发模式服务器
+  - command: python server.py --min_available_clients=3 --strategy FedAvg
+    description: 自定义联邦平均策略，3客户端聚合
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - opacus
+  - pyvertical
+  risks:
+  - level: medium
+    description: 通信安全需配置TLS，防止模型参数泄露
+  references:
+  - https://flower.ai/
+- name: opacus
+  category: AI基础设施/联邦学习
+  install_required: true
+  install_method: pip install opacus
+  description: Opacus PyTorch差分隐私训练库，通过梯度裁剪和噪声注入实现(ε,δ)-差分隐私保证
+  usage:
+  - python train.py (使用opacus库)
+  options:
+  - flag: PrivacyEngine
+    description: 隐私引擎
+  - flag: max_grad_norm
+    description: 梯度裁剪阈值
+  - flag: noise_multiplier
+    description: 噪声乘数
+  - flag: target_epsilon
+    description: 目标隐私预算
+  examples:
+  - command: python -c "from opacus import PrivacyEngine; engine = PrivacyEngine();
+      model, optimizer, loader = engine.make_private(model, optimizer, loader, noise_multiplier=1.0,
+      max_grad_norm=1.0)"
+    description: 模型添加差分隐私保护
+  - command: python dp_train.py --epsilon 3.0 --delta 1e-5 --epochs 10
+    description: 指定隐私预算训练
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - flower
+  - crypten
+  risks:
+  - level: medium
+    description: 隐私预算过小会严重影响模型精度
+  references:
+  - https://opacus.ai/
+- name: pyvertical
+  category: AI基础设施/联邦学习
+  install_required: true
+  install_method: pip install pyvertical
+  description: PyVertical垂直联邦学习框架，特征分片联合建模，适用于银行+电商等跨机构数据互补场景
+  usage:
+  - python train.py (使用pyvertical库)
+  options:
+  - flag: VerticalDataLoader
+    description: 垂直数据加载器
+  - flag: splitnn
+    description: SplitNN模型分割
+  examples:
+  - command: python -c "from pyvertical import VerticalDataLoader; loader = VerticalDataLoader(dataset,
+      batch_size=32, distributed=True)"
+    description: 垂直分布式数据加载
+  - command: python vfl_train.py --parties 2 --feature_split 10,20 --epochs 50
+    description: 两方特征分片联合训练
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - flower
+  - opacus
+  risks:
+  - level: high
+    description: 垂直联邦存在特征对齐泄露风险，需安全求交(PSI)
+  references:
+  - https://github.com/Actionable-Business-Intelligence/pyvertical
+- name: crypten
+  category: AI基础设施/联邦学习
+  install_required: true
+  install_method: pip install crypten
+  description: CrypTen Facebook隐私计算库，基于MPC(安全多方计算)的加密机器学习，支持加密推理和训练
+  usage:
+  - python secure_infer.py (使用crypten库)
+  options:
+  - flag: crypten.init()
+    description: 初始化MPC环境
+  - flag: crypten.cryptensor
+    description: 加密张量
+  - flag: crypten.nn.from_pytorch
+    description: PyTorch模型加密
+  examples:
+  - command: python -c "import crypten; crypten.init(); x_enc = crypten.cryptensor([1.0,
+      2.0]); print(x_enc.get_plain_text())"
+    description: 加密张量基本操作
+  - command: python secure_inference.py --model model.pth --input data.csv --world_size
+      2
+    description: 两方加密推理
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - flower
+  - opacus
+  risks:
+  - level: medium
+    description: MPC计算开销大，通信成本高
+  references:
+  - https://github.com/facebookresearch/CrypTen

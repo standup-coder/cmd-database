@@ -1,0 +1,9 @@
+{
+  "strictLineBreaks": false,
+  "showFrontmatter": false,
+  "defaultViewMode": "preview",
+  "livePreview": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "_raw",
+  "attachmentFolderPath": "_raw"
+}

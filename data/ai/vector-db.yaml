@@ -1,0 +1,499 @@
+category: AI基础设施/向量数据库
+description: 向量存储与相似性搜索工具，支持RAG应用、语义搜索、推荐系统
+commands:
+- name: chroma
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: pip install chromadb
+  description: Chroma轻量级开源向量数据库，专为AI应用设计，易嵌入到Python项目
+  usage:
+  - chroma run [OPTIONS]
+  - python app.py (使用chromadb库)
+  options:
+  - flag: run
+    description: 启动Chroma服务
+  - flag: --path
+    description: 持久化数据目录
+  - flag: --port
+    description: 服务端口号
+  examples:
+  - command: chroma run --path ./chroma_data --port 8000
+    description: 启动Chroma持久化服务
+  - command: python -c "import chromadb; client = chromadb.PersistentClient(path='./db');
+      coll = client.create_collection('docs')"
+    description: Python创建持久化集合
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - qdrant
+  - weaviate-cli
+  risks:
+  - level: low
+    description: 轻量级数据库，风险可控
+  references:
+  - https://www.trychroma.com/
+- name: milvus-cli
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: pip install milvus-cli
+  description: Milvus分布式向量数据库CLI，支持十亿级向量的高性能ANN搜索
+  usage:
+  - milvus_cli [OPTIONS]
+  options:
+  - flag: connect
+    description: 连接Milvus服务器
+  - flag: create collection
+    description: 创建集合
+  - flag: search
+    description: 向量搜索
+  - flag: import
+    description: 批量导入数据
+  examples:
+  - command: milvus_cli connect --host localhost --port 19530
+    description: 连接本地Milvus
+  - command: milvus_cli create collection -c my_collection -d 768 -p id
+    description: 创建768维向量集合
+  - command: milvus_cli search -c my_collection -v '[0.1,0.2,...]' -k 10
+    description: 搜索最近邻
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - qdrant
+  - chroma
+  risks:
+  - level: medium
+    description: 大规模数据导入需合理配置资源
+  references:
+  - https://milvus.io/
+- name: qdrant
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull qdrant/qdrant
+  description: Qdrant高性能开源向量数据库，支持过滤搜索、分布式部署、Rust实现
+  usage:
+  - docker run [OPTIONS] qdrant/qdrant
+  - python app.py (使用qdrant-client)
+  options:
+  - flag: --name
+    description: 容器名称
+  - flag: -p
+    description: 端口映射
+  - flag: -v
+    description: 数据卷挂载
+  examples:
+  - command: docker run -p 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+    description: Docker启动Qdrant
+  - command: python -c "from qdrant_client import QdrantClient; client = QdrantClient('localhost',
+      port=6333)"
+    description: Python客户端连接
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - milvus-cli
+  - weaviate-cli
+  risks:
+  - level: low
+    description: Docker部署安全可控
+  references:
+  - https://qdrant.tech/
+- name: weaviate-cli
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull semitechnologies/weaviate
+  description: Weaviate AI原生向量数据库，内置向量化和模块化扩展(GraphQL接口)
+  usage:
+  - docker run [OPTIONS] semitechnologies/weaviate
+  options:
+  - flag: --env QUERY_DEFAULTS_LIMIT
+    description: 默认查询限制
+  - flag: --env AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED
+    description: 启用匿名访问
+  examples:
+  - command: docker run -p 8080:8080 -p 50051:50051 semitechnologies/weaviate:latest
+    description: 启动Weaviate服务
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - qdrant
+  - chroma
+  risks:
+  - level: low
+    description: Docker部署安全可控
+  references:
+  - https://weaviate.io/
+- name: pgvector
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: CREATE EXTENSION vector; (PostgreSQL扩展)
+  description: pgvector PostgreSQL向量扩展，在关系数据库中直接存储和查询向量
+  usage:
+  - psql -c [SQL]
+  options:
+  - flag: CREATE EXTENSION vector
+    description: 启用扩展
+  - flag: CREATE TABLE ... (embedding vector(768))
+    description: 创建含向量列的表
+  - flag: SELECT ... ORDER BY embedding <-> query_embedding LIMIT 10
+    description: L2距离向量搜索
+  examples:
+  - command: psql -c 'CREATE EXTENSION vector'
+    description: 在PostgreSQL中启用pgvector
+  - command: psql -c "CREATE TABLE items (id bigserial PRIMARY KEY, embedding vector(768));
+      CREATE INDEX ON items USING ivfflat (embedding vector_cosine_ops)"
+    description: 创建向量表和余弦相似度索引
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - milvus-cli
+  - chroma
+  risks:
+  - level: medium
+    description: 大规模向量索引构建可能耗时
+  references:
+  - https://github.com/pgvector/pgvector
+- name: faiss-cli
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: conda install -c pytorch faiss-gpu
+  description: Facebook AI Similarity Search (FaisS)高性能向量搜索库，支持GPU加速
+  usage:
+  - python search.py (使用faiss库)
+  options:
+  - flag: faiss.IndexFlatL2
+    description: 精确L2搜索索引
+  - flag: faiss.IndexIVFFlat
+    description: 倒排文件近似搜索
+  - flag: faiss.IndexHNSWFlat
+    description: HNSW图索引
+  - flag: faiss.index_cpu_to_all_gpus
+    description: 迁移索引到GPU
+  examples:
+  - command: python -c "import faiss; index = faiss.IndexFlatL2(768); index.add(vectors);
+      D, I = index.search(query, k=10)"
+    description: 创建索引并搜索最近邻
+  - command: python build_index.py --dim 768 --index_type ivf --nlist 100 --gpu
+    description: GPU加速构建IVF索引
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - pgvector
+  - milvus-cli
+  risks:
+  - level: low
+    description: 库函数调用无副作用
+  references:
+  - https://github.com/facebookresearch/faiss
+- name: pinecone
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: pip install pinecone-client
+  description: Pinecone全托管向量数据库，零运维，自动扩缩容
+  usage:
+  - python app.py (使用pinecone库)
+  options:
+  - flag: Pinecone(api_key=...)
+    description: 初始化客户端
+  - flag: create_index
+    description: 创建索引
+  - flag: index.upsert
+    description: 插入向量
+  - flag: index.query
+    description: 查询向量
+  examples:
+  - command: python -c "from pinecone import Pinecone; pc = Pinecone(api_key='xxx');
+      index = pc.Index('my-index'); results = index.query(vector=[...], top_k=10)"
+    description: 查询Pinecone索引
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - chroma
+  - qdrant
+  risks:
+  - level: low
+    description: 托管服务，注意API费用
+  references:
+  - https://www.pinecone.io/
+- name: redisearch
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker run redis/redis-stack
+  description: RediSearch Redis向量搜索模块，支持向量相似性搜索+全文搜索混合查询
+  usage:
+  - redis-cli [COMMAND]
+  options:
+  - flag: FT.CREATE
+    description: 创建搜索索引
+  - flag: FT.SEARCH
+    description: 执行搜索
+  - flag: FT.VECTOR
+    description: 向量字段类型
+  examples:
+  - command: redis-cli FT.CREATE my_idx ON JSON SCHEMA $.embedding AS embedding VECTOR
+      FLAT 6 TYPE FLOAT32 DIM 768 DISTANCE_METRIC COSINE
+    description: 创建向量搜索索引
+  - command: redis-cli FT.SEARCH my_idx '*=>[KNN 10 @embedding $vec]' PARAMS 2 vec
+      '[0.1,...]'
+    description: KNN向量搜索
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - pgvector
+  - faiss-cli
+  risks:
+  - level: low
+    description: Redis部署稳定可靠
+  references:
+  - https://redis.io/docs/stack/search/
+- name: vespa-cli
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: brew install vespa-cli
+  description: Vespa大规模搜索与推理引擎，支持向量搜索+结构化搜索+机器学习推理
+  usage:
+  - vespa [COMMAND] [OPTIONS]
+  options:
+  - flag: deploy
+    description: 部署应用
+  - flag: feed
+    description: 推送数据
+  - flag: query
+    description: 执行查询
+  - flag: status
+    description: 查看状态
+  examples:
+  - command: vespa deploy ./application
+    description: 部署Vespa应用
+  - command: vespa query 'select * from sources * where {targetHits:10}nearestNeighbor(embedding,q)'
+    description: 向量最近邻搜索
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - milvus-cli
+  - qdrant
+  risks:
+  - level: medium
+    description: 复杂配置需充分测试
+  references:
+  - https://vespa.ai/
+- name: marqo
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull marqoai/marqo
+  description: Marqo端到端向量搜索引擎，内置向量化，零配置语义搜索
+  usage:
+  - docker run [OPTIONS] marqoai/marqo
+  options:
+  - flag: -p
+    description: 端口映射
+  - flag: --name
+    description: 容器名称
+  examples:
+  - command: docker run --name marqo -it --privileged -p 8882:8882 marqoai/marqo:latest
+    description: 启动Marqo服务
+  - command: python -c "import marqo; mq = marqo.Client(url='http://localhost:8882');
+      mq.create_index('my-index')"
+    description: Python创建索引
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - chroma
+  - qdrant
+  risks:
+  - level: low
+    description: Docker部署安全可控
+  references:
+  - https://www.marqo.ai/
+- name: lancedb
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: pip install lancedb
+  description: LanceDB无服务器向量数据库，基于Apache Arrow列式存储，支持嵌入和全文搜索
+  usage:
+  - python app.py (使用lancedb库)
+  options:
+  - flag: connect
+    description: 连接数据库
+  - flag: create_table
+    description: 创建表
+  - flag: search
+    description: 向量搜索
+  examples:
+  - command: 'python -c "import lancedb; db = lancedb.connect(''./lancedb''); tbl
+      = db.create_table(''docs'', data=[{''vector'': [0.1,0.2], ''text'': ''hello''}])"'
+    description: 创建表并插入数据
+  - command: python -c "tbl.search([0.1,0.2]).limit(10).to_pandas()"
+    description: 向量搜索
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - chroma
+  - qdrant
+  risks:
+  - level: low
+    description: 轻量级数据库
+  references:
+  - https://lancedb.github.io/lancedb/
+- name: turbopuffer
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: pip install turbopuffer
+  description: Turbopuffer高性能托管向量搜索，专为RAG应用优化，支持混合搜索
+  usage:
+  - python app.py (使用turbopuffer库)
+  options:
+  - flag: upsert
+    description: 插入/更新向量
+  - flag: query
+    description: 查询向量
+  examples:
+  - command: python -c "import turbopuffer as tp; ns = tp.Namespace('docs'); ns.upsert(ids=['1'],
+      vectors=[[0.1]], attributes={'text':['hello']})"
+    description: 插入向量
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - pinecone
+  - qdrant
+  risks:
+  - level: low
+    description: 托管服务
+  references:
+  - https://turbopuffer.com/
+- name: typesense
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull typesense/typesense
+  description: Typesense开源搜索引擎，支持向量搜索、拼写容错、分面过滤、地理搜索
+  usage:
+  - docker run [OPTIONS] typesense/typesense
+  options:
+  - flag: --data-dir
+    description: 数据目录
+  - flag: --api-key
+    description: API密钥
+  - flag: --enable-cors
+    description: 启用CORS
+  examples:
+  - command: docker run -p 8108:8108 -v /tmp/typesense:/data typesense/typesense:26.0
+      --data-dir /data --api-key=xyz
+    description: Docker启动Typesense
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - meilisearch
+  - opensearch
+  risks:
+  - level: low
+    description: Docker部署安全
+  references:
+  - https://typesense.org/
+- name: opensearch
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull opensearchproject/opensearch
+  description: OpenSearch分布式搜索与分析引擎，支持k-NN向量搜索、ML推理插件
+  usage:
+  - docker run [OPTIONS] opensearchproject/opensearch
+  options:
+  - flag: --discovery.type
+    description: 发现类型 (single-node)
+  - flag: --plugins.security.disabled
+    description: 禁用安全插件(开发环境)
+  examples:
+  - command: docker run -p 9200:9200 -e discovery.type=single-node opensearchproject/opensearch:latest
+    description: 单节点启动OpenSearch
+  - command: 'curl -X PUT localhost:9200/my-index -H ''Content-Type: application/json''
+      -d ''{"settings":{"index.knn":true}}'''
+    description: 创建k-NN向量索引
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - elasticsearch
+  - vespa-cli
+  risks:
+  - level: low
+    description: 生产环境需启用安全插件
+  references:
+  - https://opensearch.org/
+- name: elasticsearch
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: docker pull elasticsearch:8.x
+  description: Elasticsearch分布式搜索与分析，8.x版本原生支持dense_vector语义搜索
+  usage:
+  - docker run [OPTIONS] elasticsearch:8.x
+  options:
+  - flag: --xpack.security.enabled
+    description: 启用/禁用安全
+  - flag: --discovery.type
+    description: 发现类型
+  examples:
+  - command: docker run -p 9200:9200 -e discovery.type=single-node -e xpack.security.enabled=false
+      elasticsearch:8.12.0
+    description: 单节点启动(开发)
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - opensearch
+  - vespa-cli
+  risks:
+  - level: low
+    description: 生产环境需启用安全认证
+  references:
+  - https://www.elastic.co/
+- name: meilisearch
+  category: AI基础设施/向量数据库
+  install_required: true
+  install_method: curl -L https://install.meilisearch.com | sh
+  description: 开源即时搜索引擎，支持容错搜索和中文分词
+  usage:
+  - meilisearch [选项]
+  options:
+  - flag: --master-key
+    description: 设置API主密钥
+  - flag: --db-path
+    description: 指定数据库路径
+  examples:
+  - command: meilisearch --master-key mykey
+    description: 带密钥启动搜索服务
+  - command: 'curl -X POST ''http://localhost:7700/indexes/docs/search'' -H ''Authorization:
+      Bearer mykey'' -d ''{"q":"hello"}'''
+    description: 搜索文档
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - elasticsearch
+  - typesense
+  - vespa-cli

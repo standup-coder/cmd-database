@@ -1,6 +1,6 @@
-version: "1.5.0"
-updated_at: "2026-02-04"
-description: "cmd4coder 命令行工具大全数据文件 - 覆盖 47 个分类"
+version: "1.8.0"
+updated_at: "2026-05-31"
+description: "cmd4coder 命令行工具大全数据文件 - 覆盖 58 个分类, 690+ 命令"
 
 categories:
   os_ubuntu:
@@ -249,6 +249,120 @@ categories:
     description: "模型服务工具(BentoML)相关命令"
     parent: ""
     order: 92
+  ai_llm_training:
+    id: ai_llm_training
+    name: "AI基础设施/大模型训练"
+    description: "大语言模型训练与微调工具链"
+    parent: ""
+    order: 93
+  ai_llm_inference:
+    id: ai_llm_inference
+    name: "AI基础设施/大模型推理"
+    description: "大语言模型推理部署工具链"
+    parent: ""
+    order: 94
+  ai_model_hub:
+    id: ai_model_hub
+    name: "AI基础设施/模型生态"
+    description: "模型仓库、格式转换与量化工具"
+    parent: ""
+    order: 95
+  ai_data_labeling:
+    id: ai_data_labeling
+    name: "AI基础设施/数据与标注"
+    description: "数据集管理、数据标注与质量控制工具"
+    parent: ""
+    order: 96
+  ai_monitoring:
+    id: ai_monitoring
+    name: "AI基础设施/监控与评估"
+    description: "ML实验跟踪、模型监控与LLM应用可观测性工具"
+    parent: ""
+    order: 97
+  ai_vector_db:
+    id: ai_vector_db
+    name: "AI基础设施/向量数据库"
+    description: "向量存储与相似性搜索工具"
+    parent: ""
+    order: 98
+  ai_agent_engineering:
+    id: ai_agent_engineering
+    name: "AI基础设施/Agent工程"
+    description: "AI Agent框架与工程化工具，涵盖LLM应用编排、多Agent协作、RAG"
+    parent: ""
+    order: 99
+  ai_harness_engineering:
+    id: ai_harness_engineering
+    name: "AI基础设施/Harness工程"
+    description: "LLM评测Harness、Agent评测、安全测试与基准测试工程化工具"
+    parent: ""
+    order: 100
+  ai_ai_gateway:
+    id: ai_ai_gateway
+    name: "AI基础设施/AI网关"
+    description: "LLM API统一网关、负载均衡、成本监控与语义缓存"
+    parent: ""
+    order: 101
+  ai_ai_safety:
+    id: ai_ai_safety
+    name: "AI基础设施/AI安全"
+    description: "LLM模型安全扫描、漏洞检测、偏见审计与对抗测试"
+    parent: ""
+    order: 102
+  ai_multimodal:
+    id: ai_multimodal
+    name: "AI基础设施/多模态"
+    description: "图像理解、语音处理、视频生成与图文对齐多模态工具"
+    parent: ""
+    order: 103
+  ai_ai_coding:
+    id: ai_ai_coding
+    name: "AI基础设施/AI编程"
+    description: "AI辅助编程工具与Coding Agent"
+    parent: ""
+    order: 104
+  ai_rag_infra:
+    id: ai_rag_infra
+    name: "AI基础设施/RAG基础设施"
+    description: "文档解析、OCR、PDF转换与结构化提取，RAG数据预处理"
+    parent: ""
+    order: 105
+  ai_edge_ai:
+    id: ai_edge_ai
+    name: "AI基础设施/边缘AI"
+    description: "移动端、嵌入式、IoT设备上的模型推理部署"
+    parent: ""
+    order: 106
+  ai_model_architecture:
+    id: ai_model_architecture
+    name: "AI基础设施/模型架构"
+    description: "大模型架构分析、配置管理、注意力可视化与参数量计算"
+    parent: ""
+    order: 107
+  ai_ai_applications:
+    id: ai_ai_applications
+    name: "AI基础设施/AI应用"
+    description: "AI应用落地工具，Prompt工作流、AI自动化、知识图谱与Text2SQL"
+    parent: ""
+    order: 108
+  ai_ai_compiler:
+    id: ai_ai_compiler
+    name: "AI基础设施/AI编译器"
+    description: "模型编译器与推理优化工具，TVM、MLIR、TensorRT、XLA等"
+    parent: ""
+    order: 109
+  ai_model_interpretability:
+    id: ai_model_interpretability
+    name: "AI基础设施/模型可解释性"
+    description: "模型决策解释、特征归因、注意力可视化与偏见检测"
+    parent: ""
+    order: 110
+  ai_federated_learning:
+    id: ai_federated_learning
+    name: "AI基础设施/联邦学习"
+    description: "联邦学习与隐私计算，跨机构联合建模与加密推理"
+    parent: ""
+    order: 111
   shell_bash:
     id: shell_bash
     name: "Shell脚本/Bash工具"
@@ -316,6 +430,25 @@ data_files:
   - "ai/ml-frameworks.yaml"
   - "ai/mlops.yaml"
   - "ai/model-serving.yaml"
+  - "ai/llm-training.yaml"
+  - "ai/llm-inference.yaml"
+  - "ai/model-hub.yaml"
+  - "ai/data-labeling.yaml"
+  - "ai/monitoring.yaml"
+  - "ai/vector-db.yaml"
+  - "ai/agent-engineering.yaml"
+  - "ai/harness-engineering.yaml"
+  - "ai/ai-gateway.yaml"
+  - "ai/ai-safety.yaml"
+  - "ai/multimodal.yaml"
+  - "ai/ai-coding.yaml"
+  - "ai/rag-infra.yaml"
+  - "ai/edge-ai.yaml"
+  - "ai/model-architecture.yaml"
+  - "ai/ai-applications.yaml"
+  - "ai/ai-compiler.yaml"
+  - "ai/model-interpretability.yaml"
+  - "ai/federated-learning.yaml"
   - "shell/bash.yaml"
   - "cicd/github-actions.yaml"
   - "lang/rust.yaml"
