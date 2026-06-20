@@ -101,6 +101,27 @@ python3 scripts/wiki_status.py
 
 ---
 
+## 📋 完整命令清单
+
+全部 **734** 条命令已按功能领域简单分类，详见 [`COMMANDS.md`](COMMANDS.md)。
+
+| 分类 | 命令数 | 覆盖范围 |
+|------|--------|----------|
+| Kubernetes 生态 | 248 | kubectl、Helm、集群管理、网络、存储、安全、可观测性、MLOps 等 |
+| AI 基础设施 | 227 | 大模型训练/推理、Agent、RAG、向量数据库、AI 网关、AI 安全等 |
+| 操作系统 | 69 | Ubuntu/CentOS 包管理、systemd、防火墙、通用 Linux 命令 |
+| 编程语言 | 38 | Java/Go/Python/Node.js/Rust 工具链 |
+| 容器编排 | 34 | Docker、Docker Compose、Kafka 等 |
+| 版本控制 | 31 | Git、SVN |
+| 数据库 | 29 | MySQL、PostgreSQL、Redis |
+| 系统诊断 | 22 | Arthas、tsar、JVM 诊断 |
+| 网络工具 | 14 | curl、dig、tcpdump、netstat 等 |
+| 构建工具 | 10 | Maven、Gradle、Make、CMake |
+| 云平台 | 7 | AWS CLI、Terraform、Azure/GCP K8s |
+| CI/CD | 5 | GitHub Actions、Tekton、Skaffold |
+
+---
+
 ## 🗂️ 目录结构
 
 ```

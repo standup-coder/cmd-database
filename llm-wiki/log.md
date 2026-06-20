@@ -19,3 +19,5 @@ tags: ["meta", "log"]
 
 - [2026-06-03T12:46:19.570094] CROSS_LINKER links_added=38
 - [2026-06-03T12:46:19.570102] INGEST metadata.yaml → references/metadata-overview.md
+
+- [2026-06-19T19:23:57] QUERY query="唯识/八识是否有内容" result_pages=0 mode=normal escalated=false
