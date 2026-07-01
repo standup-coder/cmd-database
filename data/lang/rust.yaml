@@ -1,172 +1,184 @@
 category: "编程语言/Rust工具链"
 description: "Rust 编程语言工具链命令"
 commands:
-  - name: rustup
-    category: "编程语言/Rust工具链"
-    install_required: true
-    install_method: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
-    description: "Rust 工具链安装器和版本管理器"
-    usage:
-      - "rustup [子命令]"
-    options:
-      - flag: "update"
-        description: "更新 Rust 工具链"
-      - flag: "default"
-        description: "设置默认工具链版本"
-      - flag: "toolchain"
-        description: "管理已安装的工具链"
-      - flag: "target"
-        description: "管理交叉编译目标"
-      - flag: "component"
-        description: "管理工具链组件 (rustfmt, clippy)"
-    examples:
-      - command: "rustup update"
-        description: "更新 Rust 到最新稳定版"
-      - command: "rustup default nightly"
-        description: "切换到 nightly 工具链"
-      - command: "rustup target add x86_64-unknown-linux-musl"
-        description: "添加 Linux musl 交叉编译目标"
-      - command: "rustup component add clippy rustfmt"
-        description: "安装 clippy 和 rustfmt 组件"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    risks:
-      - level: medium
-        description: "update 可能导致现有项目编译失败"
-    related_commands:
-      - "cargo"
-      - "rustc"
+- name: rustup
+  category: "编程语言/Rust工具链"
+  install_required: true
+  install_method: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh"
+  description: "Rust 工具链安装器和版本管理器"
+  usage:
+  - "rustup [子命令]"
+  options:
+  - flag: "update"
+    description: "更新 Rust 工具链"
+  - flag: "default"
+    description: "设置默认工具链版本"
+  - flag: "toolchain"
+    description: "管理已安装的工具链"
+  - flag: "target"
+    description: "管理交叉编译目标"
+  - flag: "component"
+    description: "管理工具链组件 (rustfmt, clippy)"
+  examples:
+  - command: "rustup update"
+    description: "更新 Rust 到最新稳定版"
+  - command: "rustup default nightly"
+    description: "切换到 nightly 工具链"
+  - command: "rustup target add x86_64-unknown-linux-musl"
+    description: "添加 Linux musl 交叉编译目标"
+  - command: "rustup component add clippy rustfmt"
+    description: "安装 clippy 和 rustfmt 组件"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: "update 可能导致现有项目编译失败"
+  related_commands:
+  - "cargo"
+  - "rustc"
 
-  - name: cargo
-    category: "编程语言/Rust工具链"
-    install_required: true
-    install_method: "同 rustup"
-    description: "Rust 包管理器和构建工具"
-    usage:
-      - "cargo [子命令] [选项]"
-    options:
-      - flag: "--release"
-        description: "优化编译（生产模式）"
-      - flag: "--target"
-        description: "指定编译目标平台"
-      - flag: "--features"
-        description: "启用指定 feature"
-      - flag: "--no-default-features"
-        description: "禁用默认 features"
-      - flag: "-j"
-        description: "并行编译线程数"
-    examples:
-      - command: "cargo new myproject"
-        description: "创建新项目"
-      - command: "cargo build --release"
-        description: "Release 模式编译"
-      - command: "cargo test"
-        description: "运行所有测试"
-      - command: "cargo run"
-        description: "编译并运行"
-      - command: "cargo add serde --features derive"
-        description: "添加依赖并启用 feature"
-      - command: "cargo clippy"
-        description: "运行代码检查"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "rustup"
-      - "rustc"
+- name: cargo
+  category: "编程语言/Rust工具链"
+  install_required: true
+  install_method: "同 rustup"
+  description: "Rust 包管理器和构建工具"
+  usage:
+  - "cargo [子命令] [选项]"
+  options:
+  - flag: "--release"
+    description: "优化编译（生产模式）"
+  - flag: "--target"
+    description: "指定编译目标平台"
+  - flag: "--features"
+    description: "启用指定 feature"
+  - flag: "--no-default-features"
+    description: "禁用默认 features"
+  - flag: "-j"
+    description: "并行编译线程数"
+  examples:
+  - command: "cargo new myproject"
+    description: "创建新项目"
+  - command: "cargo build --release"
+    description: "Release 模式编译"
+  - command: "cargo test"
+    description: "运行所有测试"
+  - command: "cargo run"
+    description: "编译并运行"
+  - command: "cargo add serde --features derive"
+    description: "添加依赖并启用 feature"
+  - command: "cargo clippy"
+    description: "运行代码检查"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "rustup"
+  - "rustc"
 
-  - name: rustc
-    category: "编程语言/Rust工具链"
-    install_required: true
-    install_method: "同 rustup"
-    description: "Rust 编译器"
-    usage:
-      - "rustc [选项] <源文件>"
-    options:
-      - flag: "-O"
-        description: "优化编译"
-      - flag: "--edition"
-        description: "指定 Rust Edition (2015/2018/2021/2024)"
-      - flag: "--emit"
-        description: "指定输出类型 (asm/ir/llvm-bc/obj/mir)"
-      - flag: "-A"
-        description: "允许指定 lint"
-      - flag: "-D"
-        description: "将指定 lint 视为错误"
-    examples:
-      - command: "rustc main.rs"
-        description: "编译 Rust 源文件"
-      - command: "rustc -O main.rs -o myapp"
-        description: "优化编译并指定输出"
-      - command: "rustc --edition 2021 main.rs"
-        description: "使用 Rust 2021 Edition"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "cargo"
-      - "rustup"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: rustc
+  category: "编程语言/Rust工具链"
+  install_required: true
+  install_method: "同 rustup"
+  description: "Rust 编译器"
+  usage:
+  - "rustc [选项] <源文件>"
+  options:
+  - flag: "-O"
+    description: "优化编译"
+  - flag: "--edition"
+    description: "指定 Rust Edition (2015/2018/2021/2024)"
+  - flag: "--emit"
+    description: "指定输出类型 (asm/ir/llvm-bc/obj/mir)"
+  - flag: "-A"
+    description: "允许指定 lint"
+  - flag: "-D"
+    description: "将指定 lint 视为错误"
+  examples:
+  - command: "rustc main.rs"
+    description: "编译 Rust 源文件"
+  - command: "rustc -O main.rs -o myapp"
+    description: "优化编译并指定输出"
+  - command: "rustc --edition 2021 main.rs"
+    description: "使用 Rust 2021 Edition"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "cargo"
+  - "rustup"
 
-  - name: cargo fmt
-    category: "编程语言/Rust工具链"
-    install_required: true
-    install_method: "rustup component add rustfmt"
-    description: "Rust 代码格式化工具"
-    usage:
-      - "cargo fmt [选项]"
-    options:
-      - flag: "--"
-        description: "传递给 rustfmt 的额外选项"
-      - flag: "--check"
-        description: "仅检查格式，不修改文件"
-      - flag: "--verbose"
-        description: "显示详细输出"
-    examples:
-      - command: "cargo fmt"
-        description: "格式化所有代码"
-      - command: "cargo fmt -- --check"
-        description: "CI 中检查格式是否正确"
-      - command: "cargo fmt -- src/main.rs"
-        description: "仅格式化指定文件"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "cargo clippy"
-      - "cargo"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cargo fmt
+  category: "编程语言/Rust工具链"
+  install_required: true
+  install_method: "rustup component add rustfmt"
+  description: "Rust 代码格式化工具"
+  usage:
+  - "cargo fmt [选项]"
+  options:
+  - flag: "--"
+    description: "传递给 rustfmt 的额外选项"
+  - flag: "--check"
+    description: "仅检查格式，不修改文件"
+  - flag: "--verbose"
+    description: "显示详细输出"
+  examples:
+  - command: "cargo fmt"
+    description: "格式化所有代码"
+  - command: "cargo fmt -- --check"
+    description: "CI 中检查格式是否正确"
+  - command: "cargo fmt -- src/main.rs"
+    description: "仅格式化指定文件"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "cargo clippy"
+  - "cargo"
 
-  - name: cargo clippy
-    category: "编程语言/Rust工具链"
-    install_required: true
-    install_method: "rustup component add clippy"
-    description: "Rust 代码 lint 工具，检测常见错误和改进建议"
-    usage:
-      - "cargo clippy [选项]"
-    options:
-      - flag: "--"
-        description: "传递给 clippy 的额外选项"
-      - flag: "-W clippy::all"
-        description: "启用所有 clippy lint"
-      - flag: "-D warnings"
-        description: "将警告视为错误"
-      - flag: "--fix"
-        description: "自动修复可修复的问题"
-    examples:
-      - command: "cargo clippy"
-        description: "运行 clippy 检查"
-      - command: "cargo clippy -- -D warnings"
-        description: "CI 中将警告视为错误"
-      - command: "cargo clippy --fix"
-        description: "自动修复代码问题"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "cargo fmt"
-      - "cargo"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cargo clippy
+  category: "编程语言/Rust工具链"
+  install_required: true
+  install_method: "rustup component add clippy"
+  description: "Rust 代码 lint 工具，检测常见错误和改进建议"
+  usage:
+  - "cargo clippy [选项]"
+  options:
+  - flag: "--"
+    description: "传递给 clippy 的额外选项"
+  - flag: "-W clippy::all"
+    description: "启用所有 clippy lint"
+  - flag: "-D warnings"
+    description: "将警告视为错误"
+  - flag: "--fix"
+    description: "自动修复可修复的问题"
+  examples:
+  - command: "cargo clippy"
+    description: "运行 clippy 检查"
+  - command: "cargo clippy -- -D warnings"
+    description: "CI 中将警告视为错误"
+  - command: "cargo clippy --fix"
+    description: "自动修复代码问题"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "cargo fmt"
+  - "cargo"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

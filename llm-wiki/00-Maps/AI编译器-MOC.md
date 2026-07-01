@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/AI编译器
-moc_order: 0
-tags:
-- MOC
-- AI
-- AI编译器
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/AI编译器",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "AI编译器"
+  ]
+}
 ---
-
 
 # AI基础设施/AI编译器
 

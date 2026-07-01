@@ -1,0 +1,147 @@
+category: AI基础设施/扩展工具
+description: 大模型应用与平台扩展工具
+commands:
+- name: open-webui
+  category: AI基础设施/扩展工具
+  install_required: true
+  description: 本地大模型 Web 聊天界面
+  usage:
+  - open-webui [OPTIONS] [ARGS]
+  options:
+  - flag: serve
+    description: 启动服务
+  - flag: --port
+    description: ''
+  - flag: --host
+    description: ''
+  examples:
+  - command: open-webui serve
+    description: 启动 Open WebUI 服务
+  - command: docker run -d -p 3000:8080 --gpus all -v ollama:/root/.ollama -v 
+      open-webui:/app/backend/data --name open-webui --restart always 
+      ghcr.io/open-webui/open-webui:ollama
+    description: Docker 启动并挂载 Ollama
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ollama
+  - llama.cpp
+  install_method: pip install open-webui 或 Docker 运行
+  risks:
+  - level: medium
+    description: WebUI 会暴露模型接口，请配置认证和网络访问控制
+- name: anything-llm
+  category: AI基础设施/扩展工具
+  install_required: true
+  description: 本地/私有化知识库与 LLM 对话平台
+  usage:
+  - anything-llm [OPTIONS] [ARGS]
+  options:
+  - flag: start
+    description: 启动服务
+  - flag: setup
+    description: 初始化
+  examples:
+  - command: yarn anything-llm start
+    description: 启动 AnythingLLM
+  - command: docker pull mintplexlabs/anythingllm && docker run -d -p 3001:3001 
+      mintplexlabs/anythingllm
+    description: Docker 启动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ollama
+  - docling
+  install_method: 参考 
+    https://github.com/Mintplex-Labs/anything-llm/blob/master/BARE_METAL.md
+  risks:
+  - level: medium
+    description: 上传文档可能包含敏感信息，请做好访问控制和数据隔离
+- name: mcp
+  category: AI基础设施/扩展工具
+  install_required: true
+  description: Model Context Protocol CLI/服务器
+  usage:
+  - mcp [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: 初始化
+  - flag: run
+    description: 运行服务器
+  - flag: inspect
+    description: 检查
+  examples:
+  - command: npx @anthropics/mcp-server-puppeteer
+    description: 运行官方示例 MCP 服务器
+  - command: uvx mcp-server-sqlite --db path/to/db.sqlite
+    description: 运行 SQLite MCP 服务器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openai-agents
+  - langchain
+  install_method: 参考 https://modelcontextprotocol.io/quickstart
+  risks:
+  - level: medium
+    description: MCP 服务器可能拥有文件/网络访问权限，请审查权限并隔离运行
+- name: perplexity
+  category: AI基础设施/扩展工具
+  install_required: true
+  description: Perplexity API CLI
+  usage:
+  - perplexity [OPTIONS] [ARGS]
+  options:
+  - flag: --model
+    description: ''
+  - flag: --messages
+    description: ''
+  - flag: --stream
+    description: ''
+  examples:
+  - command: perplexity ask 'What is RAG?'
+    description: 通过 CLI 提问
+  - command: perplexity --model sonar-pro --stream 'Explain Kubernetes'
+    description: 流式输出回答
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - groq
+  - openai-function-calling
+  install_method: pip install perplexity-python 或参考官方 SDK
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sweep
+  category: AI基础设施/扩展工具
+  install_required: true
+  description: AI 驱动的代码 issue 自动修复助手
+  usage:
+  - sweep [OPTIONS] [ARGS]
+  options:
+  - flag: --issue
+    description: 指定 issue
+  - flag: --repo
+    description: 指定仓库
+  - flag: --branch
+    description: ''
+  examples:
+  - command: sweep --issue 123 --repo myorg/myrepo
+    description: 根据 issue 生成修复 PR
+  - command: sweep --issue 'Fix memory leak in worker' --repo myorg/myrepo
+    description: 按描述生成修复
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - swe-agent
+  - aider
+  install_method: pip install sweepai 或 GitHub App
+  risks:
+  - level: high
+    description: AI 自动修改代码可能引入 Bug，请严格审查生成的 PR 并通过 CI
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。

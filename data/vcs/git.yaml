@@ -27,6 +27,9 @@ commands:
   related_commands:
   - git pull
   - git fetch
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git init
   category: 版本控制/Git命令
   install_required: true
@@ -46,6 +49,9 @@ commands:
   - linux
   - darwin
   - windows
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git add
   category: 版本控制/Git命令
   install_required: true
@@ -74,6 +80,9 @@ commands:
   related_commands:
   - git commit
   - git status
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git commit
   category: 版本控制/Git命令
   install_required: true
@@ -102,6 +111,9 @@ commands:
   related_commands:
   - git add
   - git push
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git status
   category: 版本控制/Git命令
   install_required: true
@@ -123,6 +135,9 @@ commands:
   - linux
   - darwin
   - windows
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git push
   category: 版本控制/Git命令
   install_required: true
@@ -147,6 +162,8 @@ commands:
   risks:
   - level: high
     description: 使用--force可能覆盖他人的提交，务必谨慎
+  - level: high
+    description: 涉及重写历史或删除的操作不可逆，建议先备份分支或创建保护规则。
   platforms:
   - linux
   - darwin
@@ -178,6 +195,9 @@ commands:
   related_commands:
   - git fetch
   - git merge
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git branch
   category: 版本控制/Git命令
   install_required: true
@@ -208,6 +228,9 @@ commands:
   related_commands:
   - git checkout
   - git switch
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git checkout
   category: 版本控制/Git命令
   install_required: true
@@ -264,6 +287,9 @@ commands:
   related_commands:
   - git rebase
   - git pull
+  risks:
+  - level: medium
+    description: 会改变仓库状态，请确认分支、提交范围及冲突处理后再执行。
 - name: git log
   category: 版本控制/Git命令
   install_required: true
@@ -294,6 +320,9 @@ commands:
   related_commands:
   - git show
   - git diff
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git fetch
   category: 版本控制/Git命令
   install_required: true
@@ -323,6 +352,9 @@ commands:
   - git pull
   - git merge
   - git clone
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git diff
   category: 版本控制/Git命令
   install_required: true
@@ -352,6 +384,9 @@ commands:
   - git status
   - git add
   - git log
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git rebase
   category: 版本控制/Git命令
   install_required: true
@@ -381,6 +416,9 @@ commands:
   - git merge
   - git cherry-pick
   - git log
+  risks:
+  - level: medium
+    description: 会改变仓库状态，请确认分支、提交范围及冲突处理后再执行。
 - name: git switch
   category: 版本控制/Git命令
   install_required: true
@@ -408,6 +446,9 @@ commands:
   - git branch
   - git checkout
   - git merge
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git restore
   category: 版本控制/Git命令
   install_required: true
@@ -435,6 +476,9 @@ commands:
   - git checkout
   - git reset
   - git status
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。
 - name: git show
   category: 版本控制/Git命令
   install_required: true
@@ -462,3 +506,6 @@ commands:
   - git log
   - git diff
   - git cat-file
+  risks:
+  - level: low
+    description: 只读查询类 Git 操作，风险较低，但仍需确认仓库与分支。

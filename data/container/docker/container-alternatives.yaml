@@ -1,0 +1,117 @@
+category: 容器编排/容器替代方案
+description: Docker 之外的主流容器运行时与管理工具
+commands:
+- name: podman
+  category: 容器编排/容器替代方案
+  install_required: true
+  install_method: 参考 https://podman.io/docs/installation
+  description: 无守护进程的容器引擎，兼容 Docker CLI
+  usage:
+  - podman [OPTIONS] COMMAND
+  options:
+  - flag: run
+    description: 运行容器
+  - flag: ps
+    description: 列出容器
+  - flag: build
+    description: 构建镜像
+  examples:
+  - command: podman run -d -p 8080:80 nginx
+    description: 后台运行 nginx 容器
+  - command: podman build -t myapp .
+    description: 使用当前目录 Dockerfile 构建镜像
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - docker
+  - buildah
+  risks:
+  - level: medium
+    description: rootless 模式虽好，但仍需注意镜像来源和端口暴露范围
+
+- name: buildah
+  category: 容器编排/容器替代方案
+  install_required: true
+  install_method: 参考 https://github.com/containers/buildah/blob/main/install.md
+  description: 构建 OCI 容器镜像，无需完整容器运行时
+  usage:
+  - buildah [OPTIONS] COMMAND
+  options:
+  - flag: bud
+    description: 使用 Dockerfile 构建镜像
+  - flag: from
+    description: 从基础镜像创建工作容器
+  - flag: commit
+    description: 将工作容器保存为镜像
+  examples:
+  - command: buildah bud -t myapp .
+    description: 使用 Dockerfile 构建镜像
+  - command: buildah from alpine:latest
+    description: 从 alpine 创建构建容器
+  platforms:
+  - linux
+  related_commands:
+  - podman
+  - skopeo
+  risks:
+  - level: low
+    description: 构建时避免在镜像层中遗留密钥等敏感文件
+
+- name: skopeo
+  category: 容器编排/容器替代方案
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install skopeo / sudo yum install skopeo
+  description: 容器镜像仓库操作工具，支持复制、检查签名
+  usage:
+  - skopeo [OPTIONS] COMMAND
+  options:
+  - flag: inspect
+    description: 查看远程镜像元数据
+  - flag: copy
+    description: 在不同仓库之间复制镜像
+  - flag: sync
+    description: 同步镜像仓库
+  examples:
+  - command: skopeo inspect docker://registry.example.com/myapp:latest
+    description: 查看远程镜像信息
+  - command: skopeo copy docker://src/myapp:latest docker://dst/myapp:latest
+    description: 复制镜像到另一个仓库
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - docker
+  - podman
+  risks:
+  - level: medium
+    description: 复制镜像会覆盖目标 tag，请确认源和目标地址
+
+- name: nerdctl
+  category: 容器编排/容器替代方案
+  install_required: true
+  install_method: 参考 https://github.com/containerd/nerdctl/blob/main/docs/install.md
+  description: containerd 的 Docker 兼容 CLI
+  usage:
+  - nerdctl [OPTIONS] COMMAND
+  options:
+  - flag: run
+    description: 运行容器
+  - flag: ps
+    description: 列出容器
+  - flag: images
+    description: 列出镜像
+  examples:
+  - command: nerdctl run -d --name nginx nginx:alpine
+    description: 在 containerd 上运行容器
+  - command: nerdctl images
+    description: 列出本地镜像
+  platforms:
+  - linux
+  related_commands:
+  - ctr
+  - crictl
+  risks:
+  - level: medium
+    description: nerdctl 直接操作 containerd，可能影响 Kubernetes 使用的容器

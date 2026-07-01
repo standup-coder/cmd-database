@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/模型服务
-moc_order: 0
-tags:
-- MOC
-- AI
-- 模型服务
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/模型服务",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "模型服务"
+  ]
+}
 ---
-
 
 # AI基础设施/模型服务
 

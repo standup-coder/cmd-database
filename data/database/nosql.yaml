@@ -1,0 +1,178 @@
+category: 数据库工具/NoSQL
+description: 非关系型数据库命令行工具
+commands:
+- name: mongosh
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 参考 https://www.mongodb.com/docs/mongodb-shell/install/
+  description: MongoDB 官方交互式 Shell
+  usage:
+  - mongosh [OPTIONS] [CONNECTION_STRING]
+  options:
+  - flag: --host
+    description: 指定 MongoDB 服务器地址
+  - flag: --port
+    description: 指定端口
+  - flag: --username
+    description: 用户名
+  examples:
+  - command: mongosh mongodb://localhost:27017/mydb
+    description: 连接到本地 MongoDB 数据库
+  - command: mongosh --eval "db.users.find().limit(5)"
+    description: 执行 JS 查询并退出
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - mongodump
+  - mongoexport
+  risks:
+  - level: medium
+    description: 连接字符串中明文密码会泄露，请使用环境变量或凭证文件
+
+- name: mongodump
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 随 MongoDB Database Tools 安装
+  description: MongoDB 逻辑备份工具
+  usage:
+  - mongodump [OPTIONS]
+  options:
+  - flag: --uri
+    description: MongoDB 连接 URI
+  - flag: --db
+    description: 指定备份的数据库
+  - flag: --out
+    description: 输出目录
+  examples:
+  - command: mongodump --uri="mongodb://localhost:27017" --out=/backup/mongo
+    description: 备份所有数据库到指定目录
+  - command: mongodump --db mydb --collection users
+    description: 备份指定集合
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - mongosh
+  - mongorestore
+  risks:
+  - level: medium
+    description: 备份大量数据会影响数据库性能，建议在业务低峰期执行
+
+- name: mongoexport
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 随 MongoDB Database Tools 安装
+  description: 将 MongoDB 集合导出为 JSON 或 CSV
+  usage:
+  - mongoexport [OPTIONS]
+  options:
+  - flag: --uri
+    description: MongoDB 连接 URI
+  - flag: --collection
+    description: 指定集合
+  - flag: --out
+    description: 输出文件
+  examples:
+  - command: mongoexport --uri="mongodb://localhost:27017/mydb" --collection users --out users.json
+    description: 导出集合为 JSON
+  - command: mongoexport --collection users --type=csv --fields=name,email --out users.csv
+    description: 导出指定字段为 CSV
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - mongosh
+  - mongodump
+  risks:
+  - level: medium
+    description: 导出的文件可能包含敏感信息，请妥善保管存储位置
+
+- name: cqlsh
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 随 Apache Cassandra 安装
+  description: Cassandra CQL 交互式 Shell
+  usage:
+  - cqlsh [OPTIONS] [HOST [PORT]]
+  options:
+  - flag: -u
+    description: 用户名
+  - flag: -p
+    description: 密码
+  - flag: -k
+    description: 指定默认 keyspace
+  examples:
+  - command: cqlsh localhost 9042 -u cassandra
+    description: 以用户名连接本地 Cassandra
+  - command: cqlsh -e "DESCRIBE KEYSPACES"
+    description: 列出所有 keyspace 后退出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cassandra-stress
+  risks:
+  - level: medium
+    description: 命令行传入密码会留在历史记录，建议使用 .cqlshrc 配置文件
+
+- name: sqlite3
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 多数 Linux/macOS 预装，或从 https://sqlite.org/download.html 安装
+  description: SQLite 命令行数据库客户端
+  usage:
+  - sqlite3 [OPTIONS] DATABASE [SQL]
+  options:
+  - flag: -header
+    description: 显示列标题
+  - flag: -csv
+    description: 以 CSV 模式输出
+  - flag: -init
+    description: 启动时执行的 SQL 文件
+  examples:
+  - command: sqlite3 mydb.db ".tables"
+    description: 列出数据库中的所有表
+  - command: sqlite3 mydb.db "SELECT * FROM users LIMIT 5"
+    description: 执行 SQL 查询并退出
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - mysql
+  - psql
+  risks:
+  - level: low
+    description: SQLite 为文件级数据库，请确保有文件写权限并定期备份
+
+- name: cypher-shell
+  category: 数据库工具/NoSQL
+  install_required: true
+  install_method: 随 Neo4j 安装
+  description: Neo4j 图数据库 Cypher 查询命令行客户端
+  usage:
+  - cypher-shell [OPTIONS]
+  options:
+  - flag: -u
+    description: 用户名
+  - flag: -p
+    description: 密码
+  - flag: -d
+    description: 指定数据库
+  examples:
+  - command: cypher-shell -u neo4j -p password
+    description: 连接本地 Neo4j
+  - command: cypher-shell -u neo4j -p password -d mydb "MATCH (n) RETURN count(n)"
+    description: 执行 Cypher 查询并退出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - neo4j-admin
+  risks:
+  - level: medium
+    description: MATCH ... DELETE 等写操作会修改图数据，执行前请确认查询影响范围

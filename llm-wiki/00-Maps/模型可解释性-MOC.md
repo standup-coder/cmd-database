@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/模型可解释性
-moc_order: 0
-tags:
-- MOC
-- AI
-- 模型可解释性
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/模型可解释性",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "模型可解释性"
+  ]
+}
 ---
-
 
 # AI基础设施/模型可解释性
 

@@ -22,7 +22,8 @@ commands:
   examples:
   - command: aws s3 ls
     description: 列出所有 S3 存储桶
-  - command: aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,State.Name]'
+  - command: aws ec2 describe-instances --query 
+      'Reservations[].Instances[].[InstanceId,State.Name]'
     description: 查询 EC2 实例 ID 和状态
   - command: aws sts get-caller-identity
     description: 查看当前认证身份
@@ -35,6 +36,8 @@ commands:
   risks:
   - level: high
     description: 误操作可能产生费用或删除重要资源，建议开启 MFA
+  - level: high
+    description: 云资源操作可能产生费用或删除数据，建议先确认区域、账号，并使用 --dry-run 验证。
   related_commands:
   - aws configure
   - aws sts
@@ -63,6 +66,8 @@ commands:
   risks:
   - level: high
     description: 凭证明文存储在 ~/.aws/credentials，确保文件权限为 600
+  - level: high
+    description: 云资源操作可能产生费用或删除数据，建议先确认区域、账号，并使用 --dry-run 验证。
   related_commands:
   - aws
   - aws sts
@@ -98,6 +103,8 @@ commands:
   risks:
   - level: high
     description: sync --delete 会删除目标端多余文件，操作不可逆
+  - level: high
+    description: 云资源操作可能产生费用或删除数据，建议先确认区域、账号，并使用 --dry-run 验证。
   related_commands:
   - aws
   - aws configure
@@ -122,6 +129,9 @@ commands:
   related_commands:
   - aws
   - kubectl
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: aws cloudformation
   category: 云平台/AWS CLI
   install_required: true
@@ -137,8 +147,8 @@ commands:
   - flag: --capabilities
     description: 声明模板能力 (CAPABILITY_IAM)
   examples:
-  - command: aws cloudformation deploy --template-file template.yaml --stack-name
-      mystack
+  - command: aws cloudformation deploy --template-file template.yaml 
+      --stack-name mystack
     description: 部署 CloudFormation 堆栈
   - command: aws cloudformation describe-stacks --stack-name mystack
     description: 查看堆栈状态
@@ -151,13 +161,16 @@ commands:
   risks:
   - level: high
     description: delete-stack 会删除所有关联资源，操作不可逆
+  - level: high
+    description: 云资源操作可能产生费用或删除数据，建议先确认区域、账号，并使用 --dry-run 验证。
   related_commands:
   - aws
   - terraform
 - name: aws sts
   category: 云平台/AWS CLI
   install_required: true
-  install_method: 参考 https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+  install_method: 参考 
+    https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
   description: AWS Security Token Service，管理临时凭证
   usage:
   - aws sts <命令> [选项]
@@ -167,8 +180,8 @@ commands:
   examples:
   - command: aws sts get-caller-identity
     description: 获取当前调用者身份
-  - command: aws sts assume-role --role-arn arn:aws:iam::123456789012:role/MyRole
-      --role-session-name mysession
+  - command: aws sts assume-role --role-arn 
+      arn:aws:iam::123456789012:role/MyRole --role-session-name mysession
     description: 扮演IAM角色获取临时凭证
   platforms:
   - linux
@@ -178,3 +191,6 @@ commands:
   - aws configure
   - aws iam
   - aws s3
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

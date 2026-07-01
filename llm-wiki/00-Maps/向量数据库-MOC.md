@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/向量数据库
-moc_order: 0
-tags:
-- MOC
-- AI
-- 向量数据库
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/向量数据库",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "向量数据库"
+  ]
+}
 ---
-
 
 # AI基础设施/向量数据库
 
@@ -20,6 +22,7 @@ tags:
 - 🟡 [[faiss-cli]] — Facebook AI Similarity Search (FaisS)高性能向量搜索库，支持GPU加速
 - 🟡 [[lancedb]] — LanceDB无服务器向量数据库，基于Apache Arrow列式存储，支持嵌入和全文搜索
 - 🟡 [[marqo]] — Marqo端到端向量搜索引擎，内置向量化，零配置语义搜索
+- 🟡 [[meilisearch]] — 开源即时搜索引擎，支持容错搜索和中文分词
 - 🔴 [[milvus-cli]] — Milvus分布式向量数据库CLI，支持十亿级向量的高性能ANN搜索
 - 🔴 [[opensearch]] — OpenSearch分布式搜索与分析引擎，支持k-NN向量搜索、ML推理插件
 - 🟡 [[pgvector]] — pgvector PostgreSQL向量扩展，在关系数据库中直接存储和查询向量
@@ -31,8 +34,7 @@ tags:
 - 🔴 [[vespa-cli]] — Vespa大规模搜索与推理引擎，支持向量搜索+结构化搜索+机器学习推理
 - 🟡 [[weaviate-cli]] — Weaviate AI原生向量数据库，内置向量化和模块化扩展(GraphQL接口)
 
-- 🟡 [[meilisearch]] — 开源即时搜索引擎，支持容错搜索和中文分词
 ## 统计
 
-- 总命令数: 15
+- 总命令数: 16
 - 维度: 向量数据库

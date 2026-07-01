@@ -1,0 +1,60 @@
+category: 数据库工具/时序与OLAP
+description: 时序数据库与 OLAP 分析引擎命令行工具
+commands:
+- name: influx
+  category: 数据库工具/时序与OLAP
+  install_required: true
+  install_method: 参考 https://docs.influxdata.com/influxdb/latest/install/
+  description: InfluxDB 命令行客户端
+  usage:
+  - influx [OPTIONS] [COMMAND]
+  options:
+  - flag: query
+    description: 执行 Flux 或 InfluxQL 查询
+  - flag: bucket
+    description: 管理 bucket
+  - flag: --host
+    description: InfluxDB 服务器地址
+  examples:
+  - command: influx query 'from(bucket:"metrics") |> range(start:-1h)'
+    description: 查询最近 1 小时的时序数据
+  - command: influx bucket list
+    description: 列出所有 bucket
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - clickhouse-client
+  risks:
+  - level: medium
+    description: 删除 bucket 或大量数据不可恢复，请确认保留策略
+
+- name: clickhouse-client
+  category: 数据库工具/时序与OLAP
+  install_required: true
+  install_method: 随 ClickHouse 安装
+  description: ClickHouse 交互式 SQL 客户端
+  usage:
+  - clickhouse-client [OPTIONS]
+  options:
+  - flag: --host
+    description: 服务器地址
+  - flag: --query
+    description: 执行 SQL 查询
+  - flag: --format
+    description: 输出格式（如 JSONEachRow）
+  examples:
+  - command: clickhouse-client --query "SELECT * FROM system.tables LIMIT 10"
+    description: 查询系统表
+  - command: clickhouse-client --host ch.example.com --query "SELECT count() FROM events"
+    description: 远程统计 events 表行数
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - psql
+  - influx
+  risks:
+  - level: medium
+    description: ClickHouse 查询可能扫描亿级数据，请关注内存和 IO 消耗

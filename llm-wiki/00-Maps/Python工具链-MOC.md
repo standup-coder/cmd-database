@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 编程语言/Python工具链
-moc_order: 0
-tags:
-- MOC
-- AI
-- Python工具链
+{
+  "moc_type": "dimension",
+  "moc_name": "编程语言/Python工具链",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Python工具链"
+  ]
+}
 ---
-
 
 # 编程语言/Python工具链
 

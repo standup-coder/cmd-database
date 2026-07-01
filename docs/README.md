@@ -2,6 +2,28 @@
 
 这是 cmd4coder 项目的 GitHub Pages 官网源码。
 
+## 📚 文档索引
+
+本 `docs/` 目录包含项目文档与 GitHub Pages 网站源码。
+
+| 子目录 | 内容 |
+|--------|------|
+| [`architecture/`](architecture/) | 架构说明文档 |
+| [`guides/`](guides/) | 使用指南 |
+| [`reference/`](reference/) | 参考手册 |
+| [`reports/`](reports/) | 项目报告（LLM-Wiki 改造、AI 命令缺口分析等） |
+| [`changelog/`](changelog/) | 更新日志 |
+| [`build/`](build/) | 构建相关文档 |
+| [`legal/`](legal/) | 许可证与法律文件 |
+| [`assets/`](assets/) | 图标与图片资源 |
+| [`css/`](css/) / [`js/`](js/) | GitHub Pages 样式与脚本 |
+
+关键报告：
+
+- [`reports/llm-wiki/IMPLEMENTATION_REPORT.md`](reports/llm-wiki/IMPLEMENTATION_REPORT.md) — LLM-Wiki 改造实施报告
+- [`reports/ai-commands-gap-analysis.md`](reports/ai-commands-gap-analysis.md) — AI 命令缺口分析
+- [`reports/project-evaluation-report.md`](reports/project-evaluation-report.md) — 项目评估报告
+
 ## 📁 目录结构
 
 ```

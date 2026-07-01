@@ -155,6 +155,8 @@ commands:
   examples:
   - command: redis-check-rdb dump.rdb
     description: Check RDB file integrity
+  - command: redis-check-rdb --verbose dump.rdb
+    description: 详细输出 RDB 检查结果
   risks:
   - level: low
     description: Read-only operation; safe to use
@@ -176,7 +178,8 @@ commands:
     description: Start in Sentinel mode
   risks:
   - level: high
-    description: Manages automatic failover; misconfiguration can cause data loss
+    description: Manages automatic failover; misconfiguration can cause data 
+      loss
   - level: medium
     description: Requires proper quorum configuration
   install_method: Included with Redis installation
@@ -218,6 +221,8 @@ commands:
   examples:
   - command: redis-cli MONITOR
     description: Stream all commands in real-time
+  - command: redis-cli MONITOR | head -n 20
+    description: 只监控前 20 条命令
   risks:
   - level: medium
     description: Can significantly impact performance on busy servers
@@ -295,3 +300,6 @@ commands:
   - redis-cli
   - redis-benchmark
   - redis-sentinel
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

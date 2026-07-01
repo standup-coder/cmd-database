@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 操作系统/Ubuntu系统命令
-moc_order: 0
-tags:
-- MOC
-- AI
-- Ubuntu系统命令
+{
+  "moc_type": "dimension",
+  "moc_name": "操作系统/Ubuntu系统命令",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Ubuntu系统命令"
+  ]
+}
 ---
-
 
 # 操作系统/Ubuntu系统命令
 

@@ -1,156 +1,167 @@
 category: "AI基础设施/RAG基础设施"
 description: "文档解析、OCR、PDF转换与结构化提取，RAG应用的数据预处理核心"
 commands:
-  - name: unstructured
-    category: "AI基础设施/RAG基础设施"
-    install_required: true
-    install_method: "pip install unstructured[all-docs]"
-    description: "Unstructured通用文档解析库，支持PDF/Word/PPT/HTML/图片等50+格式提取文本"
-    usage:
-      - "python extract.py (使用unstructured库)"
-    options:
-      - flag: "partition"
-        description: "智能文档分块"
-      - flag: "partition_pdf"
-        description: "PDF专用解析"
-      - flag: "partition_html"
-        description: "HTML解析"
-    examples:
-      - command: "python -c \"from unstructured.partition.pdf import partition_pdf; elements = partition_pdf('doc.pdf')\""
-        description: "提取PDF文本和表格"
-      - command: "python -c \"from unstructured.partition.auto import partition; elements = partition('report.docx')\""
-        description: "自动识别格式并解析"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "llamaparse"
-      - "marker"
-    risks:
-      - level: low
-        description: "只读解析"
-    references:
-      - "https://unstructured.io/"
+- name: unstructured
+  category: "AI基础设施/RAG基础设施"
+  install_required: true
+  install_method: "pip install unstructured[all-docs]"
+  description: "Unstructured通用文档解析库，支持PDF/Word/PPT/HTML/图片等50+格式提取文本"
+  usage:
+  - "python extract.py (使用unstructured库)"
+  options:
+  - flag: "partition"
+    description: "智能文档分块"
+  - flag: "partition_pdf"
+    description: "PDF专用解析"
+  - flag: "partition_html"
+    description: "HTML解析"
+  examples:
+  - command: "python -c \"from unstructured.partition.pdf import partition_pdf; elements
+      = partition_pdf('doc.pdf')\""
+    description: "提取PDF文本和表格"
+  - command: "python -c \"from unstructured.partition.auto import partition; elements
+      = partition('report.docx')\""
+    description: "自动识别格式并解析"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "llamaparse"
+  - "marker"
+  risks:
+  - level: low
+    description: "只读解析"
+  references:
+  - "https://unstructured.io/"
 
-  - name: llamaparse
-    category: "AI基础设施/RAG基础设施"
-    install_required: true
-    install_method: "pip install llama-parse"
-    description: "LlamaParse LlamaIndex高级PDF解析服务，GenAI原生解析，支持表格、图表、数学公式"
-    usage:
-      - "python extract.py (使用llama_parse库)"
-    options:
-      - flag: "LlamaParse"
-        description: "解析器类"
-      - flag: "result_type"
-        description: "输出格式 (markdown, text)"
-      - flag: "verbose"
-        description: "详细输出"
-    examples:
-      - command: "python -c \"from llama_parse import LlamaParse; parser = LlamaParse(result_type='markdown'); docs = parser.load_data('paper.pdf')\""
-        description: "PDF转Markdown"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "unstructured"
-      - "docling"
-    risks:
-      - level: low
-        description: "云端API解析注意隐私"
-    references:
-      - "https://docs.cloud.llamaindex.ai/"
+- name: llamaparse
+  category: "AI基础设施/RAG基础设施"
+  install_required: true
+  install_method: "pip install llama-parse"
+  description: "LlamaParse LlamaIndex高级PDF解析服务，GenAI原生解析，支持表格、图表、数学公式"
+  usage:
+  - "python extract.py (使用llama_parse库)"
+  options:
+  - flag: "LlamaParse"
+    description: "解析器类"
+  - flag: "result_type"
+    description: "输出格式 (markdown, text)"
+  - flag: "verbose"
+    description: "详细输出"
+  examples:
+  - command: "python -c \"from llama_parse import LlamaParse; parser = LlamaParse(result_type='markdown');
+      docs = parser.load_data('paper.pdf')\""
+    description: "PDF转Markdown"
+  - command: python -c "from llama_parse import LlamaParse; 
+      help(LlamaParse.load_data)"
+    description: 查看 PDF 加载 API
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "unstructured"
+  - "docling"
+  risks:
+  - level: low
+    description: "云端API解析注意隐私"
+  references:
+  - "https://docs.cloud.llamaindex.ai/"
 
-  - name: docling
-    category: "AI基础设施/RAG基础设施"
-    install_required: true
-    install_method: "pip install docling"
-    description: "IBM Docling开源文档解析，支持PDF/HTML/图片/PPT，保留文档结构生成Markdown"
-    usage:
-      - "python extract.py (使用docling库)"
-    options:
-      - flag: "DocumentConverter"
-        description: "文档转换器"
-      - flag: "export_to_markdown"
-        description: "导出Markdown"
-    examples:
-      - command: "python -c \"from docling.document_converter import DocumentConverter; c = DocumentConverter(); r = c.convert('paper.pdf'); print(r.document.export_to_markdown())\""
-        description: "PDF转结构化Markdown"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "unstructured"
-      - "marker"
-    risks:
-      - level: low
-        description: "本地解析安全"
-    references:
-      - "https://github.com/DS4SD/docling"
+- name: docling
+  category: "AI基础设施/RAG基础设施"
+  install_required: true
+  install_method: "pip install docling"
+  description: "IBM Docling开源文档解析，支持PDF/HTML/图片/PPT，保留文档结构生成Markdown"
+  usage:
+  - "python extract.py (使用docling库)"
+  options:
+  - flag: "DocumentConverter"
+    description: "文档转换器"
+  - flag: "export_to_markdown"
+    description: "导出Markdown"
+  examples:
+  - command: "python -c \"from docling.document_converter import DocumentConverter;
+      c = DocumentConverter(); r = c.convert('paper.pdf'); print(r.document.export_to_markdown())\""
+    description: "PDF转结构化Markdown"
+  - command: python -c "from docling.document_converter import 
+      DocumentConverter; help(DocumentConverter.convert)"
+    description: 查看文档转换 API
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "unstructured"
+  - "marker"
+  risks:
+  - level: low
+    description: "本地解析安全"
+  references:
+  - "https://github.com/DS4SD/docling"
 
-  - name: marker
-    category: "AI基础设施/RAG基础设施"
-    install_required: true
-    install_method: "pip install marker-pdf"
-    description: "Marker高性能PDF转Markdown工具，基于布局模型，准确提取表格、公式、代码块"
-    usage:
-      - "marker [OPTIONS] INPUT_DIR OUTPUT_DIR"
-    options:
-      - flag: "--workers"
-        description: "并行工作进程数"
-      - flag: "--max_pages"
-        description: "最大处理页数"
-      - flag: "--langs"
-        description: "语言列表"
-    examples:
-      - command: "marker ./pdfs ./markdown --workers 4"
-        description: "4进程批量转换PDF"
-      - command: "marker single paper.pdf ./output --langs English,Chinese"
-        description: "指定语言转换"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "pymupdf"
-      - "unstructured"
-    risks:
-      - level: low
-        description: "本地处理安全"
-    references:
-      - "https://github.com/VikParuchuri/marker"
+- name: marker
+  category: "AI基础设施/RAG基础设施"
+  install_required: true
+  install_method: "pip install marker-pdf"
+  description: "Marker高性能PDF转Markdown工具，基于布局模型，准确提取表格、公式、代码块"
+  usage:
+  - "marker [OPTIONS] INPUT_DIR OUTPUT_DIR"
+  options:
+  - flag: "--workers"
+    description: "并行工作进程数"
+  - flag: "--max_pages"
+    description: "最大处理页数"
+  - flag: "--langs"
+    description: "语言列表"
+  examples:
+  - command: "marker ./pdfs ./markdown --workers 4"
+    description: "4进程批量转换PDF"
+  - command: "marker single paper.pdf ./output --langs English,Chinese"
+    description: "指定语言转换"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "pymupdf"
+  - "unstructured"
+  risks:
+  - level: low
+    description: "本地处理安全"
+  references:
+  - "https://github.com/VikParuchuri/marker"
 
-  - name: pymupdf
-    category: "AI基础设施/RAG基础设施"
-    install_required: true
-    install_method: "pip install PyMuPDF"
-    description: "PyMuPDF高性能PDF处理库，提取文本/图像/注释，支持PDF编辑和转换"
-    usage:
-      - "python extract.py (使用fitz库)"
-    options:
-      - flag: "fitz.open()"
-        description: "打开PDF"
-      - flag: "page.get_text()"
-        description: "提取页面文本"
-      - flag: "page.get_images()"
-        description: "提取页面图像"
-    examples:
-      - command: "python -c \"import fitz; doc = fitz.open('file.pdf'); print(doc[0].get_text())\""
-        description: "提取首页文本"
-      - command: "python -c \"import fitz; doc = fitz.open('file.pdf'); pix = doc[0].get_pixmap(); pix.save('page1.png')\""
-        description: "PDF页面转图片"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "marker"
-      - "unstructured"
-    risks:
-      - level: low
-        description: "本地处理安全"
-    references:
-      - "https://github.com/pymupdf/PyMuPDF"
+- name: pymupdf
+  category: "AI基础设施/RAG基础设施"
+  install_required: true
+  install_method: "pip install PyMuPDF"
+  description: "PyMuPDF高性能PDF处理库，提取文本/图像/注释，支持PDF编辑和转换"
+  usage:
+  - "python extract.py (使用fitz库)"
+  options:
+  - flag: "fitz.open()"
+    description: "打开PDF"
+  - flag: "page.get_text()"
+    description: "提取页面文本"
+  - flag: "page.get_images()"
+    description: "提取页面图像"
+  examples:
+  - command: "python -c \"import fitz; doc = fitz.open('file.pdf'); print(doc[0].get_text())\""
+    description: "提取首页文本"
+  - command: "python -c \"import fitz; doc = fitz.open('file.pdf'); pix = doc[0].get_pixmap();
+      pix.save('page1.png')\""
+    description: "PDF页面转图片"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "marker"
+  - "unstructured"
+  risks:
+  - level: low
+    description: "本地处理安全"
+  references:
+  - "https://github.com/pymupdf/PyMuPDF"

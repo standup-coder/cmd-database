@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: CI-CD/GitHub Actions
-moc_order: 0
-tags:
-- MOC
-- AI
-- GitHub Actions
+{
+  "moc_type": "dimension",
+  "moc_name": "CI-CD/GitHub Actions",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "GitHub Actions"
+  ]
+}
 ---
-
 
 # CI-CD/GitHub Actions
 

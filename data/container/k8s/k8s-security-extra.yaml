@@ -1,0 +1,147 @@
+category: 容器编排/K8s安全扩展
+description: Kubernetes 与容器镜像安全合规工具
+commands:
+- name: kubescape
+  category: 容器编排/K8s安全扩展
+  install_required: true
+  install_method: 参考 https://github.com/kubescape/kubescape/releases
+  description: Kubernetes 安全与合规扫描工具
+  usage:
+  - kubescape [OPTIONS] COMMAND
+  options:
+  - flag: scan
+    description: 扫描集群或 YAML
+  - flag: framework
+    description: 指定合规框架（如 nsa、mitre）
+  examples:
+  - command: kubescape scan framework nsa
+    description: 使用 NSA 框架扫描集群
+  - command: kubescape scan *.yaml
+    description: 扫描本地 YAML 清单
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kube-bench
+  - trivy
+  risks:
+  - level: low
+    description: 扫描为只读操作，但会访问 K8s API，请使用最小权限 ServiceAccount
+
+- name: kube-hunter
+  category: 容器编排/K8s安全扩展
+  install_required: true
+  install_method: pip install kube-hunter 或参考 
+    https://github.com/aquasecurity/kube-hunter
+  description: Kubernetes 集群渗透测试工具
+  usage:
+  - kube-hunter [OPTIONS]
+  options:
+  - flag: --remote
+    description: 指定远程节点地址
+  - flag: --pod
+    description: 以 Pod 内方式运行
+  examples:
+  - command: kube-hunter --remote 192.168.1.10
+    description: 远程扫描 K8s 节点
+  - command: kube-hunter --pod
+    description: 在集群内部以 Pod 方式运行
+  platforms:
+  - linux
+  related_commands:
+  - kubescape
+  - trivy
+  risks:
+  - level: high
+    description: 渗透测试会产生攻击行为，请仅在授权和隔离环境中执行
+
+  - level: high
+    description: 安全扫描和渗透测试会访问集群资源，请使用最小权限并仅在授权范围内执行。
+- name: checkov
+  category: 容器编排/K8s安全扩展
+  install_required: true
+  install_method: pip install checkov
+  description: 基础设施即代码静态安全分析工具
+  usage:
+  - checkov [OPTIONS]
+  options:
+  - flag: -d
+    description: 扫描目录
+  - flag: -f
+    description: 扫描文件
+  - flag: --framework
+    description: 指定框架（terraform、kubernetes、dockerfile 等）
+  examples:
+  - command: checkov -d ./k8s-manifests
+    description: 扫描 K8s YAML 清单
+  - command: checkov -f main.tf --framework terraform
+    description: 扫描 Terraform 文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - trivy
+  - terraform
+  risks:
+  - level: low
+    description: 静态扫描不会修改基础设施，但可能产生大量告警，请结合优先级处理
+
+- name: cosign
+  category: 容器编排/K8s安全扩展
+  install_required: true
+  install_method: 参考 https://docs.sigstore.dev/cosign/installation/
+  description: 容器镜像签名与验证工具
+  usage:
+  - cosign [OPTIONS] COMMAND
+  options:
+  - flag: sign
+    description: 对镜像进行签名
+  - flag: verify
+    description: 验证镜像签名
+  - flag: generate-key-pair
+    description: 生成密钥对
+  examples:
+  - command: cosign generate-key-pair
+    description: 生成签名密钥对
+  - command: cosign verify --key cosign.pub registry.example.com/myapp:v1
+    description: 验证镜像签名
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - skopeo
+  - trivy
+  risks:
+  - level: medium
+    description: 私钥泄露会导致他人伪造签名，请使用 KMS 或安全存储
+
+- name: grype
+  category: 容器编排/K8s安全扩展
+  install_required: true
+  install_method: 参考 https://github.com/anchore/grype/releases
+  description: 容器镜像与文件系统漏洞扫描器
+  usage:
+  - grype [OPTIONS] TARGET
+  options:
+  - flag: -v
+    description: 显示详细输出
+  - flag: --only-fixed
+    description: 只显示有补丁的漏洞
+  examples:
+  - command: grype registry.example.com/myapp:latest
+    description: 扫描镜像漏洞
+  - command: grype dir:.
+    description: 扫描当前目录文件系统
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - trivy
+  - syft
+  risks:
+  - level: low
+    description: 扫描镜像不会修改镜像，但会下载漏洞数据库，注意网络与安全策略

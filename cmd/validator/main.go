@@ -49,6 +49,8 @@ func validateDataDir(dataDir string) (*ValidationReport, error) {
 		CommandsByCategory: make(map[string]int),
 	}
 
+	commandLocations := make(map[string][]string)
+
 	for _, dataFile := range metadata.DataFiles {
 		cmdList, err := loader.LoadCommandList(dataFile)
 		if err != nil {
@@ -74,11 +76,13 @@ func validateDataDir(dataDir string) (*ValidationReport, error) {
 		report.CommandsByCategory[cmdList.Category] += len(cmdList.Commands)
 
 		for _, cmd := range cmdList.Commands {
-			if cmd.InstallMethod == "" {
+			commandLocations[cmd.Name] = append(commandLocations[cmd.Name], dataFile)
+			// install_method 仅在需要单独安装时才强制要求
+			if cmd.InstallRequired && cmd.InstallMethod == "" {
 				report.Warnings = append(report.Warnings, ValidationWarning{
 					File:    dataFile,
 					Command: cmd.Name,
-					Message: "缺少 install_method 字段",
+					Message: "install_required=true 但缺少 install_method 字段",
 				})
 			}
 
@@ -90,7 +94,14 @@ func validateDataDir(dataDir string) (*ValidationReport, error) {
 				})
 			}
 
-			if cmd.GetRiskLevel() >= model.RiskLevelHigh {
+			// 风险级别按数值比较，避免字符串字典序误判
+			riskValues := map[model.RiskLevel]int{
+				model.RiskLevelLow:      1,
+				model.RiskLevelMedium:   2,
+				model.RiskLevelHigh:     3,
+				model.RiskLevelCritical: 4,
+			}
+			if riskValues[cmd.GetRiskLevel()] >= riskValues[model.RiskLevelHigh] {
 				if len(cmd.Risks) < 2 {
 					report.Warnings = append(report.Warnings, ValidationWarning{
 						File:    dataFile,
@@ -99,6 +110,16 @@ func validateDataDir(dataDir string) (*ValidationReport, error) {
 					})
 				}
 			}
+		}
+	}
+
+	// 全局唯一性检查：命令名重复会破坏单一事实来源
+	for name, files := range commandLocations {
+		if len(files) > 1 {
+			report.Errors = append(report.Errors, ValidationError{
+				Command: name,
+				Message: fmt.Sprintf("命令名重复，出现在多个文件中: %v", files),
+			})
 		}
 	}
 
@@ -212,7 +233,7 @@ func main() {
 	}
 
 	// 根据结果设置退出码
-	if report.FailedFiles > 0 {
+	if len(report.Errors) > 0 {
 		os.Exit(1)
 	}
 }

@@ -36,6 +36,9 @@ commands:
   - jps
   references:
   - https://docs.oracle.com/en/java/javase/
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: javac
   category: 编程语言/Java工具链
   install_required: true
@@ -59,6 +62,9 @@ commands:
   - linux
   - darwin
   - windows
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: jps
   category: 编程语言/Java工具链
   install_required: true
@@ -85,6 +91,9 @@ commands:
   related_commands:
   - jstat
   - jmap
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: jstat
   category: 编程语言/Java工具链
   install_required: true
@@ -111,6 +120,9 @@ commands:
   related_commands:
   - jps
   - jmap
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: jmap
   category: 编程语言/Java工具链
   install_required: true
@@ -168,6 +180,9 @@ commands:
   related_commands:
   - jmap
   - jcmd
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: jcmd
   category: 编程语言/Java工具链
   install_required: true
@@ -189,6 +204,9 @@ commands:
   related_commands:
   - jmap
   - jstack
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: jar
   category: 编程语言/Java工具链
   install_required: true
@@ -216,6 +234,9 @@ commands:
   - linux
   - darwin
   - windows
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: javadoc
   category: 编程语言/Java工具链
   install_required: true
@@ -233,10 +254,15 @@ commands:
   examples:
   - command: javadoc -d docs src/*.java
     description: 生成文档到docs目录
+  - command: javadoc -private -d docs src/main/java/com/example/*.java
+    description: 生成包含私有成员的文档
   platforms:
   - linux
   - darwin
   - windows
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: jhat
   category: 编程语言/Java工具链
   install_required: false
@@ -261,3 +287,6 @@ commands:
   - jmap
   - jcmd
   - jvisualvm
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

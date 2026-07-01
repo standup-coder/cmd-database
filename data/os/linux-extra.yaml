@@ -1,0 +1,979 @@
+category: 操作系统/Linux扩展命令
+description: Linux 常用系统、文件、用户、磁盘、定时任务等扩展命令
+commands:
+- name: mkdir
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 创建目录
+  usage:
+  - mkdir [OPTIONS] DIRECTORY...
+  options:
+  - flag: -p
+    description: 递归创建父目录
+  - flag: -v
+    description: 显示创建过程
+  - flag: -m
+    description: 设置权限模式
+  examples:
+  - command: mkdir -p /tmp/a/b
+    description: 递归创建目录
+  - command: mkdir -m 700 mydir
+    description: 创建权限为 700 的目录
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - rmdir
+  - cd
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: touch
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 更新文件时间戳或创建空文件
+  usage:
+  - touch [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 只更新访问时间
+  - flag: -m
+    description: 只更新修改时间
+  - flag: -c
+    description: 不创建新文件
+  examples:
+  - command: touch file.txt
+    description: 创建或更新 file.txt 时间戳
+  - command: touch -t 202401011200 file.txt
+    description: 设置指定时间
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mkdir
+  - ls
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: ln
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 创建文件链接
+  usage:
+  - ln [OPTIONS] TARGET [LINK_NAME]
+  options:
+  - flag: -s
+    description: 创建符号链接
+  - flag: -f
+    description: 强制覆盖
+  - flag: -v
+    description: 显示过程
+  examples:
+  - command: ln -s /path/to/file link
+    description: 创建符号链接
+  - command: ln file hardlink
+    description: 创建硬链接
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cp
+  - mv
+  risks:
+  - level: medium
+    description: 覆盖或错误的符号链接可能影响依赖路径，请确认目标
+- name: chmod
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 修改文件或目录权限
+  usage:
+  - chmod [OPTIONS] MODE FILE...
+  options:
+  - flag: -R
+    description: 递归修改
+  - flag: -v
+    description: 显示修改过程
+  - flag: --reference
+    description: 参考其他文件权限
+  examples:
+  - command: chmod 755 script.sh
+    description: 设置文件权限为 rwxr-xr-x
+  - command: chmod -R u+w dir
+    description: 递归添加用户写权限
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - chown
+  - umask
+  risks:
+  - level: high
+    description: 错误的权限设置可能导致服务无法访问或安全暴露
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: chown
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 修改文件或目录所有者
+  usage:
+  - chown [OPTIONS] [OWNER][:[GROUP]] FILE...
+  options:
+  - flag: -R
+    description: 递归修改
+  - flag: --reference
+    description: 参考其他文件所有者
+  examples:
+  - command: sudo chown user:group file.txt
+    description: 修改所有者和组
+  - command: 'sudo chown -R www-data: /var/www'
+    description: 递归修改目录所有者
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - chmod
+  - useradd
+  risks:
+  - level: high
+    description: 更改系统目录所有者可能影响服务运行，请谨慎使用 -R
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: umask
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示或设置默认文件权限掩码
+  usage:
+  - umask [OPTIONS] [ARGS]
+  options:
+  - flag: -S
+    description: 以符号方式显示
+  examples:
+  - command: umask
+    description: 显示当前 umask
+  - command: umask 027
+    description: 设置新文件默认权限掩码
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - chmod
+  - mkdir
+  risks:
+  - level: medium
+    description: umask 设置过大会让新建文件权限过宽，建议按需配置
+- name: mount
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 挂载文件系统
+  usage:
+  - mount [OPTIONS] [DEVICE] [DIRECTORY]
+  options:
+  - flag: -t
+    description: 指定文件系统类型
+  - flag: -o
+    description: 指定挂载选项
+  - flag: -a
+    description: 挂载 /etc/fstab 中所有设备
+  examples:
+  - command: sudo mount /dev/sdb1 /mnt
+    description: 挂载分区到 /mnt
+  - command: sudo mount -a
+    description: 挂载 /etc/fstab 中定义的所有设备
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - umount
+  - lsblk
+  risks:
+  - level: high
+    description: 挂载到错误目录会覆盖现有数据，请确认目标目录为空或已备份
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: umount
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 卸载文件系统
+  usage:
+  - umount [OPTIONS] TARGET
+  options:
+  - flag: -l
+    description: 懒卸载
+  - flag: -f
+    description: 强制卸载
+  - flag: -r
+    description: 失败时以只读重新挂载
+  examples:
+  - command: sudo umount /mnt
+    description: 卸载 /mnt
+  - command: sudo umount -l /mnt
+    description: 懒卸载（允许进程退出后完全释放）
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mount
+  - lsof
+  risks:
+  - level: high
+    description: 卸载时若有进程占用会导致失败或数据不一致，请先确认无活跃访问
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: fdisk
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 磁盘分区表管理工具
+  usage:
+  - fdisk [OPTIONS] DEVICE
+  options:
+  - flag: -l
+    description: 列出分区表
+  - flag: -n
+    description: 创建新分区
+  - flag: -d
+    description: 删除分区
+  examples:
+  - command: sudo fdisk -l
+    description: 列出所有磁盘分区
+  - command: sudo fdisk /dev/sdb
+    description: 进入交互式分区管理
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - parted
+  - lsblk
+  risks:
+  - level: critical
+    description: 修改分区表会破坏数据，操作前务必备份并确认磁盘
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: parted
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 高级磁盘分区工具
+  usage:
+  - parted [OPTIONS] [DEVICE] [COMMAND]
+  options:
+  - flag: -l
+    description: 列出分区
+  - flag: mklabel
+    description: 创建分区表
+  - flag: mkpart
+    description: 创建分区
+  examples:
+  - command: sudo parted -l
+    description: 列出所有分区
+  - command: sudo parted /dev/sdb mklabel gpt
+    description: 创建 GPT 分区表
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - fdisk
+  - mkfs
+  risks:
+  - level: critical
+    description: 分区操作会清除数据，请确认目标磁盘并已备份
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: lsblk
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 列出块设备信息
+  usage:
+  - lsblk [OPTIONS] [ARGS]
+  options:
+  - flag: -f
+    description: 显示文件系统
+  - flag: -m
+    description: 显示权限信息
+  - flag: -o
+    description: 指定输出列
+  examples:
+  - command: lsblk
+    description: 列出块设备树
+  - command: lsblk -f
+    description: 显示文件系统和 UUID
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - df
+  - fdisk
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: blkid
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示块设备属性（UUID、文件系统类型等）
+  usage:
+  - blkid [OPTIONS] [ARGS]
+  options:
+  - flag: -o
+    description: 指定输出格式
+  - flag: -s
+    description: 指定显示字段
+  - flag: -p
+    description: 绕过缓存
+  examples:
+  - command: sudo blkid
+    description: 列出所有块设备 UUID
+  - command: sudo blkid /dev/sda1
+    description: 查看指定分区属性
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lsblk
+  - mount
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: useradd
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 创建用户账户
+  usage:
+  - useradd [OPTIONS] LOGIN
+  options:
+  - flag: -m
+    description: 创建主目录
+  - flag: -s
+    description: 指定登录 shell
+  - flag: -G
+    description: 指定附加组
+  examples:
+  - command: sudo useradd -m -s /bin/bash alice
+    description: 创建用户并生成主目录
+  - command: sudo useradd -G sudo,adm bob
+    description: 创建用户并加入附加组
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - usermod
+  - passwd
+  risks:
+  - level: medium
+    description: 创建系统用户可能影响权限策略，请确认 UID/GID 范围
+- name: usermod
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 修改用户账户
+  usage:
+  - usermod [OPTIONS] LOGIN
+  options:
+  - flag: -aG
+    description: 添加附加组
+  - flag: -s
+    description: 修改登录 shell
+  - flag: -L
+    description: 锁定用户
+  examples:
+  - command: sudo usermod -aG docker alice
+    description: 将用户加入 docker 组
+  - command: sudo usermod -L alice
+    description: 锁定用户账户
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - useradd
+  - passwd
+  risks:
+  - level: medium
+    description: 修改用户组或锁定账户可能导致无法登录，请谨慎操作
+- name: userdel
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 删除用户账户
+  usage:
+  - userdel [OPTIONS] LOGIN
+  options:
+  - flag: -r
+    description: 同时删除主目录和邮件池
+  - flag: -f
+    description: 强制删除
+  examples:
+  - command: sudo userdel alice
+    description: 删除用户
+  - command: sudo userdel -r alice
+    description: 删除用户及其主目录
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - useradd
+  - usermod
+  risks:
+  - level: high
+    description: 删除用户及其主目录会丢失数据，请确认无重要文件
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: groupadd
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 创建用户组
+  usage:
+  - groupadd [OPTIONS] [ARGS]
+  options:
+  - flag: -g
+    description: 指定 GID
+  - flag: -r
+    description: 创建系统组
+  examples:
+  - command: sudo groupadd developers
+    description: 创建 developers 组
+  - command: sudo groupadd -g 1001 ops
+    description: 创建指定 GID 的组
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - groupdel
+  - useradd
+  risks:
+  - level: medium
+    description: 会修改系统用户组配置，请确认 GID 不与现有组冲突。
+- name: groupdel
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 删除用户组
+  usage:
+  - groupdel [OPTIONS] [ARGS]
+  options:
+  - flag: --help
+    description: 显示帮助信息
+  - flag: --version
+    description: 显示版本信息
+  examples:
+  - command: sudo groupdel developers
+    description: 删除 developers 组
+  - command: getent group developers
+    description: 确认组内是否还有成员后再删除
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - groupadd
+  - gpasswd
+  risks:
+  - level: medium
+    description: 删除仍有成员用户的组可能导致权限问题
+- name: passwd
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 修改用户密码
+  usage:
+  - passwd [OPTIONS] [LOGIN]
+  options:
+  - flag: -l
+    description: 锁定密码
+  - flag: -u
+    description: 解锁密码
+  - flag: -d
+    description: 删除密码
+  examples:
+  - command: passwd
+    description: 修改当前用户密码
+  - command: sudo passwd alice
+    description: 修改 alice 密码
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - useradd
+  - sudo
+  risks:
+  - level: high
+    description: 锁定或删除密码会导致无法登录，请谨慎使用 root 权限
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: su
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 切换用户身份
+  usage:
+  - su [OPTIONS] [LOGIN]
+  options:
+  - flag: '-'
+    description: 切换环境变量
+  - flag: -c
+    description: 执行命令后返回
+  - flag: -s
+    description: 指定 shell
+  examples:
+  - command: su - alice
+    description: 完全切换到 alice 环境
+  - command: su -c 'whoami' alice
+    description: 以 alice 执行单条命令
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sudo
+  - sudo -i
+  risks:
+  - level: medium
+    description: 切换到 root 后操作具有全局影响，请注意命令范围
+- name: visudo
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 安全编辑 sudoers 文件
+  usage:
+  - visudo [OPTIONS] [ARGS]
+  options:
+  - flag: -c
+    description: 检查 sudoers 语法
+  - flag: -f
+    description: 指定 sudoers 文件
+  examples:
+  - command: sudo visudo
+    description: 编辑 /etc/sudoers
+  - command: sudo visudo -c
+    description: 检查 sudoers 语法
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sudo
+  - usermod
+  risks:
+  - level: critical
+    description: 错误的 sudoers 配置可能导致无法提权或权限过大，编辑前请备份
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: journalctl
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 查询 systemd 日志
+  usage:
+  - journalctl [OPTIONS]
+  options:
+  - flag: -u
+    description: 指定服务单元
+  - flag: -f
+    description: 实时跟踪
+  - flag: --since
+    description: 指定开始时间
+  - flag: --no-pager
+    description: 不分页
+  examples:
+  - command: journalctl -u nginx
+    description: 查看 nginx 服务日志
+  - command: journalctl -f -u myapp
+    description: 实时跟踪 myapp 日志
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - systemctl
+  - dmesg
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: hostnamectl
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 查看和设置主机名
+  usage:
+  - hostnamectl [OPTIONS] [ARGS]
+  options:
+  - flag: status
+    description: 查看状态
+  - flag: set-hostname
+    description: 设置静态主机名
+  - flag: set-icon-name
+    description: 设置图标名
+  examples:
+  - command: hostnamectl status
+    description: 查看主机名信息
+  - command: sudo hostnamectl set-hostname web01
+    description: 设置主机名为 web01
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hostname
+  - timedatectl
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: locale
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示和设置区域设置
+  usage:
+  - locale [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 列出所有可用区域
+  - flag: -m
+    description: 列出所有字符映射
+  examples:
+  - command: locale
+    description: 显示当前区域设置
+  - command: locale -a | grep zh_CN
+    description: 列出中文区域设置
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - localectl
+  - env
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: tar
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 归档和压缩工具
+  usage:
+  - tar [OPTIONS] [ARCHIVE] [FILE...]
+  options:
+  - flag: -c
+    description: 创建归档
+  - flag: -x
+    description: 解压归档
+  - flag: -z
+    description: 使用 gzip
+  - flag: -f
+    description: 指定文件名
+  - flag: -v
+    description: 显示过程
+  examples:
+  - command: tar -czvf backup.tar.gz /etc
+    description: 压缩 /etc 目录
+  - command: tar -xzvf backup.tar.gz -C /tmp
+    description: 解压到 /tmp
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gzip
+  - zip
+  risks:
+  - level: medium
+    description: 解压到错误目录或覆盖现有文件会造成混乱，请确认目标路径
+- name: bzip2
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 块排序文件压缩工具
+  usage:
+  - bzip2 [OPTIONS] [FILE...]
+  options:
+  - flag: -d
+    description: 解压缩
+  - flag: -k
+    description: 保留原文件
+  - flag: -f
+    description: 强制覆盖
+  examples:
+  - command: bzip2 file.txt
+    description: 压缩 file.txt
+  - command: bzip2 -dk file.txt.bz2
+    description: 解压缩并保留压缩包
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gzip
+  - xz
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: xz
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 高压缩比文件压缩工具
+  usage:
+  - xz [OPTIONS] [FILE...]
+  options:
+  - flag: -d
+    description: 解压缩
+  - flag: -k
+    description: 保留原文件
+  - flag: -T
+    description: 指定线程数
+  examples:
+  - command: xz file.txt
+    description: 压缩 file.txt
+  - command: xz -dk file.txt.xz
+    description: 解压缩并保留压缩包
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gzip
+  - bzip2
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: zip
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 创建 ZIP 归档
+  usage:
+  - zip [OPTIONS] ARCHIVE FILES...
+  options:
+  - flag: -r
+    description: 递归压缩目录
+  - flag: -e
+    description: 加密
+  - flag: -q
+    description: 静默模式
+  examples:
+  - command: zip -r backup.zip docs/
+    description: 递归压缩 docs 目录
+  - command: zip -e secret.zip file.txt
+    description: 创建加密 ZIP
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - unzip
+  - tar
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: unzip
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 解压 ZIP 归档
+  usage:
+  - unzip [OPTIONS] ARCHIVE
+  options:
+  - flag: -d
+    description: 指定解压目录
+  - flag: -o
+    description: 覆盖现有文件
+  - flag: -l
+    description: 列出内容
+  examples:
+  - command: unzip archive.zip -d /tmp/extract
+    description: 解压到指定目录
+  - command: unzip -l archive.zip
+    description: 列出归档内容
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - zip
+  - tar
+  risks:
+  - level: medium
+    description: -o 会直接覆盖目标文件，建议先查看内容
+- name: uname
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示系统内核信息
+  usage:
+  - uname [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 显示所有信息
+  - flag: -r
+    description: 显示内核版本
+  - flag: -m
+    description: 显示机器硬件名
+  examples:
+  - command: uname -a
+    description: 显示完整系统信息
+  - command: uname -r
+    description: 显示内核版本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hostname
+  - cat /etc/os-release
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: date
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示或设置系统日期时间
+  usage:
+  - date [OPTIONS] [+FORMAT]
+  options:
+  - flag: -u
+    description: 显示 UTC
+  - flag: -d
+    description: 显示指定时间
+  - flag: -s
+    description: 设置时间（需 root）
+  examples:
+  - command: date
+    description: 显示当前日期时间
+  - command: date +%Y-%m-%d
+    description: 以指定格式输出日期
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - timedatectl
+  - cal
+  risks:
+  - level: medium
+    description: 手动设置时间可能影响日志顺序和定时任务，建议使用 NTP
+- name: env
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示或修改环境变量后执行命令
+  usage:
+  - env [OPTIONS] [-] [NAME=VALUE]... [COMMAND [ARGS]]
+  options:
+  - flag: -i
+    description: 忽略继承的环境
+  - flag: -u
+    description: 删除变量
+  examples:
+  - command: env
+    description: 显示所有环境变量
+  - command: env VAR=value ./app
+    description: 临时设置变量后运行程序
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - export
+  - printenv
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: ulimit
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 显示或设置 shell 资源限制
+  usage:
+  - ulimit [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 显示所有限制
+  - flag: -n
+    description: 文件描述符数量
+  - flag: -u
+    description: 最大进程数
+  examples:
+  - command: ulimit -a
+    description: 显示当前资源限制
+  - command: ulimit -n 65536
+    description: 设置最大打开文件数为 65536
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sysctl
+  - systemctl
+  risks:
+  - level: medium
+    description: 设置过低可能导致服务无法启动，过高可能耗尽系统资源
+- name: nice
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 以指定优先级运行命令
+  usage:
+  - nice [OPTIONS] [COMMAND [ARGS]]
+  options:
+  - flag: -n
+    description: 指定 nice 值（-20 到 19）
+  examples:
+  - command: nice -n 10 ./long-task
+    description: 以较低优先级运行任务
+  - command: nice -n -5 ./critical-task
+    description: 以较高优先级运行任务（需 root）
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - renice
+  - top
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: renice
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 修改运行中进程的优先级
+  usage:
+  - renice [OPTIONS] PRIORITY [[-p] PID...]
+  options:
+  - flag: -p
+    description: 按 PID
+  - flag: -u
+    description: 按用户
+  - flag: -g
+    description: 按进程组
+  examples:
+  - command: sudo renice -n -5 -p 1234
+    description: 提升进程 1234 的优先级
+  - command: sudo renice -n 10 -u alice
+    description: 降低 alice 所有进程优先级
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nice
+  - top
+  risks:
+  - level: medium
+    description: 调整关键系统进程优先级可能影响稳定性，请谨慎
+- name: timeout
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 在指定时间后终止命令
+  usage:
+  - timeout [OPTIONS] DURATION COMMAND [ARGS]
+  options:
+  - flag: -s
+    description: 指定发送的信号
+  - flag: -k
+    description: 强制终止前的宽限时间
+  - flag: --preserve-status
+    description: 保留退出码
+  examples:
+  - command: timeout 30s ./job.sh
+    description: 30 秒后终止 job.sh
+  - command: timeout -s 9 10m ./long-task
+    description: 10 分钟后强制 kill
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nohup
+  - cron
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: at
+  category: 操作系统/Linux扩展命令
+  install_required: false
+  description: 在指定时间执行一次性任务
+  usage:
+  - at [OPTIONS] TIME
+  options:
+  - flag: -f
+    description: 从文件读取命令
+  - flag: -l
+    description: 列出待执行作业
+  - flag: -r
+    description: 删除作业
+  examples:
+  - command: echo 'reboot' | at 02:00
+    description: 安排凌晨 2 点重启
+  - command: at -f backup.sh now + 1 hour
+    description: 1 小时后执行脚本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - crontab
+  - batch
+  risks:
+  - level: high
+    description: at 任务会在未来以当前环境执行，错误命令可能造成严重后果，请验证脚本
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。

@@ -1,0 +1,92 @@
+category: 容器编排/本地K8s
+description: 本地 Kubernetes 集群搭建工具
+commands:
+- name: kind
+  category: 容器编排/本地K8s
+  install_required: true
+  install_method: 参考 https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+  description: 使用 Docker 容器运行本地 Kubernetes 集群
+  usage:
+  - kind [OPTIONS] COMMAND
+  options:
+  - flag: create cluster
+    description: 创建集群
+  - flag: delete cluster
+    description: 删除集群
+  - flag: load docker-image
+    description: 将本地镜像加载到集群节点
+  examples:
+  - command: kind create cluster --name dev
+    description: 创建名为 dev 的本地集群
+  - command: kind load docker-image myapp:latest --name dev
+    description: 将本地镜像加载到 kind 集群
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - minikube
+  - kubectl
+  risks:
+  - level: medium
+    description: 创建多个集群会占用较多内存和 CPU，请确认本机资源
+
+- name: minikube
+  category: 容器编排/本地K8s
+  install_required: true
+  install_method: 参考 https://minikube.sigs.k8s.io/docs/start/
+  description: 本地单节点 Kubernetes 集群工具
+  usage:
+  - minikube [OPTIONS] COMMAND
+  options:
+  - flag: start
+    description: 启动集群
+  - flag: stop
+    description: 停止集群
+  - flag: dashboard
+    description: 打开 Kubernetes 仪表盘
+  examples:
+  - command: minikube start --driver=docker
+    description: 使用 Docker 驱动启动 minikube
+  - command: minikube service my-service --url
+    description: 获取服务的访问 URL
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - kind
+  risks:
+  - level: medium
+    description: minikube 会创建虚拟机/容器，请确保有足够磁盘和内存
+
+- name: k3d
+  category: 容器编排/本地K8s
+  install_required: true
+  install_method: 参考 https://k3d.io/v5.0.0/#installation
+  description: 在 Docker 中运行 k3s 集群
+  usage:
+  - k3d [OPTIONS] COMMAND
+  options:
+  - flag: cluster create
+    description: 创建 k3s 集群
+  - flag: cluster delete
+    description: 删除 k3s 集群
+  - flag: image import
+    description: 导入镜像到集群
+  examples:
+  - command: k3d cluster create mycluster
+    description: 创建本地 k3s 集群
+  - command: k3d image import myapp:latest -c mycluster
+    description: 导入本地镜像到 k3d 集群
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - kind
+  risks:
+  - level: medium
+    description: 多个本地集群会占用大量资源，请及时清理不再使用的集群

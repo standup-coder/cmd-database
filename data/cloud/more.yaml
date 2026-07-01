@@ -1,0 +1,158 @@
+category: 云平台/多云CLI
+description: GCP、Azure、DigitalOcean、Linode 等云平台 CLI
+commands:
+- name: gcloud
+  category: 云平台/多云CLI
+  install_required: true
+  description: Google Cloud 官方 CLI
+  usage:
+  - gcloud [OPTIONS] COMMAND
+  options:
+  - flag: config
+    description: 配置
+  - flag: compute
+    description: 计算
+  - flag: container
+    description: 容器
+  - flag: run
+    description: 部署
+  - flag: auth
+    description: ''
+  examples:
+  - command: gcloud auth login
+    description: 登录
+  - command: gcloud compute instances list
+    description: 列出 VM
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - aws
+  - terraform
+  install_method: 参考 https://cloud.google.com/sdk/docs/install
+  risks:
+  - level: medium
+    description: gcloud 会创建/删除云资源并计费，请确认项目和区域
+- name: az
+  category: 云平台/多云CLI
+  install_required: true
+  description: Azure 官方 CLI
+  usage:
+  - az [OPTIONS] COMMAND
+  options:
+  - flag: login
+    description: ''
+  - flag: group
+    description: ''
+  - flag: vm
+    description: ''
+  - flag: aks
+    description: ''
+  - flag: account
+    description: ''
+  examples:
+  - command: az login
+    description: 登录 Azure
+  - command: az vm list
+    description: 列出虚拟机
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - aws
+  - terraform
+  install_method: 参考 https://learn.microsoft.com/cli/azure/install-azure-cli
+  risks:
+  - level: medium
+    description: az 操作会产生费用，请确认订阅和资源组
+- name: doctl
+  category: 云平台/多云CLI
+  install_required: true
+  description: DigitalOcean 官方 CLI
+  usage:
+  - doctl [OPTIONS] [ARGS]
+  options:
+  - flag: auth
+    description: init
+  - flag: compute
+    description: droplet
+  - flag: kubernetes
+    description: cluster
+  - flag: apps
+    description: ''
+  examples:
+  - command: doctl auth init
+    description: 初始化认证
+  - command: doctl compute droplet list
+    description: 列出 droplet
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - linode-cli
+  - aws
+  install_method: 参考 
+    https://docs.digitalocean.com/reference/doctl/how-to/install/
+  risks:
+  - level: medium
+    description: droplet 操作会计费，请确认
+- name: linode-cli
+  category: 云平台/多云CLI
+  install_required: true
+  description: Linode 官方 CLI
+  usage:
+  - linode-cli [OPTIONS] [ARGS]
+  options:
+  - flag: linodes
+    description: list
+  - flag: volumes
+    description: ''
+  - flag: domains
+    description: ''
+  - flag: account
+    description: ''
+  examples:
+  - command: linode-cli linodes list
+    description: 列出 Linode
+  - command: linode-cli linodes create --region us-east --type g6-standard-2
+    description: 创建实例
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - doctl
+  - aws
+  install_method: pip install linode-cli
+  risks:
+  - level: medium
+    description: 创建实例会计费
+- name: aws-vault
+  category: 云平台/多云CLI
+  install_required: true
+  description: AWS 凭据安全存储与切换工具
+  usage:
+  - aws-vault [OPTIONS] [ARGS]
+  options:
+  - flag: add
+    description: 添加 profile
+  - flag: exec
+    description: 执行命令
+  - flag: list
+    description: ''
+  - flag: rotate
+    description: ''
+  examples:
+  - command: aws-vault add myprofile
+    description: 添加凭据
+  - command: aws-vault exec myprofile -- aws s3 ls
+    description: 以指定 profile 执行 AWS 命令
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - aws
+  - aws-vault
+  install_method: 参考 https://github.com/99designs/aws-vault
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

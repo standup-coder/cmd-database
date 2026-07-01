@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/大模型训练
-moc_order: 0
-tags:
-- MOC
-- AI
-- 大模型训练
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/大模型训练",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "大模型训练"
+  ]
+}
 ---
-
 
 # AI基础设施/大模型训练
 

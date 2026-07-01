@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 容器编排/K8s网络插件
-moc_order: 0
-tags:
-- MOC
-- AI
-- K8s网络插件
+{
+  "moc_type": "dimension",
+  "moc_name": "容器编排/K8s网络插件",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "K8s网络插件"
+  ]
+}
 ---
-
 
 # 容器编排/K8s网络插件
 
@@ -26,7 +28,6 @@ tags:
 - 🟡 [[istioctl proxy-config]] — Inspect Envoy proxy configuration
 - 🟡 [[istioctl proxy-status]] — Check Envoy proxy status in service mesh
 - 🟡 [[istioctl version]] — Check Istio service mesh version
-- 🟡 [[kubectl exec -it]] — Enter pod for network troubleshooting
 - 🔴 [[kubectl get ciliumclusterwidenetworkpolicies]] — List CiliumClusterwideNetworkPolicy resources
 - 🟡 [[kubectl get ciliumnetworkpolicies]] — List CiliumNetworkPolicy resources for advanced networking
 - 🟡 [[kubectl get endpointslices]] — List EndpointSlice resources showing service endpoints
@@ -35,9 +36,8 @@ tags:
 - 🟡 [[kubectl get ingress]] — List Ingress resources for external access
 - 🟡 [[kubectl get ingressclasses]] — List IngressClass resources defining ingress controller types
 - 🟡 [[kubectl get tlsroutes]] — List TLSRoute resources (Gateway API)
-- 🟡 [[kubectl port-forward]] — Forward local ports to pod for network testing
 
 ## 统计
 
-- 总命令数: 21
+- 总命令数: 19
 - 维度: K8s网络插件

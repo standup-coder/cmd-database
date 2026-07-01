@@ -1,157 +1,164 @@
 category: "CI-CD/GitHub Actions"
 description: "GitHub Actions 持续集成和持续部署工具"
 commands:
-  - name: gh workflow
-    category: "CI-CD/GitHub Actions"
-    install_required: true
-    install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
-    description: "管理 GitHub Actions 工作流"
-    usage:
-      - "gh workflow list"
-      - "gh workflow run <工作流>"
-      - "gh workflow view <工作流>"
-    options:
-      - flag: "-R"
-        description: "指定仓库 (owner/repo)"
-      - flag: "-f"
-        description: "指定触发参数 (-f key=value)"
-    examples:
-      - command: "gh workflow list"
-        description: "列出所有工作流"
-      - command: "gh workflow run ci.yml -f branch=main"
-        description: "手动触发工作流并传参"
-      - command: "gh workflow view ci.yml"
-        description: "查看工作流详情"
-      - command: "gh workflow run ci.yml --ref feature-branch"
-        description: "在指定分支触发工作流"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "gh run"
-      - "gh action"
+- name: gh workflow
+  category: "CI-CD/GitHub Actions"
+  install_required: true
+  install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
+  description: "管理 GitHub Actions 工作流"
+  usage:
+  - "gh workflow list"
+  - "gh workflow run <工作流>"
+  - "gh workflow view <工作流>"
+  options:
+  - flag: "-R"
+    description: "指定仓库 (owner/repo)"
+  - flag: "-f"
+    description: "指定触发参数 (-f key=value)"
+  examples:
+  - command: "gh workflow list"
+    description: "列出所有工作流"
+  - command: "gh workflow run ci.yml -f branch=main"
+    description: "手动触发工作流并传参"
+  - command: "gh workflow view ci.yml"
+    description: "查看工作流详情"
+  - command: "gh workflow run ci.yml --ref feature-branch"
+    description: "在指定分支触发工作流"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "gh run"
+  - "gh action"
 
-  - name: gh run
-    category: "CI-CD/GitHub Actions"
-    install_required: true
-    install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
-    description: "查看和管理 GitHub Actions 运行记录"
-    usage:
-      - "gh run list"
-      - "gh run view <run-id>"
-      - "gh run watch"
-      - "gh run rerun <run-id>"
-    options:
-      - flag: "-R"
-        description: "指定仓库"
-      - flag: "--log"
-        description: "查看运行日志"
-      - flag: "-b"
-        description: "按分支过滤"
-      - flag: "-L"
-        description: "限制显示数量"
-    examples:
-      - command: "gh run list -L 10"
-        description: "查看最近 10 次运行"
-      - command: "gh run view 12345 --log"
-        description: "查看运行日志"
-      - command: "gh run watch"
-        description: "实时监控当前运行"
-      - command: "gh run rerun 12345"
-        description: "重新运行失败的 CI"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    risks:
-      - level: medium
-        description: "rerun 会消耗 Actions 配额"
-    related_commands:
-      - "gh workflow"
-      - "gh run cancel"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: gh run
+  category: "CI-CD/GitHub Actions"
+  install_required: true
+  install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
+  description: "查看和管理 GitHub Actions 运行记录"
+  usage:
+  - "gh run list"
+  - "gh run view <run-id>"
+  - "gh run watch"
+  - "gh run rerun <run-id>"
+  options:
+  - flag: "-R"
+    description: "指定仓库"
+  - flag: "--log"
+    description: "查看运行日志"
+  - flag: "-b"
+    description: "按分支过滤"
+  - flag: "-L"
+    description: "限制显示数量"
+  examples:
+  - command: "gh run list -L 10"
+    description: "查看最近 10 次运行"
+  - command: "gh run view 12345 --log"
+    description: "查看运行日志"
+  - command: "gh run watch"
+    description: "实时监控当前运行"
+  - command: "gh run rerun 12345"
+    description: "重新运行失败的 CI"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: "rerun 会消耗 Actions 配额"
+  related_commands:
+  - "gh workflow"
+  - "gh run cancel"
 
-  - name: gh run cancel
-    category: "CI-CD/GitHub Actions"
-    install_required: true
-    install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
-    description: "取消正在运行的 GitHub Actions 工作流"
-    usage:
-      - "gh run cancel <run-id>"
-      - "gh run cancel --all"
-    examples:
-      - command: "gh run cancel 12345"
-        description: "取消指定运行"
-      - command: "gh run cancel --all"
-        description: "取消所有正在运行的 CI"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    risks:
-      - level: medium
-        description: "会中断正在运行的部署流程"
-    related_commands:
-      - "gh run"
-      - "gh workflow"
+- name: gh run cancel
+  category: "CI-CD/GitHub Actions"
+  install_required: true
+  install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
+  description: "取消正在运行的 GitHub Actions 工作流"
+  usage:
+  - "gh run cancel <run-id>"
+  - "gh run cancel --all"
+  examples:
+  - command: "gh run cancel 12345"
+    description: "取消指定运行"
+  - command: "gh run cancel --all"
+    description: "取消所有正在运行的 CI"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: "会中断正在运行的部署流程"
+  related_commands:
+  - "gh run"
+  - "gh workflow"
 
-  - name: gh action
-    category: "CI-CD/GitHub Actions"
-    install_required: true
-    install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
-    description: "管理 GitHub Actions"
-    usage:
-      - "gh action list"
-      - "gh action enable <action>"
-      - "gh action disable <action>"
-    examples:
-      - command: "gh action list"
-        description: "列出仓库中可用的 Actions"
-      - command: "gh action enable my-action"
-        description: "启用指定 Action"
-    platforms:
-      - linux
-      - darwin
-      - windows
-    related_commands:
-      - "gh workflow"
-      - "gh run"
+- name: gh action
+  category: "CI-CD/GitHub Actions"
+  install_required: true
+  install_method: "brew install gh (macOS) 或 apt install gh (Ubuntu)"
+  description: "管理 GitHub Actions"
+  usage:
+  - "gh action list"
+  - "gh action enable <action>"
+  - "gh action disable <action>"
+  examples:
+  - command: "gh action list"
+    description: "列出仓库中可用的 Actions"
+  - command: "gh action enable my-action"
+    description: "启用指定 Action"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "gh workflow"
+  - "gh run"
 
-  - name: act
-    category: "CI-CD/GitHub Actions"
-    install_required: true
-    install_method: "brew install act (macOS) 或 curl https://raw.githubusercontent.com/nektos/act/master/install.sh | bash"
-    description: "本地运行 GitHub Actions 工作流（无需推送到 GitHub）"
-    usage:
-      - "act [选项]"
-      - "act push"
-      - "act pull_request"
-    options:
-      - flag: "-n"
-        description: "仅列出将运行的 Actions"
-      - flag: "-W"
-        description: "指定工作流文件路径"
-      - flag: "-e"
-        description: "指定事件 JSON 文件"
-      - flag: "-v"
-        description: "显示详细日志"
-      - flag: "-j"
-        description: "仅运行指定 Job"
-    examples:
-      - command: "act -n"
-        description: "预览将运行的 Actions"
-      - command: "act push"
-        description: "本地模拟 push 事件"
-      - command: "act -j build"
-        description: "仅运行 build Job"
-      - command: "act -W .github/workflows/ci.yml"
-        description: "运行指定工作流"
-    platforms:
-      - linux
-      - darwin
-    risks:
-      - level: medium
-        description: "本地执行可能暴露 secrets，注意 .secrets 文件"
-    related_commands:
-      - "gh workflow"
-      - "gh run"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: act
+  category: "CI-CD/GitHub Actions"
+  install_required: true
+  install_method: "brew install act (macOS) 或 curl https://raw.githubusercontent.com/nektos/act/master/install.sh
+    | bash"
+  description: "本地运行 GitHub Actions 工作流（无需推送到 GitHub）"
+  usage:
+  - "act [选项]"
+  - "act push"
+  - "act pull_request"
+  options:
+  - flag: "-n"
+    description: "仅列出将运行的 Actions"
+  - flag: "-W"
+    description: "指定工作流文件路径"
+  - flag: "-e"
+    description: "指定事件 JSON 文件"
+  - flag: "-v"
+    description: "显示详细日志"
+  - flag: "-j"
+    description: "仅运行指定 Job"
+  examples:
+  - command: "act -n"
+    description: "预览将运行的 Actions"
+  - command: "act push"
+    description: "本地模拟 push 事件"
+  - command: "act -j build"
+    description: "仅运行 build Job"
+  - command: "act -W .github/workflows/ci.yml"
+    description: "运行指定工作流"
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: "本地执行可能暴露 secrets，注意 .secrets 文件"
+  related_commands:
+  - "gh workflow"
+  - "gh run"

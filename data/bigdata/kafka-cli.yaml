@@ -1,0 +1,150 @@
+category: 大数据/Kafka工具
+description: Apache Kafka 命令行工具集
+commands:
+- name: kafka-topics.sh
+  category: 大数据/Kafka工具
+  install_required: true
+  install_method: 随 Apache Kafka 安装
+  description: Kafka Topic 创建、查看与管理
+  usage:
+  - kafka-topics.sh [OPTIONS]
+  options:
+  - flag: --bootstrap-server
+    description: 指定 Kafka  broker 地址
+  - flag: --create
+    description: 创建 Topic
+  - flag: --list
+    description: 列出所有 Topic
+  examples:
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --list
+    description: 列出所有 Topic
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --create --topic 
+      mytopic --partitions 3 --replication-factor 1
+    description: 创建 3 分区的 Topic
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-console-producer
+  - kafka-console-consumer
+  risks:
+  - level: medium
+    description: 删除 Topic 会丢失数据，请确认 retention 和备份策略
+
+- name: kafka-console-producer
+  category: 大数据/Kafka工具
+  install_required: true
+  install_method: 随 Apache Kafka 安装
+  description: Kafka 命令行生产者
+  usage:
+  - kafka-console-producer.sh [OPTIONS]
+  options:
+  - flag: --bootstrap-server
+    description: 指定 Kafka broker 地址
+  - flag: --topic
+    description: 指定目标 Topic
+  examples:
+  - command: kafka-console-producer.sh --bootstrap-server localhost:9092 --topic
+      mytopic
+    description: 从标准输入发送消息
+  - command: echo "hello" | kafka-console-producer.sh --bootstrap-server 
+      localhost:9092 --topic mytopic
+    description: 发送单条消息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-console-consumer
+  risks:
+  - level: low
+    description: 向生产 Topic 发送测试数据可能污染业务数据，请注意环境
+
+- name: kafka-console-consumer
+  category: 大数据/Kafka工具
+  install_required: true
+  install_method: 随 Apache Kafka 安装
+  description: Kafka 命令行消费者
+  usage:
+  - kafka-console-consumer.sh [OPTIONS]
+  options:
+  - flag: --bootstrap-server
+    description: 指定 Kafka broker 地址
+  - flag: --topic
+    description: 指定消费 Topic
+  - flag: --from-beginning
+    description: 从头开始消费
+  examples:
+  - command: kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic
+      mytopic --from-beginning
+    description: 从头消费 Topic 消息
+  - command: kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic
+      mytopic --max-messages 10
+    description: 最多消费 10 条消息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-console-producer
+  risks:
+  - level: low
+    description: 消费生产 Topic 可能涉及敏感数据，请遵守数据合规要求
+
+- name: kafka-consumer-groups.sh
+  category: 大数据/Kafka工具
+  install_required: true
+  install_method: 随 Apache Kafka 安装
+  description: Kafka 消费者组管理
+  usage:
+  - kafka-consumer-groups.sh [OPTIONS]
+  options:
+  - flag: --bootstrap-server
+    description: 指定 Kafka broker 地址
+  - flag: --describe
+    description: 查看消费者组详情
+  - flag: --reset-offsets
+    description: 重置消费位移
+  examples:
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 
+      --describe --group mygroup
+    description: 查看消费者组消费进度
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --group 
+      mygroup --reset-offsets --to-latest --execute --all-topics
+    description: 重置消费组到最新位置
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-console-consumer
+  risks:
+  - level: high
+    description: 重置 offset 会导致消息跳过或重复消费，生产环境务必谨慎
+
+  - level: high
+    description: 位移或 Topic 变更会影响消费者进度，请提前通知下游并备份关键配置。
+- name: ksql
+  category: 大数据/Kafka工具
+  install_required: true
+  install_method: 参考 
+    https://docs.confluent.io/platform/current/ksqldb/index.html
+  description: ksqlDB 交互式 SQL 引擎 CLI
+  usage:
+  - ksql [OPTIONS] [URL]
+  options:
+  - flag: --execute
+    description: 执行单条 SQL 后退出
+  examples:
+  - command: ksql http://localhost:8088
+    description: 连接到本地 ksqlDB 服务
+  - command: ksql http://localhost:8088 --execute "SHOW TOPICS;"
+    description: 执行 SQL 并退出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  risks:
+  - level: medium
+    description: CREATE STREAM/TABLE 会持久化到 Kafka Topic，请确认配置

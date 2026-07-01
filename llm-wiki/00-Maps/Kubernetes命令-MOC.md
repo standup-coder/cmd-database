@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 容器编排/Kubernetes命令
-moc_order: 0
-tags:
-- MOC
-- AI
-- Kubernetes命令
+{
+  "moc_type": "dimension",
+  "moc_name": "容器编排/Kubernetes命令",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Kubernetes命令"
+  ]
+}
 ---
-
 
 # 容器编排/Kubernetes命令
 
@@ -15,6 +17,7 @@ tags:
 
 ## 命令列表
 
+- 🟡 [[kubectl]] — Kubernetes命令行工具，管理集群资源
 - 🟡 [[kubectl annotate]] — Update annotations on a resource
 - 🔴 [[kubectl apply]] — Apply a configuration to a resource by filename or stdin
 - 🔴 [[kubectl config]] — Modify kubeconfig files
@@ -32,8 +35,7 @@ tags:
 - 🔴 [[kubectl scale]] — Set a new size for a deployment, replica set, or replication controller
 - 🟡 [[kubectl top]] — Display resource (CPU/memory) usage
 
-- 🟡 [[kubectl]] — Kubernetes命令行工具，管理集群资源
 ## 统计
 
-- 总命令数: 16
+- 总命令数: 17
 - 维度: Kubernetes命令

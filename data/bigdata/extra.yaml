@@ -1,0 +1,294 @@
+category: 大数据/扩展工具
+description: 大数据生态的扩展命令和子系统
+commands:
+- name: mapred
+  category: 大数据/扩展工具
+  install_required: true
+  description: Hadoop MapReduce 管理命令
+  usage:
+  - mapred [OPTIONS] [ARGS]
+  options:
+  - flag: job
+    description: 查看/管理作业
+  - flag: queues
+    description: 查看队列
+  - flag: classpath
+    description: ''
+  examples:
+  - command: mapred job -list
+    description: 列出所有 MapReduce 作业
+  - command: mapred job -kill job_12345_0001
+    description: 终止指定作业
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hadoop
+  - yarn
+  install_method: 随 Hadoop 安装
+  risks:
+  - level: medium
+    description: 终止作业会影响计算结果，请确认后再执行
+- name: hbase shell
+  category: 大数据/扩展工具
+  install_required: true
+  description: HBase 交互式 Shell
+  usage:
+  - hbase shell [OPTIONS] [ARGS]
+  options:
+  - flag: -n
+    description: 非交互模式
+  - flag: -d
+    description: 调试模式
+  examples:
+  - command: hbase shell
+    description: 启动 HBase Shell
+  - command: echo 'list' | hbase shell -n
+    description: 非交互列出表
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hive
+  - hdfs
+  install_method: 随 Apache HBase 安装
+  risks:
+  - level: high
+    description: drop、disable 表会丢失数据，执行前请确认
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: zookeeper-shell
+  category: 大数据/扩展工具
+  install_required: true
+  description: ZooKeeper 命令行客户端
+  usage:
+  - zookeeper-shell [OPTIONS] [ARGS]
+  options:
+  - flag: -server
+    description: 指定服务器
+  examples:
+  - command: zookeeper-shell localhost:2181
+    description: 连接本地 ZooKeeper
+  - command: echo 'ls /' | zookeeper-shell localhost:2181
+    description: 列出根节点
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - hdfs
+  install_method: 随 Apache ZooKeeper 安装
+  risks:
+  - level: medium
+    description: 删除 ZooKeeper 节点可能影响 Kafka/HBase 等依赖服务
+- name: kafka-connect
+  category: 大数据/扩展工具
+  install_required: true
+  description: Kafka Connect 连接器管理 CLI
+  usage:
+  - kafka-connect [OPTIONS] [ARGS]
+  options:
+  - flag: standalone
+    description: 单机模式
+  - flag: distributed
+    description: 分布式模式
+  examples:
+  - command: connect-standalone.sh connect-standalone.properties 
+      source.properties
+    description: 启动单机连接器
+  - command: connect-distributed.sh connect-distributed.properties
+    description: 启动分布式 Connect
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - debezium
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: medium
+    description: 连接器配置错误会导致数据重复或丢失，请验证 topic 与 schema
+- name: kafka-configs.sh
+  category: 大数据/扩展工具
+  install_required: true
+  description: Kafka 配置管理工具
+  usage:
+  - kafka-configs.sh [OPTIONS] [ARGS]
+  options:
+  - flag: --entity-type
+    description: 实体类型
+  - flag: --entity-name
+    description: 实体名称
+  - flag: --alter
+    description: 修改配置
+  examples:
+  - command: kafka-configs.sh --bootstrap-server localhost:9092 --entity-type 
+      topics --entity-name mytopic --describe
+    description: 查看 topic 配置
+  - command: kafka-configs.sh --alter --add-config retention.ms=86400000 
+      --entity-type topics --entity-name mytopic
+    description: 修改 retention
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-consumer-groups.sh
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: high
+    description: 修改 topic/broker 配置会影响性能和数据保留策略，请评估影响
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: kafka-producer-perf-test
+  category: 大数据/扩展工具
+  install_required: true
+  description: Kafka 生产者性能测试
+  usage:
+  - kafka-producer-perf-test [OPTIONS] [ARGS]
+  options:
+  - flag: --topic
+    description: 目标 topic
+  - flag: --num-records
+    description: 记录数
+  - flag: --record-size
+    description: 记录大小
+  - flag: --throughput
+    description: 吞吐量
+  examples:
+  - command: kafka-producer-perf-test.sh --topic test --num-records 100000 
+      --record-size 1024 --throughput 1000
+    description: 测试生产者性能
+  - command: kafka-producer-perf-test.sh --topic test --num-records 10000 
+      --record-size 512
+    description: 小批量测试
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-consumer-perf-test
+  - kafka-topics.sh
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: high
+    description: 压测会写入大量数据到 Kafka，请确认 topic 配置和磁盘空间
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: kafka-consumer-perf-test
+  category: 大数据/扩展工具
+  install_required: true
+  description: Kafka 消费者性能测试
+  usage:
+  - kafka-consumer-perf-test [OPTIONS] [ARGS]
+  options:
+  - flag: --topic
+    description: 目标 topic
+  - flag: --messages
+    description: 消费消息数
+  - flag: --threads
+    description: 线程数
+  examples:
+  - command: kafka-consumer-perf-test.sh --topic test --messages 100000 
+      --threads 4
+    description: 测试消费者性能
+  - command: kafka-consumer-perf-test.sh --topic test --messages 10000
+    description: 小批量测试
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-producer-perf-test
+  - kafka-consumer-groups.sh
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: medium
+    description: 消费压测可能影响同一 consumer group 的正式消费者
+- name: livy-submit
+  category: 大数据/扩展工具
+  install_required: true
+  description: 通过 Livy 提交 Spark 作业到集群
+  usage:
+  - livy-submit [OPTIONS] [ARGS]
+  options:
+  - flag: --file
+    description: 提交文件
+  - flag: --class
+    description: 主类
+  - flag: --args
+    description: 程序参数
+  examples:
+  - command: livy-submit --file job.py --class main
+    description: 提交 Python 作业
+  - command: "curl -X POST -H 'Content-Type: application/json' -d '{\"file\":\"job.py\"\
+      }' http://livy:8998/batches"
+    description: 通过 REST 提交
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-submit
+  - pyspark
+  install_method: 参考 https://livy.apache.org/get-started/
+  risks:
+  - level: medium
+    description: REST 提交时请保护 Livy 服务端点，避免未授权访问
+- name: nifi
+  category: 大数据/扩展工具
+  install_required: true
+  description: Apache NiFi 数据流 CLI
+  usage:
+  - nifi [OPTIONS] [ARGS]
+  options:
+  - flag: --version
+    description: ''
+  - flag: flow
+    description: 导入/导出
+  - flag: pg-get-root
+    description: ''
+  examples:
+  - command: nifi flow import --inputFile flow.json
+    description: 导入数据流
+  - command: nifi pg-get-root
+    description: 获取根进程组 ID
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - airflow
+  - kafka-connect
+  install_method: 参考 
+    https://nifi.apache.org/docs/nifi-docs/html/getting-started.html
+  risks:
+  - level: medium
+    description: 导入/修改流程会改变数据流转，请在测试环境验证
+- name: logstash
+  category: 大数据/扩展工具
+  install_required: true
+  description: 日志收集与转换管道
+  usage:
+  - logstash [OPTIONS] [ARGS]
+  options:
+  - flag: -f
+    description: 指定配置文件
+  - flag: -e
+    description: 直接指定管道
+  - flag: -t
+    description: 测试配置
+  - flag: --config.reload.automatic
+    description: ''
+  examples:
+  - command: logstash -f logstash.conf
+    description: 启动 Logstash
+  - command: logstash -e 'input { stdin {} } output { stdout {} }'
+    description: 从 stdin 读取并输出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - filebeat
+  - elasticsearch
+  install_method: 参考 
+    https://www.elastic.co/guide/en/logstash/current/installing-logstash.html
+  risks:
+  - level: medium
+    description: 错误的 grok/filter 会导致日志解析失败或数据丢失，请先用 -t 测试

@@ -1,6 +1,6 @@
 category: 操作系统/通用Linux命令
 description: 各Linux发行版通用的基础命令
-updated_at: 2025-12-14 00:00:00+00:00
+updated_at: 2025-12-14T00:00:00Z
 commands:
 - name: ls
   category: 操作系统/通用Linux命令
@@ -37,6 +37,9 @@ commands:
   - unix
   references:
   - https://man7.org/linux/man-pages/man1/ls.1.html
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: grep
   category: 操作系统/通用Linux命令
   install_required: false
@@ -81,6 +84,9 @@ commands:
   - sed
   references:
   - https://www.gnu.org/software/grep/manual/
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: find
   category: 操作系统/通用Linux命令
   install_required: false
@@ -207,6 +213,9 @@ commands:
   - tail
   references:
   - https://man7.org/linux/man-pages/man1/cat.1.html
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: cd
   category: 操作系统/通用Linux命令
   install_required: false
@@ -232,6 +241,9 @@ commands:
   - linux
   - darwin
   - unix
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: pwd
   category: 操作系统/通用Linux命令
   install_required: false
@@ -247,12 +259,17 @@ commands:
   - command: pwd
     description: 显示当前目录
     output: /home/user/documents
+  - command: pwd -P
+    description: 显示物理路径（解析所有符号链接）
   platforms:
   - linux
   - darwin
   - unix
   references:
   - https://man7.org/linux/man-pages/man1/pwd.1.html
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: cp
   category: 操作系统/通用Linux命令
   install_required: false
@@ -358,6 +375,9 @@ commands:
   - sed
   - grep
   - cut
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: sed
   category: 操作系统/通用Linux命令
   install_required: false
@@ -388,6 +408,9 @@ commands:
   - awk
   - grep
   - tr
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: kill
   category: 操作系统/通用Linux命令
   install_required: false
@@ -416,6 +439,11 @@ commands:
   - ps
   - top
   - killall
+  risks:
+  - level: high
+    description: 可能影响服务可用性或数据完整性，生产环境请先确认参数、通知相关方并在低峰期执行。
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
 - name: which
   category: 操作系统/通用Linux命令
   install_required: false
@@ -438,6 +466,9 @@ commands:
   - whereis
   - type
   - command
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: whereis
   category: 操作系统/通用Linux命令
   install_required: false
@@ -464,6 +495,9 @@ commands:
   - which
   - locate
   - find
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: locate
   category: 操作系统/通用Linux命令
   install_required: true
@@ -492,6 +526,9 @@ commands:
   - find
   - whereis
   - updatedb
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: less
   category: 操作系统/通用Linux命令
   install_required: false
@@ -520,6 +557,9 @@ commands:
   - more
   - cat
   - tail
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: head
   category: 操作系统/通用Linux命令
   install_required: false
@@ -546,6 +586,9 @@ commands:
   - tail
   - cat
   - less
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: tail
   category: 操作系统/通用Linux命令
   install_required: false
@@ -572,6 +615,9 @@ commands:
   - head
   - less
   - watch
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: rsync
   category: 操作系统/通用Linux命令
   install_required: true
@@ -605,6 +651,9 @@ commands:
   - scp
   - cp
   - sftp
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: export
   category: 操作系统/通用Linux命令
   install_required: false
@@ -631,6 +680,9 @@ commands:
   - env
   - set
   - unset
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: egrep
   category: 操作系统/通用Linux命令
   install_required: false
@@ -657,6 +709,9 @@ commands:
   - grep
   - fgrep
   - awk
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: fgrep
   category: 操作系统/通用Linux命令
   install_required: false
@@ -683,6 +738,9 @@ commands:
   - grep
   - egrep
   - awk
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
 - name: more
   category: 操作系统/通用Linux命令
   install_required: false
@@ -707,6 +765,9 @@ commands:
   - less
   - cat
   - head
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: rename
   category: 操作系统/通用Linux命令
   install_required: false
@@ -729,6 +790,9 @@ commands:
   - mv
   - cp
   - find
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: rmdir
   category: 操作系统/通用Linux命令
   install_required: false
@@ -753,6 +817,9 @@ commands:
   - rm
   - mkdir
   - rm -rf
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: sh
   category: 操作系统/通用Linux命令
   install_required: false
@@ -779,6 +846,9 @@ commands:
   - bash
   - zsh
   - chmod
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: zsh
   category: 操作系统/通用Linux命令
   install_required: true
@@ -803,6 +873,9 @@ commands:
   - bash
   - sh
   - oh-my-zsh
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
 - name: trash
   category: 操作系统/通用Linux命令
   install_required: true
@@ -831,3 +904,445 @@ commands:
   - rm
   - mv
   - rmdir
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: df
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 报告文件系统磁盘空间使用情况
+  usage:
+  - df [OPTIONS] [FILE]
+  options:
+  - flag: -h
+    description: 以人类可读方式显示
+  - flag: -T
+    description: 显示文件系统类型
+  examples:
+  - command: df -h
+    description: 以人类可读方式查看各分区空间
+  - command: df -h /var
+    description: 查看 /var 分区的磁盘使用
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - du
+  - lsblk
+  risks:
+  - level: low
+    description: 只读命令，不会影响系统
+- name: du
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 估算文件和目录的磁盘使用空间
+  usage:
+  - du [OPTIONS] [FILE]
+  options:
+  - flag: -h
+    description: 以人类可读方式显示
+  - flag: -s
+    description: 只显示总计
+  - flag: --max-depth
+    description: 限制目录递归深度
+  examples:
+  - command: du -sh /var/log
+    description: 查看 /var/log 总大小
+  - command: du -h --max-depth=1 /home
+    description: 查看 /home 下各一级目录大小
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - df
+  - ls
+  risks:
+  - level: low
+    description: 大量小文件目录可能执行较慢，但不修改数据
+- name: free
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 显示系统内存使用情况
+  usage:
+  - free [OPTIONS]
+  options:
+  - flag: -h
+    description: 以人类可读方式显示
+  - flag: -m
+    description: 以 MB 显示
+  - flag: -g
+    description: 以 GB 显示
+  examples:
+  - command: free -h
+    description: 人类可读方式查看内存
+  - command: free -m
+    description: 以 MB 查看内存
+  platforms:
+  - linux
+  related_commands:
+  - top
+  - vmstat
+  risks:
+  - level: low
+    description: 只读命令
+- name: uptime
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 显示系统运行时长和平均负载
+  usage:
+  - uptime
+  options: []
+  examples:
+  - command: uptime
+    description: 查看系统已运行时间和负载
+  - command: uptime -p
+    description: 以人类可读格式显示运行时长
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - w
+  - top
+  risks:
+  - level: low
+    description: 只读命令
+- name: lsof
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 列出已打开的文件及对应进程
+  usage:
+  - lsof [OPTIONS]
+  options:
+  - flag: -i
+    description: 列出网络文件
+  - flag: -p
+    description: 按 PID 过滤
+  - flag: +d
+    description: 列出打开某目录下文件的进程
+  examples:
+  - command: lsof -i :8080
+    description: 查看占用 8080 端口的进程
+  - command: lsof +d /var/log
+    description: 查看打开 /var/log 的进程
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ps
+  - ss
+  risks:
+  - level: low
+    description: 通常只读，某些系统可能需要 root 才能查看全部进程
+- name: htop
+  category: 操作系统/通用Linux命令
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install htop / sudo yum install htop
+  description: 交互式进程查看器
+  usage:
+  - htop [OPTIONS]
+  options:
+  - flag: -u
+    description: 只显示指定用户的进程
+  - flag: -p
+    description: 只显示指定 PID
+  examples:
+  - command: htop
+    description: 启动交互式进程浏览器
+  - command: htop -u nginx
+    description: 只查看 nginx 用户的进程
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - top
+  - ps
+  risks:
+  - level: low
+    description: 只读命令，但注意 kill 快捷键会发送信号
+- name: crontab
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 管理用户定时任务
+  usage:
+  - crontab [OPTIONS]
+  options:
+  - flag: -l
+    description: 列出当前用户的 crontab
+  - flag: -e
+    description: 编辑 crontab
+  - flag: -r
+    description: 删除当前用户的 crontab
+  examples:
+  - command: crontab -l
+    description: 列出当前用户定时任务
+  - command: crontab -e
+    description: 编辑定时任务
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - systemctl
+  - at
+  risks:
+  - level: high
+    description: 错误的定时任务可能反复执行危险命令，编辑前请备份并验证
+  - level: high
+    description: 操作前请确认参数、目标路径和影响范围，建议在隔离或测试环境中先行验证。
+- name: tmux
+  category: 操作系统/通用Linux命令
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install tmux / sudo yum install tmux
+  description: 终端复用器，支持会话持久化和多窗口
+  usage:
+  - tmux [OPTIONS] [COMMAND]
+  options:
+  - flag: new -s
+    description: 创建命名会话
+  - flag: attach -t
+    description: 重新附加到会话
+  - flag: ls
+    description: 列出所有会话
+  examples:
+  - command: tmux new -s mysession
+    description: 创建名为 mysession 的会话
+  - command: tmux attach -t mysession
+    description: 重新连接到 mysession
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - screen
+  - nohup
+  risks:
+  - level: low
+    description: 注意在 tmux 中启动的后台进程会在会话退出后继续运行
+- name: jq
+  category: 操作系统/通用Linux命令
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install jq / sudo yum install jq
+  description: 命令行 JSON 处理器
+  usage:
+  - jq [OPTIONS] FILTER [FILE]
+  options:
+  - flag: -r
+    description: 输出原始字符串（不带引号）
+  - flag: -c
+    description: 紧凑输出
+  - flag: -s
+    description: 将所有输入读取为数组
+  examples:
+  - command: jq '.name' data.json
+    description: 提取 name 字段
+  - command: jq -r '.items[] | .id' data.json
+    description: 提取数组中每个对象的 id
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - yq
+  - sed
+  risks:
+  - level: low
+    description: 只读处理，注意输出重定向会覆盖目标文件
+- name: yq
+  category: 操作系统/通用Linux命令
+  install_required: true
+  install_method: 参考 https://github.com/mikefarah/yq/releases
+  description: 命令行 YAML/JSON/TOML 处理器
+  usage:
+  - yq [OPTIONS] [COMMAND] [FILE]
+  options:
+  - flag: -e
+    description: 将输出编码为 JSON
+  - flag: -i
+    description: 原地编辑文件
+  - flag: -P
+    description: 输出为 pretty YAML
+  examples:
+  - command: yq '.metadata.name' deploy.yaml
+    description: 读取 YAML 中 metadata.name
+  - command: yq -i '.spec.replicas = 3' deploy.yaml
+    description: 原地修改 replicas 为 3
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - jq
+  - sed
+  risks:
+  - level: high
+    description: -i 原地编辑会直接修改文件，建议先备份
+  - level: high
+    description: 操作前请确认参数、目标路径和影响范围，建议在隔离或测试环境中先行验证。
+- name: ssh
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: OpenSSH 远程登录客户端
+  usage:
+  - ssh [OPTIONS] [USER@]HOST [COMMAND]
+  options:
+  - flag: -p
+    description: 指定端口
+  - flag: -i
+    description: 指定私钥文件
+  - flag: -L
+    description: 本地端口转发
+  examples:
+  - command: ssh user@192.168.1.10
+    description: 登录远程服务器
+  - command: ssh -i ~/.ssh/id_rsa -p 2222 user@host
+    description: 使用指定私钥和端口登录
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - scp
+  - sftp
+  - rsync
+  risks:
+  - level: medium
+    description: 请确认主机指纹和私钥安全，避免连接到被篡改的服务器
+- name: scp
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 基于 SSH 的安全文件复制
+  usage:
+  - scp [OPTIONS] SOURCE TARGET
+  options:
+  - flag: -P
+    description: 指定远程端口（注意大写）
+  - flag: -r
+    description: 递归复制目录
+  - flag: -i
+    description: 指定私钥文件
+  examples:
+  - command: scp file.txt user@host:/home/user/
+    description: 上传文件到远程服务器
+  - command: scp -r user@host:/data ./backup
+    description: 递归下载远程目录
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - ssh
+  - rsync
+  - sftp
+  risks:
+  - level: medium
+    description: 覆盖目标文件不会提示，请确认目标路径
+- name: gzip
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: GNU 文件压缩工具
+  usage:
+  - gzip [OPTIONS] [FILE]
+  options:
+  - flag: -d
+    description: 解压缩
+  - flag: -k
+    description: 保留原始文件
+  - flag: -r
+    description: 递归处理目录
+  examples:
+  - command: gzip file.txt
+    description: 压缩 file.txt 为 file.txt.gz
+  - command: gzip -dk file.txt.gz
+    description: 解压缩并保留压缩包
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - tar
+  - gunzip
+  - zip
+  risks:
+  - level: medium
+    description: 默认会删除原文件，建议使用 -k 保留备份
+- name: xargs
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 从标准输入构建并执行命令
+  usage:
+  - xargs [OPTIONS] [COMMAND [INITIAL-ARGS]]
+  options:
+  - flag: -n
+    description: 每次传递的参数个数
+  - flag: -P
+    description: 并行进程数
+  - flag: -I
+    description: 替换字符串占位符
+  examples:
+  - command: find . -name "*.log" | xargs rm
+    description: 删除所有找到的 log 文件
+  - command: cat urls.txt | xargs -n 1 -P 4 curl -O
+    description: 并行下载 4 个 URL
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - find
+  - parallel
+  risks:
+  - level: high
+    description: xargs 执行 rm 等命令是批量操作，建议先用 xargs echo 预览
+  - level: high
+    description: 操作前请确认参数、目标路径和影响范围，建议在隔离或测试环境中先行验证。
+- name: sudo
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 以超级用户或其他用户身份执行命令
+  usage:
+  - sudo [OPTIONS] COMMAND
+  options:
+  - flag: -u
+    description: 以指定用户身份执行
+  - flag: -i
+    description: 模拟初始登录的 root shell
+  - flag: -l
+    description: 列出当前用户可执行的命令
+  examples:
+  - command: sudo systemctl restart nginx
+    description: 以 root 权限重启服务
+  - command: sudo -u postgres psql
+    description: 切换到 postgres 用户执行 psql
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - su
+  - passwd
+  risks:
+  - level: high
+    description: root 权限操作具有破坏性，请确认命令和影响范围
+  - level: high
+    description: 操作前请确认参数、目标路径和影响范围，建议在隔离或测试环境中先行验证。
+- name: timedatectl
+  category: 操作系统/通用Linux命令
+  install_required: false
+  description: 查看和设置系统时间与日期
+  usage:
+  - timedatectl [OPTIONS] COMMAND
+  options:
+  - flag: status
+    description: 显示当前时间状态
+  - flag: set-time
+    description: 设置系统时间
+  - flag: set-timezone
+    description: 设置时区
+  examples:
+  - command: timedatectl status
+    description: 查看当前时区和时间状态
+  - command: sudo timedatectl set-timezone Asia/Shanghai
+    description: 设置系统时区为上海
+  platforms:
+  - linux
+  related_commands:
+  - date
+  - hwclock
+  risks:
+  - level: medium
+    description: 修改时间可能影响日志顺序和定时任务，请谨慎操作

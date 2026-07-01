@@ -53,9 +53,9 @@ commands:
   - flag: target_epsilon
     description: 目标隐私预算
   examples:
-  - command: python -c "from opacus import PrivacyEngine; engine = PrivacyEngine();
-      model, optimizer, loader = engine.make_private(model, optimizer, loader, noise_multiplier=1.0,
-      max_grad_norm=1.0)"
+  - command: python -c "from opacus import PrivacyEngine; engine = 
+      PrivacyEngine(); model, optimizer, loader = engine.make_private(model, 
+      optimizer, loader, noise_multiplier=1.0, max_grad_norm=1.0)"
     description: 模型添加差分隐私保护
   - command: python dp_train.py --epsilon 3.0 --delta 1e-5 --epochs 10
     description: 指定隐私预算训练
@@ -84,8 +84,8 @@ commands:
   - flag: splitnn
     description: SplitNN模型分割
   examples:
-  - command: python -c "from pyvertical import VerticalDataLoader; loader = VerticalDataLoader(dataset,
-      batch_size=32, distributed=True)"
+  - command: python -c "from pyvertical import VerticalDataLoader; loader = 
+      VerticalDataLoader(dataset, batch_size=32, distributed=True)"
     description: 垂直分布式数据加载
   - command: python vfl_train.py --parties 2 --feature_split 10,20 --epochs 50
     description: 两方特征分片联合训练
@@ -99,6 +99,8 @@ commands:
   risks:
   - level: high
     description: 垂直联邦存在特征对齐泄露风险，需安全求交(PSI)
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
   references:
   - https://github.com/Actionable-Business-Intelligence/pyvertical
 - name: crypten
@@ -116,11 +118,11 @@ commands:
   - flag: crypten.nn.from_pytorch
     description: PyTorch模型加密
   examples:
-  - command: python -c "import crypten; crypten.init(); x_enc = crypten.cryptensor([1.0,
-      2.0]); print(x_enc.get_plain_text())"
+  - command: python -c "import crypten; crypten.init(); x_enc = 
+      crypten.cryptensor([1.0, 2.0]); print(x_enc.get_plain_text())"
     description: 加密张量基本操作
-  - command: python secure_inference.py --model model.pth --input data.csv --world_size
-      2
+  - command: python secure_inference.py --model model.pth --input data.csv 
+      --world_size 2
     description: 两方加密推理
   platforms:
   - linux

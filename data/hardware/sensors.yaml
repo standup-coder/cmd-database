@@ -1,0 +1,172 @@
+category: 硬件/传感器与电源
+description: 温度、风扇、功耗与电源管理工具
+commands:
+- name: sensors
+  category: 硬件/传感器与电源
+  install_required: true
+  description: 读取硬件传感器数据（lm-sensors）
+  usage:
+  - sensors [OPTIONS] [ARGS]
+  options:
+  - flag: -u
+    description: 原始值
+  - flag: -f
+    description: 华氏度
+  - flag: -A
+    description: 平均
+  - flag: -s
+    description: 计算
+  examples:
+  - command: sensors
+    description: 显示 CPU/主板温度
+  - command: sensors -u coretemp-isa-0000
+    description: 显示原始传感器值
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - powertop
+  - hddtemp
+  install_method: 包管理器安装 lm-sensors
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sensors-detect
+  category: 硬件/传感器与电源
+  install_required: true
+  description: 检测系统中的传感器芯片
+  usage:
+  - sensors-detect [OPTIONS] [ARGS]
+  options:
+  - flag: --auto
+    description: 自动模式
+  - flag: --interactive
+    description: 交互模式
+  examples:
+  - command: sudo sensors-detect --auto
+    description: 自动检测传感器
+  - command: sudo sensors-detect --interactive
+    description: 交互式检测传感器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sensors
+  - dmidecode
+  install_method: 随 lm-sensors 安装
+  risks:
+  - level: medium
+    description: 自动检测会加载内核模块，请确认系统兼容性
+- name: powertop
+  category: 硬件/传感器与电源
+  install_required: true
+  description: 电源消耗与节能诊断
+  usage:
+  - powertop [OPTIONS] [ARGS]
+  options:
+  - flag: --calibrate
+    description: 校准
+  - flag: --html
+    description: 生成报告
+  - flag: --auto-tune
+    description: 自动调优
+  examples:
+  - command: powertop
+    description: 交互式电源分析
+  - command: sudo powertop --auto-tune
+    description: 自动优化电源
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - tlp
+  - sensors
+  install_method: 包管理器安装，如 sudo apt install powertop
+  risks:
+  - level: medium
+    description: --auto-tune 会修改设备省电设置，可能影响性能或外设
+- name: tlp
+  category: 硬件/传感器与电源
+  install_required: true
+  description: Linux 笔记本电源管理
+  usage:
+  - tlp [COMMAND]
+  options:
+  - flag: start
+    description: 启动
+  - flag: stat
+    description: 状态
+  - flag: bat
+    description: 电池模式
+  - flag: ac
+    description: 电源模式
+  examples:
+  - command: sudo tlp start
+    description: 启动 TLP
+  - command: sudo tlp bat
+    description: 切换到电池模式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - powertop
+  - thermald
+  install_method: 包管理器安装，如 sudo apt install tlp
+  risks:
+  - level: medium
+    description: 电源配置错误可能导致性能下降或 USB 掉线
+- name: thermald
+  category: 硬件/传感器与电源
+  install_required: false
+  description: Intel 平台热量管理守护进程
+  usage:
+  - thermald [OPTIONS] [ARGS]
+  options:
+  - flag: --no-daemon
+    description: ''
+  - flag: --dbus-enable
+    description: ''
+  - flag: --config-file
+    description: ''
+  examples:
+  - command: sudo thermald --no-daemon
+    description: 前台启动
+  - command: sudo systemctl start thermald
+    description: 系统服务启动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - tlp
+  - sensors
+  risks:
+  - level: medium
+    description: thermald 会主动调节 CPU，配置错误可能导致降频
+- name: hddtemp
+  category: 硬件/传感器与电源
+  install_required: true
+  description: 显示硬盘温度
+  usage:
+  - hddtemp [OPTIONS] [ARGS]
+  options:
+  - flag: -u
+    description: 单位
+  - flag: -n
+    description: 数值输出
+  - flag: -d
+    description: 守护进程
+  examples:
+  - command: sudo hddtemp /dev/sda
+    description: 查看 sda 温度
+  - command: hddtemp -n /dev/sda
+    description: 只输出温度值
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - smartctl
+  - sensors
+  install_method: 包管理器安装，如 sudo apt install hddtemp
+  risks:
+  - level: low
+    description: 只读查询硬盘温度，风险较低。

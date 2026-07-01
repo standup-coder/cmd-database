@@ -1,0 +1,396 @@
+category: 网络工具/基础设施
+description: 反向代理、Web 服务器、VPN、DNS 服务等网络基础设施命令
+commands:
+- name: nginx
+  category: 网络工具/基础设施
+  install_required: false
+  description: 高性能 Web 服务器与反向代理
+  usage:
+  - nginx [OPTIONS]
+  options:
+  - flag: -t
+    description: 测试配置
+  - flag: -s
+    description: signal 发送信号
+  - flag: -c
+    description: 指定配置文件
+  - flag: -g
+    description: 全局指令
+  examples:
+  - command: sudo nginx -t
+    description: 测试配置文件
+  - command: sudo nginx -s reload
+    description: 平滑重载配置
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - haproxy
+  - traefik
+  - caddy
+  risks:
+  - level: medium
+    description: reload 失败或配置错误会中断服务，请先在测试环境验证
+- name: haproxy
+  category: 网络工具/基础设施
+  install_required: false
+  description: TCP/HTTP 负载均衡器
+  usage:
+  - haproxy [OPTIONS]
+  options:
+  - flag: -c
+    description: 检查配置
+  - flag: -f
+    description: 配置文件
+  - flag: -sf
+    description: 平滑切换
+  examples:
+  - command: haproxy -c -f /etc/haproxy/haproxy.cfg
+    description: 检查配置
+  - command: sudo haproxy -f /etc/haproxy/haproxy.cfg
+    description: 启动 haproxy
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nginx
+  - traefik
+  risks:
+  - level: medium
+    description: 负载均衡配置错误会导致流量异常，修改后请检查
+- name: traefik
+  category: 网络工具/基础设施
+  install_required: false
+  description: 云原生边缘路由/反向代理
+  usage:
+  - traefik [OPTIONS]
+  options:
+  - flag: --configFile
+    description: 配置文件
+  - flag: --api.insecure
+    description: ''
+  - flag: --providers.docker
+    description: ''
+  examples:
+  - command: traefik --configFile=traefik.toml
+    description: 加载配置文件启动
+  - command: traefik --providers.docker=true --api.insecure=true
+    description: Docker 提供器模式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nginx
+  - caddy
+  risks:
+  - level: medium
+    description: 错误的 TLS 或路由配置会导致证书或服务不可达
+- name: caddy
+  category: 网络工具/基础设施
+  install_required: false
+  description: 易用且默认 HTTPS 的 Web 服务器
+  usage:
+  - caddy [COMMAND] [OPTIONS]
+  options:
+  - flag: run
+    description: 启动
+  - flag: reverse-proxy
+    description: 快速反向代理
+  - flag: file-server
+    description: 静态文件
+  examples:
+  - command: caddy run
+    description: 启动 Caddy
+  - command: caddy reverse-proxy --from :80 --to localhost:8080
+    description: 快速反向代理
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nginx
+  - traefik
+  risks:
+  - level: medium
+    description: Caddy 会自动申请证书，请确认域名解析和防火墙
+- name: openvpn
+  category: 网络工具/基础设施
+  install_required: false
+  description: SSL/TLS VPN 解决方案
+  usage:
+  - openvpn [OPTIONS]
+  options:
+  - flag: --config
+    description: 配置文件
+  - flag: --daemon
+    description: 后台运行
+  - flag: --client
+    description: 客户端模式
+  examples:
+  - command: sudo openvpn --config client.ovpn
+    description: 使用配置文件连接 VPN
+  - command: sudo openvpn --daemon --config server.conf
+    description: 后台启动服务端
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - wg
+  - ipsec
+  risks:
+  - level: medium
+    description: VPN 配置错误会将流量导向错误网络，请确认路由和证书
+- name: wg
+  category: 网络工具/基础设施
+  install_required: false
+  description: WireGuard 快速、现代、安全的 VPN
+  usage:
+  - wg [OPTIONS] [COMMAND]
+  options:
+  - flag: show
+    description: 显示接口
+  - flag: set
+    description: 设置接口
+  - flag: genkey
+    description: 生成私钥
+  - flag: pubkey
+    description: 生成公钥
+  examples:
+  - command: wg genkey | tee privatekey | wg pubkey > publickey
+    description: 生成密钥对
+  - command: sudo wg show
+    description: 显示 WireGuard 接口
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openvpn
+  - ip
+  risks:
+  - level: medium
+    description: 私钥泄露会导致 VPN 被攻破，请安全存储
+- name: sshuttle
+  category: 网络工具/基础设施
+  install_required: false
+  description: 基于 SSH 的透明代理 VPN
+  usage:
+  - sshuttle [OPTIONS] [USER@]HOST [SUBNETS]
+  options:
+  - flag: -r
+    description: 远程 SSH 主机
+  - flag: -v
+    description: 详细
+  - flag: --dns
+    description: 代理 DNS
+  examples:
+  - command: sshuttle -r user@jump 192.168.0.0/16
+    description: 通过跳板访问内网
+  - command: sshuttle -r user@jump 0/0 --dns
+    description: 全局代理并转发 DNS
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ssh
+  - proxychains
+  risks:
+  - level: medium
+    description: sshuttle 会改变系统路由，请确认目标子网和 DNS 配置
+- name: named-checkconf
+  category: 网络工具/基础设施
+  install_required: false
+  description: 检查 BIND DNS 配置文件语法
+  usage:
+  - named-checkconf [OPTIONS] [FILE]
+  options:
+  - flag: -z
+    description: 检查所有 zone
+  - flag: -p
+    description: 打印配置
+  - flag: -t
+    description: 指定 chroot
+  examples:
+  - command: sudo named-checkconf
+    description: 检查 named.conf
+  - command: sudo named-checkconf -z
+    description: 检查所有 zone
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - rndc
+  - dnsmasq
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: rndc
+  category: 网络工具/基础设施
+  install_required: false
+  description: BIND DNS 服务器远程控制
+  usage:
+  - rndc [OPTIONS] COMMAND
+  options:
+  - flag: reload
+    description: 重载
+  - flag: status
+    description: 状态
+  - flag: flush
+    description: 清空缓存
+  - flag: stop
+    description: 停止
+  examples:
+  - command: sudo rndc reload
+    description: 重载 BIND
+  - command: sudo rndc status
+    description: 查看状态
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - named-checkconf
+  - nsupdate
+  risks:
+  - level: medium
+    description: rndc stop/reload 会影响 DNS 服务，请在维护窗口执行
+- name: nsupdate
+  category: 网络工具/基础设施
+  install_required: false
+  description: 动态更新 DNS 记录
+  usage:
+  - nsupdate [OPTIONS] [FILE]
+  options:
+  - flag: -k
+    description: 密钥文件
+  - flag: -v
+    description: 详细
+  - flag: -d
+    description: 调试
+  examples:
+  - command: nsupdate -k Kexample.+157+12345.key
+    description: 使用 TSIG 密钥更新
+  - command: "echo -e 'update add host.example.com 300 A 1.2.3.4\nsend' | nsupdate"
+    description: 添加 A 记录
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - rndc
+  - dig
+  risks:
+  - level: high
+    description: nsupdate 会修改 DNS 记录，错误的更新会影响域名解析
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: dnsmasq
+  category: 网络工具/基础设施
+  install_required: false
+  description: 轻量级 DNS 转发与 DHCP 服务器
+  usage:
+  - dnsmasq [OPTIONS]
+  options:
+  - flag: --test
+    description: 测试配置
+  - flag: --no-daemon
+    description: 前台运行
+  - flag: --server
+    description: 上游 DNS
+  examples:
+  - command: dnsmasq --test
+    description: 检查配置
+  - command: dnsmasq --no-daemon --log-queries
+    description: 前台运行并记录查询
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - unbound
+  - systemd-resolved
+  risks:
+  - level: medium
+    description: dnsmasq 作为 DNS/DHCP 服务，错误配置会导致网络解析异常
+- name: unbound-control
+  category: 网络工具/基础设施
+  install_required: false
+  description: Unbound DNS 服务器远程控制
+  usage:
+  - unbound-control [OPTIONS] COMMAND
+  options:
+  - flag: status
+    description: 状态
+  - flag: reload
+    description: 重载
+  - flag: lookup
+    description: 查询
+  - flag: flush
+    description: 清空缓存
+  examples:
+  - command: sudo unbound-control status
+    description: 查看 Unbound 状态
+  - command: sudo unbound-control flush example.com
+    description: 清空指定域名缓存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dnsmasq
+  - resolvectl
+  risks:
+  - level: medium
+    description: 重载或 flush 会影响 DNS 解析，请确认影响范围
+- name: ifconfig
+  category: 网络工具/基础设施
+  install_required: false
+  description: 传统网络接口配置工具
+  usage:
+  - ifconfig [INTERFACE] [OPTIONS]
+  options:
+  - flag: up
+    description: 启用
+  - flag: down
+    description: 禁用
+  - flag: inet
+    description: 设置 IP
+  - flag: netmask
+    description: 设置掩码
+  examples:
+  - command: ifconfig
+    description: 显示接口信息
+  - command: sudo ifconfig eth0 192.168.1.10 netmask 255.255.255.0
+    description: 配置 IP
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ip
+  - route
+  risks:
+  - level: medium
+    description: 修改 IP 或关闭接口会中断网络，远程操作时请谨慎
+- name: route
+  category: 网络工具/基础设施
+  install_required: false
+  description: 传统路由表管理
+  usage:
+  - route [OPTIONS] COMMAND
+  options:
+  - flag: add
+    description: 添加路由
+  - flag: del
+    description: 删除路由
+  - flag: -n
+    description: 数字显示
+  examples:
+  - command: route -n
+    description: 显示路由表
+  - command: sudo route add -net 10.0.0.0/8 gw 192.168.1.1
+    description: 添加静态路由
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ip
+  - ifconfig
+  risks:
+  - level: high
+    description: 错误路由可能导致网络不可达，远程服务器请通过带外管理操作
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。

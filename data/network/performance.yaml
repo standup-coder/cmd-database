@@ -1,0 +1,227 @@
+category: 网络工具/性能压测
+description: 网络性能测试与负载生成工具
+commands:
+- name: wrk
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 参考 https://github.com/wg/wrk
+  description: 高性能 HTTP 基准测试工具
+  usage:
+  - wrk [OPTIONS] URL
+  options:
+  - flag: -t
+    description: 线程数
+  - flag: -c
+    description: 并发连接数
+  - flag: -d
+    description: 测试持续时间
+  - flag: -s
+    description: 加载 Lua 脚本
+  examples:
+  - command: wrk -t12 -c400 -d30s https://example.com
+    description: 12 线程 400 并发压测 30 秒
+  - command: wrk -t2 -c10 -d10s --latency https://example.com/api
+    description: 小并发短时长测试并显示延迟分布
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - wrk2
+  - ab
+  risks:
+  - level: high
+    description: 对生产环境或无授权目标压测可能造成拒绝服务，请获得许可并控制速率
+
+  - level: high
+    description: 压测会占用目标资源和网络带宽，请设置熔断/限流并提前与相关方确认。
+- name: wrk2
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 参考 https://github.com/giltene/wrk2
+  description: 支持恒定吞吐量请求与精确延迟测量的 HTTP 压测工具
+  usage:
+  - wrk2 [OPTIONS] URL
+  options:
+  - flag: -R
+    description: 目标每秒请求数（RPS）
+  - flag: -t
+    description: 线程数
+  - flag: -c
+    description: 并发连接数
+  - flag: -d
+    description: 测试持续时间
+  examples:
+  - command: wrk2 -t4 -c100 -d60s -R2000 https://example.com
+    description: 以 2000 RPS 的恒定速率压测 60 秒
+  - command: wrk2 -t2 -c50 -d30s -R500 --latency https://example.com/api
+    description: 低恒定速率测试 API 延迟
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - wrk
+  - k6
+  risks:
+  - level: high
+    description: 恒定高压测试更容易压垮后端，请在隔离环境或授权沙箱中执行
+
+  - level: high
+    description: 压测会占用目标资源和网络带宽，请设置熔断/限流并提前与相关方确认。
+- name: k6
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 参考 https://grafana.com/docs/k6/latest/set-up/install-k6/
+  description: 现代化负载测试工具，使用 JavaScript 编写测试脚本
+  usage:
+  - k6 [OPTIONS] [COMMAND]
+  options:
+  - flag: run
+    description: 运行测试脚本
+  - flag: --vus
+    description: 虚拟用户数
+  - flag: --duration
+    description: 测试持续时间
+  examples:
+  - command: k6 run --vus 10 --duration 30s script.js
+    description: 使用 10 个虚拟用户运行 30 秒测试
+  - command: k6 cloud run script.js
+    description: 在 k6 Cloud 上运行分布式测试
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - wrk
+  - vegeta
+  risks:
+  - level: high
+    description: 生产环境压测需提前通知相关方并设置熔断/限流保护
+
+  - level: high
+    description: 压测会占用目标资源和网络带宽，请设置熔断/限流并提前与相关方确认。
+- name: oha
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 参考 https://github.com/hatoo/oha
+  description: Rust 编写的实时 HTTP 负载生成器
+  usage:
+  - oha [OPTIONS] URL
+  options:
+  - flag: -n
+    description: 总请求数
+  - flag: -c
+    description: 并发连接数
+  - flag: -z
+    description: 测试持续时间
+  examples:
+  - command: oha -n 10000 -c 100 https://example.com
+    description: 100 并发共发送 10000 个请求
+  - command: oha -c 10 -z 30s https://example.com
+    description: 10 并发持续 30 秒压测
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - wrk
+  - k6
+  risks:
+  - level: high
+    description: 高并发请求会占用目标资源，请确保目标可承受并获授权
+
+  - level: high
+    description: 压测会占用目标资源和网络带宽，请设置熔断/限流并提前与相关方确认。
+- name: vegeta
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 参考 https://github.com/tsenart/vegeta/releases
+  description: 多功能的 HTTP 负载测试 CLI 和库
+  usage:
+  - vegeta [GLOBAL OPTIONS] COMMAND [COMMAND OPTIONS]
+  options:
+  - flag: attack
+    description: 发起压测攻击
+  - flag: report
+    description: 生成测试报告
+  - flag: -rate
+    description: 每秒请求速率
+  examples:
+  - command: echo "GET https://example.com" | vegeta attack -rate=100 
+      -duration=30s | vegeta report
+    description: 以 100 RPS 压测 30 秒并生成报告
+  - command: vegeta attack -targets=targets.txt -rate=500 -duration=1m | tee 
+      results.bin | vegeta report
+    description: 从文件读取目标列表并压测 1 分钟
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - k6
+  - wrk
+  risks:
+  - level: high
+    description: 定向压测可能导致目标服务不可用，请仅在授权范围内使用
+
+  - level: high
+    description: 压测会占用目标资源和网络带宽，请设置熔断/限流并提前与相关方确认。
+- name: iperf3
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install iperf3 / sudo yum install iperf3
+  description: TCP/UDP 网络带宽测试工具
+  usage:
+  - iperf3 [OPTIONS]
+  options:
+  - flag: -s
+    description: 服务端模式
+  - flag: -c
+    description: 客户端模式，指定服务器地址
+  - flag: -u
+    description: 使用 UDP 测试
+  - flag: -t
+    description: 测试持续时间
+  examples:
+  - command: iperf3 -s
+    description: 启动 iperf3 服务端
+  - command: iperf3 -c 192.168.1.1 -t 30
+    description: 测试到服务器的 TCP 带宽 30 秒
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - ping
+  - mtr
+  risks:
+  - level: medium
+    description: 带宽测试会占满链路，可能影响其他业务流量，请选择合适的时间窗口
+
+- name: mtr
+  category: 网络工具/性能压测
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install mtr / sudo yum install mtr
+  description: 结合 ping 和 traceroute 的网络路径诊断工具
+  usage:
+  - mtr [OPTIONS] HOST
+  options:
+  - flag: -r
+    description: 生成报告模式
+  - flag: -c
+    description: 发送探测包数量
+  - flag: -n
+    description: 禁用 DNS 解析
+  examples:
+  - command: mtr -r -c 100 example.com
+    description: 生成 100 个包的路径质量报告
+  - command: mtr -n 8.8.8.8
+    description: 不解析 DNS 地诊断到 8.8.8.8 的路径
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ping
+  - traceroute
+  risks:
+  - level: low
+    description: 持续发送探测包可能被视为扫描，请遵守目标网络策略

@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/监控与评估
-moc_order: 0
-tags:
-- MOC
-- AI
-- 监控与评估
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/监控与评估",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "监控与评估"
+  ]
+}
 ---
-
 
 # AI基础设施/监控与评估
 

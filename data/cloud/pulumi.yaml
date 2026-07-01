@@ -1,0 +1,36 @@
+category: 云平台/Pulumi
+description: Pulumi 基础设施即代码命令
+commands:
+- name: pulumi
+  category: 云平台/Pulumi
+  install_required: true
+  install_method: 参考 https://www.pulumi.com/docs/install/
+  description: 使用通用编程语言（TypeScript/Python/Go 等）定义和部署云资源
+  usage:
+  - pulumi [OPTIONS] COMMAND
+  options:
+  - flag: up
+    description: 预览并部署资源变更
+  - flag: preview
+    description: 预览变更但不部署
+  - flag: destroy
+    description: 销毁所有管理的资源
+  - flag: stack
+    description: 管理堆栈
+  examples:
+  - command: pulumi up
+    description: 预览并部署当前项目
+  - command: pulumi preview --diff
+    description: 显示详细的资源差异
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - terraform
+  - aws
+  risks:
+  - level: high
+    description: pulumi up/destroy 会创建或删除真实云资源，请在确认变更范围后执行
+  - level: high
+    description: 基础设施变更会创建或销毁真实云资源，请在 preview 确认 diff 后再执行 up/destroy。

@@ -1,0 +1,451 @@
+category: "容器编排/K8s机器学习运维"
+description: "Kubernetes机器学习运维工具(KServe、Kubeflow)"
+commands:
+  # ========== KServe Commands ==========
+- name: "kubectl apply -f inferenceservice.yaml"
+  description: "Deploy a KServe InferenceService"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl apply -f inferenceservice.yaml"
+  examples:
+  - command: "kubectl apply -f sklearn-iris.yaml"
+    description: "Deploy sklearn model inference service"
+  - command: "kubectl apply -n kserve-test -f pytorch-model.yaml"
+    description: "Deploy PyTorch model to specific namespace"
+  risks:
+  - level: "medium"
+    description: "Deploys model serving resources to cluster"
+  install_method: "kubectl apply -f https://github.com/kserve/kserve/releases/download/v0.11.0/kserve.yaml"
+  version_check: "kubectl get pods -n kserve -l control-plane=kserve-controller-manager"
+
+- name: "kubectl get inferenceservices"
+  description: "List KServe InferenceServices"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get inferenceservices [flags]"
+  - "kubectl get isvc [flags]"
+  options:
+  - flag: "-n, --namespace"
+    description: "Specify namespace"
+  - flag: "-A, --all-namespaces"
+    description: "List across all namespaces"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get isvc"
+    description: "List all inference services in current namespace"
+  - command: "kubectl get isvc -A"
+    description: "List all inference services across namespaces"
+  - command: "kubectl get isvc sklearn-iris -o yaml"
+    description: "Get detailed YAML output for specific service"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires KServe CRDs installed"
+  version_check: "kubectl api-resources | grep inferenceservice"
+
+- name: "kubectl describe inferenceservice"
+  description: "Show detailed information about KServe InferenceService"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl describe inferenceservice <name> [flags]"
+  - "kubectl describe isvc <name> [flags]"
+  examples:
+  - command: "kubectl describe isvc sklearn-iris"
+    description: "Show details of sklearn-iris inference service"
+  - command: "kubectl describe isvc -n production my-model"
+    description: "Describe inference service in production namespace"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires KServe CRDs installed"
+  version_check: "kubectl api-resources | grep inferenceservice"
+
+- name: "kubectl delete inferenceservice"
+  description: "Delete a KServe InferenceService"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl delete inferenceservice <name> [flags]"
+  - "kubectl delete isvc <name> [flags]"
+  examples:
+  - command: "kubectl delete isvc sklearn-iris"
+    description: "Delete sklearn-iris inference service"
+  - command: "kubectl delete isvc -n staging --all"
+    description: "Delete all inference services in staging namespace"
+  risks:
+  - level: "high"
+    description: "Permanently deletes model serving resources"
+  - level: high
+    description: 删除推理服务会中断线上流量，建议先完成流量切换或灰度验证。
+  install_method: "Requires KServe CRDs installed"
+  version_check: "kubectl api-resources | grep inferenceservice"
+
+- name: "kubectl logs -l serving.kserve.io/inferenceservice"
+  description: "View logs for KServe model serving pods"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl logs -l serving.kserve.io/inferenceservice=<name> [flags]"
+  options:
+  - flag: "-c"
+    description: "Container name (kserve-container, queue-proxy)"
+  - flag: "-f"
+    description: "Follow log output"
+  - flag: "--tail"
+    description: "Lines of recent log to display"
+  examples:
+  - command: "kubectl logs -l serving.kserve.io/inferenceservice=sklearn-iris -c kserve-container"
+    description: "View model container logs"
+  - command: "kubectl logs -l serving.kserve.io/inferenceservice=my-model -f"
+    description: "Follow logs for inference service"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires KServe deployment"
+  version_check: "kubectl get pods -l serving.kserve.io/inferenceservice"
+
+  # ========== Kubeflow Commands ==========
+- name: "kfctl apply"
+  description: "Deploy Kubeflow to Kubernetes cluster"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfctl apply -f <config-file> [flags]"
+  options:
+  - flag: "-f"
+    description: "Path to Kubeflow config file"
+  - flag: "-V"
+    description: "Verbose output"
+  examples:
+  - command: "kfctl apply -f kfctl_k8s_istio.yaml"
+    description: "Deploy Kubeflow with Istio"
+  - command: "kfctl apply -f kfctl_aws.yaml -V"
+    description: "Deploy Kubeflow on AWS with verbose output"
+  risks:
+  - level: "critical"
+    description: "Deploys full Kubeflow stack; resource-intensive operation"
+  - level: "high"
+    description: "Creates many namespaces and resources"
+  install_method: "Download from https://github.com/kubeflow/kfctl/releases"
+  version_check: "kfctl version"
+
+- name: "kfctl delete"
+  description: "Delete Kubeflow deployment"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfctl delete -f <config-file> [flags]"
+  options:
+  - flag: "-f"
+    description: "Path to Kubeflow config file"
+  - flag: "--delete_storage"
+    description: "Delete storage resources"
+  examples:
+  - command: "kfctl delete -f kfctl_k8s_istio.yaml"
+    description: "Delete Kubeflow deployment"
+  - command: "kfctl delete -f kfctl_aws.yaml --delete_storage"
+    description: "Delete Kubeflow including storage"
+  risks:
+  - level: "critical"
+    description: "Deletes entire Kubeflow installation"
+  - level: "high"
+    description: "May cause data loss if storage is deleted"
+  install_method: "Download from https://github.com/kubeflow/kfctl/releases"
+  version_check: "kfctl version"
+
+- name: "kubectl get notebooks"
+  description: "List Kubeflow Notebooks"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get notebooks [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get notebooks -n kubeflow-user"
+    description: "List notebooks in user namespace"
+  - command: "kubectl get notebooks -A"
+    description: "List all notebooks across namespaces"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires Kubeflow Notebooks component"
+  version_check: "kubectl api-resources | grep notebooks"
+
+- name: "kubectl get experiments.kubeflow.org"
+  description: "List Kubeflow Katib experiments"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get experiments.kubeflow.org [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get experiments.kubeflow.org"
+    description: "List Katib experiments"
+  - command: "kubectl get experiments.kubeflow.org -n kubeflow -o yaml"
+    description: "Get experiment details in YAML"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires Kubeflow Katib component"
+  version_check: "kubectl api-resources | grep experiments.kubeflow.org"
+
+- name: "kubectl get tfjobs"
+  description: "List Kubeflow TensorFlow training jobs"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get tfjobs [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get tfjobs"
+    description: "List TensorFlow training jobs"
+  - command: "kubectl get tfjobs -n training"
+    description: "List TFJobs in training namespace"
+  - command: "kubectl describe tfjob mnist-training"
+    description: "Get details of specific TFJob"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires Kubeflow Training Operator"
+  version_check: "kubectl api-resources | grep tfjobs"
+
+- name: "kubectl get pytorchjobs"
+  description: "List Kubeflow PyTorch training jobs"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get pytorchjobs [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get pytorchjobs"
+    description: "List PyTorch training jobs"
+  - command: "kubectl get pytorchjobs -n ml-training"
+    description: "List PyTorchJobs in ml-training namespace"
+  - command: "kubectl describe pytorchjob bert-finetune"
+    description: "Get details of specific PyTorchJob"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires Kubeflow Training Operator"
+  version_check: "kubectl api-resources | grep pytorchjobs"
+
+- name: "kubectl get workflows"
+  description: "List Kubeflow Pipelines workflows"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get workflows [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-o wide"
+    description: "Show additional details"
+  examples:
+  - command: "kubectl get workflows -n kubeflow"
+    description: "List pipeline workflows"
+  - command: "kubectl get workflows -l pipeline/runid=abc123"
+    description: "List workflows for specific pipeline run"
+  - command: "kubectl describe workflow my-pipeline-run"
+    description: "Get workflow details"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "Requires Kubeflow Pipelines"
+  version_check: "kubectl api-resources | grep workflows"
+
+- name: "kfp run submit"
+  description: "Submit a Kubeflow Pipeline run"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfp run submit [flags]"
+  options:
+  - flag: "-e, --experiment-name"
+    description: "Name of experiment"
+  - flag: "-r, --run-name"
+    description: "Name for this run"
+  - flag: "-f, --package-file"
+    description: "Path to pipeline package file"
+  - flag: "-p, --pipeline-name"
+    description: "Name of existing pipeline"
+  examples:
+  - command: "kfp run submit -e my-experiment -r run-001 -f pipeline.yaml"
+    description: "Submit pipeline run from file"
+  - command: "kfp run submit -e prod -p training-pipeline -r daily-train"
+    description: "Submit run using existing pipeline"
+  risks:
+  - level: "medium"
+    description: "Creates pipeline run; consumes cluster resources"
+  install_method: "pip install kfp"
+  version_check: "kfp --version"
+
+- name: "kfp pipeline upload"
+  description: "Upload a pipeline to Kubeflow Pipelines"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfp pipeline upload [flags] <pipeline-file>"
+  options:
+  - flag: "-p, --pipeline-name"
+    description: "Name for the pipeline"
+  - flag: "-d, --description"
+    description: "Pipeline description"
+  examples:
+  - command: "kfp pipeline upload -p my-pipeline pipeline.yaml"
+    description: "Upload pipeline with name"
+  - command: "kfp pipeline upload -p ml-training -d 'Training pipeline' train.yaml.tar.gz"
+    description: "Upload with description"
+  risks:
+  - level: "low"
+    description: "Uploads pipeline definition only"
+  install_method: "pip install kfp"
+  version_check: "kfp --version"
+
+- name: "kfp pipeline list"
+  description: "List Kubeflow Pipelines"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfp pipeline list [flags]"
+  options:
+  - flag: "--page-size"
+    description: "Number of pipelines to return"
+  examples:
+  - command: "kfp pipeline list"
+    description: "List all pipelines"
+  - command: "kfp pipeline list --page-size 50"
+    description: "List pipelines with pagination"
+  risks:
+  - level: "low"
+    description: "Read-only operation"
+  install_method: "pip install kfp"
+  version_check: "kfp --version"
+
+- name: "kfp experiment create"
+  description: "Create a Kubeflow Pipelines experiment"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kfp experiment create <name> [flags]"
+  options:
+  - flag: "-d, --description"
+    description: "Experiment description"
+  examples:
+  - command: "kfp experiment create my-experiment"
+    description: "Create new experiment"
+  - command: "kfp experiment create prod-training -d 'Production training experiments'"
+    description: "Create experiment with description"
+  risks:
+  - level: "low"
+    description: "Creates metadata only"
+  install_method: "pip install kfp"
+  version_check: "kfp --version"
+
+- name: "kubectl port-forward svc/ml-pipeline-ui"
+  description: "Access Kubeflow Pipelines UI locally"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl port-forward svc/ml-pipeline-ui <local-port>:80 -n kubeflow"
+  examples:
+  - command: "kubectl port-forward svc/ml-pipeline-ui 8080:80 -n kubeflow"
+    description: "Forward Pipelines UI to localhost:8080"
+  - command: "kubectl port-forward svc/ml-pipeline-ui 3000:80 -n kubeflow &"
+    description: "Run port-forward in background"
+  risks:
+  - level: "low"
+    description: "Local port forwarding only"
+  install_method: "Requires Kubeflow Pipelines deployed"
+  version_check: "kubectl get svc ml-pipeline-ui -n kubeflow"
+
+- name: "kubectl port-forward svc/istio-ingressgateway"
+  description: "Access Kubeflow dashboard locally"
+  category: "Kubernetes MLOps"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl port-forward svc/istio-ingressgateway <local-port>:80 -n istio-system"
+  examples:
+  - command: "kubectl port-forward svc/istio-ingressgateway 8080:80 -n istio-system"
+    description: "Forward Kubeflow dashboard to localhost:8080"
+  - command: kubectl port-forward --address=0.0.0.0 svc/istio-ingressgateway 
+      8080:80 -n istio-system
+    description: 绑定到所有网络接口以便外部访问
+  risks:
+  - level: "low"
+    description: "Local port forwarding only"
+  install_method: "Requires Kubeflow with Istio deployed"
+  version_check: "kubectl get svc istio-ingressgateway -n istio-system"

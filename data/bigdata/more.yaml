@@ -1,0 +1,483 @@
+category: 大数据/扩展命令
+description: 大数据生态的扩展工具、调度与消息队列命令
+commands:
+- name: zkCli.sh
+  category: 大数据/扩展命令
+  install_required: true
+  description: ZooKeeper 命令行客户端
+  usage:
+  - zkCli.sh [OPTIONS] [ARGS]
+  options:
+  - flag: -server
+    description: 服务器
+  - flag: -timeout
+    description: 超时
+  examples:
+  - command: zkCli.sh -server localhost:2181
+    description: 连接 ZooKeeper
+  - command: echo 'ls /' | zkCli.sh -server localhost:2181
+    description: 列出根节点
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - zookeeper-shell
+  - kafka-topics.sh
+  install_method: 随 Apache ZooKeeper 安装
+  risks:
+  - level: medium
+    description: 删除 ZooKeeper 节点会影响依赖服务，请确认
+- name: hbase hbck
+  category: 大数据/扩展命令
+  install_required: true
+  description: HBase 一致性检查与修复
+  usage:
+  - hbase hbck [OPTIONS]
+  options:
+  - flag: -details
+    description: 详细信息
+  - flag: -fix
+    description: 修复
+  - flag: -repair
+    description: 修复所有
+  examples:
+  - command: hbase hbck
+    description: 检查 HBase 一致性
+  - command: hbase hbck -fix
+    description: 修复不一致
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hbase shell
+  - hdfs
+  install_method: 随 Apache HBase 安装
+  risks:
+  - level: high
+    description: -fix/-repair 会修改 HBase 元数据，请在备份后执行
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: pig
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache Pig 大数据分析平台
+  usage:
+  - pig [OPTIONS] [ARGS]
+  options:
+  - flag: -x
+    description: local|mapreduce
+  - flag: -f
+    description: 脚本
+  - flag: -param
+    description: 参数
+  examples:
+  - command: pig -x mapreduce script.pig
+    description: 以 MapReduce 模式运行
+  - command: pig -x local
+    description: 本地交互模式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hadoop
+  - hive
+  install_method: 随 Apache Hadoop/Pig 安装
+  risks:
+  - level: medium
+    description: Pig 脚本会读写 HDFS，请确认输入输出路径
+- name: oozie
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache Oozie 工作流调度
+  usage:
+  - oozie [OPTIONS] [ARGS]
+  options:
+  - flag: job
+    description: 作业管理
+  - flag: validate
+    description: 验证
+  - flag: info
+    description: 信息
+  examples:
+  - command: oozie job -oozie http://localhost:11000/oozie -config 
+      job.properties -run
+    description: 提交工作流
+  - command: oozie validate workflow.xml
+    description: 验证 workflow
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - airflow
+  - hue
+  install_method: 随 Apache Oozie 安装
+  risks:
+  - level: medium
+    description: Oozie 作业会调度 MapReduce/Hive 等，请确认依赖和资源
+- name: airbyte
+  category: 大数据/扩展命令
+  install_required: true
+  description: Airbyte 数据集成平台 CLI
+  usage:
+  - airbyte [OPTIONS] [ARGS]
+  options:
+  - flag: local
+    description: 本地部署
+  - flag: status
+    description: ''
+  - flag: connections
+    description: ''
+  examples:
+  - command: airbyte local deploy
+    description: 本地部署 Airbyte
+  - command: airbyte status
+    description: 查看状态
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - fivetran
+  - airflow
+  - dbt
+  install_method: 参考 
+    https://docs.airbyte.com/using-airbyte/getting-started/oss-quickstart
+  risks:
+  - level: medium
+    description: 连接源和目标会涉及凭据，请使用 Secret 管理
+- name: meltano
+  category: 大数据/扩展命令
+  install_required: true
+  description: ELT 数据管道与 dbt 编排工具
+  usage:
+  - meltano [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: 初始化
+  - flag: add
+    description: 添加 tap/target
+  - flag: run
+    description: 运行管道
+  - flag: test
+    description: 测试
+  examples:
+  - command: meltano init myproject
+    description: 初始化项目
+  - command: meltano run tap-gitlab target-postgres dbt:run
+    description: 运行完整 ELT
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - airbyte
+  - dbt
+  install_method: pip install meltano
+  risks:
+  - level: medium
+    description: meltano run 会读写数据源和目标，请确认环境配置
+- name: dremio-admin
+  category: 大数据/扩展命令
+  install_required: true
+  description: Dremio 数据湖引擎管理工具
+  usage:
+  - dremio-admin [OPTIONS] [ARGS]
+  options:
+  - flag: backup
+    description: 备份
+  - flag: restore
+    description: 恢复
+  - flag: set-password
+    description: ''
+  examples:
+  - command: dremio-admin backup -f /backup/dremio.zip
+    description: 备份 Dremio
+  - command: dremio-admin restore -f /backup/dremio.zip
+    description: 恢复
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - presto
+  - hive
+  install_method: 随 Dremio 安装
+  risks:
+  - level: high
+    description: restore 会覆盖现有元数据，请确认备份来源
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: zeppelin
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache Zeppelin 交互式数据分析笔记本
+  usage:
+  - zeppelin [OPTIONS] [ARGS]
+  options:
+  - flag: daemon.sh
+    description: 启动/停止
+  - flag: --config
+    description: ''
+  examples:
+  - command: bin/zeppelin-daemon.sh start
+    description: 启动 Zeppelin
+  - command: bin/zeppelin-daemon.sh stop
+    description: 停止 Zeppelin
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - jupyter
+  - spark-submit
+  install_method: 参考 
+    https://zeppelin.apache.org/docs/latest/quickstart/install.html
+  risks:
+  - level: medium
+    description: Zeppelin 解释器可执行任意代码，请配置认证和权限
+- name: superset
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache Superset 数据可视化平台
+  usage:
+  - superset [OPTIONS] [ARGS]
+  options:
+  - flag: db
+    description: upgrade 升级元数据库
+  - flag: fab
+    description: create-admin
+  - flag: run
+    description: -p 端口
+  - flag: load_examples
+    description: ''
+  examples:
+  - command: superset db upgrade
+    description: 升级元数据库
+  - command: superset run -p 8088 --with-threads --reload --debugger
+    description: 开发模式启动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - metabase
+  - dbt
+  install_method: pip install apache-superset
+  risks:
+  - level: medium
+    description: 生产环境请关闭 debugger 和 reload，并配置认证
+- name: metabase
+  category: 大数据/扩展命令
+  install_required: true
+  description: 开源 BI 与数据探索平台
+  usage:
+  - metabase [OPTIONS] [ARGS]
+  options:
+  - flag: -Xmx
+    description: 最大内存
+  - flag: -Dlog4j.configurationFile
+    description: ''
+  - flag: --add-to-start
+    description: ''
+  examples:
+  - command: java -jar metabase.jar
+    description: 启动 Metabase
+  - command: MB_DB_CONNECTION_URI='...' java -jar metabase.jar
+    description: 使用外部数据库
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - superset
+  - grafana
+  install_method: 参考 https://www.metabase.com/start/oss/
+  risks:
+  - level: medium
+    description: Metabase 会连接数据库，请使用只读账户并限制权限
+- name: atlas-admin
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache Atlas 元数据管理命令
+  usage:
+  - atlas-admin [OPTIONS] [ARGS]
+  options:
+  - flag: -import
+    description: ''
+  - flag: -export
+    description: ''
+  - flag: -status
+    description: ''
+  examples:
+  - command: bin/atlas_admin.py -status
+    description: 查看 Atlas 状态
+  - command: bin/import-export.py -i metadata.json
+    description: 导入元数据
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hive
+  - kafka
+  install_method: 随 Apache Atlas 安装
+  risks:
+  - level: medium
+    description: 导入导出元数据会影响数据目录，请确认内容
+- name: nifi-toolkit
+  category: 大数据/扩展命令
+  install_required: true
+  description: Apache NiFi 命令行工具包
+  usage:
+  - nifi-toolkit [OPTIONS] [ARGS]
+  options:
+  - flag: tls
+    description: 证书生成
+  - flag: encrypt-config
+    description: ''
+  - flag: file-manager
+    description: ''
+  examples:
+  - command: bin/tls-toolkit.sh standalone -n 'nifi[1-3].example.com' -C 
+      'CN=admin'
+    description: 生成 TLS 证书
+  - command: bin/encrypt-config.sh
+    description: 加密配置
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nifi
+  - openssl
+  install_method: 随 Apache NiFi 安装
+  risks:
+  - level: high
+    description: 加密配置前请备份，丢失密钥将无法解密
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: kafka-mirror-maker
+  category: 大数据/扩展命令
+  install_required: true
+  description: Kafka 跨集群镜像复制工具
+  usage:
+  - kafka-mirror-maker [OPTIONS] [ARGS]
+  options:
+  - flag: --consumer.config
+    description: ''
+  - flag: --producer.config
+    description: ''
+  - flag: --whitelist
+    description: ''
+  examples:
+  - command: kafka-mirror-maker.sh --consumer.config consumer.properties 
+      --producer.config producer.properties --whitelist '.*'
+    description: 镜像所有 topic
+  - command: kafka-mirror-maker.sh --whitelist 'topic1,topic2'
+    description: 只镜像指定 topic
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - debezium
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: high
+    description: 镜像会复制大量数据并可能覆盖目标集群，请确认白名单和 offset 策略
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: kafka-acls.sh
+  category: 大数据/扩展命令
+  install_required: true
+  description: Kafka ACL 权限管理
+  usage:
+  - kafka-acls.sh [OPTIONS] [ARGS]
+  options:
+  - flag: --add
+    description: 添加
+  - flag: --remove
+    description: 删除
+  - flag: --list
+    description: 列出
+  - flag: --allow-principal
+    description: ''
+  - flag: --operation
+    description: ''
+  examples:
+  - command: kafka-acls.sh --bootstrap-server localhost:9092 --list
+    description: 列出 ACL
+  - command: kafka-acls.sh --add --allow-principal User:alice --operation Read 
+      --topic mytopic
+    description: 添加读权限
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-configs.sh
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: high
+    description: 错误的 ACL 会导致服务无法访问或过度授权
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: kafka-reassign-partitions.sh
+  category: 大数据/扩展命令
+  install_required: true
+  description: Kafka 分区重分配工具
+  usage:
+  - kafka-reassign-partitions.sh [OPTIONS] [ARGS]
+  options:
+  - flag: --bootstrap-server
+    description: ''
+  - flag: --topics-to-move-json-file
+    description: ''
+  - flag: --generate
+    description: ''
+  - flag: --execute
+    description: ''
+  - flag: --verify
+    description: ''
+  examples:
+  - command: kafka-reassign-partitions.sh --bootstrap-server localhost:9092 
+      --topics-to-move-json-file topics.json --broker-list 0,1,2 --generate
+    description: 生成分配计划
+  - command: kafka-reassign-partitions.sh --reassignment-json-file plan.json 
+      --execute
+    description: 执行重分配
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - kafka-configs.sh
+  install_method: 随 Apache Kafka 安装
+  risks:
+  - level: high
+    description: 分区重分配会移动大量数据并影响性能，请先在低峰期验证
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: rabbitmqctl
+  category: 大数据/扩展命令
+  install_required: true
+  description: RabbitMQ 消息队列管理 CLI
+  usage:
+  - rabbitmqctl [OPTIONS] [ARGS]
+  options:
+  - flag: list_queues
+    description: 列出队列
+  - flag: list_exchanges
+    description: ''
+  - flag: add_user
+    description: ''
+  - flag: set_permissions
+    description: ''
+  examples:
+  - command: rabbitmqctl list_queues
+    description: 列出队列
+  - command: rabbitmqctl add_user admin password && rabbitmqctl set_user_tags 
+      admin administrator
+    description: 添加管理员
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - mqtt
+  install_method: 随 RabbitMQ 安装
+  risks:
+  - level: medium
+    description: 修改用户/权限会影响消息队列访问，请确认策略

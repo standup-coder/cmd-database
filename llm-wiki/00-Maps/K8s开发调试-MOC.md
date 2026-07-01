@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 容器编排/K8s开发调试
-moc_order: 0
-tags:
-- MOC
-- AI
-- K8s开发调试
+{
+  "moc_type": "dimension",
+  "moc_name": "容器编排/K8s开发调试",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "K8s开发调试"
+  ]
+}
 ---
-
 
 # 容器编排/K8s开发调试
 

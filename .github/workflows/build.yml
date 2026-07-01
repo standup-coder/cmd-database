@@ -40,6 +40,9 @@ jobs:
             exit 1
           fi
 
+      - name: Validate data
+        run: go run ./cmd/validator -d ./data
+
       - name: Run linter
         uses: golangci/golangci-lint-action@v6
         with:

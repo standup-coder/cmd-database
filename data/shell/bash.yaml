@@ -1,145 +1,157 @@
 category: "Shell脚本/Bash工具"
 description: "Bash Shell 脚本编写和调试工具"
 commands:
-  - name: bash
-    category: "Shell脚本/Bash工具"
-    install_required: false
-    description: "Bash Shell 解释器，执行脚本文件或交互式命令"
-    usage:
-      - "bash [选项] [脚本文件]"
-      - "bash -c '命令字符串'"
-    options:
-      - flag: "-x"
-        description: "调试模式，打印执行的每条命令"
-      - flag: "-e"
-        description: "命令出错时立即退出"
-      - flag: "-u"
-        description: "使用未定义变量时报错"
-      - flag: "-n"
-        description: "语法检查，不执行"
-      - flag: "-v"
-        description: "打印输入行"
-    examples:
-      - command: "bash -x script.sh"
-        description: "调试模式执行脚本"
-      - command: "bash -e -u script.sh"
-        description: "严格模式执行脚本"
-      - command: "bash -n script.sh"
-        description: "仅检查语法错误"
-      - command: "bash -c 'echo hello'"
-        description: "执行单行命令"
-    platforms:
-      - linux
-      - darwin
-    related_commands:
-      - "sh"
-      - "zsh"
+- name: bash
+  category: "Shell脚本/Bash工具"
+  install_required: false
+  description: "Bash Shell 解释器，执行脚本文件或交互式命令"
+  usage:
+  - "bash [选项] [脚本文件]"
+  - "bash -c '命令字符串'"
+  options:
+  - flag: "-x"
+    description: "调试模式，打印执行的每条命令"
+  - flag: "-e"
+    description: "命令出错时立即退出"
+  - flag: "-u"
+    description: "使用未定义变量时报错"
+  - flag: "-n"
+    description: "语法检查，不执行"
+  - flag: "-v"
+    description: "打印输入行"
+  examples:
+  - command: "bash -x script.sh"
+    description: "调试模式执行脚本"
+  - command: "bash -e -u script.sh"
+    description: "严格模式执行脚本"
+  - command: "bash -n script.sh"
+    description: "仅检查语法错误"
+  - command: "bash -c 'echo hello'"
+    description: "执行单行命令"
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - "sh"
+  - "zsh"
 
-  - name: shellcheck
-    category: "Shell脚本/Bash工具"
-    install_required: true
-    install_method: "apt install shellcheck (Ubuntu) 或 brew install shellcheck (macOS)"
-    description: "Shell 脚本静态分析工具，检测常见错误和最佳实践"
-    usage:
-      - "shellcheck [选项] [脚本文件]"
-    options:
-      - flag: "-e"
-        description: "排除指定错误代码"
-      - flag: "-s"
-        description: "指定 shell 方言 (bash/sh/dash)"
-      - flag: "-f"
-        description: "输出格式 (tty/json/checkstyle)"
-      - flag: "-S"
-        description: "严重级别 (error/warning/info/style)"
-    examples:
-      - command: "shellcheck script.sh"
-        description: "检查脚本中的问题"
-      - command: "shellcheck -e SC2086 script.sh"
-        description: "排除指定警告"
-      - command: "shellcheck -f json script.sh"
-        description: "JSON 格式输出"
-      - command: "shellcheck -s bash script.sh"
-        description: "指定 bash 方言"
-    platforms:
-      - linux
-      - darwin
-    related_commands:
-      - "bash"
-      - "shfmt"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: shellcheck
+  category: "Shell脚本/Bash工具"
+  install_required: true
+  install_method: "apt install shellcheck (Ubuntu) 或 brew install shellcheck (macOS)"
+  description: "Shell 脚本静态分析工具，检测常见错误和最佳实践"
+  usage:
+  - "shellcheck [选项] [脚本文件]"
+  options:
+  - flag: "-e"
+    description: "排除指定错误代码"
+  - flag: "-s"
+    description: "指定 shell 方言 (bash/sh/dash)"
+  - flag: "-f"
+    description: "输出格式 (tty/json/checkstyle)"
+  - flag: "-S"
+    description: "严重级别 (error/warning/info/style)"
+  examples:
+  - command: "shellcheck script.sh"
+    description: "检查脚本中的问题"
+  - command: "shellcheck -e SC2086 script.sh"
+    description: "排除指定警告"
+  - command: "shellcheck -f json script.sh"
+    description: "JSON 格式输出"
+  - command: "shellcheck -s bash script.sh"
+    description: "指定 bash 方言"
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - "bash"
+  - "shfmt"
 
-  - name: shfmt
-    category: "Shell脚本/Bash工具"
-    install_required: true
-    install_method: "brew install shfmt (macOS) 或 go install mvdan.cc/sh/v3/cmd/shfmt@latest"
-    description: "Shell 脚本格式化工具"
-    usage:
-      - "shfmt [选项] [文件...]"
-    options:
-      - flag: "-w"
-        description: "直接修改文件（写回）"
-      - flag: "-i"
-        description: "缩进宽度（默认 0，即自动检测）"
-      - flag: "-bn"
-        description: "二元运算符放在下一行"
-      - flag: "-ci"
-        description: "case 缩进"
-      - flag: "-d"
-        description: "仅显示需要格式化的差异"
-    examples:
-      - command: "shfmt -w script.sh"
-        description: "格式化并写回文件"
-      - command: "shfmt -w -i 4 *.sh"
-        description: "4 空格缩进格式化所有 sh 文件"
-      - command: "shfmt -d script.sh"
-        description: "仅显示格式差异"
-    platforms:
-      - linux
-      - darwin
-    related_commands:
-      - "shellcheck"
-      - "bash"
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: shfmt
+  category: "Shell脚本/Bash工具"
+  install_required: true
+  install_method: "brew install shfmt (macOS) 或 go install mvdan.cc/sh/v3/cmd/shfmt@latest"
+  description: "Shell 脚本格式化工具"
+  usage:
+  - "shfmt [选项] [文件...]"
+  options:
+  - flag: "-w"
+    description: "直接修改文件（写回）"
+  - flag: "-i"
+    description: "缩进宽度（默认 0，即自动检测）"
+  - flag: "-bn"
+    description: "二元运算符放在下一行"
+  - flag: "-ci"
+    description: "case 缩进"
+  - flag: "-d"
+    description: "仅显示需要格式化的差异"
+  examples:
+  - command: "shfmt -w script.sh"
+    description: "格式化并写回文件"
+  - command: "shfmt -w -i 4 *.sh"
+    description: "4 空格缩进格式化所有 sh 文件"
+  - command: "shfmt -d script.sh"
+    description: "仅显示格式差异"
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - "shellcheck"
+  - "bash"
 
-  - name: source
-    category: "Shell脚本/Bash工具"
-    install_required: false
-    description: "在当前 Shell 环境中执行脚本（不创建子进程）"
-    usage:
-      - "source 文件名"
-      - ". 文件名"
-    examples:
-      - command: "source ~/.bashrc"
-        description: "重新加载 bash 配置"
-      - command: ". /etc/profile"
-        description: "加载系统环境变量"
-      - command: "source env.sh && run_app"
-        description: "加载环境变量后运行应用"
-    platforms:
-      - linux
-      - darwin
-    risks:
-      - level: medium
-        description: "会修改当前 Shell 环境，可能影响后续命令"
-    related_commands:
-      - "bash"
-      - "export"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: source
+  category: "Shell脚本/Bash工具"
+  install_required: false
+  description: "在当前 Shell 环境中执行脚本（不创建子进程）"
+  usage:
+  - "source 文件名"
+  - ". 文件名"
+  examples:
+  - command: "source ~/.bashrc"
+    description: "重新加载 bash 配置"
+  - command: ". /etc/profile"
+    description: "加载系统环境变量"
+  - command: "source env.sh && run_app"
+    description: "加载环境变量后运行应用"
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: "会修改当前 Shell 环境，可能影响后续命令"
+  related_commands:
+  - "bash"
+  - "export"
 
-  - name: trap
-    category: "Shell脚本/Bash工具"
-    install_required: false
-    description: "捕获信号并在脚本中执行清理操作"
-    usage:
-      - "trap '命令' 信号"
-      - "trap 信号"
-    examples:
-      - command: "trap 'rm -f $tmpfile' EXIT"
-        description: "脚本退出时清理临时文件"
-      - command: "trap 'echo caught SIGINT' INT"
-        description: "捕获 Ctrl+C 信号"
-      - command: "trap - EXIT"
-        description: "取消 EXIT 陷阱"
-    platforms:
-      - linux
-      - darwin
-    related_commands:
-      - "bash"
-      - "kill"
+- name: trap
+  category: "Shell脚本/Bash工具"
+  install_required: false
+  description: "捕获信号并在脚本中执行清理操作"
+  usage:
+  - "trap '命令' 信号"
+  - "trap 信号"
+  examples:
+  - command: "trap 'rm -f $tmpfile' EXIT"
+    description: "脚本退出时清理临时文件"
+  - command: "trap 'echo caught SIGINT' INT"
+    description: "捕获 Ctrl+C 信号"
+  - command: "trap - EXIT"
+    description: "取消 EXIT 陷阱"
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - "bash"
+  - "kill"
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

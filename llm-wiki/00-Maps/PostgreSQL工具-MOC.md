@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 数据库工具/PostgreSQL工具
-moc_order: 0
-tags:
-- MOC
-- AI
-- PostgreSQL工具
+{
+  "moc_type": "dimension",
+  "moc_name": "数据库工具/PostgreSQL工具",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "PostgreSQL工具"
+  ]
+}
 ---
-
 
 # 数据库工具/PostgreSQL工具
 

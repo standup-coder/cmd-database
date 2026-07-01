@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 容器编排/K8s云平台工具
-moc_order: 0
-tags:
-- MOC
-- AI
-- K8s云平台工具
+{
+  "moc_type": "dimension",
+  "moc_name": "容器编排/K8s云平台工具",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "K8s云平台工具"
+  ]
+}
 ---
-
 
 # 容器编排/K8s云平台工具
 

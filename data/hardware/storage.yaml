@@ -1,0 +1,246 @@
+category: 硬件/存储与RAID
+description: 硬盘健康、NVMe、RAID、存储性能测试
+commands:
+- name: smartctl
+  category: 硬件/存储与RAID
+  install_required: true
+  description: SMART 硬盘健康检测
+  usage:
+  - smartctl [OPTIONS] DEVICE
+  options:
+  - flag: -a
+    description: 全部信息
+  - flag: -H
+    description: 健康状态
+  - flag: -t
+    description: short|long 自检
+  - flag: -l
+    description: error 错误日志
+  examples:
+  - command: sudo smartctl -a /dev/sda
+    description: 查看 sda 全部 SMART
+  - command: sudo smartctl -H /dev/sda
+    description: 快速健康检查
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hdparm
+  - nvme
+  install_method: 包管理器安装 smartmontools
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: nvme
+  category: 硬件/存储与RAID
+  install_required: true
+  description: NVMe 设备管理 CLI
+  usage:
+  - nvme [OPTIONS] COMMAND
+  options:
+  - flag: list
+    description: 列出设备
+  - flag: smart-log
+    description: 智能日志
+  - flag: format
+    description: 格式化
+  - flag: fw-log
+    description: ''
+  examples:
+  - command: sudo nvme list
+    description: 列出 NVMe 设备
+  - command: sudo nvme smart-log /dev/nvme0
+    description: 查看 SMART 日志
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - smartctl
+  - fio
+  install_method: 包管理器安装 nvme-cli
+  risks:
+  - level: high
+    description: format 会清除所有数据，请确认目标设备
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: mdadm
+  category: 硬件/存储与RAID
+  install_required: true
+  description: Linux 软 RAID 管理
+  usage:
+  - mdadm [OPTIONS] MODE DEVICE
+  options:
+  - flag: --create
+    description: 创建
+  - flag: --assemble
+    description: 组装
+  - flag: --detail
+    description: 详情
+  - flag: --stop
+    description: 停止
+  - flag: --manage
+    description: 管理
+  examples:
+  - command: sudo mdadm --detail /dev/md0
+    description: 查看 RAID 详情
+  - command: sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb 
+      /dev/sdc
+    description: 创建 RAID1
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lvm
+  - smartctl
+  install_method: 多数 Linux 预装或包管理器安装
+  risks:
+  - level: critical
+    description: 创建/停止 RAID 会擦除或暴露数据，请备份并确认设备
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: lsscsi
+  category: 硬件/存储与RAID
+  install_required: false
+  description: 列出 SCSI/SAS 设备
+  usage:
+  - lsscsi [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -l
+    description: 长格式
+  - flag: -g
+    description: 显示 sg 设备
+  examples:
+  - command: lsscsi
+    description: 列出 SCSI 设备
+  - command: lsscsi -l
+    description: 长格式输出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sg_scan
+  - lsblk
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sg_scan
+  category: 硬件/存储与RAID
+  install_required: false
+  description: 扫描 SCSI 通用设备
+  usage:
+  - sg_scan [OPTIONS] [ARGS]
+  options:
+  - flag: -i
+    description: 查询
+  - flag: -s
+    description: 同步
+  examples:
+  - command: sg_scan
+    description: 扫描 sg 设备
+  - command: sg_scan -i
+    description: 查询设备信息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lsscsi
+  - smartctl
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: partprobe
+  category: 硬件/存储与RAID
+  install_required: false
+  description: 通知内核分区表变化
+  usage:
+  - partprobe [OPTIONS] [DEVICE]
+  options:
+  - flag: -d
+    description: 不更新
+  - flag: -s
+    description: 显示摘要
+  examples:
+  - command: sudo partprobe
+    description: 通知所有设备
+  - command: sudo partprobe /dev/sdb
+    description: 通知 sdb
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - parted
+  - fdisk
+  risks:
+  - level: medium
+    description: 分区表变更可能影响已挂载文件系统，请确认无冲突
+- name: fio
+  category: 硬件/存储与RAID
+  install_required: true
+  description: 灵活的 I/O 测试器
+  usage:
+  - fio [OPTIONS] [JOB FILE]
+  options:
+  - flag: --name
+    description: ''
+  - flag: --filename
+    description: ''
+  - flag: --rw
+    description: ''
+  - flag: --bs
+    description: ''
+  - flag: --size
+    description: ''
+  - flag: --numjobs
+    description: ''
+  examples:
+  - command: fio --name=test --filename=/tmp/test --rw=randread --bs=4k 
+      --size=1G
+    description: 随机读测试
+  - command: fio job.fio
+    description: 执行 job 文件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - bonnie++
+  - iostat
+  install_method: 包管理器安装，如 sudo apt install fio
+  risks:
+  - level: high
+    description: fio 会写入大量数据并占用 IO，请确认目标磁盘和文件系统
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: bonnie++
+  category: 硬件/存储与RAID
+  install_required: true
+  description: 文件系统性能基准测试
+  usage:
+  - bonnie++ [OPTIONS]
+  options:
+  - flag: -d
+    description: 测试目录
+  - flag: -u
+    description: 用户
+  - flag: -r
+    description: 内存大小
+  - flag: -s
+    description: 文件大小
+  examples:
+  - command: bonnie++ -d /tmp -u root
+    description: 测试 /tmp
+  - command: bonnie++ -f -n 0 -r 4096 -d /mnt
+    description: 简化测试
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - fio
+  - hdparm
+  install_method: 包管理器安装，如 sudo apt install bonnie++
+  risks:
+  - level: high
+    description: 会创建大文件并大量读写，请确认目录空间和权限
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。

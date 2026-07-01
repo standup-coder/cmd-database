@@ -1,0 +1,145 @@
+category: 硬件/GPU与加速器
+description: NVIDIA、AMD、Intel GPU 与 OpenCL 设备管理
+commands:
+- name: nvidia-smi
+  category: 硬件/GPU与加速器
+  install_required: true
+  description: NVIDIA GPU 管理与监控
+  usage:
+  - nvidia-smi [OPTIONS]
+  options:
+  - flag: -L
+    description: 列出 GPU
+  - flag: -q
+    description: 查询
+  - flag: -dmon
+    description: 监控
+  - flag: -pl
+    description: 设置功耗限制
+  - flag: -i
+    description: 指定 GPU
+  examples:
+  - command: nvidia-smi
+    description: 显示 GPU 状态
+  - command: nvidia-smi dmon -s pucm
+    description: 监控功耗/温度/显存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nvtop
+  - rocm-smi
+  install_method: 随 NVIDIA 驱动安装
+  risks:
+  - level: medium
+    description: 修改功耗/频率限制可能影响稳定性或硬件寿命
+- name: rocm-smi
+  category: 硬件/GPU与加速器
+  install_required: true
+  description: AMD ROCm GPU 管理
+  usage:
+  - rocm-smi [OPTIONS]
+  options:
+  - flag: --showproductname
+    description: ''
+  - flag: --showclock
+    description: ''
+  - flag: --setfan
+    description: ''
+  - flag: --setperflevel
+    description: ''
+  examples:
+  - command: rocm-smi
+    description: 显示 AMD GPU 状态
+  - command: rocm-smi --showproductname
+    description: 显示产品名
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nvidia-smi
+  - radeontop
+  install_method: 随 AMD ROCm 安装
+  risks:
+  - level: medium
+    description: 修改风扇或性能等级需谨慎
+- name: intel-gpu-top
+  category: 硬件/GPU与加速器
+  install_required: true
+  description: Intel GPU 占用监控
+  usage:
+  - intel-gpu-top [OPTIONS] [ARGS]
+  options:
+  - flag: -s
+    description: 采样
+  - flag: -o
+    description: 输出文件
+  examples:
+  - command: sudo intel-gpu-top
+    description: 实时监控 Intel GPU
+  - command: sudo intel-gpu-top -s 1000
+    description: 每秒采样
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - radeontop
+  - nvidia-smi
+  install_method: 包管理器安装 intel-gpu-tools
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: radeontop
+  category: 硬件/GPU与加速器
+  install_required: true
+  description: AMD GPU 占用监控
+  usage:
+  - radeontop [OPTIONS] [ARGS]
+  options:
+  - flag: -d
+    description: 守护模式
+  - flag: -s
+    description: 采样
+  - flag: -t
+    description: 透明度
+  examples:
+  - command: sudo radeontop
+    description: 实时监控 AMD GPU
+  - command: sudo radeontop -d /tmp/radeontop.log
+    description: 记录到文件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - rocm-smi
+  - intel-gpu-top
+  install_method: 包管理器安装，如 sudo apt install radeontop
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: clinfo
+  category: 硬件/GPU与加速器
+  install_required: true
+  description: 显示 OpenCL 平台与设备信息
+  usage:
+  - clinfo [OPTIONS] [ARGS]
+  options:
+  - flag: -l
+    description: 简要
+  - flag: -a
+    description: 全部
+  examples:
+  - command: clinfo
+    description: 显示 OpenCL 信息
+  - command: clinfo -l
+    description: 简要列出平台设备
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nvidia-smi
+  - rocm-smi
+  install_method: 包管理器安装，如 sudo apt install clinfo
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。

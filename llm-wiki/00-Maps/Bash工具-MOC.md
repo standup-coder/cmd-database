@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: Shell脚本/Bash工具
-moc_order: 0
-tags:
-- MOC
-- AI
-- Bash工具
+{
+  "moc_type": "dimension",
+  "moc_name": "Shell脚本/Bash工具",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Bash工具"
+  ]
+}
 ---
-
 
 # Shell脚本/Bash工具
 

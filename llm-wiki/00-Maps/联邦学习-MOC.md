@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/联邦学习
-moc_order: 0
-tags:
-- MOC
-- AI
-- 联邦学习
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/联邦学习",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "联邦学习"
+  ]
+}
 ---
-
 
 # AI基础设施/联邦学习
 
@@ -20,8 +22,6 @@ tags:
 - 🟡 [[opacus]] — Opacus PyTorch差分隐私训练库，通过梯度裁剪和噪声注入实现(ε,δ)-差分隐私保证
 - 🔴 [[pyvertical]] — PyVertical垂直联邦学习框架，特征分片联合建模，适用于银行+电商等跨机构数据互补场景
 
-- 🟡 [[crypten]] — Meta开源的隐私保护机器学习框架，支持安全多方计算
-- 🟡 [[crypten]] — CrypTen Facebook隐私计算库，基于MPC(安全多方计算)的加密机器学习，支持加密推理和训练
 ## 统计
 
 - 总命令数: 4

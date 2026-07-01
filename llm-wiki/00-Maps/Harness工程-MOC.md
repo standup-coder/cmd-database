@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/Harness工程
-moc_order: 0
-tags:
-- MOC
-- AI
-- Harness工程
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/Harness工程",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Harness工程"
+  ]
+}
 ---
-
 
 # AI基础设施/Harness工程
 

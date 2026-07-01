@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/大模型推理
-moc_order: 0
-tags:
-- MOC
-- AI
-- 大模型推理
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/大模型推理",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "大模型推理"
+  ]
+}
 ---
-
 
 # AI基础设施/大模型推理
 
@@ -28,6 +30,7 @@ tags:
 - 🟡 [[onnxruntime]] — ONNX Runtime跨平台推理加速引擎，支持CPU/GPU/边缘设备
 - 🟡 [[openai-function-calling]] — OpenAI Function Calling工具调用，让LLM自主决定调用外部API获取实时数据或执行操作
 - 🟡 [[openvino]] — Intel OpenVINO工具包，针对Intel CPU/GPU/NPU优化的推理框架
+- 🟡 [[outlines]] — LLM结构化生成库，强制模型输出JSON/Regex格式
 - 🟡 [[prefix-caching]] — Prefix Caching前缀缓存，复用共享系统Prompt的KV Cache，大幅降低多轮推理延迟和显存
 - 🟡 [[ray-serve]] — Ray Serve可扩展模型服务框架，支持多模型组合、A/B测试、自动扩缩容
 - 🟡 [[replicate]] — Replicate模型托管云平台，一键部署和运行开源模型
@@ -42,8 +45,7 @@ tags:
 - 🟡 [[transformers-pipeline]] — HuggingFace Transformers Pipeline快速推理接口，一行代码完成文本生成/分类/问答
 - 🟡 [[vllm]] — vLLM高性能大模型推理引擎，采用PagedAttention实现最高24倍吞吐提升
 
-- 🟡 [[outlines]] — LLM结构化生成库，强制模型输出JSON/Regex格式
 ## 统计
 
-- 总命令数: 26
+- 总命令数: 27
 - 维度: 大模型推理

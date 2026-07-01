@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 编程语言/Node.js工具链
-moc_order: 0
-tags:
-- MOC
-- AI
-- Nodejs工具链
+{
+  "moc_type": "dimension",
+  "moc_name": "编程语言/Node.js工具链",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Nodejs工具链"
+  ]
+}
 ---
-
 
 # 编程语言/Node.js工具链
 

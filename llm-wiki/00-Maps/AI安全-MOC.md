@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/AI安全
-moc_order: 0
-tags:
-- MOC
-- AI
-- AI安全
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/AI安全",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "AI安全"
+  ]
+}
 ---
-
 
 # AI基础设施/AI安全
 

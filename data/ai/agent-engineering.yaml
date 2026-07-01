@@ -1,616 +1,611 @@
 category: "AI基础设施/Agent工程"
 description: "AI Agent框架与工程化工具，涵盖LLM应用编排、多Agent协作、RAG、提示工程"
 commands:
-  - name: langchain
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install langchain"
-    description: "LangChain LLM应用开发框架，支持Chains、Agents、RAG、工具调用"
-    usage:
-      - "python app.py (使用langchain库)"
-    options:
-      - flag: "ChatOpenAI"
-        description: "聊天模型封装"
-      - flag: "create_react_agent"
-        description: "创建ReAct Agent"
-      - flag: "RunnableParallel"
-        description: "并行执行多个Runnable"
-      - flag: "Chroma"
-        description: "向量存储集成"
-    examples:
-      - command: "python -c \"from langchain import OpenAI; llm = OpenAI(); print(llm.predict('hello'))\""
-        description: "基础LLM调用"
-      - command: "python rag_app.py --model gpt-4 --vectorstore chroma --documents ./docs"
-        description: "构建RAG应用"
-      - command: "python agent.py --tools search,calculator --model claude-3"
-        description: "多工具ReAct Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langgraph"
-      - "llama-index"
-    risks:
-      - level: medium
-        description: "Agent可能执行不可预期操作，需限制工具权限"
-    references:
-      - "https://python.langchain.com/"
+- name: langchain
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install langchain"
+  description: "LangChain LLM应用开发框架，支持Chains、Agents、RAG、工具调用"
+  usage:
+  - "python app.py (使用langchain库)"
+  options:
+  - flag: "ChatOpenAI"
+    description: "聊天模型封装"
+  - flag: "create_react_agent"
+    description: "创建ReAct Agent"
+  - flag: "RunnableParallel"
+    description: "并行执行多个Runnable"
+  - flag: "Chroma"
+    description: "向量存储集成"
+  examples:
+  - command: "python -c \"from langchain import OpenAI; llm = OpenAI(); print(llm.predict('hello'))\""
+    description: "基础LLM调用"
+  - command: "python rag_app.py --model gpt-4 --vectorstore chroma --documents ./docs"
+    description: "构建RAG应用"
+  - command: "python agent.py --tools search,calculator --model claude-3"
+    description: "多工具ReAct Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langgraph"
+  - "llama-index"
+  risks:
+  - level: medium
+    description: "Agent可能执行不可预期操作，需限制工具权限"
+  references:
+  - "https://python.langchain.com/"
 
-  - name: langgraph
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install langgraph"
-    description: "LangGraph状态机Agent框架，支持循环、条件分支、持久化、人机协同"
-    usage:
-      - "python app.py (使用langgraph库)"
-    options:
-      - flag: "StateGraph"
-        description: "定义状态图"
-      - flag: "add_node"
-        description: "添加节点"
-      - flag: "add_edge"
-        description: "添加边"
-      - flag: "compile"
-        description: "编译为可运行应用"
-    examples:
-      - command: "python -c \"from langgraph.graph import StateGraph; builder = StateGraph(State); builder.add_node('agent', call_model); builder.add_edge('agent', END); graph = builder.compile()\""
-        description: "定义简单Agent状态图"
-      - command: "python agent_loop.py --checkpoint --interrupt human_approval"
-        description: "带检查点和人机协同的Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "crewai"
-    risks:
-      - level: medium
-        description: "循环Agent可能陷入无限循环，需设置最大迭代"
-    references:
-      - "https://langchain-ai.github.io/langgraph/"
+- name: langgraph
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install langgraph"
+  description: "LangGraph状态机Agent框架，支持循环、条件分支、持久化、人机协同"
+  usage:
+  - "python app.py (使用langgraph库)"
+  options:
+  - flag: "StateGraph"
+    description: "定义状态图"
+  - flag: "add_node"
+    description: "添加节点"
+  - flag: "add_edge"
+    description: "添加边"
+  - flag: "compile"
+    description: "编译为可运行应用"
+  examples:
+  - command: "python -c \"from langgraph.graph import StateGraph; builder = StateGraph(State);
+      builder.add_node('agent', call_model); builder.add_edge('agent', END); graph
+      = builder.compile()\""
+    description: "定义简单Agent状态图"
+  - command: "python agent_loop.py --checkpoint --interrupt human_approval"
+    description: "带检查点和人机协同的Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "crewai"
+  risks:
+  - level: medium
+    description: "循环Agent可能陷入无限循环，需设置最大迭代"
+  references:
+  - "https://langchain-ai.github.io/langgraph/"
 
-  - name: crewai
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install crewai"
-    description: "CrewAI多Agent协作框架，角色扮演、任务委派、团队协作执行复杂工作流"
-    usage:
-      - "python crew.py (使用crewai库)"
-    options:
-      - flag: "Agent"
-        description: "定义Agent角色"
-      - flag: "Task"
-        description: "定义任务"
-      - flag: "Crew"
-        description: "组建Agent团队"
-      - flag: "Process"
-        description: "执行流程 (sequential, hierarchical)"
-    examples:
-      - command: "python crew.py --agents researcher,writer,editor --process sequential --goal 'Write a blog post'"
-        description: "多Agent协作撰写博客"
-      - command: "python crew.py --process hierarchical --manager gpt-4"
-        description: "层级管理式Agent团队协作"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "autogen"
-      - "langgraph"
-    risks:
-      - level: medium
-        description: "多Agent交互可能产生意外行为"
-    references:
-      - "https://www.crewai.com/"
+- name: crewai
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install crewai"
+  description: "CrewAI多Agent协作框架，角色扮演、任务委派、团队协作执行复杂工作流"
+  usage:
+  - "python crew.py (使用crewai库)"
+  options:
+  - flag: "Agent"
+    description: "定义Agent角色"
+  - flag: "Task"
+    description: "定义任务"
+  - flag: "Crew"
+    description: "组建Agent团队"
+  - flag: "Process"
+    description: "执行流程 (sequential, hierarchical)"
+  examples:
+  - command: "python crew.py --agents researcher,writer,editor --process sequential
+      --goal 'Write a blog post'"
+    description: "多Agent协作撰写博客"
+  - command: "python crew.py --process hierarchical --manager gpt-4"
+    description: "层级管理式Agent团队协作"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "autogen"
+  - "langgraph"
+  risks:
+  - level: medium
+    description: "多Agent交互可能产生意外行为"
+  references:
+  - "https://www.crewai.com/"
 
-  - name: autogen
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install pyautogen"
-    description: "Microsoft AutoGen多Agent对话框架，支持代码生成、工具调用、人机协同"
-    usage:
-      - "python app.py (使用autogen库)"
-    options:
-      - flag: "ConversableAgent"
-        description: "可对话Agent"
-      - flag: "UserProxyAgent"
-        description: "用户代理Agent"
-      - flag: "GroupChat"
-        description: "群聊管理"
-      - flag: "register_function"
-        description: "注册工具函数"
-    examples:
-      - command: "python coding_agent.py --agents coder,executor --task 'Build a web scraper'"
-        description: "代码生成与执行Agent"
-      - command: "python -c \"from autogen import ConversableAgent; assistant = ConversableAgent('assistant', llm_config={'model':'gpt-4'})\""
-        description: "创建基础对话Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "crewai"
-      - "langgraph"
-    risks:
-      - level: high
-        description: "代码执行Agent可能执行危险代码，需沙箱隔离"
-    references:
-      - "https://microsoft.github.io/autogen/"
+- name: autogen
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install pyautogen"
+  description: "Microsoft AutoGen多Agent对话框架，支持代码生成、工具调用、人机协同"
+  usage:
+  - "python app.py (使用autogen库)"
+  options:
+  - flag: "ConversableAgent"
+    description: "可对话Agent"
+  - flag: "UserProxyAgent"
+    description: "用户代理Agent"
+  - flag: "GroupChat"
+    description: "群聊管理"
+  - flag: "register_function"
+    description: "注册工具函数"
+  examples:
+  - command: "python coding_agent.py --agents coder,executor --task 'Build a web scraper'"
+    description: "代码生成与执行Agent"
+  - command: "python -c \"from autogen import ConversableAgent; assistant = ConversableAgent('assistant',
+      llm_config={'model':'gpt-4'})\""
+    description: "创建基础对话Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "crewai"
+  - "langgraph"
+  risks:
+  - level: high
+    description: "代码执行Agent可能执行危险代码，需沙箱隔离"
+  - level: high
+    description: Agent 可能执行代码或访问外部资源，请在隔离沙箱中运行并审查工具权限。
+  references:
+  - "https://microsoft.github.io/autogen/"
 
-  - name: agno
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install agno"
-    description: "Agno (原Phidata) 轻量级Agent框架，支持记忆、知识库、工具、多模态"
-    usage:
-      - "python app.py (使用agno库)"
-    options:
-      - flag: "Agent"
-        description: "创建Agent"
-      - flag: "KnowledgeBase"
-        description: "知识库"
-      - flag: "Storage"
-        description: "持久化存储"
-    examples:
-      - command: "python -c \"from agno.agent import Agent; agent = Agent(model=OpenAIChat('gpt-4')); agent.print_response('Hello')\""
-        description: "创建简单Agent"
-      - command: "python agent.py --knowledge ./docs --memory sqlite --tools search,calculator"
-        description: "带知识库和记忆的Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "crewai"
-    risks:
-      - level: medium
-        description: "Agent工具调用需谨慎"
-    references:
-      - "https://docs.agno.com/"
+- name: agno
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install agno"
+  description: "Agno (原Phidata) 轻量级Agent框架，支持记忆、知识库、工具、多模态"
+  usage:
+  - "python app.py (使用agno库)"
+  options:
+  - flag: "Agent"
+    description: "创建Agent"
+  - flag: "KnowledgeBase"
+    description: "知识库"
+  - flag: "Storage"
+    description: "持久化存储"
+  examples:
+  - command: "python -c \"from agno.agent import Agent; agent = Agent(model=OpenAIChat('gpt-4'));
+      agent.print_response('Hello')\""
+    description: "创建简单Agent"
+  - command: "python agent.py --knowledge ./docs --memory sqlite --tools search,calculator"
+    description: "带知识库和记忆的Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "crewai"
+  risks:
+  - level: medium
+    description: "Agent工具调用需谨慎"
+  references:
+  - "https://docs.agno.com/"
 
-  - name: openai-agents
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install openai-agents"
-    description: "OpenAI官方Agents SDK，支持Responses API、工具调用、网络搜索、文件搜索"
-    usage:
-      - "python app.py (使用openai-agents库)"
-    options:
-      - flag: "Agent"
-        description: "创建Agent"
-      - flag: "function_tool"
-        description: "注册函数工具"
-      - flag: "Runner.run"
-        description: "运行Agent"
-    examples:
-      - command: "python -c \"from agents import Agent, Runner; agent = Agent(name='Assistant', instructions='Helpful'); result = Runner.run_sync(agent, 'Hello')\""
-        description: "运行OpenAI Agent"
-      - command: "python agent.py --tools web_search,file_search --model gpt-4o"
-        description: "带搜索工具的Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "autogen"
-    risks:
-      - level: medium
-        description: "网络搜索可能返回不可信信息"
-    references:
-      - "https://github.com/openai/openai-agents-python"
+- name: openai-agents
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install openai-agents"
+  description: "OpenAI官方Agents SDK，支持Responses API、工具调用、网络搜索、文件搜索"
+  usage:
+  - "python app.py (使用openai-agents库)"
+  options:
+  - flag: "Agent"
+    description: "创建Agent"
+  - flag: "function_tool"
+    description: "注册函数工具"
+  - flag: "Runner.run"
+    description: "运行Agent"
+  examples:
+  - command: "python -c \"from agents import Agent, Runner; agent = Agent(name='Assistant',
+      instructions='Helpful'); result = Runner.run_sync(agent, 'Hello')\""
+    description: "运行OpenAI Agent"
+  - command: "python agent.py --tools web_search,file_search --model gpt-4o"
+    description: "带搜索工具的Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "autogen"
+  risks:
+  - level: medium
+    description: "网络搜索可能返回不可信信息"
+  references:
+  - "https://github.com/openai/openai-agents-python"
 
-  - name: smolagents
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install smolagents"
-    description: "HuggingFace SmolAgents极简Agent库，代码优先，最小抽象，高度透明"
-    usage:
-      - "python app.py (使用smolagents库)"
-    options:
-      - flag: "CodeAgent"
-        description: "代码执行Agent"
-      - flag: "ToolCallingAgent"
-        description: "工具调用Agent"
-      - flag: "@tool"
-        description: "装饰器注册工具"
-    examples:
-      - command: "python -c \"from smolagents import CodeAgent; agent = CodeAgent(tools=[], model=model); agent.run('What is 2+2?')\""
-        description: "创建CodeAgent"
-      - command: "python agent.py --agent_type code --model_id Qwen/Qwen2.5-Coder-32B-Instruct"
-        description: "使用开源模型运行Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "autogen"
-    risks:
-      - level: high
-        description: "CodeAgent执行代码需沙箱隔离"
-    references:
-      - "https://github.com/huggingface/smolagents"
+- name: smolagents
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install smolagents"
+  description: "HuggingFace SmolAgents极简Agent库，代码优先，最小抽象，高度透明"
+  usage:
+  - "python app.py (使用smolagents库)"
+  options:
+  - flag: "CodeAgent"
+    description: "代码执行Agent"
+  - flag: "ToolCallingAgent"
+    description: "工具调用Agent"
+  - flag: "@tool"
+    description: "装饰器注册工具"
+  examples:
+  - command: "python -c \"from smolagents import CodeAgent; agent = CodeAgent(tools=[],
+      model=model); agent.run('What is 2+2?')\""
+    description: "创建CodeAgent"
+  - command: "python agent.py --agent_type code --model_id Qwen/Qwen2.5-Coder-32B-Instruct"
+    description: "使用开源模型运行Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "autogen"
+  risks:
+  - level: high
+    description: "CodeAgent执行代码需沙箱隔离"
+  - level: high
+    description: Agent 可能执行代码或访问外部资源，请在隔离沙箱中运行并审查工具权限。
+  references:
+  - "https://github.com/huggingface/smolagents"
 
-  - name: dspy
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install dspy"
-    description: "DSPy声明式LLM编程框架，优化提示和权重而非手工工程"
-    usage:
-      - "python app.py (使用dspy库)"
-    options:
-      - flag: "Signature"
-        description: "定义输入输出签名"
-      - flag: "Module"
-        description: "构建可组合模块"
-      - flag: "BootstrapFewShot"
-        description: "少样本示例引导"
-      - flag: "MIPRO"
-        description: "自动提示优化"
-    examples:
-      - command: "python -c \"import dspy; lm = dspy.LM('openai/gpt-4'); dspy.configure(lm=lm); pred = dspy.Predict('question -> answer'); print(pred(question='Why is the sky blue?'))\""
-        description: "基础DSPy预测"
-      - command: "python optimize.py --optimizer MIPRO --metric accuracy --trainset train.json"
-        description: "MIPRO自动优化提示"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "instructor"
-    risks:
-      - level: low
-        description: "框架抽象降低风险"
-    references:
-      - "https://dspy.ai/"
+- name: dspy
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install dspy"
+  description: "DSPy声明式LLM编程框架，优化提示和权重而非手工工程"
+  usage:
+  - "python app.py (使用dspy库)"
+  options:
+  - flag: "Signature"
+    description: "定义输入输出签名"
+  - flag: "Module"
+    description: "构建可组合模块"
+  - flag: "BootstrapFewShot"
+    description: "少样本示例引导"
+  - flag: "MIPRO"
+    description: "自动提示优化"
+  examples:
+  - command: "python -c \"import dspy; lm = dspy.LM('openai/gpt-4'); dspy.configure(lm=lm);
+      pred = dspy.Predict('question -> answer'); print(pred(question='Why is the sky
+      blue?'))\""
+    description: "基础DSPy预测"
+  - command: "python optimize.py --optimizer MIPRO --metric accuracy --trainset train.json"
+    description: "MIPRO自动优化提示"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "instructor"
+  risks:
+  - level: low
+    description: "框架抽象降低风险"
+  references:
+  - "https://dspy.ai/"
 
-  - name: praisonai
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install praisonai"
-    description: "PraisonAI低代码多Agent框架，基于CrewAI，支持AutoGen集成和UI界面"
-    usage:
-      - "praisonai [COMMAND] [OPTIONS]"
-    options:
-      - flag: "init"
-        description: "初始化项目"
-      - flag: "agents"
-        description: "生成Agent配置"
-      - flag: "chain"
-        description: "链式调用"
-      - flag: "chat"
-        description: "交互式对话"
-    examples:
-      - command: "praisonai init"
-        description: "初始化PraisonAI项目"
-      - command: "praisonai agents --topic 'AI Research' --agents 3"
-        description: "生成3个研究Agent配置"
-      - command: "praisonai chat --agents agents.yaml"
-        description: "交互式多Agent对话"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "crewai"
-      - "autogen"
-    risks:
-      - level: medium
-        description: "多Agent交互风险"
-    references:
-      - "https://docs.praison.ai/"
+- name: praisonai
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install praisonai"
+  description: "PraisonAI低代码多Agent框架，基于CrewAI，支持AutoGen集成和UI界面"
+  usage:
+  - "praisonai [COMMAND] [OPTIONS]"
+  options:
+  - flag: "init"
+    description: "初始化项目"
+  - flag: "agents"
+    description: "生成Agent配置"
+  - flag: "chain"
+    description: "链式调用"
+  - flag: "chat"
+    description: "交互式对话"
+  examples:
+  - command: "praisonai init"
+    description: "初始化PraisonAI项目"
+  - command: "praisonai agents --topic 'AI Research' --agents 3"
+    description: "生成3个研究Agent配置"
+  - command: "praisonai chat --agents agents.yaml"
+    description: "交互式多Agent对话"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "crewai"
+  - "autogen"
+  risks:
+  - level: medium
+    description: "多Agent交互风险"
+  references:
+  - "https://docs.praison.ai/"
 
-  - name: phidata
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install phidata"
-    description: "Phidata构建AI助手的框架，支持知识库、结构化输出、多模态(已合并为Agno)"
-    usage:
-      - "python app.py (使用phidata库)"
-    options:
-      - flag: "Assistant"
-        description: "创建AI助手"
-      - flag: "KnowledgeBase"
-        description: "知识库"
-    examples:
-      - command: "python assistant.py --model gpt-4 --knowledge ./docs --storage postgres"
-        description: "带知识库的AI助手"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "agno"
-      - "langchain"
-    risks:
-      - level: low
-        description: "框架抽象降低风险"
-    references:
-      - "https://docs.phidata.com/"
+- name: phidata
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install phidata"
+  description: "Phidata构建AI助手的框架，支持知识库、结构化输出、多模态(已合并为Agno)"
+  usage:
+  - "python app.py (使用phidata库)"
+  options:
+  - flag: "Assistant"
+    description: "创建AI助手"
+  - flag: "KnowledgeBase"
+    description: "知识库"
+  examples:
+  - command: "python assistant.py --model gpt-4 --knowledge ./docs --storage postgres"
+    description: "带知识库的AI助手"
+  - command: python assistant.py --storage postgres --model claude-3-sonnet
+    description: 使用 PostgreSQL 存储和 Claude 模型
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "agno"
+  - "langchain"
+  risks:
+  - level: low
+    description: "框架抽象降低风险"
+  references:
+  - "https://docs.phidata.com/"
 
-  - name: haystack
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install haystack-ai"
-    description: "Haystack端到端NLP框架，支持RAG、Agent、文档搜索、Pipeline编排"
-    usage:
-      - "python app.py (使用haystack库)"
-    options:
-      - flag: "Pipeline"
-        description: "构建处理管道"
-      - flag: "DocumentStore"
-        description: "文档存储"
-      - flag: "Agent"
-        description: "Haystack Agent"
-    examples:
-      - command: "python -c \"from haystack import Pipeline; pipe = Pipeline(); pipe.add_component('retriever', retriever); pipe.add_component('generator', generator); pipe.connect('retriever', 'generator')\""
-        description: "构建RAG Pipeline"
-      - command: "python agent.py --tools search,qa --document_store elasticsearch"
-        description: "文档问答Agent"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "llama-index"
-    risks:
-      - level: medium
-        description: "Pipeline组件配置需验证"
-    references:
-      - "https://haystack.deepset.ai/"
+- name: haystack
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install haystack-ai"
+  description: "Haystack端到端NLP框架，支持RAG、Agent、文档搜索、Pipeline编排"
+  usage:
+  - "python app.py (使用haystack库)"
+  options:
+  - flag: "Pipeline"
+    description: "构建处理管道"
+  - flag: "DocumentStore"
+    description: "文档存储"
+  - flag: "Agent"
+    description: "Haystack Agent"
+  examples:
+  - command: "python -c \"from haystack import Pipeline; pipe = Pipeline(); pipe.add_component('retriever',
+      retriever); pipe.add_component('generator', generator); pipe.connect('retriever',
+      'generator')\""
+    description: "构建RAG Pipeline"
+  - command: "python agent.py --tools search,qa --document_store elasticsearch"
+    description: "文档问答Agent"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "llama-index"
+  risks:
+  - level: medium
+    description: "Pipeline组件配置需验证"
+  references:
+  - "https://haystack.deepset.ai/"
 
-  - name: llama-index
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install llama-index"
-    description: "LlamaIndex数据框架，连接LLM与私有数据，支持RAG、Agent、工作流"
-    usage:
-      - "python app.py (使用llama_index库)"
-    options:
-      - flag: "VectorStoreIndex"
-        description: "向量存储索引"
-      - flag: "QueryEngine"
-        description: "查询引擎"
-      - flag: "AgentRunner"
-        description: "Agent运行器"
-      - flag: "Workflow"
-        description: "事件驱动工作流"
-    examples:
-      - command: "python -c \"from llama_index import VectorStoreIndex, SimpleDirectoryReader; docs = SimpleDirectoryReader('data').load_data(); index = VectorStoreIndex.from_documents(docs)\""
-        description: "从文档构建索引"
-      - command: "python agent.py --index ./index --tools slack,notion --workflow event_driven"
-        description: "事件驱动Agent工作流"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "haystack"
-    risks:
-      - level: medium
-        description: "外部工具集成注意权限"
-    references:
-      - "https://www.llamaindex.ai/"
+- name: llama-index
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install llama-index"
+  description: "LlamaIndex数据框架，连接LLM与私有数据，支持RAG、Agent、工作流"
+  usage:
+  - "python app.py (使用llama_index库)"
+  options:
+  - flag: "VectorStoreIndex"
+    description: "向量存储索引"
+  - flag: "QueryEngine"
+    description: "查询引擎"
+  - flag: "AgentRunner"
+    description: "Agent运行器"
+  - flag: "Workflow"
+    description: "事件驱动工作流"
+  examples:
+  - command: "python -c \"from llama_index import VectorStoreIndex, SimpleDirectoryReader;
+      docs = SimpleDirectoryReader('data').load_data(); index = VectorStoreIndex.from_documents(docs)\""
+    description: "从文档构建索引"
+  - command: "python agent.py --index ./index --tools slack,notion --workflow event_driven"
+    description: "事件驱动Agent工作流"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "haystack"
+  risks:
+  - level: medium
+    description: "外部工具集成注意权限"
+  references:
+  - "https://www.llamaindex.ai/"
 
-  - name: embedchain
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install embedchain"
-    description: "EmbedChain RAG框架，简化数据加载、分块、嵌入、查询全流程"
-    usage:
-      - "python app.py (使用embedchain库)"
-    options:
-      - flag: "App"
-        description: "创建RAG应用"
-      - flag: "add"
-        description: "添加数据源"
-      - flag: "query"
-        description: "查询"
-    examples:
-      - command: "python -c \"from embedchain import App; app = App(); app.add('https://example.com'); print(app.query('What is this?'))\""
-        description: "从URL构建RAG"
-      - command: "python app.py --add youtube,notion,slack --query 'Summarize'"
-        description: "多源RAG应用"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "llama-index"
-    risks:
-      - level: low
-        description: "RAG应用风险较低"
-    references:
-      - "https://docs.embedchain.ai/"
+- name: embedchain
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install embedchain"
+  description: "EmbedChain RAG框架，简化数据加载、分块、嵌入、查询全流程"
+  usage:
+  - "python app.py (使用embedchain库)"
+  options:
+  - flag: "App"
+    description: "创建RAG应用"
+  - flag: "add"
+    description: "添加数据源"
+  - flag: "query"
+    description: "查询"
+  examples:
+  - command: "python -c \"from embedchain import App; app = App(); app.add('https://example.com');
+      print(app.query('What is this?'))\""
+    description: "从URL构建RAG"
+  - command: "python app.py --add youtube,notion,slack --query 'Summarize'"
+    description: "多源RAG应用"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "llama-index"
+  risks:
+  - level: low
+    description: "RAG应用风险较低"
+  references:
+  - "https://docs.embedchain.ai/"
 
-  - name: semantic-kernel
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install semantic-kernel"
-    description: "Microsoft Semantic Kernel SDK，连接LLM、记忆、规划器和插件"
-    usage:
-      - "python app.py (使用semantic_kernel库)"
-    options:
-      - flag: "Kernel"
-        description: "核心编排器"
-      - flag: "plugins"
-        description: "注册插件"
-      - flag: "planners"
-        description: "任务规划器"
-    examples:
-      - command: "python -c \"import semantic_kernel as sk; kernel = sk.Kernel(); kernel.add_service(sk.OpenAIChatCompletion())\""
-        description: "初始化Semantic Kernel"
-      - command: "python planner.py --planner HandlebarsPlanner --plugins search,math"
-        description: "Handlebars规划器多插件协作"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "langchain"
-      - "autogen"
-    risks:
-      - level: medium
-        description: "插件调用需注意权限"
-    references:
-      - "https://github.com/microsoft/semantic-kernel"
+- name: semantic-kernel
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install semantic-kernel"
+  description: "Microsoft Semantic Kernel SDK，连接LLM、记忆、规划器和插件"
+  usage:
+  - "python app.py (使用semantic_kernel库)"
+  options:
+  - flag: "Kernel"
+    description: "核心编排器"
+  - flag: "plugins"
+    description: "注册插件"
+  - flag: "planners"
+    description: "任务规划器"
+  examples:
+  - command: "python -c \"import semantic_kernel as sk; kernel = sk.Kernel(); kernel.add_service(sk.OpenAIChatCompletion())\""
+    description: "初始化Semantic Kernel"
+  - command: "python planner.py --planner HandlebarsPlanner --plugins search,math"
+    description: "Handlebars规划器多插件协作"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "langchain"
+  - "autogen"
+  risks:
+  - level: medium
+    description: "插件调用需注意权限"
+  references:
+  - "https://github.com/microsoft/semantic-kernel"
 
-  - name: guidance
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install guidance"
-    description: "Guidance可控生成库，通过语法约束LLM输出结构，确保JSON/代码格式正确"
-    usage:
-      - "python app.py (使用guidance库)"
-    options:
-      - flag: "guidance()"
-        description: "定义生成模板"
-      - flag: "gen()"
-        description: "受控生成"
-      - flag: "select()"
-        description: "选择选项"
-    examples:
-      - command: "python -c \"import guidance; @guidance; def plan(lm): lm += 'Goal: ' + gen('goal') + '\\nSteps: ' + gen('steps'); return lm\""
-        description: "结构化生成计划"
-      - command: "python json_gen.py --schema schema.json --model gpt-4"
-        description: "Schema约束JSON生成"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "outlines"
-      - "instructor"
-    risks:
-      - level: low
-        description: "结构化生成降低风险"
-    references:
-      - "https://github.com/guidance-ai/guidance"
+- name: guidance
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install guidance"
+  description: "Guidance可控生成库，通过语法约束LLM输出结构，确保JSON/代码格式正确"
+  usage:
+  - "python app.py (使用guidance库)"
+  options:
+  - flag: "guidance()"
+    description: "定义生成模板"
+  - flag: "gen()"
+    description: "受控生成"
+  - flag: "select()"
+    description: "选择选项"
+  examples:
+  - command: "python -c \"import guidance; @guidance; def plan(lm): lm += 'Goal: '
+      + gen('goal') + '\\nSteps: ' + gen('steps'); return lm\""
+    description: "结构化生成计划"
+  - command: "python json_gen.py --schema schema.json --model gpt-4"
+    description: "Schema约束JSON生成"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "outlines"
+  - "instructor"
+  risks:
+  - level: low
+    description: "结构化生成降低风险"
+  references:
+  - "https://github.com/guidance-ai/guidance"
 
-  - name: instructor
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install instructor"
-    description: "Instructor结构化输出库，基于Pydantic验证LLM响应，确保类型安全"
-    usage:
-      - "python app.py (使用instructor库)"
-    options:
-      - flag: "instructor.patch()"
-        description: "patch客户端"
-      - flag: "response_model"
-        description: "Pydantic响应模型"
-    examples:
-      - command: "python -c \"import instructor, openai; client = instructor.patch(openai.OpenAI()); user = client.chat.completions.create(model='gpt-4', response_model=User, messages=[{'role':'user','content':'John is 30'}])\""
-        description: "Pydantic模型约束输出"
-      - command: "python extract.py --schema User --batch 100"
-        description: "批量结构化提取"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "guidance"
-      - "pydantic-ai"
-    risks:
-      - level: low
-        description: "类型安全降低风险"
-    references:
-      - "https://python.useinstructor.com/"
+- name: pydantic-ai
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "pip install pydantic-ai"
+  description: "PydanticAI类型安全Agent框架，Samuel Colvin(Pydantic作者)出品，强类型验证"
+  usage:
+  - "python app.py (使用pydantic_ai库)"
+  options:
+  - flag: "Agent"
+    description: "创建类型安全Agent"
+  - flag: "RunContext"
+    description: "运行上下文"
+  - flag: "result_type"
+    description: "结果类型约束"
+  examples:
+  - command: "python -c \"from pydantic_ai import Agent; agent = Agent('openai:gpt-4',
+      result_type=CityInfo); result = agent.run_sync('Tell me about Paris')\""
+    description: "类型安全Agent调用"
+  - command: python -c "from pydantic_ai import Agent; help(Agent.run_sync)"
+    description: 查看同步运行 API
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "instructor"
+  - "langchain"
+  risks:
+  - level: low
+    description: "强类型约束降低风险"
+  references:
+  - "https://ai.pydantic.dev/"
 
-  - name: pydantic-ai
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "pip install pydantic-ai"
-    description: "PydanticAI类型安全Agent框架，Samuel Colvin(Pydantic作者)出品，强类型验证"
-    usage:
-      - "python app.py (使用pydantic_ai库)"
-    options:
-      - flag: "Agent"
-        description: "创建类型安全Agent"
-      - flag: "RunContext"
-        description: "运行上下文"
-      - flag: "result_type"
-        description: "结果类型约束"
-    examples:
-      - command: "python -c \"from pydantic_ai import Agent; agent = Agent('openai:gpt-4', result_type=CityInfo); result = agent.run_sync('Tell me about Paris')\""
-        description: "类型安全Agent调用"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "instructor"
-      - "langchain"
-    risks:
-      - level: low
-        description: "强类型约束降低风险"
-    references:
-      - "https://ai.pydantic.dev/"
+- name: dify
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "docker pull langgenius/dify-api"
+  description: "Dify开源LLM应用开发平台，可视化编排Agent、RAG、工作流，支持自托管"
+  usage:
+  - "docker compose up (自托管)"
+  options:
+  - flag: "--env-file"
+    description: "环境变量文件"
+  examples:
+  - command: "git clone https://github.com/langgenius/dify.git && cd dify/docker &&
+      docker compose up -d"
+    description: "Docker Compose自托管Dify"
+  - command: "docker compose -f docker-compose.yaml -f docker-compose.middleware.yaml
+      up -d"
+    description: "含中间件完整部署"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "flowise"
+  - "langchain"
+  risks:
+  - level: medium
+    description: "自托管需配置安全认证"
+  references:
+  - "https://dify.ai/"
 
-  - name: dify
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "docker pull langgenius/dify-api"
-    description: "Dify开源LLM应用开发平台，可视化编排Agent、RAG、工作流，支持自托管"
-    usage:
-      - "docker compose up (自托管)"
-    options:
-      - flag: "--env-file"
-        description: "环境变量文件"
-    examples:
-      - command: "git clone https://github.com/langgenius/dify.git && cd dify/docker && docker compose up -d"
-        description: "Docker Compose自托管Dify"
-      - command: "docker compose -f docker-compose.yaml -f docker-compose.middleware.yaml up -d"
-        description: "含中间件完整部署"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "flowise"
-      - "langchain"
-    risks:
-      - level: medium
-        description: "自托管需配置安全认证"
-    references:
-      - "https://dify.ai/"
-
-  - name: flowise
-    category: "AI基础设施/Agent工程"
-    install_required: true
-    install_method: "npx flowise start"
-    description: "Flowise可视化LangChain工作流构建器，拖拽式创建LLM应用"
-    usage:
-      - "npx flowise [COMMAND] [OPTIONS]"
-    options:
-      - flag: "start"
-        description: "启动Flowise"
-      - flag: "--PORT"
-        description: "端口号"
-      - flag: "--FLOWISE_USERNAME"
-        description: "用户名"
-    examples:
-      - command: "npx flowise start"
-        description: "启动Flowise"
-      - command: "npx flowise start --PORT=3000 --FLOWISE_USERNAME=admin --FLOWISE_PASSWORD=admin"
-        description: "指定端口和认证启动"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "dify"
-      - "langchain"
-    risks:
-      - level: medium
-        description: "生产环境需配置认证"
-    references:
-      - "https://flowiseai.com/"
+- name: flowise
+  category: "AI基础设施/Agent工程"
+  install_required: true
+  install_method: "npx flowise start"
+  description: "Flowise可视化LangChain工作流构建器，拖拽式创建LLM应用"
+  usage:
+  - "npx flowise [COMMAND] [OPTIONS]"
+  options:
+  - flag: "start"
+    description: "启动Flowise"
+  - flag: "--PORT"
+    description: "端口号"
+  - flag: "--FLOWISE_USERNAME"
+    description: "用户名"
+  examples:
+  - command: "npx flowise start"
+    description: "启动Flowise"
+  - command: "npx flowise start --PORT=3000 --FLOWISE_USERNAME=admin --FLOWISE_PASSWORD=admin"
+    description: "指定端口和认证启动"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "dify"
+  - "langchain"
+  risks:
+  - level: medium
+    description: "生产环境需配置认证"
+  references:
+  - "https://flowiseai.com/"

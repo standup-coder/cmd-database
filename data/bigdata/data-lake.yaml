@@ -1,0 +1,89 @@
+category: 大数据/数据湖
+description: 数据湖表格式管理与查询工具
+commands:
+- name: delta
+  category: 大数据/数据湖
+  install_required: true
+  install_method: pip install delta-spark 或在 Apache Spark 中引入 delta-core
+  description: Delta Lake 表格式命令入口（通常通过 Spark 或 delta-rs 使用）
+  usage:
+  - delta [OPTIONS]
+  options:
+  - flag: table-details
+    description: 查看 Delta 表元数据
+  examples:
+  - command: |
+      spark-sql --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+                -e "DESCRIBE HISTORY delta.`/path/to/table`"
+    description: 查看 Delta 表历史版本
+  - command: |
+      delta table-details --table /path/to/table
+    description: 查看 Delta 表详情（需安装 delta-rs CLI）
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-sql
+  - hadoop
+  risks:
+  - level: high
+    description: VACUUM 或 RESTORE 操作会清理/回滚历史数据，请确认保留策略
+
+  - level: high
+    description: 数据湖表的版本回滚或清理操作不可逆，请先理解保留策略并备份元数据。
+- name: iceberg
+  category: 大数据/数据湖
+  install_required: true
+  install_method: 参考 https://iceberg.apache.org/getting-started/
+  description: Apache Iceberg 表格式命令
+  usage:
+  - iceberg [OPTIONS]
+  options:
+  - flag: --catalog
+    description: 指定 Catalog
+  examples:
+  - command: spark-sql --conf 
+      spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions
+      -e "SELECT * FROM catalog.db.table"
+    description: 使用 Spark SQL 查询 Iceberg 表
+  - command: iceberg snapshot --table catalog.db.table
+    description: 查看表快照（需对应 CLI 工具）
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-sql
+  - presto
+  risks:
+  - level: medium
+    description: 修改表结构或合并快照可能影响查询计划，请先在测试表验证
+
+- name: hudi-cli
+  category: 大数据/数据湖
+  install_required: true
+  install_method: 随 Apache Hudi 安装
+  description: Apache Hudi 表管理命令行工具
+  usage:
+  - hudi-cli [OPTIONS]
+  options:
+  - flag: connect
+    description: 连接到 Hudi 表路径
+  - flag: commits show
+    description: 查看提交历史
+  examples:
+  - command: hudi-cli --hudi-conf-dir /etc/hudi
+    description: 启动 Hudi CLI
+  - command: |
+      connect --path /path/to/hudi_table
+      commits show
+    description: 连接表并查看提交历史
+  platforms:
+  - linux
+  related_commands:
+  - spark-submit
+  - hadoop
+  risks:
+  - level: high
+    description: rollback、clean 等操作会直接修改表状态，生产环境需谨慎
+  - level: high
+    description: 数据湖表的版本回滚或清理操作不可逆，请先理解保留策略并备份元数据。

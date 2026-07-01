@@ -155,6 +155,8 @@ commands:
   examples:
   - command: go fmt ./...
     description: 格式化所有Go文件
+  - command: gofmt -w -s main.go
+    description: 简化并格式化单个文件
   platforms:
   - linux
   - darwin
@@ -175,6 +177,8 @@ commands:
   examples:
   - command: go vet ./...
     description: 检查所有包
+  - command: go vet -tags=integration ./...
+    description: 检查指定构建标签的包
   platforms:
   - linux
   - darwin
@@ -207,3 +211,6 @@ commands:
   - go get
   - go build
   - go run
+  risks:
+  - level: medium
+    description: 会修改系统或应用状态，建议在测试环境验证后再应用于生产。

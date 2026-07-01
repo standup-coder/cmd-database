@@ -3,9 +3,9 @@
 ![Version](https://img.shields.io/badge/version-1.8.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Go Version](https://img.shields.io/badge/go-%3E%3D1.24-blue)
-![Test Coverage](https://img.shields.io/badge/coverage-75%25-green)
+![Test Coverage](https://img.shields.io/badge/coverage-80.7%25-green)
 ![Wiki Pages](https://img.shields.io/badge/llm--wiki-755%20pages-purple)
-![AI Commands](https://img.shields.io/badge/AI%20commands-215-orange)
+![AI Commands](https://img.shields.io/badge/AI%20commands-240-orange)
 
 ## 📖 简介
 
@@ -23,7 +23,7 @@ cmd4coder 是一个**双模态**开发者工具项目：
 ```
 ┌─────────────────┐     ┌──────────────────┐
 │   data/*.yaml   │────→│   cmd4coder CLI  │  Mode A: 终端查询
-│   (693 命令)    │     │   (Go + Bubbletea)│
+│   (1112 命令)   │     │   (Go + Bubbletea)│
 └─────────────────┘     └──────────────────┘
          │
          ↓
@@ -42,6 +42,23 @@ cmd4coder 是一个**双模态**开发者工具项目：
 | **关联** | `related_commands` 文本 | `[[wikilinks]]` 双向链接 |
 | **输出** | 表格/JSON/Markdown | Markdown + frontmatter |
 | **适用** | 快速查命令 | 学习路线、故障排查 |
+
+---
+
+## 📑 层级索引
+
+快速定位项目各层级入口：
+
+| 层级 | 内容 | 索引 |
+|------|------|------|
+| **全局导航** | 项目地图与关键数字 | [`INDEX.md`](INDEX.md) |
+| **CLI 入口** | `cmd/cli` 主程序、`cmd/validator` 验证器 | [`cmd/README.md`](cmd/README.md) |
+| **内部实现** | model / data / service / ui / version | [`internal/README.md`](internal/README.md) |
+| **可复用包** | JSON / Markdown / YAML 导出 | [`pkg/README.md`](pkg/README.md) |
+| **数据源** | YAML 单一数据源与 12 大领域 | [`data/README.md`](data/README.md) |
+| **脚本工具** | 构建、数据维护、Wiki 转换 | [`scripts/README.md`](scripts/README.md) |
+| **项目文档** | 报告、指南、GitHub Pages | [`docs/README.md`](docs/README.md) |
+| **LLM-Wiki** | Obsidian 知识库入口 | [`llm-wiki/index.md`](llm-wiki/index.md) |
 
 ---
 
@@ -80,7 +97,7 @@ kimi "what tool should I use for single-GPU fine-tuning?"
 kimi "ingest docs/new-paper.pdf into the wiki"
 
 # 4. 检查 Wiki 健康
-python3 scripts/wiki_status.py
+python3 scripts/wiki/wiki_status.py
 ```
 
 ---
@@ -89,9 +106,9 @@ python3 scripts/wiki_status.py
 
 | 指标 | CLI | Wiki |
 |------|-----|------|
-| 总命令 | **693** | 676 实体页 + 65 MOC |
-| 分类 | 58 | 58 维度索引 |
-| AI 命令 | 215 (22 分类) | 200+ 含场景/概念/FAQ |
+| 总命令 | **1112** | 676 实体页 + 65 MOC |
+| 分类 | **106** | 106 维度索引 |
+| AI 命令 | 240 (22 分类) | 200+ 含场景/概念/FAQ |
 | 搜索速度 | <100ms | Index-only ~18K tokens |
 | 双向链接 | — | **2,105** |
 | Broken Links | — | **0** |
@@ -103,22 +120,24 @@ python3 scripts/wiki_status.py
 
 ## 📋 完整命令清单
 
-全部 **734** 条命令已按功能领域简单分类，详见 [`COMMANDS.md`](COMMANDS.md)。
+全部 **1112** 条命令已按功能领域简单分类，详见 [`COMMANDS.md`](COMMANDS.md)。
 
 | 分类 | 命令数 | 覆盖范围 |
 |------|--------|----------|
-| Kubernetes 生态 | 248 | kubectl、Helm、集群管理、网络、存储、安全、可观测性、MLOps 等 |
-| AI 基础设施 | 227 | 大模型训练/推理、Agent、RAG、向量数据库、AI 网关、AI 安全等 |
-| 操作系统 | 69 | Ubuntu/CentOS 包管理、systemd、防火墙、通用 Linux 命令 |
-| 编程语言 | 38 | Java/Go/Python/Node.js/Rust 工具链 |
-| 容器编排 | 34 | Docker、Docker Compose、Kafka 等 |
+| 容器编排 | 339 | Docker、Podman、Kubernetes、Helm、Istio、Service Mesh、本地 K8s、安全、运行时等 |
+| AI 基础设施 | 240 | 大模型训练/推理、Agent、RAG、向量数据库、AI 网关、AI 安全、编码助手、MLOps 等 |
+| 硬件 | 64 | CPU/GPU/存储/RAID、传感器、固件、UEFI、IPMI、嵌入式/I2C/GPIO 等 |
+| 操作系统 | 153 | Ubuntu/CentOS 包管理、systemd、防火墙、Linux 核心、用户与磁盘管理等 |
+| 网络工具 | 57 | curl、nmap、网络安全、性能压测、抓包、代理、Web 服务器、VPN、DNS 等 |
+| 数据库 | 64 | MySQL、PostgreSQL、Redis、MongoDB、SQLite、Oracle、SQL Server、NoSQL、时序/OLAP 等 |
+| 大数据 | 53 | Hadoop、Spark、Flink、Kafka、Hive、Presto/Trino、Airflow、数据湖、调度等 |
+| 编程语言 | 47 | Java/Go/Python/Node.js/Rust/PHP/Ruby/.NET/Scala/Kotlin/Groovy 等工具链 |
 | 版本控制 | 31 | Git、SVN |
-| 数据库 | 29 | MySQL、PostgreSQL、Redis |
-| 系统诊断 | 22 | Arthas、tsar、JVM 诊断 |
-| 网络工具 | 14 | curl、dig、tcpdump、netstat 等 |
+| 系统诊断 | 27 | Arthas、tsar、strace、perf、bpftrace、JVM 诊断等 |
+| 云平台 | 13 | AWS、Azure、GCP、DigitalOcean、Linode、Terraform、Pulumi 等 |
 | 构建工具 | 10 | Maven、Gradle、Make、CMake |
-| 云平台 | 7 | AWS CLI、Terraform、Azure/GCP K8s |
-| CI/CD | 5 | GitHub Actions、Tekton、Skaffold |
+| CI/CD | 9 | GitHub Actions、GitLab Runner、Jenkins、Tekton、Skaffold 等 |
+| Shell 脚本 | 5 | Bash Shell 编写和调试工具 |
 
 ---
 
@@ -139,8 +158,8 @@ cmd4coder/
 │   └── ui/tui/                 # TUI 用户界面
 ├── pkg/export/                 # Markdown/JSON 导出
 ├── data/                       # YAML 命令清单 (单一数据源)
-│   ├── metadata.yaml           # 58 分类元数据
-│   ├── ai/                     # 22 个 AI 分类 (215 命令)
+│   ├── metadata.yaml           # 106 分类元数据
+│   ├── ai/                     # 22 个 AI 分类 (240 命令)
 │   │   ├── llm-training.yaml
 │   │   ├── llm-inference.yaml
 │   │   ├── agent-engineering.yaml
@@ -149,10 +168,15 @@ cmd4coder/
 │   │   ├── model-interpretability.yaml
 │   │   ├── federated-learning.yaml
 │   │   └── ... (15 more)
-│   ├── container/              # K8s 生态 (200+ 命令)
-│   ├── database/               # MySQL/PostgreSQL/Redis
-│   ├── network/                # DNS/HTTP/诊断
+│   ├── container/              # 容器与 K8s 生态 (339 命令)
+│   │   ├── docker/             # Docker 与替代容器运行时
+│   │   ├── k8s/                # Kubernetes 各主题命令
+│   │   └── cloudnative/        # Helm、Istio、本地 K8s 等云原生扩展
+│   ├── database/               # MySQL/PostgreSQL/Redis/NoSQL/时序
+│   ├── build-tools/            # Maven/Gradle/Make/CMake
+│   ├── network/                # DNS/HTTP/诊断/安全
 │   ├── os/                     # Linux 系统命令
+│   ├── hardware/               # CPU/GPU/存储/固件/嵌入式
 │   └── ...
 │
 ├──  Mode B: LLM-Wiki
@@ -172,7 +196,7 @@ cmd4coder/
 │   ├── hot.md                  # 热缓存
 │   └── .env                    # Wiki 配置
 │
-├── .agents/skills/             # 38 个 obsidian-wiki skills
+├── .agents/skills/             # 43 个 obsidian-wiki skills
 │   ├── wiki-ingest/            # 文档蒸馏摄入
 │   ├── wiki-query/             # 分层检索查询
 │   ├── wiki-status/            # 健康仪表盘
@@ -180,10 +204,14 @@ cmd4coder/
 │   └── ...
 │
 ├── scripts/                    # 转换与工具脚本
-│   ├── convert_to_wiki.py      # YAML → Markdown 转换器
-│   ├── generate_scenes_and_faqs.py
-│   ├── fix_wiki_links_v3.py    # 链接修复
-│   └── wiki_status.py          # 健康检查
+│   ├── build/                  # 构建脚本（build.sh / build.ps1 / test_core.sh）
+│   ├── data/                   # 数据维护（去重、补全、生成 COMMANDS.md）
+│   ├── wiki/                   # Wiki 转换与维护
+│   │   ├── convert_to_wiki.py  # YAML → Markdown 转换器
+│   │   ├── generate_scenes_and_faqs.py
+│   │   ├── fix_wiki_links_v3.py
+│   │   └── wiki_status.py
+│   └── legacy/                 # 一次性批量添加脚本
 │
 └── docs/                       # 项目文档
     ├── reports/llm-wiki/       # 改造方案与实施报告
@@ -192,7 +220,7 @@ cmd4coder/
 
 ---
 
-## 🤖 AI 基础设施覆盖 (22 分类, 215 命令)
+## 🤖 AI 基础设施覆盖 (22 分类, 225 命令)
 
 | 维度 | 命令数 | 代表工具 |
 |------|--------|----------|
@@ -240,16 +268,16 @@ go run ./cmd/validator -d ./data -v
 
 ```bash
 # YAML 变更后重新生成 Wiki
-python3 scripts/convert_to_wiki.py
+python3 scripts/wiki/convert_to_wiki.py
 
 # 修复链接
-python3 scripts/fix_wiki_links_v3.py
+python3 scripts/wiki/fix_wiki_links_v3.py
 
 # 检查健康
-python3 scripts/wiki_status.py
+python3 scripts/wiki/wiki_status.py
 
 # 生成场景/FAQ
-python3 scripts/generate_scenes_and_faqs.py
+python3 scripts/wiki/generate_scenes_and_faqs.py
 ```
 
 ### 数据规范
@@ -301,14 +329,14 @@ commands:
 
 1. 在 `data/` 对应 YAML 文件中添加命令定义
 2. 运行 `go run ./cmd/validator -d ./data -v` 验证
-3. 运行 `python3 scripts/convert_to_wiki.py` 同步到 Wiki
+3. 运行 `python3 scripts/wiki/convert_to_wiki.py` 同步到 Wiki
 4. 提交 PR
 
 ### 添加场景页
 
-1. 编辑 `scripts/generate_scenes_and_faqs.py`
+1. 编辑 `scripts/wiki/generate_scenes_and_faqs.py`
 2. 运行脚本生成场景页
-3. 验证链接：`python3 scripts/wiki_status.py`
+3. 验证链接：`python3 scripts/wiki/wiki_status.py`
 
 ---
 

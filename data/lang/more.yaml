@@ -1,0 +1,265 @@
+category: 编程语言/扩展工具链
+description: Rust、PHP、Ruby、.NET、Scala、Kotlin、Groovy 等语言工具链
+commands:
+- name: php
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: PHP 命令行解释器
+  usage:
+  - php [OPTIONS] [FILE]
+  options:
+  - flag: -r
+    description: 运行代码
+  - flag: -f
+    description: 文件
+  - flag: -S
+    description: 内置服务器
+  - flag: -l
+    description: 语法检查
+  examples:
+  - command: php -r 'echo phpversion();'
+    description: 查看 PHP 版本
+  - command: php -S localhost:8000
+    description: 启动开发服务器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - composer
+  - phpunit
+  install_method: 包管理器安装，如 sudo apt install php-cli
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: ruby
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Ruby 解释器
+  usage:
+  - ruby [OPTIONS] [FILE]
+  options:
+  - flag: -e
+    description: 执行代码
+  - flag: -v
+    description: 版本
+  - flag: -I
+    description: 加载路径
+  examples:
+  - command: ruby -e 'puts RUBY_VERSION'
+    description: 查看 Ruby 版本
+  - command: ruby script.rb
+    description: 运行脚本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gem
+  - bundle
+  install_method: 包管理器安装或 rbenv
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: gem
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Ruby 包管理器
+  usage:
+  - gem [OPTIONS] COMMAND
+  options:
+  - flag: install
+    description: 安装
+  - flag: list
+    description: 列出
+  - flag: uninstall
+    description: 卸载
+  - flag: update
+    description: ''
+  examples:
+  - command: gem install rails
+    description: 安装 Rails
+  - command: gem list
+    description: 列出已安装 gem
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ruby
+  - bundle
+  install_method: 随 Ruby 安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: bundle
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Ruby 项目依赖管理
+  usage:
+  - bundle [OPTIONS] [ARGS]
+  options:
+  - flag: install
+    description: 安装
+  - flag: update
+    description: 更新
+  - flag: exec
+    description: 在 bundle 环境执行
+  examples:
+  - command: bundle install
+    description: 安装 Gemfile 依赖
+  - command: bundle exec rails s
+    description: 在 bundle 环境启动 Rails
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gem
+  - ruby
+  install_method: gem install bundler
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: dotnet
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: .NET 命令行工具
+  usage:
+  - dotnet [OPTIONS] COMMAND
+  options:
+  - flag: new
+    description: 创建项目
+  - flag: build
+    description: 构建
+  - flag: run
+    description: 运行
+  - flag: publish
+    description: 发布
+  - flag: add
+    description: package
+  examples:
+  - command: dotnet new console -o MyApp
+    description: 创建控制台项目
+  - command: dotnet build
+    description: 构建项目
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nuget
+  - msbuild
+  install_method: 参考 https://dotnet.microsoft.com/download
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: scala
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Scala 解释器与运行器
+  usage:
+  - scala [OPTIONS] [ARGS]
+  options:
+  - flag: -version
+    description: ''
+  - flag: -cp
+    description: 类路径
+  - flag: -D
+    description: 系统属性
+  examples:
+  - command: scala -version
+    description: 查看版本
+  - command: scala Hello.scala
+    description: 运行 Scala 脚本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sbt
+  - java
+  install_method: 参考 https://www.scala-lang.org/download/
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sbt
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Scala 构建工具
+  usage:
+  - sbt [OPTIONS] [ARGS]
+  options:
+  - flag: compile
+    description: ''
+  - flag: test
+    description: ''
+  - flag: run
+    description: ''
+  - flag: assembly
+    description: ''
+  examples:
+  - command: sbt compile
+    description: 编译
+  - command: sbt test
+    description: 运行测试
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - scala
+  - mvn
+  install_method: 参考 https://www.scala-sbt.org/download.html
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: kotlin
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Kotlin 命令行编译器
+  usage:
+  - kotlin [OPTIONS] [ARGS]
+  options:
+  - flag: -version
+    description: ''
+  - flag: -cp
+    description: ''
+  - flag: -d
+    description: 输出
+  examples:
+  - command: kotlinc Hello.kt -include-runtime -d hello.jar
+    description: 编译为 jar
+  - command: kotlin hello.jar
+    description: 运行
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - java
+  - gradle
+  install_method: 参考 https://kotlinlang.org/docs/command-line.html
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: groovy
+  category: 编程语言/扩展工具链
+  install_required: true
+  description: Groovy 脚本语言
+  usage:
+  - groovy [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: ''
+  - flag: -e
+    description: 执行
+  - flag: -classpath
+    description: ''
+  examples:
+  - command: groovy -v
+    description: 查看版本
+  - command: groovy script.groovy
+    description: 运行脚本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - java
+  - gradle
+  install_method: SDKMAN 或包管理器安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

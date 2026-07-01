@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 诊断工具/系统诊断
-moc_order: 0
-tags:
-- MOC
-- AI
-- 系统诊断
+{
+  "moc_type": "dimension",
+  "moc_name": "诊断工具/系统诊断",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "系统诊断"
+  ]
+}
 ---
-
 
 # 诊断工具/系统诊断
 

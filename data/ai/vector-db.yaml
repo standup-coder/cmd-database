@@ -19,8 +19,9 @@ commands:
   examples:
   - command: chroma run --path ./chroma_data --port 8000
     description: 启动Chroma持久化服务
-  - command: python -c "import chromadb; client = chromadb.PersistentClient(path='./db');
-      coll = client.create_collection('docs')"
+  - command: python -c "import chromadb; client = 
+      chromadb.PersistentClient(path='./db'); coll = 
+      client.create_collection('docs')"
     description: Python创建持久化集合
   platforms:
   - linux
@@ -85,10 +86,11 @@ commands:
   - flag: -v
     description: 数据卷挂载
   examples:
-  - command: docker run -p 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+  - command: docker run -p 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage 
+      qdrant/qdrant
     description: Docker启动Qdrant
-  - command: python -c "from qdrant_client import QdrantClient; client = QdrantClient('localhost',
-      port=6333)"
+  - command: python -c "from qdrant_client import QdrantClient; client = 
+      QdrantClient('localhost', port=6333)"
     description: Python客户端连接
   platforms:
   - linux
@@ -115,8 +117,11 @@ commands:
   - flag: --env AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED
     description: 启用匿名访问
   examples:
-  - command: docker run -p 8080:8080 -p 50051:50051 semitechnologies/weaviate:latest
+  - command: docker run -p 8080:8080 -p 50051:50051 
+      semitechnologies/weaviate:latest
     description: 启动Weaviate服务
+  - command: docker logs weaviate
+    description: 查看 Weaviate 容器日志
   platforms:
   - linux
   - darwin
@@ -146,8 +151,9 @@ commands:
   examples:
   - command: psql -c 'CREATE EXTENSION vector'
     description: 在PostgreSQL中启用pgvector
-  - command: psql -c "CREATE TABLE items (id bigserial PRIMARY KEY, embedding vector(768));
-      CREATE INDEX ON items USING ivfflat (embedding vector_cosine_ops)"
+  - command: psql -c "CREATE TABLE items (id bigserial PRIMARY KEY, embedding 
+      vector(768)); CREATE INDEX ON items USING ivfflat (embedding 
+      vector_cosine_ops)"
     description: 创建向量表和余弦相似度索引
   platforms:
   - linux
@@ -178,8 +184,8 @@ commands:
   - flag: faiss.index_cpu_to_all_gpus
     description: 迁移索引到GPU
   examples:
-  - command: python -c "import faiss; index = faiss.IndexFlatL2(768); index.add(vectors);
-      D, I = index.search(query, k=10)"
+  - command: python -c "import faiss; index = faiss.IndexFlatL2(768); 
+      index.add(vectors); D, I = index.search(query, k=10)"
     description: 创建索引并搜索最近邻
   - command: python build_index.py --dim 768 --index_type ivf --nlist 100 --gpu
     description: GPU加速构建IVF索引
@@ -212,9 +218,13 @@ commands:
   - flag: index.query
     description: 查询向量
   examples:
-  - command: python -c "from pinecone import Pinecone; pc = Pinecone(api_key='xxx');
-      index = pc.Index('my-index'); results = index.query(vector=[...], top_k=10)"
+  - command: python -c "from pinecone import Pinecone; pc = 
+      Pinecone(api_key='xxx'); index = pc.Index('my-index'); results = 
+      index.query(vector=[...], top_k=10)"
     description: 查询Pinecone索引
+  - command: python -c "from pinecone import Pinecone; 
+      help(Pinecone.create_index)"
+    description: 查看索引创建 API
   platforms:
   - linux
   - darwin
@@ -242,11 +252,11 @@ commands:
   - flag: FT.VECTOR
     description: 向量字段类型
   examples:
-  - command: redis-cli FT.CREATE my_idx ON JSON SCHEMA $.embedding AS embedding VECTOR
-      FLAT 6 TYPE FLOAT32 DIM 768 DISTANCE_METRIC COSINE
+  - command: redis-cli FT.CREATE my_idx ON JSON SCHEMA $.embedding AS embedding 
+      VECTOR FLAT 6 TYPE FLOAT32 DIM 768 DISTANCE_METRIC COSINE
     description: 创建向量搜索索引
-  - command: redis-cli FT.SEARCH my_idx '*=>[KNN 10 @embedding $vec]' PARAMS 2 vec
-      '[0.1,...]'
+  - command: redis-cli FT.SEARCH my_idx '*=>[KNN 10 @embedding $vec]' PARAMS 2 
+      vec '[0.1,...]'
     description: KNN向量搜索
   platforms:
   - linux
@@ -279,7 +289,8 @@ commands:
   examples:
   - command: vespa deploy ./application
     description: 部署Vespa应用
-  - command: vespa query 'select * from sources * where {targetHits:10}nearestNeighbor(embedding,q)'
+  - command: vespa query 'select * from sources * where 
+      {targetHits:10}nearestNeighbor(embedding,q)'
     description: 向量最近邻搜索
   platforms:
   - linux
@@ -306,10 +317,11 @@ commands:
   - flag: --name
     description: 容器名称
   examples:
-  - command: docker run --name marqo -it --privileged -p 8882:8882 marqoai/marqo:latest
+  - command: docker run --name marqo -it --privileged -p 8882:8882 
+      marqoai/marqo:latest
     description: 启动Marqo服务
-  - command: python -c "import marqo; mq = marqo.Client(url='http://localhost:8882');
-      mq.create_index('my-index')"
+  - command: python -c "import marqo; mq = 
+      marqo.Client(url='http://localhost:8882'); mq.create_index('my-index')"
     description: Python创建索引
   platforms:
   - linux
@@ -368,9 +380,11 @@ commands:
   - flag: query
     description: 查询向量
   examples:
-  - command: python -c "import turbopuffer as tp; ns = tp.Namespace('docs'); ns.upsert(ids=['1'],
-      vectors=[[0.1]], attributes={'text':['hello']})"
+  - command: python -c "import turbopuffer as tp; ns = tp.Namespace('docs'); 
+      ns.upsert(ids=['1'], vectors=[[0.1]], attributes={'text':['hello']})"
     description: 插入向量
+  - command: python -c "import turbopuffer as tp; help(tp.Namespace.query)"
+    description: 查看查询 API 帮助
   platforms:
   - linux
   - darwin
@@ -398,9 +412,11 @@ commands:
   - flag: --enable-cors
     description: 启用CORS
   examples:
-  - command: docker run -p 8108:8108 -v /tmp/typesense:/data typesense/typesense:26.0
-      --data-dir /data --api-key=xyz
+  - command: docker run -p 8108:8108 -v /tmp/typesense:/data 
+      typesense/typesense:26.0 --data-dir /data --api-key=xyz
     description: Docker启动Typesense
+  - command: docker exec typesense curl http://localhost:8108/health
+    description: 检查 Typesense 健康状态
   platforms:
   - linux
   - darwin
@@ -426,7 +442,8 @@ commands:
   - flag: --plugins.security.disabled
     description: 禁用安全插件(开发环境)
   examples:
-  - command: docker run -p 9200:9200 -e discovery.type=single-node opensearchproject/opensearch:latest
+  - command: docker run -p 9200:9200 -e discovery.type=single-node 
+      opensearchproject/opensearch:latest
     description: 单节点启动OpenSearch
   - command: 'curl -X PUT localhost:9200/my-index -H ''Content-Type: application/json''
       -d ''{"settings":{"index.knn":true}}'''
@@ -456,9 +473,11 @@ commands:
   - flag: --discovery.type
     description: 发现类型
   examples:
-  - command: docker run -p 9200:9200 -e discovery.type=single-node -e xpack.security.enabled=false
-      elasticsearch:8.12.0
+  - command: docker run -p 9200:9200 -e discovery.type=single-node -e 
+      xpack.security.enabled=false elasticsearch:8.12.0
     description: 单节点启动(开发)
+  - command: curl http://localhost:9200/_cluster/health
+    description: 查看集群健康状态
   platforms:
   - linux
   - darwin
@@ -497,3 +516,6 @@ commands:
   - elasticsearch
   - typesense
   - vespa-cli
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。

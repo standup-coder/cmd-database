@@ -1,436 +1,449 @@
 category: "AI基础设施/数据与标注"
 description: "数据集管理、数据标注与质量控制工具，覆盖数据获取、清洗、标注全流程"
 commands:
-  - name: datasets-cli
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install datasets"
-    description: "HuggingFace Datasets命令行工具，支持数据集下载、加载、转换和发布"
-    usage:
-      - "datasets-cli [COMMAND] [OPTIONS]"
-    options:
-      - flag: "test"
-        description: "测试数据集加载"
-      - flag: "run-beam"
-        description: "在Apache Beam上运行数据集处理"
-      - flag: "convert"
-        description: "格式转换"
-    examples:
-      - command: "python -c \"from datasets import load_dataset; ds = load_dataset('imdb')\""
-        description: "加载IMDB数据集"
-      - command: "python -c \"from datasets import load_dataset; ds = load_dataset('c4', 'en', streaming=True)\""
-        description: "流式加载大规模C4数据集"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "webdataset"
-      - "img2dataset"
-    risks:
-      - level: low
-        description: "数据集操作无副作用"
-    references:
-      - "https://huggingface.co/docs/datasets"
+- name: datasets-cli
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install datasets"
+  description: "HuggingFace Datasets命令行工具，支持数据集下载、加载、转换和发布"
+  usage:
+  - "datasets-cli [COMMAND] [OPTIONS]"
+  options:
+  - flag: "test"
+    description: "测试数据集加载"
+  - flag: "run-beam"
+    description: "在Apache Beam上运行数据集处理"
+  - flag: "convert"
+    description: "格式转换"
+  examples:
+  - command: "python -c \"from datasets import load_dataset; ds = load_dataset('imdb')\""
+    description: "加载IMDB数据集"
+  - command: "python -c \"from datasets import load_dataset; ds = load_dataset('c4',
+      'en', streaming=True)\""
+    description: "流式加载大规模C4数据集"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "webdataset"
+  - "img2dataset"
+  risks:
+  - level: low
+    description: "数据集操作无副作用"
+  references:
+  - "https://huggingface.co/docs/datasets"
 
-  - name: webdataset
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install webdataset"
-    description: "WebDataset大规模数据集流式处理库，高效处理TB级训练数据"
-    usage:
-      - "python preprocess.py (使用webdataset库)"
-    options:
-      - flag: "wds.WebDataset"
-        description: "创建数据集管道"
-      - flag: "decode"
-        description: "解码数据(图像、音频等)"
-      - flag: "batched"
-        description: "批量处理"
-    examples:
-      - command: "python -c \"import webdataset as wds; ds = wds.WebDataset('data-{0000..9999}.tar').decode().batched(64)\""
-        description: "从tar shards流式加载数据"
-      - command: "python make_shards.py --input_dir ./images --output_pattern shards/data-%06d.tar --shard_size 10000"
-        description: "将图像数据打包为WebDataset shards"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "datasets-cli"
-      - "img2dataset"
-    risks:
-      - level: low
-        description: "数据处理操作无副作用"
-    references:
-      - "https://github.com/webdataset/webdataset"
+- name: webdataset
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install webdataset"
+  description: "WebDataset大规模数据集流式处理库，高效处理TB级训练数据"
+  usage:
+  - "python preprocess.py (使用webdataset库)"
+  options:
+  - flag: "wds.WebDataset"
+    description: "创建数据集管道"
+  - flag: "decode"
+    description: "解码数据(图像、音频等)"
+  - flag: "batched"
+    description: "批量处理"
+  examples:
+  - command: "python -c \"import webdataset as wds; ds = wds.WebDataset('data-{0000..9999}.tar').decode().batched(64)\""
+    description: "从tar shards流式加载数据"
+  - command: "python make_shards.py --input_dir ./images --output_pattern shards/data-%06d.tar
+      --shard_size 10000"
+    description: "将图像数据打包为WebDataset shards"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "datasets-cli"
+  - "img2dataset"
+  risks:
+  - level: low
+    description: "数据处理操作无副作用"
+  references:
+  - "https://github.com/webdataset/webdataset"
 
-  - name: img2dataset
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install img2dataset"
-    description: "从URL列表批量下载图像并构建WebDataset格式，支持分布式处理"
-    usage:
-      - "img2dataset [OPTIONS]"
-    options:
-      - flag: "--url_list"
-        description: "URL列表文件(CSV/Parquet)"
-      - flag: "--output_folder"
-        description: "输出目录"
-      - flag: "--thread_count"
-        description: "下载线程数"
-      - flag: "--image_size"
-        description: "输出图像尺寸"
-      - flag: "--resize_mode"
-        description: "调整大小模式 (border, center_crop, no)"
-    examples:
-      - command: "img2dataset --url_list urls.csv --output_folder images --thread_count 32 --image_size 256"
-        description: "32线程下载并调整图像为256x256"
-      - command: "img2dataset --url_list laion.parquet --output_folder laion_shards --shard_size 10000 --resize_mode center_crop"
-        description: "构建LAION数据集shards"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "webdataset"
-      - "datasets-cli"
-    risks:
-      - level: medium
-        description: "大规模下载可能触发反爬机制，注意版权合规"
-    references:
-      - "https://github.com/rom1504/img2dataset"
+- name: img2dataset
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install img2dataset"
+  description: "从URL列表批量下载图像并构建WebDataset格式，支持分布式处理"
+  usage:
+  - "img2dataset [OPTIONS]"
+  options:
+  - flag: "--url_list"
+    description: "URL列表文件(CSV/Parquet)"
+  - flag: "--output_folder"
+    description: "输出目录"
+  - flag: "--thread_count"
+    description: "下载线程数"
+  - flag: "--image_size"
+    description: "输出图像尺寸"
+  - flag: "--resize_mode"
+    description: "调整大小模式 (border, center_crop, no)"
+  examples:
+  - command: "img2dataset --url_list urls.csv --output_folder images --thread_count
+      32 --image_size 256"
+    description: "32线程下载并调整图像为256x256"
+  - command: "img2dataset --url_list laion.parquet --output_folder laion_shards --shard_size
+      10000 --resize_mode center_crop"
+    description: "构建LAION数据集shards"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "webdataset"
+  - "datasets-cli"
+  risks:
+  - level: medium
+    description: "大规模下载可能触发反爬机制，注意版权合规"
+  references:
+  - "https://github.com/rom1504/img2dataset"
 
-  - name: datacompy
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install datacompy"
-    description: "数据集对比工具，比较两个DataFrame的差异，适用于数据验证和回归测试"
-    usage:
-      - "python compare.py (使用datacompy库)"
-    options:
-      - flag: "datacompy.Compare"
-        description: "创建比较对象"
-      - flag: "df1"
-        description: "第一个DataFrame"
-      - flag: "df2"
-        description: "第二个DataFrame"
-      - flag: "join_columns"
-        description: "连接键列"
-    examples:
-      - command: "python -c \"import datacompy; comp = datacompy.Compare(df1, df2, join_columns='id'); print(comp.report())\""
-        description: "比较两个DataFrame并生成差异报告"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "datasets-cli"
-      - "cleanlab"
-    risks:
-      - level: low
-        description: "只读对比操作"
-    references:
-      - "https://github.com/capitalone/datacompy"
+- name: datacompy
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install datacompy"
+  description: "数据集对比工具，比较两个DataFrame的差异，适用于数据验证和回归测试"
+  usage:
+  - "python compare.py (使用datacompy库)"
+  options:
+  - flag: "datacompy.Compare"
+    description: "创建比较对象"
+  - flag: "df1"
+    description: "第一个DataFrame"
+  - flag: "df2"
+    description: "第二个DataFrame"
+  - flag: "join_columns"
+    description: "连接键列"
+  examples:
+  - command: "python -c \"import datacompy; comp = datacompy.Compare(df1, df2, join_columns='id');
+      print(comp.report())\""
+    description: "比较两个DataFrame并生成差异报告"
+  - command: python -c "import datacompy; help(datacompy.Compare)"
+    description: 查看比较 API 帮助
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "datasets-cli"
+  - "cleanlab"
+  risks:
+  - level: low
+    description: "只读对比操作"
+  references:
+  - "https://github.com/capitalone/datacompy"
 
-  - name: label-studio
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install label-studio"
-    description: "Label Studio开源数据标注平台，支持图像、文本、音频、视频、时间序列等多模态标注"
-    usage:
-      - "label-studio [COMMAND] [OPTIONS]"
-    options:
-      - flag: "start"
-        description: "启动标注服务"
-      - flag: "init"
-        description: "初始化项目"
-      - flag: "--port"
-        description: "服务端口号(默认8080)"
-      - flag: "--username"
-        description: "管理员用户名"
-    examples:
-      - command: "label-studio start"
-        description: "启动标注平台"
-      - command: "label-studio start --port 8080 --username admin --password admin123"
-        description: "指定端口和账号启动"
-      - command: "label-studio init my_project --template image_classification"
-        description: "初始化图像分类项目"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "argilla"
-      - "cleanlab"
-    risks:
-      - level: low
-        description: "本地标注平台，注意数据安全"
-    references:
-      - "https://labelstud.io/"
+- name: label-studio
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install label-studio"
+  description: "Label Studio开源数据标注平台，支持图像、文本、音频、视频、时间序列等多模态标注"
+  usage:
+  - "label-studio [COMMAND] [OPTIONS]"
+  options:
+  - flag: "start"
+    description: "启动标注服务"
+  - flag: "init"
+    description: "初始化项目"
+  - flag: "--port"
+    description: "服务端口号(默认8080)"
+  - flag: "--username"
+    description: "管理员用户名"
+  examples:
+  - command: "label-studio start"
+    description: "启动标注平台"
+  - command: "label-studio start --port 8080 --username admin --password admin123"
+    description: "指定端口和账号启动"
+  - command: "label-studio init my_project --template image_classification"
+    description: "初始化图像分类项目"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "argilla"
+  - "cleanlab"
+  risks:
+  - level: low
+    description: "本地标注平台，注意数据安全"
+  references:
+  - "https://labelstud.io/"
 
-  - name: argilla
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install argilla"
-    description: "Argilla数据标注与质量平台，专注于NLP和LLM数据，支持主动学习工作流"
-    usage:
-      - "python app.py (使用argilla库)"
-    options:
-      - flag: "rg.init"
-        description: "初始化Argilla客户端"
-      - flag: "rg.Dataset"
-        description: "创建数据集"
-      - flag: "rg.Record"
-        description: "创建记录"
-    examples:
-      - command: "python -c \"import argilla as rg; rg.init(api_url='http://localhost:6900', api_key='argilla.apikey')\""
-        description: "连接本地Argilla服务"
-      - command: "python upload_data.py --dataset sentiment_analysis --file labeled_data.json"
-        description: "上传标注数据到Argilla"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "label-studio"
-      - "cleanlab"
-    risks:
-      - level: low
-        description: "标注平台，数据安全需关注"
-    references:
-      - "https://argilla.io/"
+- name: argilla
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install argilla"
+  description: "Argilla数据标注与质量平台，专注于NLP和LLM数据，支持主动学习工作流"
+  usage:
+  - "python app.py (使用argilla库)"
+  options:
+  - flag: "rg.init"
+    description: "初始化Argilla客户端"
+  - flag: "rg.Dataset"
+    description: "创建数据集"
+  - flag: "rg.Record"
+    description: "创建记录"
+  examples:
+  - command: "python -c \"import argilla as rg; rg.init(api_url='http://localhost:6900',
+      api_key='argilla.apikey')\""
+    description: "连接本地Argilla服务"
+  - command: "python upload_data.py --dataset sentiment_analysis --file labeled_data.json"
+    description: "上传标注数据到Argilla"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "label-studio"
+  - "cleanlab"
+  risks:
+  - level: low
+    description: "标注平台，数据安全需关注"
+  references:
+  - "https://argilla.io/"
 
-  - name: snorkel
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install snorkel"
-    description: "Snorkel弱监督标注框架，通过编程方式生成训练标签，减少人工标注成本"
-    usage:
-      - "python label.py (使用snorkel库)"
-    options:
-      - flag: "@labeling_function"
-        description: "定义标注函数"
-      - flag: "LabelModel"
-        description: "训练标签模型聚合弱标签"
-      - flag: "PandasLFApplier"
-        description: "应用标注函数到DataFrame"
-    examples:
-      - command: "python snorkel_label.py --data train.csv --lf_file labeling_functions.py"
-        description: "使用标注函数自动标注数据"
-      - command: "python -c \"from snorkel.labeling import LabelModel; label_model = LabelModel(cardinality=2); label_model.fit(L_train)\""
-        description: "训练标签模型聚合多个弱监督源"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "cleanlab"
-      - "label-studio"
-    risks:
-      - level: medium
-        description: "弱监督标签质量依赖标注函数设计，需验证"
-    references:
-      - "https://www.snorkel.org/"
+- name: snorkel
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install snorkel"
+  description: "Snorkel弱监督标注框架，通过编程方式生成训练标签，减少人工标注成本"
+  usage:
+  - "python label.py (使用snorkel库)"
+  options:
+  - flag: "@labeling_function"
+    description: "定义标注函数"
+  - flag: "LabelModel"
+    description: "训练标签模型聚合弱标签"
+  - flag: "PandasLFApplier"
+    description: "应用标注函数到DataFrame"
+  examples:
+  - command: "python snorkel_label.py --data train.csv --lf_file labeling_functions.py"
+    description: "使用标注函数自动标注数据"
+  - command: "python -c \"from snorkel.labeling import LabelModel; label_model = LabelModel(cardinality=2);
+      label_model.fit(L_train)\""
+    description: "训练标签模型聚合多个弱监督源"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "cleanlab"
+  - "label-studio"
+  risks:
+  - level: medium
+    description: "弱监督标签质量依赖标注函数设计，需验证"
+  references:
+  - "https://www.snorkel.org/"
 
-  - name: cleanlab
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install cleanlab"
-    description: "Cleanlab数据清洗与噪声检测，自动发现标注错误、异常样本和数据冲突"
-    usage:
-      - "python clean.py (使用cleanlab库)"
-    options:
-      - flag: "find_label_issues"
-        description: "发现标注错误"
-      - flag: "find_outliers"
-        description: "发现异常样本"
-      - flag: "Datalab"
-        description: "综合数据质量分析"
-    examples:
-      - command: "python -c \"from cleanlab import find_label_issues; issues = find_label_issues(labels, pred_probs)\""
-        description: "检测数据集中的标注错误"
-      - command: "python data_audit.py --dataset train.csv --model resnet50 --find_issues label outlier near_duplicate"
-        description: "全面数据质量审计"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "label-studio"
-      - "snorkel"
-    risks:
-      - level: low
-        description: "只读分析操作，不改数据"
-    references:
-      - "https://cleanlab.ai/"
+- name: cleanlab
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install cleanlab"
+  description: "Cleanlab数据清洗与噪声检测，自动发现标注错误、异常样本和数据冲突"
+  usage:
+  - "python clean.py (使用cleanlab库)"
+  options:
+  - flag: "find_label_issues"
+    description: "发现标注错误"
+  - flag: "find_outliers"
+    description: "发现异常样本"
+  - flag: "Datalab"
+    description: "综合数据质量分析"
+  examples:
+  - command: "python -c \"from cleanlab import find_label_issues; issues = find_label_issues(labels,
+      pred_probs)\""
+    description: "检测数据集中的标注错误"
+  - command: "python data_audit.py --dataset train.csv --model resnet50 --find_issues
+      label outlier near_duplicate"
+    description: "全面数据质量审计"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "label-studio"
+  - "snorkel"
+  risks:
+  - level: low
+    description: "只读分析操作，不改数据"
+  references:
+  - "https://cleanlab.ai/"
 
-  - name: dvc
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install dvc"
-    description: "DVC数据版本控制，Git-like管理数据集和模型，支持S3/GS/Azure存储"
-    usage:
-      - "dvc [COMMAND] [OPTIONS]"
-    options:
-      - flag: "init"
-        description: "初始化DVC仓库"
-      - flag: "add"
-        description: "追踪数据文件"
-      - flag: "push"
-        description: "推送到远程存储"
-      - flag: "pull"
-        description: "从远程拉取数据"
-      - flag: "remote add"
-        description: "添加远程存储"
-    examples:
-      - command: "dvc init"
-        description: "初始化DVC"
-      - command: "dvc add data/train.csv"
-        description: "追踪训练数据"
-      - command: "dvc push"
-        description: "上传数据到远程存储"
-      - command: "dvc remote add -d myremote s3://mybucket/dvcstore"
-        description: "配置S3远程存储"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "git-lfs"
-      - "cleanlab"
-    risks:
-      - level: medium
-        description: "误操作可能导致数据版本混乱"
-    references:
-      - "https://dvc.org/"
+- name: dvc
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install dvc"
+  description: "DVC数据版本控制，Git-like管理数据集和模型，支持S3/GS/Azure存储"
+  usage:
+  - "dvc [COMMAND] [OPTIONS]"
+  options:
+  - flag: "init"
+    description: "初始化DVC仓库"
+  - flag: "add"
+    description: "追踪数据文件"
+  - flag: "push"
+    description: "推送到远程存储"
+  - flag: "pull"
+    description: "从远程拉取数据"
+  - flag: "remote add"
+    description: "添加远程存储"
+  examples:
+  - command: "dvc init"
+    description: "初始化DVC"
+  - command: "dvc add data/train.csv"
+    description: "追踪训练数据"
+  - command: "dvc push"
+    description: "上传数据到远程存储"
+  - command: "dvc remote add -d myremote s3://mybucket/dvcstore"
+    description: "配置S3远程存储"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "git-lfs"
+  - "cleanlab"
+  risks:
+  - level: medium
+    description: "误操作可能导致数据版本混乱"
+  references:
+  - "https://dvc.org/"
 
-  - name: feast
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install feast"
-    description: "Feast开源特征存储平台，统一管理ML特征的定义、存储和服务"
-    usage:
-      - "feast [COMMAND] [OPTIONS]"
-    options:
-      - flag: "init"
-        description: "初始化特征仓库"
-      - flag: "apply"
-        description: "注册特征定义"
-      - flag: "materialize"
-        description: "物化特征到在线存储"
-      - flag: "serve"
-        description: "启动特征服务"
-    examples:
-      - command: "feast init my_feature_repo"
-        description: "初始化特征仓库"
-      - command: "feast apply"
-        description: "注册特征定义到元数据存储"
-      - command: "feast materialize 2024-01-01 2024-06-01"
-        description: "物化指定时间范围特征"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "dvc"
-      - "mlflow"
-    risks:
-      - level: medium
-        description: "特征定义变更影响线上推理"
-    references:
-      - "https://feast.dev/"
+- name: feast
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install feast"
+  description: "Feast开源特征存储平台，统一管理ML特征的定义、存储和服务"
+  usage:
+  - "feast [COMMAND] [OPTIONS]"
+  options:
+  - flag: "init"
+    description: "初始化特征仓库"
+  - flag: "apply"
+    description: "注册特征定义"
+  - flag: "materialize"
+    description: "物化特征到在线存储"
+  - flag: "serve"
+    description: "启动特征服务"
+  examples:
+  - command: "feast init my_feature_repo"
+    description: "初始化特征仓库"
+  - command: "feast apply"
+    description: "注册特征定义到元数据存储"
+  - command: "feast materialize 2024-01-01 2024-06-01"
+    description: "物化指定时间范围特征"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "dvc"
+  - "mlflow"
+  risks:
+  - level: medium
+    description: "特征定义变更影响线上推理"
+  references:
+  - "https://feast.dev/"
 
-  - name: whylogs
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install whylogs"
-    description: "WhyLogs数据日志分析，轻量级数据画像和漂移检测"
-    usage:
-      - "python profile.py (使用whylogs库)"
-    options:
-      - flag: "why.log"
-        description: "记录数据画像"
-      - flag: "why.visualize"
-        description: "可视化数据画像"
-    examples:
-      - command: "python -c \"import whylogs as why; profile = why.log(pandas=df); profile.view().to_pandas()\""
-        description: "生成数据画像"
-      - command: "python drift_monitor.py --reference ref_profile.bin --target target_profile.bin"
-        description: "检测数据漂移"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "cleanlab"
-      - "evidently"
-    risks:
-      - level: low
-        description: "只读分析"
-    references:
-      - "https://whylabs.ai/whylogs"
+- name: whylogs
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install whylogs"
+  description: "WhyLogs数据日志分析，轻量级数据画像和漂移检测"
+  usage:
+  - "python profile.py (使用whylogs库)"
+  options:
+  - flag: "why.log"
+    description: "记录数据画像"
+  - flag: "why.visualize"
+    description: "可视化数据画像"
+  examples:
+  - command: "python -c \"import whylogs as why; profile = why.log(pandas=df); profile.view().to_pandas()\""
+    description: "生成数据画像"
+  - command: "python drift_monitor.py --reference ref_profile.bin --target target_profile.bin"
+    description: "检测数据漂移"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "cleanlab"
+  - "evidently"
+  risks:
+  - level: low
+    description: "只读分析"
+  references:
+  - "https://whylabs.ai/whylogs"
 
-  - name: great-expectations
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install great_expectations"
-    description: "Great Expectations数据质量验证框架，定义和监控数据期望"
-    usage:
-      - "great_expectations [COMMAND] [OPTIONS]"
-    options:
-      - flag: "init"
-        description: "初始化项目"
-      - flag: "checkpoint run"
-        description: "运行检查点"
-      - flag: "suite new"
-        description: "创建期望套件"
-    examples:
-      - command: "great_expectations init"
-        description: "初始化GX项目"
-      - command: "great_expectations checkpoint run my_checkpoint"
-        description: "运行数据质量检查"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "dvc"
-      - "cleanlab"
-    risks:
-      - level: low
-        description: "验证操作不改数据"
-    references:
-      - "https://greatexpectations.io/"
+- name: great-expectations
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install great_expectations"
+  description: "Great Expectations数据质量验证框架，定义和监控数据期望"
+  usage:
+  - "great_expectations [COMMAND] [OPTIONS]"
+  options:
+  - flag: "init"
+    description: "初始化项目"
+  - flag: "checkpoint run"
+    description: "运行检查点"
+  - flag: "suite new"
+    description: "创建期望套件"
+  examples:
+  - command: "great_expectations init"
+    description: "初始化GX项目"
+  - command: "great_expectations checkpoint run my_checkpoint"
+    description: "运行数据质量检查"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "dvc"
+  - "cleanlab"
+  risks:
+  - level: low
+    description: "验证操作不改数据"
+  references:
+  - "https://greatexpectations.io/"
 
-  - name: evidently
-    category: "AI基础设施/数据与标注"
-    install_required: true
-    install_method: "pip install evidently"
-    description: "Evidently AI模型与数据漂移检测，支持表格数据、NLP、CV全链路监控"
-    usage:
-      - "python monitor.py (使用evidently库)"
-    options:
-      - flag: "Report"
-        description: "生成监控报告"
-      - flag: "TestSuite"
-        description: "运行测试套件"
-      - flag: "metrics.DataDriftTable"
-        description: "数据漂移指标"
-    examples:
-      - command: "python -c \"from evidently.report import Report; from evidently.metrics import *; r = Report([DataDriftTable()]); r.run(ref, cur); r.save_html('report.html')\""
-        description: "生成数据漂移报告"
-      - command: "python monitor_model.py --reference ref_data.csv --current cur_data.csv --output dashboard.html"
-        description: "模型性能监控"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "whylogs"
-      - "cleanlab"
-    risks:
-      - level: low
-        description: "监控分析不改数据"
-    references:
-      - "https://evidentlyai.com/"
+- name: evidently
+  category: "AI基础设施/数据与标注"
+  install_required: true
+  install_method: "pip install evidently"
+  description: "Evidently AI模型与数据漂移检测，支持表格数据、NLP、CV全链路监控"
+  usage:
+  - "python monitor.py (使用evidently库)"
+  options:
+  - flag: "Report"
+    description: "生成监控报告"
+  - flag: "TestSuite"
+    description: "运行测试套件"
+  - flag: "metrics.DataDriftTable"
+    description: "数据漂移指标"
+  examples:
+  - command: "python -c \"from evidently.report import Report; from evidently.metrics
+      import *; r = Report([DataDriftTable()]); r.run(ref, cur); r.save_html('report.html')\""
+    description: "生成数据漂移报告"
+  - command: "python monitor_model.py --reference ref_data.csv --current cur_data.csv
+      --output dashboard.html"
+    description: "模型性能监控"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "whylogs"
+  - "cleanlab"
+  risks:
+  - level: low
+    description: "监控分析不改数据"
+  references:
+  - "https://evidentlyai.com/"

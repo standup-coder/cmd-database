@@ -1,0 +1,455 @@
+category: 数据库工具/扩展命令
+description: 商业数据库、缓存、备份与云数据仓库扩展命令
+commands:
+- name: sqlplus
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Oracle 数据库 SQL*Plus 客户端
+  usage:
+  - sqlplus [OPTIONS] [ARGS]
+  options:
+  - flag: -s
+    description: 静默模式
+  - flag: -l
+    description: 只登录
+  - flag: /@TNS
+    description: 连接串
+  examples:
+  - command: sqlplus username/password@database
+    description: 连接 Oracle
+  - command: "sqlplus -s / as sysdba <<EOF\nSELECT * FROM dual;\nEOF"
+    description: 以 sysdba 执行 SQL
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mysql
+  - psql
+  install_method: 随 Oracle 客户端或 Instant Client 安装
+  risks:
+  - level: high
+    description: 以 SYSDBA 连接可操作整个数据库，请严格控制权限
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: sqlcmd
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: SQL Server 命令行工具
+  usage:
+  - sqlcmd [OPTIONS] [ARGS]
+  options:
+  - flag: -S
+    description: 服务器
+  - flag: -d
+    description: 数据库
+  - flag: -U
+    description: 用户
+  - flag: -Q
+    description: 查询
+  - flag: -i
+    description: 输入文件
+  examples:
+  - command: sqlcmd -S localhost -d mydb -U sa -Q 'SELECT @@VERSION'
+    description: 执行查询
+  - command: sqlcmd -S localhost -i script.sql -o output.txt
+    description: 执行脚本并输出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - osql
+  - tsql
+  install_method: 参考 https://docs.microsoft.com/sql/tools/sqlcmd-utility
+  risks:
+  - level: medium
+    description: sqlcmd 可直接执行 DDL/DML，生产环境请确认脚本内容
+- name: db2
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: IBM Db2 命令行处理器
+  usage:
+  - db2 [OPTIONS] [ARGS]
+  options:
+  - flag: connect
+    description: to 连接
+  - flag: list
+    description: tables
+  - flag: terminate
+    description: ''
+  examples:
+  - command: db2 connect to sample
+    description: 连接 sample 数据库
+  - command: db2 'SELECT * FROM staff'
+    description: 执行 SQL
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sqlplus
+  - sqlcmd
+  install_method: 随 IBM Db2 安装
+  risks:
+  - level: medium
+    description: Db2 命令可修改数据库对象，请在测试环境验证
+- name: memcached
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Memcached 内存对象缓存守护进程
+  usage:
+  - memcached [OPTIONS] [ARGS]
+  options:
+  - flag: -p
+    description: 端口
+  - flag: -m
+    description: 内存大小
+  - flag: -d
+    description: 守护进程
+  - flag: -l
+    description: 监听地址
+  examples:
+  - command: memcached -m 64 -p 11211 -u nobody -l 127.0.0.1
+    description: 启动 memcached
+  - command: memcached -d -m 128 -c 1024
+    description: 后台运行 128MB 缓存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - redis-cli
+  - telnet
+  install_method: 包管理器安装，如 sudo apt install memcached
+  risks:
+  - level: medium
+    description: 默认无认证，请勿直接暴露到公网，建议使用 SASL 或防火墙
+- name: pt-query-digest
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Percona Toolkit 慢查询分析工具
+  usage:
+  - pt-query-digest [OPTIONS] [ARGS]
+  options:
+  - flag: --filter
+    description: 过滤
+  - flag: --limit
+    description: 限制输出
+  - flag: --output
+    description: 输出格式
+  examples:
+  - command: pt-query-digest /var/log/mysql/slow.log
+    description: 分析慢查询日志
+  - command: pt-query-digest --limit 10 slow.log
+    description: 只显示 Top 10
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mysql
+  - mysqldumpslow
+  install_method: 参考 https://docs.percona.com/percona-toolkit/installation.html
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: xtrabackup
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Percona XtraBackup 热备份工具
+  usage:
+  - xtrabackup [OPTIONS] [ARGS]
+  options:
+  - flag: --backup
+    description: ''
+  - flag: --prepare
+    description: ''
+  - flag: --target-dir
+    description: ''
+  - flag: --user
+    description: ''
+  - flag: --password
+    description: ''
+  examples:
+  - command: xtrabackup --backup --target-dir=/backup/full
+    description: 全量热备份
+  - command: xtrabackup --prepare --target-dir=/backup/full
+    description: 准备备份
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mysql
+  - mysqldump
+  install_method: 参考 https://docs.percona.com/percona-xtrabackup
+  risks:
+  - level: medium
+    description: prepare 会修改备份文件，请保留原始备份副本
+- name: mydumper
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: 多线程 MySQL 逻辑备份工具
+  usage:
+  - mydumper [OPTIONS] [ARGS]
+  options:
+  - flag: --outputdir
+    description: ''
+  - flag: --threads
+    description: ''
+  - flag: --rows
+    description: ''
+  - flag: --regex
+    description: ''
+  examples:
+  - command: mydumper -u root -p password -B mydb -o /backup
+    description: 备份数据库
+  - command: mydumper -B mydb --threads 4 -o /backup
+    description: 4 线程备份
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - myloader
+  - mysqldump
+  install_method: 参考 https://github.com/mydumper/mydumper/releases
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: myloader
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: 多线程恢复 mydumper 备份
+  usage:
+  - myloader [OPTIONS] [ARGS]
+  options:
+  - flag: --directory
+    description: ''
+  - flag: --threads
+    description: ''
+  - flag: --database
+    description: ''
+  - flag: --overwrite-tables
+    description: ''
+  examples:
+  - command: myloader -u root -p password -d /backup -B mydb
+    description: 恢复备份
+  - command: myloader -d /backup --threads 4
+    description: 4 线程恢复
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mydumper
+  - mysql
+  install_method: 随 mydumper 安装
+  risks:
+  - level: high
+    description: 恢复会覆盖目标库数据，请确认目标数据库正确
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: scylla
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: ScyllaDB 高性能 Cassandra 兼容数据库
+  usage:
+  - scylla [OPTIONS] [ARGS]
+  options:
+  - flag: --version
+    description: ''
+  - flag: --workdir
+    description: ''
+  - flag: --options-file
+    description: ''
+  examples:
+  - command: scylla --version
+    description: 查看版本
+  - command: sudo systemctl start scylla-server
+    description: 启动 Scylla 服务
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cqlsh
+  - cassandra-stress
+  install_method: 参考 
+    https://opensource.docs.scylladb.com/stable/getting-started/installation.html
+  risks:
+  - level: medium
+    description: Scylla 是系统级服务，启动前请确认资源配置
+- name: yugabyted
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: YugabyteDB 集群生命周期管理命令
+  usage:
+  - yugabyted [OPTIONS] [ARGS]
+  options:
+  - flag: start
+    description: 启动
+  - flag: stop
+    description: 停止
+  - flag: status
+    description: 状态
+  - flag: destroy
+    description: 销毁
+  examples:
+  - command: yugabyted start
+    description: 启动本地集群
+  - command: yugabyted status
+    description: 查看状态
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ysqlsh
+  - ycqlsh
+  install_method: 随 YugabyteDB 安装
+  risks:
+  - level: high
+    description: destroy 会删除所有本地数据，请谨慎
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: arangosh
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: ArangoDB 多模型数据库 Shell
+  usage:
+  - arangosh [OPTIONS] [ARGS]
+  options:
+  - flag: --server.endpoint
+    description: ''
+  - flag: --server.username
+    description: ''
+  - flag: --javascript.execute
+    description: ''
+  examples:
+  - command: arangosh --server.endpoint tcp://localhost:8529
+    description: 连接 ArangoDB
+  - command: arangosh --javascript.execute script.js
+    description: 执行 JS 脚本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cypher-shell
+  - mongosh
+  install_method: 随 ArangoDB 安装
+  risks:
+  - level: medium
+    description: JS 脚本可删除数据库，请确认脚本内容
+- name: rethinkdb
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: RethinkDB 分布式文档数据库
+  usage:
+  - rethinkdb [OPTIONS] [ARGS]
+  options:
+  - flag: --bind
+    description: all
+  - flag: --join
+    description: 加入集群
+  - flag: --directory
+    description: 数据目录
+  examples:
+  - command: rethinkdb --bind all
+    description: 监听所有接口启动
+  - command: rethinkdb --join host:29015 --directory ./data
+    description: 加入集群
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mongo
+  - redis
+  install_method: 参考 https://rethinkdb.com/docs/install/
+  risks:
+  - level: medium
+    description: 默认无认证，请勿直接暴露公网
+- name: influxd
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: InfluxDB 数据库服务守护进程
+  usage:
+  - influxd [OPTIONS] [ARGS]
+  options:
+  - flag: --bolt-path
+    description: ''
+  - flag: --engine-path
+    description: ''
+  - flag: --http-bind-address
+    description: ''
+  - flag: --reporting-disabled
+    description: ''
+  examples:
+  - command: influxd
+    description: 前台启动 InfluxDB
+  - command: influxd --http-bind-address=:8086
+    description: 指定 HTTP 地址
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - influx
+  - telegraf
+  install_method: 参考 https://docs.influxdata.com/influxdb/latest/install/
+  risks:
+  - level: medium
+    description: influxd 会监听网络端口，请配置认证和防火墙
+- name: snowsql
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Snowflake 数据仓库命令行客户端
+  usage:
+  - snowsql [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 账户
+  - flag: -u
+    description: 用户
+  - flag: -d
+    description: 数据库
+  - flag: -q
+    description: 查询
+  - flag: -f
+    description: 文件
+  examples:
+  - command: snowsql -a myaccount -u myuser -d mydb
+    description: 登录 Snowflake
+  - command: snowsql -q 'SELECT CURRENT_VERSION()'
+    description: 执行查询
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - psql
+  - bigquery
+  install_method: 参考 
+    https://docs.snowflake.com/en/user-guide/snowsql-install-config
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: databricks
+  category: 数据库工具/扩展命令
+  install_required: true
+  description: Databricks CLI
+  usage:
+  - databricks [OPTIONS] [ARGS]
+  options:
+  - flag: clusters
+    description: 管理集群
+  - flag: jobs
+    description: 管理作业
+  - flag: fs
+    description: DBFS 文件
+  - flag: runs
+    description: ''
+  examples:
+  - command: databricks clusters list
+    description: 列出集群
+  - command: databricks jobs run-now --job-id 1
+    description: 立即运行作业
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-submit
+  - aws
+  install_method: pip install databricks-cli
+  risks:
+  - level: medium
+    description: databricks 操作会产生云费用并影响作业，请确认参数

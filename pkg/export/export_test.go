@@ -324,8 +324,8 @@ func TestExportToJSON_ValidStructure(t *testing.T) {
 		t.Fatalf("output is not valid JSON: %v", err)
 	}
 
-	if result.Version != "1.5.0" {
-		t.Errorf("expected version '1.5.0', got %q", result.Version)
+	if result.Version != "1.8.0" {
+		t.Errorf("expected version '1.8.0', got %q", result.Version)
 	}
 	if result.Total != 1 {
 		t.Errorf("expected total 1, got %d", result.Total)
@@ -363,8 +363,8 @@ func TestExportToYAML_ValidStructure(t *testing.T) {
 		t.Fatalf("output is not valid YAML: %v", err)
 	}
 
-	if result.Version != "1.5.0" {
-		t.Errorf("expected version '1.5.0', got %q", result.Version)
+	if result.Version != "1.8.0" {
+		t.Errorf("expected version '1.8.0', got %q", result.Version)
 	}
 	if result.Total != 2 {
 		t.Errorf("expected total 2, got %d", result.Total)

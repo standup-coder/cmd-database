@@ -1,0 +1,151 @@
+category: 大数据/数据集成与ETL
+description: 大数据数据采集、转换、同步与调度工具
+commands:
+- name: airflow
+  category: 大数据/数据集成与ETL
+  install_required: true
+  install_method: pip install apache-airflow
+  description: Apache Airflow 工作流调度命令
+  usage:
+  - airflow [OPTIONS] COMMAND [ARGS]
+  options:
+  - flag: dags list
+    description: 列出所有 DAG
+  - flag: dags trigger
+    description: 手动触发 DAG
+  - flag: tasks test
+    description: 测试单个任务
+  examples:
+  - command: airflow dags list
+    description: 列出所有 DAG
+  - command: airflow dags trigger my_dag -e "2024-01-01"
+    description: 触发指定 DAG 的特定执行日期
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dbt
+  - sqoop
+  risks:
+  - level: medium
+    description: 手动触发或回填 DAG 可能影响下游依赖和数据一致性
+
+- name: dbt
+  category: 大数据/数据集成与ETL
+  install_required: true
+  install_method: pip install dbt-core 或对应 adapter（如 dbt-postgres）
+  description: 数据转换工具，支持 SQL 模型版本化与测试
+  usage:
+  - dbt [OPTIONS] COMMAND
+  options:
+  - flag: run
+    description: 运行所有模型
+  - flag: test
+    description: 运行所有测试
+  - flag: build
+    description: 运行模型与测试的组合命令
+  examples:
+  - command: dbt run
+    description: 运行项目中的所有模型
+  - command: dbt build --select tag:daily
+    description: 运行带 daily 标签的模型及对应测试
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - airflow
+  - sqoop
+  risks:
+  - level: medium
+    description: dbt run 会改写目标表，请在非生产环境或事务保护下测试
+
+- name: sqoop
+  category: 大数据/数据集成与ETL
+  install_required: true
+  install_method: 参考 https://sqoop.apache.org/
+  description: Hadoop 与关系型数据库之间的数据传输工具
+  usage:
+  - sqoop [OPTIONS]
+  options:
+  - flag: import
+    description: 从数据库导入到 HDFS
+  - flag: export
+    description: 从 HDFS 导出到数据库
+  - flag: --connect
+    description: JDBC 连接字符串
+  examples:
+  - command: sqoop import --connect jdbc:mysql://localhost/db --table users 
+      --target-dir /data/users
+    description: 导入 MySQL 表到 HDFS
+  - command: sqoop export --connect jdbc:mysql://localhost/db --table users 
+      --export-dir /data/users
+    description: 导出 HDFS 目录到 MySQL 表
+  platforms:
+  - linux
+  related_commands:
+  - hadoop
+  - hdfs
+  risks:
+  - level: high
+    description: 导入/导出涉及生产数据库，可能影响业务库性能，请避开高峰期
+
+  - level: high
+    description: 数据集成作业涉及生产数据库或消息队列，请确认连接信息、权限和运行窗口。
+- name: flume-ng
+  category: 大数据/数据集成与ETL
+  install_required: true
+  install_method: 参考 https://flume.apache.org/
+  description: Apache Flume 分布式日志采集命令
+  usage:
+  - flume-ng agent [OPTIONS]
+  options:
+  - flag: --name
+    description: Agent 名称
+  - flag: --conf
+    description: 配置目录
+  - flag: --conf-file
+    description: 配置文件路径
+  examples:
+  - command: flume-ng agent --name a1 --conf conf --conf-file conf/flume.conf
+    description: 启动 Flume Agent
+  - command: flume-ng version
+    description: 查看 Flume 版本
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-console-producer
+  - airflow
+  risks:
+  - level: medium
+    description: 配置错误可能导致数据丢失或重复，请检查 channel 容量与 sink 可靠性
+
+- name: debezium
+  category: 大数据/数据集成与ETL
+  install_required: true
+  install_method: 参考 
+    https://debezium.io/documentation/reference/stable/install.html
+  description: CDC（变更数据捕获）工具，常通过 Kafka Connect 部署
+  usage:
+  - debezium [OPTIONS]
+  options:
+  - flag: connector
+    description: 管理 Kafka Connect 连接器
+  examples:
+  - command: curl -X POST http://localhost:8083/connectors -d 
+      @debezium-mysql-source.json
+    description: 注册 Debezium MySQL 源连接器
+  - command: curl http://localhost:8083/connectors/inventory-connector/status
+    description: 查看连接器状态
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kafka-topics.sh
+  - airflow
+  risks:
+  - level: high
+    description: CDC 会读取数据库 binlog，可能影响主库性能并涉及敏感数据变更
+  - level: high
+    description: 数据集成作业涉及生产数据库或消息队列，请确认连接信息、权限和运行窗口。

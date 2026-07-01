@@ -1,0 +1,125 @@
+category: CI/CD/扩展工具
+description: Jenkins、GitLab、CircleCI、GitHub CLI 等 CI/CD 工具
+commands:
+- name: jenkins-cli
+  category: CI/CD/扩展工具
+  install_required: true
+  description: Jenkins 命令行管理工具
+  usage:
+  - java -jar jenkins-cli.jar [OPTIONS] COMMAND
+  options:
+  - flag: -s
+    description: Jenkins URL
+  - flag: -auth
+    description: 认证
+  - flag: who-am-i
+    description: ''
+  - flag: build
+    description: 触发构建
+  - flag: install-plugin
+    description: ''
+  examples:
+  - command: java -jar jenkins-cli.jar -s http://jenkins:8080 who-am-i
+    description: 查看当前用户
+  - command: java -jar jenkins-cli.jar -s http://jenkins:8080 build myjob
+    description: 触发构建
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gitlab-runner
+  - github-actions
+  install_method: 从 Jenkins 管理页下载 jenkins-cli.jar
+  risks:
+  - level: medium
+    description: jenkins-cli 可安装插件和重启 Jenkins，请保护好凭据
+- name: gitlab-runner
+  category: CI/CD/扩展工具
+  install_required: true
+  description: GitLab CI 运行器
+  usage:
+  - gitlab-runner [OPTIONS] COMMAND
+  options:
+  - flag: register
+    description: 注册
+  - flag: list
+    description: ''
+  - flag: run
+    description: 单 runner
+  - flag: unregister
+    description: ''
+  examples:
+  - command: gitlab-runner register
+    description: 注册 runner
+  - command: gitlab-runner list
+    description: 列出 runner
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - jenkins-cli
+  - github-actions
+  install_method: 参考 https://docs.gitlab.com/runner/install/
+  risks:
+  - level: medium
+    description: register 需要 GitLab token，请勿泄露
+- name: circleci
+  category: CI/CD/扩展工具
+  install_required: true
+  description: CircleCI CLI
+  usage:
+  - circleci [OPTIONS] [ARGS]
+  options:
+  - flag: config
+    description: validate
+  - flag: local
+    description: execute
+  - flag: orb
+    description: ''
+  examples:
+  - command: circleci config validate
+    description: 验证 config.yml
+  - command: circleci local execute --job test
+    description: 本地执行 job
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - github-actions
+  - gitlab-runner
+  install_method: 参考 https://circleci.com/docs/local-cli/
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: gh
+  category: CI/CD/扩展工具
+  install_required: true
+  description: GitHub 官方 CLI
+  usage:
+  - gh [OPTIONS] [ARGS]
+  options:
+  - flag: repo
+    description: 仓库
+  - flag: pr
+    description: Pull Request
+  - flag: issue
+    description: ''
+  - flag: workflow
+    description: ''
+  - flag: release
+    description: ''
+  examples:
+  - command: gh pr create
+    description: 创建 PR
+  - command: gh workflow run ci.yml
+    description: 触发 workflow
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - git
+  - github-actions
+  install_method: 参考 https://cli.github.com/
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

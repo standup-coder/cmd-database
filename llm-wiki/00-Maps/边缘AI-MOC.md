@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/边缘AI
-moc_order: 0
-tags:
-- MOC
-- AI
-- 边缘AI
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/边缘AI",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "边缘AI"
+  ]
+}
 ---
-
 
 # AI基础设施/边缘AI
 

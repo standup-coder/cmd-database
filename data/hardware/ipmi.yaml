@@ -1,0 +1,102 @@
+category: 硬件/远程带外管理
+description: IPMI 与 Redfish 远程硬件管理
+commands:
+- name: ipmitool
+  category: 硬件/远程带外管理
+  install_required: true
+  description: IPMI 带外管理工具
+  usage:
+  - ipmitool [OPTIONS] COMMAND
+  options:
+  - flag: -I
+    description: 接口
+  - flag: -H
+    description: 主机
+  - flag: -U
+    description: 用户
+  - flag: -P
+    description: 密码
+  - flag: chassis
+    description: status
+  - flag: sol
+    description: activate
+  examples:
+  - command: ipmitool -I lanplus -H 192.168.1.100 -U admin -P pass chassis 
+      status
+    description: 查看 chassis 状态
+  - command: ipmitool -H 192.168.1.100 -U admin -I lanplus sol activate
+    description: 启动 SOL 控制台
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ipmicfg
+  - redfish
+  install_method: 包管理器安装，如 sudo apt install ipmitool
+  risks:
+  - level: high
+    description: IPMI 可远程开关机、重置，请保护好凭据
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: ipmicfg
+  category: 硬件/远程带外管理
+  install_required: true
+  description: Supermicro IPMI 配置工具
+  usage:
+  - ipmicfg [OPTIONS] [ARGS]
+  options:
+  - flag: -m
+    description: 设置 IP
+  - flag: -k
+    description: 设置子网掩码
+  - flag: -g
+    description: 设置网关
+  - flag: -r
+    description: 重置
+  examples:
+  - command: ipmicfg -m 192.168.1.50
+    description: 设置 BMC IP
+  - command: ipmicfg -r
+    description: 重置 BMC
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ipmitool
+  - redfish
+  install_method: 参考 Supermicro 官方工具
+  risks:
+  - level: high
+    description: 重置 BMC 会中断带外管理，请谨慎
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: redfish
+  category: 硬件/远程带外管理
+  install_required: true
+  description: Redfish API 客户端（python-redfish 或 curl 示例）
+  usage:
+  - redfish [OPTIONS]
+  options:
+  - flag: --user
+    description: ''
+  - flag: --password
+    description: ''
+  - flag: --rhost
+    description: ''
+  - flag: --ServiceRoot
+    description: ''
+  examples:
+  - command: curl -u admin:pass https://bmc/redfish/v1/Systems
+    description: 查询系统信息
+  - command: python -m redfish --rhost bmc --user admin --password pass Systems
+    description: 使用 python-redfish
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ipmitool
+  - curl
+  install_method: pip install redfish 或参考厂商工具
+  risks:
+  - level: medium
+    description: Redfish 可执行电源操作，请保护好凭据

@@ -1,0 +1,150 @@
+category: 系统诊断/扩展工具
+description: 系统调用跟踪、eBPF、容器系统诊断工具
+commands:
+- name: strace
+  category: 系统诊断/扩展工具
+  install_required: true
+  description: 跟踪系统调用
+  usage:
+  - strace [OPTIONS] COMMAND
+  options:
+  - flag: -e
+    description: 过滤系统调用
+  - flag: -f
+    description: 跟踪子进程
+  - flag: -o
+    description: 输出文件
+  - flag: -p
+    description: 附加 PID
+  - flag: -c
+    description: 统计
+  examples:
+  - command: strace -c ls
+    description: 统计 ls 的系统调用
+  - command: strace -e openat,read -o trace.log ./app
+    description: 跟踪文件 IO
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ltrace
+  - perf
+  install_method: 多数 Linux 预装
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。
+- name: ltrace
+  category: 系统诊断/扩展工具
+  install_required: true
+  description: 跟踪库函数调用
+  usage:
+  - ltrace [OPTIONS] COMMAND
+  options:
+  - flag: -e
+    description: 过滤函数
+  - flag: -f
+    description: 跟踪子进程
+  - flag: -o
+    description: 输出文件
+  - flag: -p
+    description: 附加 PID
+  examples:
+  - command: ltrace -e malloc,free ./app
+    description: 跟踪内存分配
+  - command: ltrace -p 1234
+    description: 附加到进程
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - strace
+  - perf
+  install_method: 多数 Linux 预装或包管理器安装
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。
+- name: sysdig
+  category: 系统诊断/扩展工具
+  install_required: true
+  description: 系统级监控与故障排查
+  usage:
+  - sysdig [OPTIONS] [ARGS]
+  options:
+  - flag: -c
+    description: 凿子
+  - flag: -p
+    description: 输出格式
+  - flag: -w
+    description: 写入文件
+  - flag: filter
+    description: 过滤
+  examples:
+  - command: sudo sysdig
+    description: 实时监控系统调用
+  - command: sudo sysdig -c topprocs_cpu
+    description: CPU 占用最高进程
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - bpftrace
+  - strace
+  install_method: 参考 https://github.com/draios/sysdig
+  risks:
+  - level: medium
+    description: sysdig 会捕获系统调用，注意敏感数据
+- name: bpftrace
+  category: 系统诊断/扩展工具
+  install_required: true
+  description: 高级 eBPF 跟踪语言
+  usage:
+  - bpftrace [OPTIONS] [ARGS]
+  options:
+  - flag: -e
+    description: 程序
+  - flag: -l
+    description: 列出探针
+  - flag: -p
+    description: PID
+  examples:
+  - command: sudo bpftrace -e 'tracepoint:syscalls:sys_enter_openat { printf("%s
+      %s\n", comm, str(args->filename)); }'
+    description: 跟踪 openat
+  - command: sudo bpftrace -l 'tracepoint:syscalls:*'
+    description: 列出探针
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - bcc
+  - perf
+  install_method: 参考 https://github.com/iovisor/bpftrace/blob/master/INSTALL.md
+  risks:
+  - level: medium
+    description: bpftrace 在内核运行，脚本错误可能影响性能
+- name: bcc
+  category: 系统诊断/扩展工具
+  install_required: true
+  description: BPF Compiler Collection 工具集
+  usage:
+  - bcc [OPTIONS] [ARGS]
+  options:
+  - flag: tools
+    description: 目录脚本
+  - flag: -p
+    description: PID
+  examples:
+  - command: sudo /usr/share/bcc/tools/opensnoop
+    description: 监控文件打开
+  - command: sudo /usr/share/bcc/tools/biolatency
+    description: 块设备延迟
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - bpftrace
+  - perf
+  install_method: 参考 https://github.com/iovisor/bcc/blob/master/INSTALL.md
+  risks:
+  - level: medium
+    description: bcc 工具在内核运行，注意对生产系统的影响

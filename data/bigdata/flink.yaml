@@ -1,0 +1,56 @@
+category: 大数据/Flink流计算
+description: Apache Flink 流处理与批处理命令
+commands:
+- name: flink
+  category: 大数据/Flink流计算
+  install_required: true
+  install_method: 参考 https://nightlies.apache.org/flink/flink-docs-stable/docs/try-flink/local_installation/
+  description: Flink 作业提交与管理 CLI
+  usage:
+  - flink [OPTIONS] [ACTION]
+  options:
+  - flag: run
+    description: 提交 Flink 作业
+  - flag: list
+    description: 列出运行中的作业
+  - flag: cancel
+    description: 取消指定作业
+  examples:
+  - command: flink run -c org.example.Job myjob.jar
+    description: 提交 Flink 作业
+  - command: flink list
+    description: 列出运行中的 Flink 作业
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sql-client.sh
+  risks:
+  - level: medium
+    description: 取消作业会中断数据流，请先确认Checkpoint状态
+
+- name: sql-client.sh
+  category: 大数据/Flink流计算
+  install_required: true
+  install_method: 随 Apache Flink 安装
+  description: Flink SQL 交互式客户端
+  usage:
+  - sql-client.sh [OPTIONS]
+  options:
+  - flag: -i
+    description: 初始化 SQL 脚本
+  - flag: -f
+    description: 执行 SQL 脚本文件
+  examples:
+  - command: sql-client.sh
+    description: 启动 Flink SQL 客户端
+  - command: sql-client.sh -f queries.sql
+    description: 执行 SQL 脚本文件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - flink
+  risks:
+  - level: medium
+    description: DDL/DML 操作会修改表和作业，请在测试环境先验证

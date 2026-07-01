@@ -1,4 +1,4 @@
-VERSION ?= 1.5.0
+VERSION ?= 1.8.0
 COMMIT_HASH ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILD_TIME ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 LDFLAGS := -s -w -X 'main.Version=$(VERSION)' -X 'main.BuildTime=$(BUILD_TIME)' -X 'main.CommitHash=$(COMMIT_HASH)'
@@ -10,7 +10,7 @@ build:
 	@ls -lh bin/cmd4coder | awk '{print "Built: " $$5 " (" $$9 ")"}'
 
 build-all:
-	@bash scripts/build.sh
+	@bash scripts/build/build.sh
 
 test:
 	go test -v -cover ./...
@@ -28,9 +28,9 @@ bench:
 	go test -bench=. -benchmem ./...
 
 cover:
-	go test -coverprofile=coverage_reports/coverage.out ./...
-	go tool cover -html=coverage_reports/coverage.out -o coverage_reports/coverage.html
-	go tool cover -func=coverage_reports/coverage.out
+	go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out -o coverage.html
+	go tool cover -func=coverage.out
 
 lint:
 	golangci-lint run ./...

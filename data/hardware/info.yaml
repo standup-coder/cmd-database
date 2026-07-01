@@ -1,0 +1,206 @@
+category: 硬件/系统信息
+description: 查看系统硬件配置、拓扑与 NUMA 信息
+commands:
+- name: lshw
+  category: 硬件/系统信息
+  install_required: true
+  description: 列出详细硬件配置
+  usage:
+  - lshw [OPTIONS] [ARGS]
+  options:
+  - flag: -short
+    description: 简要输出
+  - flag: -class
+    description: 指定类别
+  - flag: -json
+    description: JSON 输出
+  - flag: -sanitize
+    description: 隐藏敏感信息
+  examples:
+  - command: sudo lshw -short
+    description: 简要列出硬件
+  - command: sudo lshw -class memory
+    description: 只查看内存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dmidecode
+  - inxi
+  install_method: 包管理器安装，如 sudo apt install lshw
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。
+- name: inxi
+  category: 硬件/系统信息
+  install_required: true
+  description: 友好的系统/硬件信息汇总工具
+  usage:
+  - inxi [OPTIONS] [ARGS]
+  options:
+  - flag: -F
+    description: 完整输出
+  - flag: -G
+    description: 显卡
+  - flag: -N
+    description: 网络
+  - flag: -D
+    description: 硬盘
+  - flag: -z
+    description: 隐藏敏感
+  examples:
+  - command: inxi -F
+    description: 完整系统信息
+  - command: inxi -G
+    description: 显卡信息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lshw
+  - hardinfo
+  install_method: 包管理器安装，如 sudo apt install inxi
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。
+- name: hardinfo
+  category: 硬件/系统信息
+  install_required: true
+  description: 图形/命令行系统信息与基准测试
+  usage:
+  - hardinfo [OPTIONS] [ARGS]
+  options:
+  - flag: -r
+    description: 生成报告
+  - flag: -f
+    description: 输出格式
+  examples:
+  - command: hardinfo -r -f html > report.html
+    description: 生成 HTML 报告
+  - command: hardinfo -r -f text
+    description: 文本报告
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lshw
+  - inxi
+  install_method: 包管理器安装，如 sudo apt install hardinfo
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: hwloc
+  category: 硬件/系统信息
+  install_required: true
+  description: 硬件拓扑抽象层工具
+  usage:
+  - hwloc [OPTIONS] [ARGS]
+  options:
+  - flag: --objects
+    description: ''
+  - flag: --no-io
+    description: ''
+  - flag: --of
+    description: xml|txt
+  examples:
+  - command: hwloc-ls
+    description: 显示硬件拓扑
+  - command: hwloc-info
+    description: 显示摘要信息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lstopo
+  - numactl
+  install_method: 包管理器安装，如 sudo apt install hwloc
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。
+- name: lstopo
+  category: 硬件/系统信息
+  install_required: true
+  description: 图形/文本化硬件拓扑查看器
+  usage:
+  - lstopo [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: --no-io
+    description: ''
+  - flag: --of
+    description: png
+  - flag: --output-format
+    description: ''
+  examples:
+  - command: lstopo
+    description: 文本显示拓扑
+  - command: lstopo topology.png
+    description: 导出拓扑图
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hwloc
+  - numactl
+  install_method: 随 hwloc 安装
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: numactl
+  category: 硬件/系统信息
+  install_required: true
+  description: 控制进程的 NUMA 内存与 CPU 策略
+  usage:
+  - numactl [OPTIONS] COMMAND
+  options:
+  - flag: --cpunodebind
+    description: 绑定 CPU 节点
+  - flag: --membind
+    description: 绑定内存节点
+  - flag: --interleave
+    description: 交错
+  - flag: --show
+    description: 显示当前策略
+  examples:
+  - command: numactl --show
+    description: 显示当前 NUMA 策略
+  - command: numactl --cpunodebind=0 --membind=0 ./app
+    description: 绑定到节点 0
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - taskset
+  - lstopo
+  install_method: 多数 Linux 预装或包管理器安装
+  risks:
+  - level: medium
+    description: 错误绑定会降低性能或导致 OOM，请了解 NUMA 拓扑
+- name: numastat
+  category: 硬件/系统信息
+  install_required: false
+  description: 显示每个 NUMA 节点的内存统计
+  usage:
+  - numastat [OPTIONS] [ARGS]
+  options:
+  - flag: -m
+    description: 显示 MB
+  - flag: -n
+    description: 节点级
+  - flag: -c
+    description: 紧凑
+  examples:
+  - command: numastat
+    description: 查看 NUMA 内存统计
+  - command: numastat -m -n
+    description: 以 MB 显示节点级统计
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - numactl
+  - free
+  risks:
+  - level: low
+    description: 只读/信息查询类操作，风险较低，但仍需确认目标对象与权限。

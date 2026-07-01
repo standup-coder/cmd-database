@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/数据与标注
-moc_order: 0
-tags:
-- MOC
-- AI
-- 数据与标注
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/数据与标注",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "数据与标注"
+  ]
+}
 ---
-
 
 # AI基础设施/数据与标注
 

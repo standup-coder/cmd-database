@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/MLOps平台
-moc_order: 0
-tags:
-- MOC
-- AI
-- MLOps平台
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/MLOps平台",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "MLOps平台"
+  ]
+}
 ---
-
 
 # AI基础设施/MLOps平台
 

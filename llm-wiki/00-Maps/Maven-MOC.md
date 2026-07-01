@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 构建工具/Maven
-moc_order: 0
-tags:
-- MOC
-- AI
-- Maven
+{
+  "moc_type": "dimension",
+  "moc_name": "构建工具/Maven",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Maven"
+  ]
+}
 ---
-
 
 # 构建工具/Maven
 

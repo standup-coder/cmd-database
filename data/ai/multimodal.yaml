@@ -1,197 +1,207 @@
 category: "AI基础设施/多模态"
 description: "图像理解、语音处理、视频生成与图文对齐，大模型多模态能力工具链"
 commands:
-  - name: comfyui
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "git clone https://github.com/comfyanonymous/ComfyUI.git && pip install -r requirements.txt"
-    description: "ComfyUI Stable Diffusion节点式可视化工作流，支持图像生成、视频生成、ControlNet"
-    usage:
-      - "python main.py [OPTIONS]"
-    options:
-      - flag: "--listen"
-        description: "监听地址"
-      - flag: "--port"
-        description: "端口号"
-      - flag: "--extra-model-paths-config"
-        description: "额外模型路径配置"
-      - flag: "--lowvram"
-        description: "低显存模式"
-    examples:
-      - command: "python main.py --listen 0.0.0.0 --port 8188"
-        description: "启动ComfyUI服务"
-      - command: "python main.py --lowvram --disable-xformers"
-        description: "低显存模式启动"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "stable-diffusion-cli"
-      - "clip"
-    risks:
-      - level: medium
-        description: "模型下载占用大量存储"
-    references:
-      - "https://github.com/comfyanonymous/ComfyUI"
+- name: comfyui
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "git clone https://github.com/comfyanonymous/ComfyUI.git && pip
+    install -r requirements.txt"
+  description: "ComfyUI Stable Diffusion节点式可视化工作流，支持图像生成、视频生成、ControlNet"
+  usage:
+  - "python main.py [OPTIONS]"
+  options:
+  - flag: "--listen"
+    description: "监听地址"
+  - flag: "--port"
+    description: "端口号"
+  - flag: "--extra-model-paths-config"
+    description: "额外模型路径配置"
+  - flag: "--lowvram"
+    description: "低显存模式"
+  examples:
+  - command: "python main.py --listen 0.0.0.0 --port 8188"
+    description: "启动ComfyUI服务"
+  - command: "python main.py --lowvram --disable-xformers"
+    description: "低显存模式启动"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "stable-diffusion-cli"
+  - "clip"
+  risks:
+  - level: medium
+    description: "模型下载占用大量存储"
+  references:
+  - "https://github.com/comfyanonymous/ComfyUI"
 
-  - name: whisper
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "pip install openai-whisper"
-    description: "OpenAI Whisper通用语音识别模型，支持99种语言，多尺寸模型(tiny~large-v3)"
-    usage:
-      - "whisper [OPTIONS] AUDIO_FILE"
-    options:
-      - flag: "--model"
-        description: "模型尺寸 (tiny, base, small, medium, large-v3)"
-      - flag: "--language"
-        description: "语言代码"
-      - flag: "--task"
-        description: "任务类型 (transcribe, translate)"
-      - flag: "--output_format"
-        description: "输出格式 (txt, vtt, srt, json)"
-    examples:
-      - command: "whisper audio.mp3 --model large-v3 --language Chinese"
-        description: "中文语音识别"
-      - command: "whisper audio.mp3 --model medium --task translate --output_format srt"
-        description: "语音翻译为英文并输出字幕"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "faster-whisper"
-      - "transformers-pipeline"
-    risks:
-      - level: low
-        description: "本地推理安全"
-    references:
-      - "https://github.com/openai/whisper"
+- name: whisper
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "pip install openai-whisper"
+  description: "OpenAI Whisper通用语音识别模型，支持99种语言，多尺寸模型(tiny~large-v3)"
+  usage:
+  - "whisper [OPTIONS] AUDIO_FILE"
+  options:
+  - flag: "--model"
+    description: "模型尺寸 (tiny, base, small, medium, large-v3)"
+  - flag: "--language"
+    description: "语言代码"
+  - flag: "--task"
+    description: "任务类型 (transcribe, translate)"
+  - flag: "--output_format"
+    description: "输出格式 (txt, vtt, srt, json)"
+  examples:
+  - command: "whisper audio.mp3 --model large-v3 --language Chinese"
+    description: "中文语音识别"
+  - command: "whisper audio.mp3 --model medium --task translate --output_format srt"
+    description: "语音翻译为英文并输出字幕"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "faster-whisper"
+  - "transformers-pipeline"
+  risks:
+  - level: low
+    description: "本地推理安全"
+  references:
+  - "https://github.com/openai/whisper"
 
-  - name: faster-whisper
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "pip install faster-whisper"
-    description: "Faster-Whisper CTranslate2加速版Whisper，4倍速度提升，更低内存占用"
-    usage:
-      - "python transcribe.py (使用faster_whisper库)"
-    options:
-      - flag: "WhisperModel"
-        description: "加载模型"
-      - flag: "compute_type"
-        description: "计算类型 (int8, int8_float16, float16)"
-    examples:
-      - command: "python -c \"from faster_whisper import WhisperModel; m = WhisperModel('large-v3', device='cuda', compute_type='float16'); segs, info = m.transcribe('audio.mp3')\""
-        description: "GPU加速语音识别"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "whisper"
-      - "ctranslate2"
-    risks:
-      - level: low
-        description: "本地推理安全"
-    references:
-      - "https://github.com/SYSTRAN/faster-whisper"
+- name: faster-whisper
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "pip install faster-whisper"
+  description: "Faster-Whisper CTranslate2加速版Whisper，4倍速度提升，更低内存占用"
+  usage:
+  - "python transcribe.py (使用faster_whisper库)"
+  options:
+  - flag: "WhisperModel"
+    description: "加载模型"
+  - flag: "compute_type"
+    description: "计算类型 (int8, int8_float16, float16)"
+  examples:
+  - command: "python -c \"from faster_whisper import WhisperModel; m = WhisperModel('large-v3',
+      device='cuda', compute_type='float16'); segs, info = m.transcribe('audio.mp3')\""
+    description: "GPU加速语音识别"
+  - command: python -c "from faster_whisper import WhisperModel; 
+      help(WhisperModel.transcribe)"
+    description: 查看转录 API 帮助
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "whisper"
+  - "ctranslate2"
+  risks:
+  - level: low
+    description: "本地推理安全"
+  references:
+  - "https://github.com/SYSTRAN/faster-whisper"
 
-  - name: llava
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "git clone https://github.com/haotian-liu/LLaVA.git"
-    description: "LLaVA大语言视觉助手，视觉指令微调，支持图像问答、描述、推理"
-    usage:
-      - "python -m llava.serve.cli [OPTIONS]"
-    options:
-      - flag: "--model-path"
-        description: "模型路径"
-      - flag: "--image-file"
-        description: "输入图像"
-      - flag: "--load-4bit"
-        description: "4-bit量化加载"
-    examples:
-      - command: "python -m llava.serve.cli --model-path liuhaotian/llava-v1.5-7b --image-file image.jpg"
-        description: "图像问答交互"
-      - command: "python -m llava.serve.controller --host 0.0.0.0 --port 10000"
-        description: "启动LLaVA控制器服务"
-    platforms:
-      - "linux"
-      - "darwin"
-    related_commands:
-      - "clip"
-      - "transformers-pipeline"
-    risks:
-      - level: low
-        description: "本地推理安全"
-    references:
-      - "https://github.com/haotian-liu/LLaVA"
+- name: llava
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "git clone https://github.com/haotian-liu/LLaVA.git"
+  description: "LLaVA大语言视觉助手，视觉指令微调，支持图像问答、描述、推理"
+  usage:
+  - "python -m llava.serve.cli [OPTIONS]"
+  options:
+  - flag: "--model-path"
+    description: "模型路径"
+  - flag: "--image-file"
+    description: "输入图像"
+  - flag: "--load-4bit"
+    description: "4-bit量化加载"
+  examples:
+  - command: "python -m llava.serve.cli --model-path liuhaotian/llava-v1.5-7b --image-file
+      image.jpg"
+    description: "图像问答交互"
+  - command: "python -m llava.serve.controller --host 0.0.0.0 --port 10000"
+    description: "启动LLaVA控制器服务"
+  platforms:
+  - "linux"
+  - "darwin"
+  related_commands:
+  - "clip"
+  - "transformers-pipeline"
+  risks:
+  - level: low
+    description: "本地推理安全"
+  references:
+  - "https://github.com/haotian-liu/LLaVA"
 
-  - name: clip
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "pip install git+https://github.com/openai/CLIP.git"
-    description: "OpenAI CLIP图文对齐模型，零样本图像分类、图文相似度计算、图像检索"
-    usage:
-      - "python app.py (使用clip库)"
-    options:
-      - flag: "clip.load()"
-        description: "加载模型"
-      - flag: "encode_text()"
-        description: "编码文本"
-      - flag: "encode_image()"
-        description: "编码图像"
-    examples:
-      - command: "python -c \"import clip, torch; m, p = clip.load('ViT-B/32'); i = p(torch.randn(1,3,224,224)); t = clip.tokenize(['a dog']); logits = m(i, t)\""
-        description: "计算图文相似度"
-      - command: "python zero_shot.py --model ViT-L/14 --classes 'cat,dog,bird,car' --image folder/"
-        description: "零样本图像分类"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "llava"
-      - "transformers-pipeline"
-    risks:
-      - level: low
-        description: "推理安全"
-    references:
-      - "https://github.com/openai/CLIP"
+- name: clip
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "pip install git+https://github.com/openai/CLIP.git"
+  description: "OpenAI CLIP图文对齐模型，零样本图像分类、图文相似度计算、图像检索"
+  usage:
+  - "python app.py (使用clip库)"
+  options:
+  - flag: "clip.load()"
+    description: "加载模型"
+  - flag: "encode_text()"
+    description: "编码文本"
+  - flag: "encode_image()"
+    description: "编码图像"
+  examples:
+  - command: "python -c \"import clip, torch; m, p = clip.load('ViT-B/32'); i = p(torch.randn(1,3,224,224));
+      t = clip.tokenize(['a dog']); logits = m(i, t)\""
+    description: "计算图文相似度"
+  - command: "python zero_shot.py --model ViT-L/14 --classes 'cat,dog,bird,car' --image
+      folder/"
+    description: "零样本图像分类"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "llava"
+  - "transformers-pipeline"
+  risks:
+  - level: low
+    description: "推理安全"
+  references:
+  - "https://github.com/openai/CLIP"
 
-  - name: stable-diffusion-cli
-    category: "AI基础设施/多模态"
-    install_required: true
-    install_method: "pip install diffusers transformers accelerate"
-    description: "Stable Diffusion文本到图像生成命令行工具，支持多种模型和LoRA"
-    usage:
-      - "python generate.py (使用diffusers库)"
-    options:
-      - flag: "--prompt"
-        description: "生成提示词"
-      - flag: "--model"
-        description: "模型ID"
-      - flag: "--width"
-        description: "图像宽度"
-      - flag: "--height"
-        description: "图像高度"
-      - flag: "--steps"
-        description: "采样步数"
-    examples:
-      - command: "python generate.py --prompt 'a cat wearing a hat' --model stabilityai/stable-diffusion-xl-base-1.0 --steps 30"
-        description: "SDXL文本生成图像"
-      - command: "python generate.py --prompt 'cyberpunk city' --lora ./lora_weights --seed 42"
-        description: "使用LoRA风格生成"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "comfyui"
-      - "clip"
-    risks:
-      - level: medium
-        description: "注意生成内容的合规性"
-    references:
-      - "https://github.com/Stability-AI/stablediffusion"
+- name: stable-diffusion-cli
+  category: "AI基础设施/多模态"
+  install_required: true
+  install_method: "pip install diffusers transformers accelerate"
+  description: "Stable Diffusion文本到图像生成命令行工具，支持多种模型和LoRA"
+  usage:
+  - "python generate.py (使用diffusers库)"
+  options:
+  - flag: "--prompt"
+    description: "生成提示词"
+  - flag: "--model"
+    description: "模型ID"
+  - flag: "--width"
+    description: "图像宽度"
+  - flag: "--height"
+    description: "图像高度"
+  - flag: "--steps"
+    description: "采样步数"
+  examples:
+  - command: "python generate.py --prompt 'a cat wearing a hat' --model stabilityai/stable-diffusion-xl-base-1.0
+      --steps 30"
+    description: "SDXL文本生成图像"
+  - command: "python generate.py --prompt 'cyberpunk city' --lora ./lora_weights --seed
+      42"
+    description: "使用LoRA风格生成"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "comfyui"
+  - "clip"
+  risks:
+  - level: medium
+    description: "注意生成内容的合规性"
+  references:
+  - "https://github.com/Stability-AI/stablediffusion"

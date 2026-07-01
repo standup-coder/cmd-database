@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 构建工具/Gradle
-moc_order: 0
-tags:
-- MOC
-- AI
-- Gradle
+{
+  "moc_type": "dimension",
+  "moc_name": "构建工具/Gradle",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Gradle"
+  ]
+}
 ---
-
 
 # 构建工具/Gradle
 

@@ -1,0 +1,92 @@
+category: 容器编排/K8s开发工具
+description: Kubernetes 配置管理、包管理与本地开发辅助工具
+commands:
+- name: kustomize
+  category: 容器编排/K8s开发工具
+  install_required: true
+  install_method: 参考 https://kubectl.docs.kubernetes.io/installation/kustomize/
+  description: Kubernetes 声明式配置自定义工具
+  usage:
+  - kustomize [OPTIONS] COMMAND
+  options:
+  - flag: build
+    description: 根据 kustomization.yaml 构建完整 YAML
+  - flag: edit
+    description: 编辑 kustomization 配置
+  examples:
+  - command: kustomize build ./overlays/production
+    description: 构建生产环境覆盖后的 K8s 清单
+  - command: kustomize edit set image myapp=myapp:v2.0
+    description: 修改 kustomization 中的镜像标签
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - helm
+  risks:
+  - level: low
+    description: kustomize build 为本地渲染，不会直接修改集群
+
+- name: helmfile
+  category: 容器编排/K8s开发工具
+  install_required: true
+  install_method: 参考 https://helmfile.readthedocs.io/en/latest/#installation
+  description: Helm Chart 的声明式批量部署工具
+  usage:
+  - helmfile [OPTIONS] COMMAND
+  options:
+  - flag: apply
+    description: 根据 helmfile.yaml 同步 release
+  - flag: sync
+    description: 同步所有 release
+  - flag: destroy
+    description: 删除 helmfile 中定义的所有 release
+  examples:
+  - command: helmfile apply
+    description: 应用 helmfile 配置
+  - command: helmfile -f helmfile.d/prod.yaml sync
+    description: 同步指定环境 helmfile
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - helm
+  - kubectl
+  risks:
+  - level: high
+    description: destroy 会删除所有定义 release，请确认环境与影响范围
+
+  - level: high
+    description: 批量部署或删除 Helm release 会影响多个服务，请确认目标命名空间和 values 配置。
+- name: krew
+  category: 容器编排/K8s开发工具
+  install_required: true
+  install_method: 参考 https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+  description: kubectl 插件包管理器
+  usage:
+  - kubectl krew [OPTIONS] COMMAND
+  options:
+  - flag: install
+    description: 安装插件
+  - flag: list
+    description: 列出已安装插件
+  - flag: search
+    description: 搜索插件
+  examples:
+  - command: kubectl krew install ctx
+    description: 安装 kubectx 插件
+  - command: kubectl krew search
+    description: 搜索可用插件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - kubectx
+  risks:
+  - level: medium
+    description: 插件来自社区，请审查来源和权限后再安装

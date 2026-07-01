@@ -1,0 +1,356 @@
+category: 硬件/嵌入式与IoT
+description: 单片机烧录、串口、I2C、GPIO 等嵌入式工具
+commands:
+- name: esptool
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: ESP8266/ESP32 烧录工具
+  usage:
+  - esptool.py [OPTIONS] COMMAND
+  options:
+  - flag: --port
+    description: 串口
+  - flag: --baud
+    description: 波特率
+  - flag: flash_id
+    description: ''
+  - flag: erase_flash
+    description: ''
+  - flag: write_flash
+    description: ''
+  examples:
+  - command: esptool.py --port /dev/ttyUSB0 flash_id
+    description: 读取 Flash ID
+  - command: esptool.py --port /dev/ttyUSB0 write_flash 0x0 firmware.bin
+    description: 烧录固件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - minicom
+  - dfu-util
+  install_method: pip install esptool
+  risks:
+  - level: medium
+    description: 擦除/烧写 Flash 会清空设备，请确认端口和地址
+- name: avrdude
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: AVR 单片机烧录
+  usage:
+  - avrdude [OPTIONS]
+  options:
+  - flag: -p
+    description: 芯片
+  - flag: -c
+    description: 编程器
+  - flag: -P
+    description: 端口
+  - flag: -U
+    description: memop
+  - flag: -b
+    description: 波特率
+  examples:
+  - command: avrdude -p m328p -c usbasp -U flash:r:backup.hex:i
+    description: 读取 Flash
+  - command: avrdude -p m328p -c usbasp -U flash:w:firmware.hex:i
+    description: 写入 Flash
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - esptool
+  - openocd
+  install_method: 包管理器安装，如 sudo apt install avrdude
+  risks:
+  - level: medium
+    description: 错误的熔丝位设置会锁死芯片
+- name: openocd
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 开源片上调试器
+  usage:
+  - openocd [OPTIONS]
+  options:
+  - flag: -f
+    description: 配置文件
+  - flag: -c
+    description: 命令
+  - flag: -d
+    description: 调试级别
+  examples:
+  - command: openocd -f interface/stlink.cfg -f target/stm32f4x.cfg
+    description: 连接 STM32
+  - command: openocd -f interface/stlink.cfg -c 'program firmware.bin verify 
+      reset exit'
+    description: 烧录
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - st-flash
+  - avrdude
+  install_method: 包管理器安装，如 sudo apt install openocd
+  risks:
+  - level: medium
+    description: 调试操作可读写内存，请确认目标设备
+- name: st-flash
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: STM32 ST-Link 烧录工具
+  usage:
+  - st-flash [OPTIONS] [ARGS]
+  options:
+  - flag: write
+    description: 写入
+  - flag: read
+    description: 读取
+  - flag: erase
+    description: 擦除
+  - flag: reset
+    description: ''
+  examples:
+  - command: st-flash write firmware.bin 0x8000000
+    description: 烧录到 Flash 起始地址
+  - command: st-flash erase
+    description: 擦除芯片
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openocd
+  - dfu-util
+  install_method: 参考 https://github.com/stlink-org/stlink
+  risks:
+  - level: medium
+    description: 擦除会清空 Flash
+- name: dfu-util
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: USB DFU 设备固件更新
+  usage:
+  - dfu-util [OPTIONS] [ARGS]
+  options:
+  - flag: -l
+    description: 列出
+  - flag: -D
+    description: 下载固件
+  - flag: -U
+    description: 上传
+  - flag: -a
+    description: 接口
+  examples:
+  - command: dfu-util -l
+    description: 列出 DFU 设备
+  - command: dfu-util -a 0 -D firmware.dfu
+    description: 下载固件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - esptool
+  - st-flash
+  install_method: 包管理器安装，如 sudo apt install dfu-util
+  risks:
+  - level: medium
+    description: 固件更新失败可能使设备无法启动
+- name: minicom
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 串口通信终端
+  usage:
+  - minicom [OPTIONS] [ARGS]
+  options:
+  - flag: -D
+    description: 设备
+  - flag: -b
+    description: 波特率
+  - flag: -C
+    description: 捕获日志
+  - flag: -s
+    description: 配置
+  examples:
+  - command: minicom -D /dev/ttyUSB0 -b 115200
+    description: 连接串口
+  - command: minicom -C capture.log -D /dev/ttyUSB0
+    description: 记录日志
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - picocom
+  - screen
+  install_method: 包管理器安装，如 sudo apt install minicom
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: picocom
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 极简串口终端
+  usage:
+  - picocom [OPTIONS] [ARGS]
+  options:
+  - flag: --baud
+    description: 波特率
+  - flag: --flow
+    description: 流控
+  - flag: --imap
+    description: ''
+  - flag: --omap
+    description: ''
+  examples:
+  - command: picocom -b 115200 /dev/ttyUSB0
+    description: 连接串口
+  - command: picocom --echo -b 9600 /dev/ttyUSB0
+    description: 回显模式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - minicom
+  - screen
+  install_method: 包管理器安装，如 sudo apt install picocom
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: i2cdetect
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 扫描 I2C 总线上的设备
+  usage:
+  - i2cdetect [OPTIONS] BUS
+  options:
+  - flag: -y
+    description: 自动 yes
+  - flag: -r
+    description: 读扫描
+  - flag: -q
+    description: 快速扫描
+  - flag: -a
+    description: 扫描全部地址
+  examples:
+  - command: sudo i2cdetect -y 1
+    description: 扫描 I2C-1
+  - command: sudo i2cdetect -l
+    description: 列出 I2C 总线
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - i2cget
+  - i2cset
+  install_method: 包管理器安装 i2c-tools
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: i2cget
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 读取 I2C 设备寄存器
+  usage:
+  - i2cget [OPTIONS] BUS CHIP-ADDRESS DATA-ADDRESS
+  options:
+  - flag: -y
+    description: 自动 yes
+  - flag: -f
+    description: 强制访问
+  examples:
+  - command: sudo i2cget -y 1 0x50 0x00
+    description: 读取 I2C 设备 0x50 的 0x00 寄存器
+  - command: sudo i2cget -y -f 1 0x50 0x00
+    description: 强制读取 I2C 寄存器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - i2cset
+  - i2cdetect
+  install_method: 随 i2c-tools 安装
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: i2cset
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 写入 I2C 设备寄存器
+  usage:
+  - i2cset [OPTIONS] BUS CHIP-ADDRESS DATA-ADDRESS VALUE
+  options:
+  - flag: -y
+    description: 自动 yes
+  - flag: -m
+    description: 掩码
+  examples:
+  - command: sudo i2cset -y 1 0x50 0x00 0xFF
+    description: 写入 0xFF 到寄存器
+  - command: sudo i2cset -y -m 0x0F 1 0x50 0x00 0x05
+    description: 使用掩码写入低 4 位
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - i2cget
+  - i2cdetect
+  install_method: 随 i2c-tools 安装
+  risks:
+  - level: medium
+    description: 错误写入可能损坏 I2C 设备配置
+- name: gpio
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: Linux GPIO 命令行工具（libgpiod）
+  usage:
+  - gpio [OPTIONS] COMMAND
+  options:
+  - flag: info
+    description: 信息
+  - flag: get
+    description: 读取
+  - flag: set
+    description: 设置
+  - flag: find
+    description: 查找
+  examples:
+  - command: gpioinfo
+    description: 列出 GPIO 线和芯片
+  - command: gpioset gpiochip0 25=1
+    description: 设置 GPIO 25 为高
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - i2cset
+  - raspi-gpio
+  install_method: 包管理器安装 gpiod
+  risks:
+  - level: medium
+    description: GPIO 控制硬件，错误电平可能损坏外设
+- name: raspi-gpio
+  category: 硬件/嵌入式与IoT
+  install_required: true
+  description: 树莓派 GPIO 工具
+  usage:
+  - raspi-gpio [OPTIONS] [ARGS]
+  options:
+  - flag: get
+    description: 读取
+  - flag: set
+    description: 设置
+  - flag: func
+    description: 功能
+  examples:
+  - command: raspi-gpio get 25
+    description: 读取 GPIO 25
+  - command: raspi-gpio set 25 op dh
+    description: 设置 GPIO25 输出高
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - gpio
+  - i2cset
+  install_method: Raspberry Pi OS 预装
+  risks:
+  - level: medium
+    description: 同样需要注意外设电平保护

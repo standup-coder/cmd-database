@@ -43,3 +43,7 @@ Thumbs.db
 # Test reports
 test-reports/
 *.log
+
+# Generated reports and caches
+coverage_reports/
+scripts/__pycache__/

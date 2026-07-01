@@ -1,0 +1,995 @@
+category: "容器编排/K8s监控日志"
+description: "Kubernetes集群监控与日志采集工具"
+commands:
+  # Prometheus Core Commands
+- name: "prometheus"
+  description: "Start Prometheus monitoring server"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "prometheus [flags]"
+  options:
+  - flag: "--config.file"
+    description: "Prometheus configuration file path"
+  - flag: "--web.listen-address"
+    description: "Address to listen on for web interface"
+  - flag: "--storage.tsdb.path"
+    description: "Base path for metrics storage"
+  examples:
+  - command: "prometheus --config.file=prometheus.yml"
+    description: "Start Prometheus with config file"
+  - command: "prometheus --config.file=prometheus.yml --web.listen-address=:9090"
+    description: "Start Prometheus on specific port"
+  - command: "prometheus --config.file=prometheus.yml --storage.tsdb.path=/data/prometheus"
+    description: "Start with custom storage path"
+  risks:
+  - level: "medium"
+    description: "Running with incorrect config may impact monitoring"
+  install_method: "Download from https://prometheus.io/download/"
+  version_check: "prometheus --version"
+
+- name: "promtool check config"
+  description: "Validate Prometheus configuration file"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "promtool check config [config-file]"
+  examples:
+  - command: "promtool check config prometheus.yml"
+    description: "Validate Prometheus configuration"
+  - command: "promtool check rules rules/*.yml"
+    description: "Validate recording and alerting rules"
+  - command: "promtool check config --syntax-only prometheus.yml"
+    description: "Check syntax only without validation"
+  risks:
+  - level: "low"
+    description: "Read-only validation; no operational impact"
+  install_method: "Installed with Prometheus or download from https://prometheus.io/download/"
+  version_check: "promtool --version"
+
+- name: "promtool query instant"
+  description: "Execute instant PromQL query"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "promtool query instant [server-url] [query]"
+  examples:
+  - command: "promtool query instant http://localhost:9090 'up'"
+    description: "Query instance status"
+  - command: "promtool query instant http://localhost:9090 'rate(http_requests_total[5m])'"
+    description: "Query request rate"
+  - command: "promtool query instant http://localhost:9090 'node_memory_MemAvailable_bytes'"
+    description: "Query memory metrics"
+  risks:
+  - level: "low"
+    description: "Read-only query operation"
+  install_method: "Installed with Prometheus"
+  version_check: "promtool --version"
+
+- name: "promtool test rules"
+  description: "Test Prometheus alerting and recording rules"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "promtool test rules [test-file]"
+  examples:
+  - command: "promtool test rules test.yml"
+    description: "Run rule unit tests"
+  - command: "promtool test rules tests/*.yml"
+    description: "Run all test files"
+  - command: "promtool test rules --run=TestCPUAlert test.yml"
+    description: "Run specific test"
+  risks:
+  - level: "low"
+    description: "Testing rules only; no changes made"
+  install_method: "Installed with Prometheus"
+  version_check: "promtool --version"
+
+- name: "promtool tsdb analyze"
+  description: "Analyze Prometheus TSDB blocks"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "promtool tsdb analyze [db-path]"
+  examples:
+  - command: "promtool tsdb analyze /data/prometheus"
+    description: "Analyze TSDB database"
+  - command: "promtool tsdb analyze --limit=20 /data/prometheus"
+    description: "Analyze with result limit"
+  - command: "promtool tsdb analyze --extended /data/prometheus"
+    description: "Extended analysis with more details"
+  risks:
+  - level: "low"
+    description: "Read-only analysis; no modifications"
+  install_method: "Installed with Prometheus"
+  version_check: "promtool --version"
+
+  # Alertmanager Commands
+- name: "alertmanager"
+  description: "Start Prometheus Alertmanager"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "alertmanager [flags]"
+  options:
+  - flag: "--config.file"
+    description: "Alertmanager configuration file"
+  - flag: "--web.listen-address"
+    description: "Listen address for web interface"
+  - flag: "--storage.path"
+    description: "Base path for data storage"
+  examples:
+  - command: "alertmanager --config.file=alertmanager.yml"
+    description: "Start Alertmanager with config"
+  - command: "alertmanager --config.file=alertmanager.yml --web.listen-address=:9093"
+    description: "Start on specific port"
+  - command: "alertmanager --config.file=alertmanager.yml --storage.path=/data/alertmanager"
+    description: "Start with custom storage"
+  risks:
+  - level: "medium"
+    description: "Incorrect config affects alert routing"
+  install_method: "Download from https://prometheus.io/download/"
+  version_check: "alertmanager --version"
+
+- name: "amtool check-config"
+  description: "Validate Alertmanager configuration"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "amtool check-config [config-file]"
+  examples:
+  - command: "amtool check-config alertmanager.yml"
+    description: "Validate Alertmanager config"
+  - command: "amtool check-config --alertmanager.url=http://localhost:9093 alertmanager.yml"
+    description: "Validate against running instance"
+  - command: "amtool check-config --check-routing alertmanager.yml"
+    description: "Check routing configuration"
+  risks:
+  - level: "low"
+    description: "Read-only validation"
+  install_method: "Installed with Alertmanager"
+  version_check: "amtool --version"
+
+- name: "amtool alert query"
+  description: "Query active alerts from Alertmanager"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "amtool alert query [matcher]"
+  examples:
+  - command: "amtool alert query"
+    description: "List all active alerts"
+  - command: "amtool alert query alertname=HighCPU"
+    description: "Query specific alert"
+  - command: "amtool alert query --alertmanager.url=http://localhost:9093 severity=critical"
+    description: "Query critical alerts"
+  risks:
+  - level: "low"
+    description: "Read-only query operation"
+  install_method: "Installed with Alertmanager"
+  version_check: "amtool --version"
+
+- name: "amtool silence add"
+  description: "Add silence to Alertmanager"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "amtool silence add [matcher] [flags]"
+  options:
+  - flag: "--duration"
+    description: "Silence duration"
+  - flag: "--comment"
+    description: "Silence comment"
+  examples:
+  - command: "amtool silence add alertname=HighCPU --duration=2h --comment='Maintenance'"
+    description: "Silence alert for 2 hours"
+  - command: "amtool silence add severity=warning --duration=1h"
+    description: "Silence warning alerts"
+  - command: "amtool silence add instance=server1 --duration=30m --comment='Upgrade'"
+    description: "Silence instance alerts"
+  risks:
+  - level: "medium"
+    description: "Silencing alerts may mask issues"
+  install_method: "Installed with Alertmanager"
+  version_check: "amtool --version"
+
+- name: "node_exporter"
+  description: "Start Prometheus Node Exporter for hardware and OS metrics"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  install_required: true
+  usage:
+  - "node_exporter [flags]"
+  options:
+  - flag: "--web.listen-address"
+    description: "Listen address for metrics"
+  - flag: "--collector.disable"
+    description: "Disable specific collectors"
+  examples:
+  - command: "node_exporter"
+    description: "Start with default settings"
+  - command: "node_exporter --web.listen-address=:9100"
+    description: "Start on specific port"
+  - command: "node_exporter --collector.disable-defaults --collector.cpu --collector.meminfo"
+    description: "Start with selected collectors"
+  risks:
+  - level: "low"
+    description: "Exposes system metrics; ensure proper access control"
+  install_method: "Download from https://prometheus.io/download/"
+  version_check: "node_exporter --version"
+
+  # Grafana Commands
+- name: "grafana-server"
+  description: "Start Grafana visualization server"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "grafana-server [flags]"
+  options:
+  - flag: "--config"
+    description: "Configuration file path"
+  - flag: "--homepath"
+    description: "Grafana home directory"
+  examples:
+  - command: "grafana-server"
+    description: "Start with default settings"
+  - command: "grafana-server --config=/etc/grafana/grafana.ini"
+    description: "Start with custom config"
+  - command: "grafana-server --homepath=/usr/share/grafana"
+    description: "Start with custom home path"
+  risks:
+  - level: "medium"
+    description: "Ensure proper authentication configured"
+  install_method: "Download from https://grafana.com/grafana/download"
+  version_check: "grafana-server --version"
+
+- name: "grafana-cli plugins install"
+  description: "Install Grafana plugin"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "grafana-cli plugins install [plugin-id]"
+  examples:
+  - command: "grafana-cli plugins install grafana-piechart-panel"
+    description: "Install pie chart panel plugin"
+  - command: "grafana-cli plugins install grafana-kubernetes-app"
+    description: "Install Kubernetes monitoring app"
+  - command: "grafana-cli plugins install grafana-clock-panel"
+    description: "Install clock panel plugin"
+  risks:
+  - level: "medium"
+    description: "Installing plugins modifies Grafana configuration"
+  install_method: "Installed with Grafana"
+  version_check: "grafana-cli --version"
+
+- name: "grafana-cli plugins list-remote"
+  description: "List available Grafana plugins"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "grafana-cli plugins list-remote"
+  examples:
+  - command: "grafana-cli plugins list-remote"
+    description: "List all available plugins"
+  - command: "grafana-cli plugins list-remote | grep kubernetes"
+    description: "Search for Kubernetes-related plugins"
+  - command: "grafana-cli plugins list-remote | grep panel"
+    description: "List panel plugins"
+  risks:
+  - level: "low"
+    description: "Read-only operation; lists available plugins"
+  install_method: "Installed with Grafana"
+  version_check: "grafana-cli --version"
+
+- name: "grafana-cli plugins update"
+  description: "Update Grafana plugin"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "grafana-cli plugins update [plugin-id]"
+  examples:
+  - command: "grafana-cli plugins update grafana-piechart-panel"
+    description: "Update specific plugin"
+  - command: "grafana-cli plugins update-all"
+    description: "Update all installed plugins"
+  - command: "grafana-cli plugins update grafana-kubernetes-app"
+    description: "Update Kubernetes app plugin"
+  risks:
+  - level: "medium"
+    description: "Plugin updates may break dashboards"
+  install_method: "Installed with Grafana"
+  version_check: "grafana-cli --version"
+
+- name: "grafana-cli admin reset-admin-password"
+  description: "Reset Grafana admin password"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "grafana-cli admin reset-admin-password [new-password]"
+  examples:
+  - command: "grafana-cli admin reset-admin-password newpassword123"
+    description: "Reset admin password"
+  - command: "grafana-cli admin reset-admin-password --homepath=/usr/share/grafana
+      newpass"
+    description: "Reset with custom home path"
+  - command: "grafana-cli admin reset-admin-password --config=/etc/grafana/grafana.ini
+      newpass"
+    description: "Reset with custom config"
+  risks:
+  - level: "high"
+    description: "Resets admin password; security-sensitive operation"
+  - level: high
+    description: 修改管理员凭据可能导致当前会话失效，建议提前通知团队成员。
+  install_method: "Installed with Grafana"
+  version_check: "grafana-cli --version"
+
+  # OpenTelemetry Commands
+- name: "otelcol"
+  description: "Start OpenTelemetry Collector"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "otelcol [flags]"
+  options:
+  - flag: "--config"
+    description: "Configuration file path"
+  - flag: "--set"
+    description: "Set property value"
+  examples:
+  - command: "otelcol --config=config.yaml"
+    description: "Start with config file"
+  - command: "otelcol --config=config.yaml --set=service.telemetry.logs.level=debug"
+    description: "Start with debug logging"
+  - command: "otelcol --config=config.yaml --set=receivers.otlp.protocols.grpc.endpoint=0.0.0.0:4317"
+    description: "Start with custom endpoint"
+  risks:
+  - level: "medium"
+    description: "Incorrect config may lose telemetry data"
+  install_method: "Download from https://github.com/open-telemetry/opentelemetry-collector/releases"
+  version_check: "otelcol --version"
+
+- name: "otelcol validate"
+  description: "Validate OpenTelemetry Collector configuration"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "otelcol validate --config [config-file]"
+  examples:
+  - command: "otelcol validate --config=config.yaml"
+    description: "Validate configuration file"
+  - command: "otelcol validate --config=config.yaml --set=service.telemetry.logs.level=debug"
+    description: "Validate with overrides"
+  - command: "otelcol validate --config=*.yaml"
+    description: "Validate multiple configs"
+  risks:
+  - level: "low"
+    description: "Read-only validation"
+  install_method: "Installed with OpenTelemetry Collector"
+  version_check: "otelcol --version"
+
+- name: "otelcol-contrib"
+  description: "Start OpenTelemetry Collector Contrib distribution"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "otelcol-contrib [flags]"
+  options:
+  - flag: "--config"
+    description: "Configuration file path"
+  - flag: "--feature-gates"
+    description: "Enable experimental features"
+  examples:
+  - command: "otelcol-contrib --config=config.yaml"
+    description: "Start contrib collector"
+  - command: "otelcol-contrib --config=config.yaml --feature-gates=telemetry.useOtelForInternalMetrics"
+    description: "Start with feature gates"
+  - command: "otelcol-contrib --config=config.yaml --set=receivers.prometheus.config.scrape_configs[0].job_name=otel"
+    description: "Start with custom scrape config"
+  risks:
+  - level: "medium"
+    description: "Contrib version includes experimental features"
+  install_method: "Download from https://github.com/open-telemetry/opentelemetry-collector-contrib/releases"
+  version_check: "otelcol-contrib --version"
+
+- name: "otel-cli span"
+  description: "Send span data to OpenTelemetry endpoint"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "otel-cli span [flags]"
+  options:
+  - flag: "--endpoint"
+    description: "OTLP endpoint URL"
+  - flag: "--service"
+    description: "Service name"
+  - flag: "--name"
+    description: "Span name"
+  examples:
+  - command: "otel-cli span --endpoint localhost:4317 --service myapp --name myspan"
+    description: "Send simple span"
+  - command: "otel-cli span --endpoint localhost:4317 --service myapp --name operation
+      --attrs key=value"
+    description: "Send span with attributes"
+  - command: "otel-cli span background --endpoint localhost:4317 --service myapp --name
+      background-job"
+    description: "Send background span"
+  risks:
+  - level: "low"
+    description: "Sends telemetry data only"
+  install_method: "Download from https://github.com/equinix-labs/otel-cli/releases"
+  version_check: "otel-cli version"
+
+- name: "otel-cli status server"
+  description: "Check OpenTelemetry endpoint status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "otel-cli status server [endpoint]"
+  examples:
+  - command: "otel-cli status server localhost:4317"
+    description: "Check server status"
+  - command: "otel-cli status server https://otlp.collector:4318"
+    description: "Check HTTPS endpoint"
+  - command: "otel-cli status server localhost:4317 --timeout 5s"
+    description: "Check with timeout"
+  risks:
+  - level: "low"
+    description: "Read-only status check"
+  install_method: "Download from https://github.com/equinix-labs/otel-cli/releases"
+  version_check: "otel-cli version"
+
+  # Logging Tools
+- name: "fluentd -c"
+  description: "Start Fluentd with configuration file"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "fluentd -c [config-file]"
+  options:
+  - flag: "-c"
+    description: "Configuration file path"
+  - flag: "-v"
+    description: "Increase verbosity level"
+  - flag: "--dry-run"
+    description: "Check configuration without starting"
+  examples:
+  - command: "fluentd -c /etc/fluent/fluent.conf"
+    description: "Start Fluentd with config file"
+  - command: "fluentd -c fluent.conf --dry-run"
+    description: "Validate configuration without starting"
+  - command: "fluentd -c fluent.conf -vv"
+    description: "Start with verbose logging"
+  risks:
+  - level: "medium"
+    description: "Incorrect config may cause log loss or performance issues"
+  install_method: "gem install fluentd or use td-agent package"
+  version_check: "fluentd --version"
+
+- name: "fluent-bit -c"
+  description: "Start Fluent Bit with configuration file"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  install_required: true
+  usage:
+  - "fluent-bit -c [config-file]"
+  options:
+  - flag: "-c"
+    description: "Configuration file path"
+  - flag: "-v"
+    description: "Increase verbosity"
+  - flag: "--dry-run"
+    description: "Check configuration without starting"
+  examples:
+  - command: "fluent-bit -c /etc/fluent-bit/fluent-bit.conf"
+    description: "Start Fluent Bit with config"
+  - command: "fluent-bit -c fluent-bit.conf --dry-run"
+    description: "Validate configuration"
+  - command: "fluent-bit -c fluent-bit.conf -v"
+    description: "Start with verbose output"
+  risks:
+  - level: "medium"
+    description: "Incorrect config may cause log loss"
+  install_method: "Download from https://fluentbit.io/ or package manager"
+  version_check: "fluent-bit --version"
+
+  # SystemD Service Commands
+- name: "systemctl status prometheus"
+  description: "Check Prometheus service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status prometheus"
+  examples:
+  - command: "systemctl status prometheus"
+    description: "View Prometheus service status"
+  - command: "systemctl start prometheus"
+    description: "Start Prometheus service"
+  - command: "systemctl restart prometheus"
+    description: "Restart Prometheus service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "medium"
+    description: "Restarting Prometheus causes brief monitoring gap"
+  install_method: "Built-in systemd command"
+  version_check: "systemctl --version"
+
+- name: "systemctl status grafana-server"
+  description: "Check Grafana service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status grafana-server"
+  examples:
+  - command: "systemctl status grafana-server"
+    description: "View Grafana service status"
+  - command: "systemctl start grafana-server"
+    description: "Start Grafana service"
+  - command: "systemctl restart grafana-server"
+    description: "Restart Grafana service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "medium"
+    description: "Restarting Grafana disrupts dashboard access"
+  install_method: "Built-in systemd command"
+  version_check: "systemctl --version"
+
+- name: "systemctl status loki"
+  description: "Check Loki service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status loki"
+  examples:
+  - command: "systemctl status loki"
+    description: "View Loki service status"
+  - command: "systemctl start loki"
+    description: "Start Loki service"
+  - command: "systemctl restart loki"
+    description: "Restart Loki service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "medium"
+    description: "Restarting Loki causes log ingestion interruption"
+  install_method: "Built-in systemd command"
+  version_check: "systemctl --version"
+
+- name: "systemctl status promtail"
+  description: "Check Promtail service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status promtail"
+  examples:
+  - command: "systemctl status promtail"
+    description: "View Promtail service status"
+  - command: "systemctl start promtail"
+    description: "Start Promtail service"
+  - command: "systemctl restart promtail"
+    description: "Restart Promtail service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "medium"
+    description: "Restarting Promtail causes log collection gap"
+  install_method: "Built-in systemd command"
+  version_check: "systemctl --version"
+
+  # Advanced Monitoring and Alerting Commands
+- name: "kubectl get prometheuses"
+  description: "List Prometheus instances managed by Prometheus Operator"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get prometheuses [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  - flag: "-o"
+    description: "Output format (wide, yaml, json)"
+  examples:
+  - command: "kubectl get prometheuses -n monitoring"
+    description: "List Prometheus instances in monitoring namespace"
+  - command: "kubectl get prometheuses -A -o wide"
+    description: "List all Prometheus instances with detailed info"
+  - command: "kubectl get prometheuses kube-prometheus-stack-prometheus -n monitoring
+      -o yaml"
+    description: "Get detailed YAML configuration"
+  risks:
+  - level: "low"
+    description: "Read-only operation; requires Prometheus Operator"
+  install_method: "kubectl with Prometheus Operator CRDs"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get servicemonitors"
+  description: "List ServiceMonitor resources for automatic service discovery"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get servicemonitors [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get servicemonitors -n monitoring"
+    description: "List ServiceMonitors in monitoring namespace"
+  - command: "kubectl get servicemonitors -A"
+    description: "List ServiceMonitors across all namespaces"
+  - command: "kubectl describe servicemonitor myapp-monitor -n production"
+    description: "Describe specific ServiceMonitor configuration"
+  risks:
+  - level: "low"
+    description: "Read-only operation; shows monitoring targets"
+  install_method: "kubectl with Prometheus Operator CRDs"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get podmonitors"
+  description: "List PodMonitor resources for direct pod monitoring"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get podmonitors [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get podmonitors -n monitoring"
+    description: "List PodMonitors in monitoring namespace"
+  - command: "kubectl describe podmonitor batch-jobs-monitor -n production"
+    description: "Describe batch job monitoring configuration"
+  risks:
+  - level: "low"
+    description: "Read-only operation; shows pod monitoring configs"
+  install_method: "kubectl with Prometheus Operator CRDs"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get prometheusrules"
+  description: "List PrometheusRule resources containing alerting and recording rules"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get prometheusrules [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get prometheusrules -n monitoring"
+    description: "List Prometheus rules in monitoring namespace"
+  - command: "kubectl get prometheusrules -A"
+    description: "List rules across all namespaces"
+  - command: "kubectl describe prometheusrule k8s-alerts -n monitoring"
+    description: "Describe Kubernetes alerting rules"
+  risks:
+  - level: "low"
+    description: "Read-only operation; shows alert rules"
+  install_method: "kubectl with Prometheus Operator CRDs"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get thanosrulers"
+  description: "List Thanos Ruler instances for distributed alerting"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get thanosrulers [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get thanosrulers -n monitoring"
+    description: "List Thanos rulers in monitoring namespace"
+  - command: "kubectl describe thanosruler production-ruler -n monitoring"
+    description: "Describe Thanos ruler configuration"
+  risks:
+  - level: "low"
+    description: "Read-only operation; requires Thanos deployment"
+  install_method: "kubectl with Thanos Operator CRDs"
+  version_check: "kubectl version --client"
+
+- name: "kubectl port-forward svc/prometheus-operated"
+  description: "Port forward to access Prometheus web UI"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl port-forward svc/[prometheus-service] [local-port]:9090"
+  examples:
+  - command: "kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring"
+    description: "Access Prometheus UI locally on port 9090"
+  - command: "kubectl port-forward svc/kube-prometheus-stack-prometheus 9090:9090
+      -n monitoring"
+    description: "Access Prometheus from kube-prometheus-stack"
+  - command: "kubectl port-forward svc/thanos-query 9090:9090 -n monitoring"
+    description: "Access Thanos Query frontend"
+  risks:
+  - level: "medium"
+    description: "Exposes monitoring interface; may contain sensitive metrics"
+  install_method: "kubectl built-in command"
+  version_check: "kubectl version --client"
+
+- name: "kubectl port-forward svc/grafana"
+  description: "Port forward to access Grafana dashboard"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl port-forward svc/grafana [local-port]:3000"
+  examples:
+  - command: "kubectl port-forward svc/grafana 3000:3000 -n monitoring"
+    description: "Access Grafana dashboard locally on port 3000"
+  - command: "kubectl port-forward svc/kube-prometheus-stack-grafana 3000:80 -n monitoring"
+    description: "Access Grafana from kube-prometheus-stack"
+  risks:
+  - level: "medium"
+    description: "Exposes dashboard interface; may contain sensitive data"
+  install_method: "kubectl built-in command"
+  version_check: "kubectl version --client"
+
+- name: "kubectl port-forward svc/alertmanager-operated"
+  description: "Port forward to access Alertmanager UI"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl port-forward svc/[alertmanager-service] [local-port]:9093"
+  examples:
+  - command: "kubectl port-forward svc/alertmanager-operated 9093:9093 -n monitoring"
+    description: "Access Alertmanager UI locally on port 9093"
+  - command: "kubectl port-forward svc/kube-prometheus-stack-alertmanager 9093:9093
+      -n monitoring"
+    description: "Access Alertmanager from kube-prometheus-stack"
+  risks:
+  - level: "medium"
+    description: "Exposes alert management interface"
+  install_method: "kubectl built-in command"
+  version_check: "kubectl version --client"
+
+- name: "kubectl logs -f deployment/prometheus-operator"
+  description: "Stream logs from Prometheus Operator for troubleshooting"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl logs -f deployment/[prometheus-operator-deployment] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "--since"
+    description: "Show logs from specific time"
+  - flag: "--tail"
+    description: "Number of lines to show from end"
+  examples:
+  - command: "kubectl logs -f deployment/prometheus-operator -n monitoring"
+    description: "Stream operator logs for real-time monitoring"
+  - command: "kubectl logs deployment/prometheus-operator -n monitoring --since=1h"
+    description: "View last hour of operator logs"
+  - command: "kubectl logs deployment/prometheus-operator -n monitoring --tail=100"
+    description: "View last 100 lines of logs"
+  risks:
+  - level: "low"
+    description: "Read-only log viewing; may contain sensitive information"
+  install_method: "kubectl built-in command"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get prometheusagents"
+  description: "List Prometheus Agent mode instances for lightweight monitoring"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get prometheusagents [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get prometheusagents -n monitoring"
+    description: "List Prometheus agents in monitoring namespace"
+  - command: "kubectl describe prometheusagent edge-monitor -n monitoring"
+    description: "Describe agent configuration for edge monitoring"
+  risks:
+  - level: "low"
+    description: "Read-only operation; requires Prometheus Agent CRDs"
+  install_method: "kubectl with Prometheus Operator v0.64+"
+  version_check: "kubectl version --client"
+
+- name: "kubectl get scrapeconfigs"
+  description: "List ScrapeConfig resources for external target monitoring"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectl get scrapeconfigs [name] [flags]"
+  options:
+  - flag: "-n"
+    description: "Specify namespace"
+  - flag: "-A"
+    description: "All namespaces"
+  examples:
+  - command: "kubectl get scrapeconfigs -n monitoring"
+    description: "List scrape configurations in monitoring namespace"
+  - command: "kubectl describe scrapeconfig external-db-monitor -n monitoring"
+    description: "Describe external database monitoring config"
+  risks:
+  - level: "low"
+    description: "Read-only operation; shows external monitoring targets"
+  install_method: "kubectl with Prometheus Operator v0.65+"
+  version_check: "kubectl version --client"
+
+- name: "systemctl status fluentd"
+  description: "Check Fluentd service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status fluentd"
+  examples:
+  - command: "systemctl status fluentd"
+    description: "View Fluentd service status"
+  - command: "systemctl start fluentd"
+    description: "Start Fluentd service"
+  - command: "systemctl restart fluentd"
+    description: "Restart Fluentd service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "medium"
+    description: "Restarting Fluentd causes log collection interruption"
+  install_method: "Built-in systemd command"
+  version_check: "systemctl --version"
+
+- name: "systemctl status kube-state-metrics"
+  description: "Check kube-state-metrics service status"
+  category: "Kubernetes Monitoring & Logging"
+  platforms:
+  - "linux"
+  install_required: false
+  usage:
+  - "systemctl status kube-state-metrics"
+  examples:
+  - command: "systemctl status kube-state-metrics"
+    description: "View kube-state-metrics status"
+  - command: "systemctl start kube-state-metrics"
+    description: "Start kube-state-metrics service"
+  - command: "systemctl restart kube-state-metrics"
+    description: "Restart kube-state-metrics service"
+  risks:
+  - level: "low"
+    description: "Read-only status check; no risks"
+  - level: "low"
+    description: "Restarting causes brief metrics gap"
+  install_method: "Usually deployed as Kubernetes deployment"
+  version_check: "systemctl --version"

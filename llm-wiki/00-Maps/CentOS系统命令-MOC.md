@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 操作系统/CentOS系统命令
-moc_order: 0
-tags:
-- MOC
-- AI
-- CentOS系统命令
+{
+  "moc_type": "dimension",
+  "moc_name": "操作系统/CentOS系统命令",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "CentOS系统命令"
+  ]
+}
 ---
-
 
 # 操作系统/CentOS系统命令
 

@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/AI网关
-moc_order: 0
-tags:
-- MOC
-- AI
-- AI网关
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/AI网关",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "AI网关"
+  ]
+}
 ---
-
 
 # AI基础设施/AI网关
 

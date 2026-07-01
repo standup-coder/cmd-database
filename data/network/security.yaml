@@ -1,0 +1,212 @@
+category: 网络工具/网络安全
+description: 网络扫描、探测与安全测试命令
+commands:
+- name: nmap
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: 包管理器安装，如 sudo apt install nmap / sudo yum install nmap
+  description: 网络发现与安全审计扫描工具
+  usage:
+  - nmap [OPTIONS] TARGET
+  options:
+  - flag: -sS
+    description: SYN 半开放扫描（需要 root）
+  - flag: -sV
+    description: 探测服务版本
+  - flag: -O
+    description: 探测操作系统
+  - flag: -p
+    description: 指定端口范围
+  examples:
+  - command: nmap 192.168.1.1
+    description: 扫描目标主机的常用端口
+  - command: sudo nmap -sS -sV -O 192.168.1.0/24
+    description: 扫描网段并识别服务和操作系统
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - masscan
+  - httpx
+  risks:
+  - level: high
+    description: 对未授权目标扫描可能违反法律或安全策略，请确保获得书面授权
+
+  - level: high
+    description: 安全工具可能产生攻击性流量，请仅在授权资产和可控环境中使用，并留存审计日志。
+- name: masscan
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: 参考 https://github.com/robertdavidgraham/masscan
+  description: 高速互联网规模端口扫描器
+  usage:
+  - masscan [OPTIONS] TARGET -p PORTS
+  options:
+  - flag: -p
+    description: 指定端口范围，如 1-65535
+  - flag: --rate
+    description: 设置每秒发送数据包数量
+  examples:
+  - command: sudo masscan 192.168.1.0/24 -p80,443 --rate 1000
+    description: 扫描网段的 80 和 443 端口
+  - command: sudo masscan 0.0.0.0/0 -p0-65535 --max-rate 10000
+    description: 全互联网端口扫描（需合法授权）
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nmap
+  risks:
+  - level: critical
+    description: 高速扫描会产生大量流量，极易被检测并可能触发法律后果，严禁对未授权目标使用
+
+  - level: critical
+    description: 安全工具可能产生攻击性流量，请仅在授权资产和可控环境中使用，并留存审计日志。
+- name: nuclei
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: 参考 https://github.com/projectdiscovery/nuclei/releases
+  description: 基于模板的快速漏洞扫描器
+  usage:
+  - nuclei [OPTIONS]
+  options:
+  - flag: -u
+    description: 指定目标 URL
+  - flag: -t
+    description: 指定模板或模板目录
+  - flag: -severity
+    description: 按严重程度过滤（info/low/medium/high/critical）
+  examples:
+  - command: nuclei -u https://example.com
+    description: 对目标网站进行默认模板扫描
+  - command: nuclei -u https://example.com -severity high,critical
+    description: 只扫描高危和严重漏洞
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - httpx
+  - subfinder
+  risks:
+  - level: high
+    description: 漏洞扫描可能对目标服务造成压力，请仅对授权资产执行
+
+  - level: high
+    description: 安全工具可能产生攻击性流量，请仅在授权资产和可控环境中使用，并留存审计日志。
+- name: httpx
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: 参考 https://github.com/projectdiscovery/httpx/releases
+  description: 快速多线程 HTTP 探活与信息收集工具
+  usage:
+  - httpx [OPTIONS]
+  options:
+  - flag: -l
+    description: 指定包含 URL 列表的文件
+  - flag: -status-code
+    description: 显示响应状态码
+  - flag: -title
+    description: 显示页面标题
+  examples:
+  - command: echo "example.com" | httpx -status-code -title
+    description: 探测单个域名并显示状态码和标题
+  - command: httpx -l urls.txt -o live.txt
+    description: 批量探测存活 URL 并输出到文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - nuclei
+  - subfinder
+  risks:
+  - level: medium
+    description: 批量探测应限制速率，避免对目标造成拒绝服务或被封禁
+
+- name: subfinder
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: 参考 https://github.com/projectdiscovery/subfinder/releases
+  description: 子域名发现工具
+  usage:
+  - subfinder [OPTIONS]
+  options:
+  - flag: -d
+    description: 指定目标域名
+  - flag: -o
+    description: 输出结果文件
+  examples:
+  - command: subfinder -d example.com
+    description: 发现 example.com 的子域名
+  - command: subfinder -d example.com -o subs.txt
+    description: 将子域名结果保存到文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - httpx
+  - nuclei
+  risks:
+  - level: medium
+    description: 子域名枚举应仅针对自己拥有或授权评估的域名
+
+- name: nc
+  category: 网络工具/网络安全
+  install_required: false
+  description: Netcat，网络工具中的瑞士军刀，用于读写网络连接
+  usage:
+  - nc [OPTIONS] HOST PORT
+  options:
+  - flag: -l
+    description: 监听模式
+  - flag: -v
+    description: 显示详细输出
+  - flag: -z
+    description: 零 I/O 扫描模式
+  examples:
+  - command: nc -zv 192.168.1.1 22
+    description: 扫描目标主机的 22 端口是否开放
+  - command: nc -l 8080
+    description: 在本地 8080 端口监听连接
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nmap
+  - socat
+  risks:
+  - level: medium
+    description: 监听模式可能暴露服务到网络，请确认防火墙和访问范围
+
+- name: mitmproxy
+  category: 网络工具/网络安全
+  install_required: true
+  install_method: pip install mitmproxy 或参考官网 https://mitmproxy.org/
+  description: 交互式 HTTPS 代理与流量分析工具
+  usage:
+  - mitmproxy [OPTIONS]
+  options:
+  - flag: --mode
+    description: 运行模式（regular、transparent、reverse 等）
+  - flag: --listen-port
+    description: 监听端口
+  examples:
+  - command: mitmproxy
+    description: 启动交互式代理界面
+  - command: mitmweb --listen-port 8080
+    description: 启动 Web 界面代理
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - curl
+  - wireshark
+  risks:
+  - level: high
+    description: 拦截 HTTPS 需要安装自定义证书，可能违反合规政策并泄露敏感流量，请获得授权
+  - level: high
+    description: 安全工具可能产生攻击性流量，请仅在授权资产和可控环境中使用，并留存审计日志。

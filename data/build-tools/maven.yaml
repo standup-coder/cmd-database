@@ -1,0 +1,110 @@
+category: "构建工具/Maven"
+description: "Apache Maven 项目管理和构建工具"
+commands:
+- name: mvn
+  category: "构建工具/Maven"
+  install_required: true
+  install_method: "sdk install maven (macOS) 或 apt install maven (Ubuntu)"
+  description: "Apache Maven 项目管理工具，用于构建和管理 Java 项目"
+  usage:
+  - "mvn [选项] [阶段]"
+  - "mvn [阶段1] [阶段2] ... [阶段N]"
+  options:
+  - flag: "-f"
+    description: "指定 POM 文件路径"
+  - flag: "-pl"
+    description: "指定构建的模块"
+  - flag: "-am"
+    description: "同时构建依赖模块"
+  - flag: "-DskipTests"
+    description: "跳过测试"
+  - flag: "-o"
+    description: "指定输出目录"
+  - flag: "-U"
+    description: "强制更新快照版本"
+  examples:
+  - command: "mvn clean install"
+    description: "清理并安装到本地仓库"
+  - command: "mvn clean package -DskipTests"
+    description: "打包跳过测试"
+  - command: "mvn dependency:tree"
+    description: "查看依赖树"
+  - command: "mvn archetype:generate -DgroupId=com.example -DartifactId=my-app"
+    description: "从原型生成新项目"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: "clean 会删除 target 目录，操作不可逆"
+  - level: high
+    description: "deploy 会发布到远程仓库，请确认目标仓库"
+  related_commands:
+  - "gradle"
+  - "make"
+
+- name: mvn dependency
+  category: "构建工具/Maven"
+  install_required: true
+  install_method: "同 mvn"
+  description: "Maven 依赖管理子命令"
+  usage:
+  - "mvn dependency:tree"
+  - "mvn dependency:resolve"
+  - "mvn dependency:analyze"
+  examples:
+  - command: "mvn dependency:tree -Dverbose"
+    description: "查看完整依赖树"
+  - command: mvn dependency:tree -DoutputFile=deps.txt
+    description: 导出依赖树到文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: mvn archetype
+  category: "构建工具/Maven"
+  install_required: true
+  install_method: "同 mvn"
+  description: "Maven 项目原型生成工具"
+  usage:
+  - "mvn archetype:generate -DgroupId=... -DartifactId=..."
+  examples:
+  - command: "mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart"
+    description: "生成 Maven 快速启动项目"
+  - command: mvn archetype:generate -B 
+      -DarchetypeArtifactId=maven-archetype-quickstart
+    description: 非交互式生成项目
+  platforms:
+  - linux
+  - darwin
+  - windows
+
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: mvn clean
+  category: "构建工具/Maven"
+  install_required: true
+  install_method: "同 mvn"
+  description: "清理构建输出目录(target)"
+  usage:
+  - "mvn clean"
+  examples:
+  - command: "mvn clean install"
+    description: "清理后重新安装"
+  - command: mvn clean package -DskipTests
+    description: 清理并打包（跳过测试）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: "会删除 target 目录及其所有内容，不可恢复"
+  - level: high
+    description: 安装到系统目录可能影响其他项目，建议使用本地前缀或在隔离环境中执行。

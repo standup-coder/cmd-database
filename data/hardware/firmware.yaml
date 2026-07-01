@@ -1,0 +1,215 @@
+category: 硬件/固件与UEFI
+description: BIOS/UEFI、固件更新、启动项管理
+commands:
+- name: fwupd
+  category: 硬件/固件与UEFI
+  install_required: true
+  description: Linux 固件更新守护进程与工具
+  usage:
+  - fwupdmgr [OPTIONS] COMMAND
+  options:
+  - flag: get-devices
+    description: ''
+  - flag: get-updates
+    description: ''
+  - flag: update
+    description: ''
+  - flag: refresh
+    description: ''
+  examples:
+  - command: fwupdmgr get-devices
+    description: 列出可更新设备
+  - command: fwupdmgr update
+    description: 安装可用固件更新
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - efibootmgr
+  - flashrom
+  install_method: 包管理器安装 fwupd
+  risks:
+  - level: high
+    description: 固件更新失败可能导致硬件变砖，请确保电源稳定
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: efibootmgr
+  category: 硬件/固件与UEFI
+  install_required: true
+  description: 管理 UEFI 启动项
+  usage:
+  - efibootmgr [OPTIONS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -c
+    description: 创建
+  - flag: -b
+    description: 指定条目
+  - flag: -B
+    description: 删除
+  - flag: -n
+    description: 设置下次启动
+  examples:
+  - command: efibootmgr -v
+    description: 列出启动项
+  - command: sudo efibootmgr -c -d /dev/sda -p 1 -l '\EFI\ubuntu\grubx64.efi' -L
+      Ubuntu
+    description: 添加启动项
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - efivar
+  - grub-install
+  install_method: 多数 Linux 预装或 efibootmgr 包
+  risks:
+  - level: critical
+    description: 删除或修改错误的启动项会导致系统无法启动
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: efivar
+  category: 硬件/固件与UEFI
+  install_required: false
+  description: 读取和写入 UEFI 变量
+  usage:
+  - efivar [OPTIONS] [NAME]
+  options:
+  - flag: -l
+    description: 列出
+  - flag: -p
+    description: 打印
+  - flag: -a
+    description: 追加
+  - flag: -f
+    description: 文件
+  examples:
+  - command: efivar -l
+    description: 列出 UEFI 变量
+  - command: efivar -p -n BootOrder
+    description: 打印启动顺序
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - efibootmgr
+  - mokutil
+  risks:
+  - level: high
+    description: 修改 UEFI 变量可能导致启动失败或安全策略变更
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: mokutil
+  category: 硬件/固件与UEFI
+  install_required: true
+  description: 管理 UEFI Secure Boot MOK
+  usage:
+  - mokutil [OPTIONS] [ARGS]
+  options:
+  - flag: --sb-state
+    description: ''
+  - flag: --list-enrolled
+    description: ''
+  - flag: --import
+    description: ''
+  - flag: --delete
+    description: ''
+  examples:
+  - command: mokutil --sb-state
+    description: 查看 Secure Boot 状态
+  - command: sudo mokutil --import MOK.der
+    description: 导入 MOK
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - efibootmgr
+  - fwupd
+  install_method: 包管理器安装 mokutil
+  risks:
+  - level: high
+    description: 错误的 MOK 管理可能导致驱动无法加载或安全策略破坏
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: flashrom
+  category: 硬件/固件与UEFI
+  install_required: true
+  description: 读取/写入/擦除闪存芯片
+  usage:
+  - flashrom [OPTIONS]
+  options:
+  - flag: -r
+    description: 读取
+  - flag: -w
+    description: 写入
+  - flag: -v
+    description: 校验
+  - flag: -p
+    description: 编程器
+  examples:
+  - command: flashrom -p internal -r backup.rom
+    description: 备份主板 BIOS
+  - command: flashrom -p internal -w new.rom
+    description: 刷写 BIOS
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - fwupd
+  - dmidecode
+  install_method: 包管理器安装 flashrom
+  risks:
+  - level: critical
+    description: 刷写 BIOS 失败可能导致主板变砖，请谨慎
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: biosdecode
+  category: 硬件/固件与UEFI
+  install_required: false
+  description: 解析 BIOS 信息
+  usage:
+  - biosdecode [OPTIONS] [ARGS]
+  options:
+  - flag: -d
+    description: 转储
+  - flag: -h
+    description: 帮助
+  examples:
+  - command: biosdecode
+    description: 解析 BIOS
+  - command: sudo biosdecode
+    description: 以 root 解析 BIOS
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dmidecode
+  - vpddecode
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: vpddecode
+  category: 硬件/固件与UEFI
+  install_required: false
+  description: 解析 VPD（重要产品数据）
+  usage:
+  - vpddecode [OPTIONS] [ARGS]
+  options:
+  - flag: -s
+    description: 只显示系统
+  - flag: -b
+    description: 只显示 baseboard
+  examples:
+  - command: vpddecode
+    description: 显示 VPD
+  - command: sudo vpddecode
+    description: 以 root 解析 VPD
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dmidecode
+  - biosdecode
+  risks:
+  - level: low
+    description: 只读解析 VPD 信息，风险较低。

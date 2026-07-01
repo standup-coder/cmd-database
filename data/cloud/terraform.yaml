@@ -30,3 +30,6 @@ commands:
   - terraform plan
   - terraform apply
   - terraform init
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

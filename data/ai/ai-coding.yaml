@@ -1,160 +1,173 @@
 category: "AI基础设施/AI编程"
 description: "AI辅助编程工具与Coding Agent，终端IDE集成、自动代码生成、Issue修复"
 commands:
-  - name: aider
-    category: "AI基础设施/AI编程"
-    install_required: true
-    install_method: "pip install aider-chat"
-    description: "Aider终端AI编程助手，多文件编辑、Git集成、支持GPT-4/Claude，自动提交更改"
-    usage:
-      - "aider [OPTIONS] [FILES]"
-    options:
-      - flag: "--model"
-        description: "模型名称"
-      - flag: "--edit-format"
-        description: "编辑格式 (diff, whole, udiff)"
-      - flag: "--commit"
-        description: "自动提交更改"
-      - flag: "--test-cmd"
-        description: "测试命令"
-    examples:
-      - command: "aider --model gpt-4 --commit"
-        description: "GPT-4模式，自动Git提交"
-      - command: "aider src/main.py src/utils.py"
-        description: "指定文件进行AI编辑"
-      - command: "aider --test-cmd 'pytest' --model claude-3-5-sonnet"
-        description: "带测试反馈的Sonnet编程"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "openhands"
-      - "swe-agent"
-    risks:
-      - level: high
-        description: "自动修改代码需审查，防止破坏代码库"
-    references:
-      - "https://github.com/paul-gauthier/aider"
+- name: aider
+  category: "AI基础设施/AI编程"
+  install_required: true
+  install_method: "pip install aider-chat"
+  description: "Aider终端AI编程助手，多文件编辑、Git集成、支持GPT-4/Claude，自动提交更改"
+  usage:
+  - "aider [OPTIONS] [FILES]"
+  options:
+  - flag: "--model"
+    description: "模型名称"
+  - flag: "--edit-format"
+    description: "编辑格式 (diff, whole, udiff)"
+  - flag: "--commit"
+    description: "自动提交更改"
+  - flag: "--test-cmd"
+    description: "测试命令"
+  examples:
+  - command: "aider --model gpt-4 --commit"
+    description: "GPT-4模式，自动Git提交"
+  - command: "aider src/main.py src/utils.py"
+    description: "指定文件进行AI编辑"
+  - command: "aider --test-cmd 'pytest' --model claude-3-5-sonnet"
+    description: "带测试反馈的Sonnet编程"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "openhands"
+  - "swe-agent"
+  risks:
+  - level: high
+    description: "自动修改代码需审查，防止破坏代码库"
+  - level: high
+    description: AI 自动修改代码可能引入 Bug 或破坏构建，建议通过 Code Review 和 CI 后再合并。
+  references:
+  - "https://github.com/paul-gauthier/aider"
 
-  - name: openhands
-    category: "AI基础设施/AI编程"
-    install_required: true
-    install_method: "docker pull ghcr.io/all-hands-ai/runtime"
-    description: "OpenHands (原OpenDevin) 开源AI软件工程师，自主完成开发任务，支持多Agent协作"
-    usage:
-      - "docker run [OPTIONS] ghcr.io/all-hands-ai/runtime"
-      - "make build && make run"
-    options:
-      - flag: "--name"
-        description: "任务名称"
-      - flag: "WORKSPACE_MOUNT_PATH"
-        description: "工作目录挂载"
-    examples:
-      - command: "WORKSPACE_BASE=$(pwd) docker compose up"
-        description: "Docker Compose启动OpenHands"
-      - command: "python -m openhands.core.main -t 'Implement a REST API for user authentication'"
-        description: "命令行指定任务"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "aider"
-      - "swe-agent"
-    risks:
-      - level: critical
-        description: "AI自主执行命令需沙箱隔离，防止破坏系统"
-    references:
-      - "https://github.com/All-Hands-AI/OpenHands"
+- name: openhands
+  category: "AI基础设施/AI编程"
+  install_required: true
+  install_method: "docker pull ghcr.io/all-hands-ai/runtime"
+  description: "OpenHands (原OpenDevin) 开源AI软件工程师，自主完成开发任务，支持多Agent协作"
+  usage:
+  - "docker run [OPTIONS] ghcr.io/all-hands-ai/runtime"
+  - "make build && make run"
+  options:
+  - flag: "--name"
+    description: "任务名称"
+  - flag: "WORKSPACE_MOUNT_PATH"
+    description: "工作目录挂载"
+  examples:
+  - command: "WORKSPACE_BASE=$(pwd) docker compose up"
+    description: "Docker Compose启动OpenHands"
+  - command: "python -m openhands.core.main -t 'Implement a REST API for user authentication'"
+    description: "命令行指定任务"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "aider"
+  - "swe-agent"
+  risks:
+  - level: critical
+    description: "AI自主执行命令需沙箱隔离，防止破坏系统"
+  - level: critical
+    description: AI 自动修改代码可能引入 Bug 或破坏构建，建议通过 Code Review 和 CI 后再合并。
+  references:
+  - "https://github.com/All-Hands-AI/OpenHands"
 
-  - name: swe-agent
-    category: "AI基础设施/AI编程"
-    install_required: true
-    install_method: "git clone https://github.com/princeton-nlp/SWE-agent.git && pip install -e ."
-    description: "SWE-Agent自动修复GitHub Issue，分析Issue、编辑代码、运行测试验证修复"
-    usage:
-      - "sweagent [COMMAND] [OPTIONS]"
-    options:
-      - flag: "run"
-        description: "运行Agent修复任务"
-      - flag: "--agent"
-        description: "Agent配置"
-      - flag: "--model"
-        description: "模型名称"
-    examples:
-      - command: "sweagent run --agent_config config/default.yaml --model_name gpt-4 --data_path https://github.com/django/django/issues/xxxxx"
-        description: "自动修复Django Issue"
-      - command: "python run.py --model claude-3-5-sonnet --per_instance_cost_limit 2.00"
-        description: "成本限制内修复Bug"
-    platforms:
-      - "linux"
-      - "darwin"
-    related_commands:
-      - "aider"
-      - "openhands"
-    risks:
-      - level: critical
-        description: "执行真实代码修改，需隔离环境"
-    references:
-      - "https://github.com/princeton-nlp/SWE-agent"
+- name: swe-agent
+  category: "AI基础设施/AI编程"
+  install_required: true
+  install_method: "git clone https://github.com/princeton-nlp/SWE-agent.git && pip
+    install -e ."
+  description: "SWE-Agent自动修复GitHub Issue，分析Issue、编辑代码、运行测试验证修复"
+  usage:
+  - "sweagent [COMMAND] [OPTIONS]"
+  options:
+  - flag: "run"
+    description: "运行Agent修复任务"
+  - flag: "--agent"
+    description: "Agent配置"
+  - flag: "--model"
+    description: "模型名称"
+  examples:
+  - command: "sweagent run --agent_config config/default.yaml --model_name gpt-4 --data_path
+      https://github.com/django/django/issues/xxxxx"
+    description: "自动修复Django Issue"
+  - command: "python run.py --model claude-3-5-sonnet --per_instance_cost_limit 2.00"
+    description: "成本限制内修复Bug"
+  platforms:
+  - "linux"
+  - "darwin"
+  related_commands:
+  - "aider"
+  - "openhands"
+  risks:
+  - level: critical
+    description: "执行真实代码修改，需隔离环境"
+  - level: critical
+    description: AI 自动修改代码可能引入 Bug 或破坏构建，建议通过 Code Review 和 CI 后再合并。
+  references:
+  - "https://github.com/princeton-nlp/SWE-agent"
 
-  - name: continue-dev
-    category: "AI基础设施/AI编程"
-    install_required: true
-    install_method: "VS Code/Cursor 插件市场安装 Continue"
-    description: "Continue.dev开源IDE AI编程助手，支持VS Code/JetBrains，本地/云端模型自由切换"
-    usage:
-      - "VS Code命令面板 > Continue"
-    options:
-      - flag: "config.json"
-        description: "模型配置"
-      - flag: "cmd+L"
-        description: "打开侧边栏"
-      - flag: "cmd+K"
-        description: "内联编辑"
-    examples:
-      - command: "echo '{\"models\": [{\"title\": \"Ollama\", \"provider\": \"ollama\", \"model\": \"llama3.1\"}]}' > ~/.continue/config.json"
-        description: "配置本地Ollama模型"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "aider"
-      - "codeium"
-    risks:
-      - level: low
-        description: "IDE插件风险较低"
-    references:
-      - "https://www.continue.dev/"
+- name: continue-dev
+  category: "AI基础设施/AI编程"
+  install_required: true
+  install_method: "VS Code/Cursor 插件市场安装 Continue"
+  description: "Continue.dev开源IDE AI编程助手，支持VS Code/JetBrains，本地/云端模型自由切换"
+  usage:
+  - "VS Code命令面板 > Continue"
+  options:
+  - flag: "config.json"
+    description: "模型配置"
+  - flag: "cmd+L"
+    description: "打开侧边栏"
+  - flag: "cmd+K"
+    description: "内联编辑"
+  examples:
+  - command: "echo '{\"models\": [{\"title\": \"Ollama\", \"provider\": \"ollama\"\
+      , \"model\": \"llama3.1\"}]}' > ~/.continue/config.json"
+    description: "配置本地Ollama模型"
+  - command: continue-dev --version
+    description: 查看 Continue 版本
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "aider"
+  - "codeium"
+  risks:
+  - level: low
+    description: "IDE插件风险较低"
+  references:
+  - "https://www.continue.dev/"
 
-  - name: codeium
-    category: "AI基础设施/AI编程"
-    install_required: true
-    install_method: "VS Code/JetBrains/NeoVim 插件市场安装 Codeium"
-    description: "Codeium免费AI代码补全工具，个人版无限使用，支持70+语言和40+IDE"
-    usage:
-      - "IDE内自动触发代码补全"
-    options:
-      - flag: "Tab"
-        description: "接受建议"
-      - flag: "Alt+["
-        description: "上一个建议"
-      - flag: "Alt+]"
-        description: "下一个建议"
-    examples:
-      - command: "codeium --install-local"
-        description: "安装本地自托管版本"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "continue-dev"
-      - "aider"
-    risks:
-      - level: low
-        description: "代码补全工具风险较低"
-    references:
-      - "https://codeium.com/"
+- name: codeium
+  category: "AI基础设施/AI编程"
+  install_required: true
+  install_method: "VS Code/JetBrains/NeoVim 插件市场安装 Codeium"
+  description: "Codeium免费AI代码补全工具，个人版无限使用，支持70+语言和40+IDE"
+  usage:
+  - "IDE内自动触发代码补全"
+  options:
+  - flag: "Tab"
+    description: "接受建议"
+  - flag: "Alt+["
+    description: "上一个建议"
+  - flag: "Alt+]"
+    description: "下一个建议"
+  examples:
+  - command: "codeium --install-local"
+    description: "安装本地自托管版本"
+  - command: codeium --status
+    description: 查看 Codeium 服务状态
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "continue-dev"
+  - "aider"
+  risks:
+  - level: low
+    description: "代码补全工具风险较低"
+  references:
+  - "https://codeium.com/"

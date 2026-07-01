@@ -1,0 +1,1049 @@
+category: 操作系统/Linux核心
+description: Linux 系统、网络、存储、硬件等核心底层命令
+commands:
+- name: ip
+  category: 操作系统/Linux核心
+  install_required: false
+  description: Linux 网络配置与路由管理核心工具
+  usage:
+  - ip [OPTIONS] OBJECT {COMMAND}
+  options:
+  - flag: -s
+    description: 显示统计
+  - flag: '-4'
+    description: 仅 IPv4
+  - flag: '-6'
+    description: 仅 IPv6
+  - flag: -br
+    description: 简要输出
+  examples:
+  - command: ip addr show
+    description: 显示网卡地址
+  - command: sudo ip route add default via 192.168.1.1
+    description: 添加默认路由
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iptables
+  - nmcli
+  - ss
+  risks:
+  - level: high
+    description: 修改地址、路由或链路状态可能导致网络中断，远程操作时尤其危险
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: iptables
+  category: 操作系统/Linux核心
+  install_required: false
+  description: IPv4 包过滤与 NAT 防火墙
+  usage:
+  - iptables [OPTIONS] -t table -A chain rule
+  options:
+  - flag: -A
+    description: 追加规则
+  - flag: -D
+    description: 删除规则
+  - flag: -L
+    description: 列出规则
+  - flag: -F
+    description: 清空规则
+  examples:
+  - command: sudo iptables -L -v -n
+    description: 列出当前规则
+  - command: sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+    description: 允许 SSH
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nftables
+  - ip
+  - ufw
+  risks:
+  - level: high
+    description: 错误的规则会阻断合法流量或放行攻击，修改前请保存并测试
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: nftables
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 新一代 nftables 防火墙（nft 命令）
+  usage:
+  - nft [OPTIONS] COMMAND
+  options:
+  - flag: list
+    description: ruleset 列出规则
+  - flag: add
+    description: table 创建表
+  - flag: add
+    description: chain 创建链
+  - flag: add
+    description: rule 添加规则
+  examples:
+  - command: sudo nft list ruleset
+    description: 列出所有规则
+  - command: sudo nft add table ip filter
+    description: 创建 filter 表
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iptables
+  - ip
+  risks:
+  - level: high
+    description: nftables 规则直接影响网络策略，请在本地测试后再应用
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: tc
+  category: 操作系统/Linux核心
+  install_required: false
+  description: Linux 流量控制（Traffic Control）
+  usage:
+  - tc [OPTIONS] qdisc|class|filter ...
+  options:
+  - flag: show
+    description: 显示配置
+  - flag: add
+    description: 添加 qdisc
+  - flag: change
+    description: 修改
+  - flag: del
+    description: 删除
+  examples:
+  - command: tc qdisc show
+    description: 显示当前 qdisc
+  - command: sudo tc qdisc add dev eth0 root netem delay 100ms
+    description: 模拟 100ms 延迟
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iptables
+  - ip
+  risks:
+  - level: high
+    description: 流量控制会改变网络延迟和带宽，生产环境请谨慎
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: ipset
+  category: 操作系统/Linux核心
+  install_required: false
+  description: IP 集合管理，常与 iptables 配合
+  usage:
+  - ipset [OPTIONS] COMMAND
+  options:
+  - flag: create
+    description: 创建集合
+  - flag: add
+    description: 添加成员
+  - flag: del
+    description: 删除成员
+  - flag: list
+    description: 列出
+  examples:
+  - command: sudo ipset create blacklist hash:ip
+    description: 创建 IP 黑名单集合
+  - command: sudo ipset add blacklist 1.2.3.4
+    description: 添加 IP
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iptables
+  - nftables
+  risks:
+  - level: medium
+    description: 误删或误加 IP 会影响防火墙策略，请确认集合用途
+- name: bridge
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 以太网桥管理
+  usage:
+  - bridge [OPTIONS] OBJECT {COMMAND}
+  options:
+  - flag: link
+    description: show 显示桥接端口
+  - flag: fdb
+    description: show 显示转发数据库
+  - flag: vlan
+    description: show 显示 VLAN
+  examples:
+  - command: bridge link show
+    description: 显示桥接接口
+  - command: bridge fdb show
+    description: 显示 MAC 转发表
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ip
+  - nmcli
+  risks:
+  - level: medium
+    description: 桥接配置错误会导致二层网络异常
+- name: netplan
+  category: 操作系统/Linux核心
+  install_required: false
+  description: Ubuntu 网络配置管理工具
+  usage:
+  - netplan [OPTIONS] COMMAND
+  options:
+  - flag: generate
+    description: 生成配置
+  - flag: apply
+    description: 应用配置
+  - flag: try
+    description: 试用配置
+  - flag: info
+    description: 显示信息
+  examples:
+  - command: sudo netplan generate
+    description: 生成网络配置
+  - command: sudo netplan apply
+    description: 应用网络配置
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nmcli
+  - ip
+  risks:
+  - level: high
+    description: netplan apply 会立即修改网络，远程服务器请先用 netplan try
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: nmcli
+  category: 操作系统/Linux核心
+  install_required: false
+  description: NetworkManager 命令行工具
+  usage:
+  - nmcli [OPTIONS] OBJECT {COMMAND}
+  options:
+  - flag: device
+    description: status 设备状态
+  - flag: connection
+    description: up 启用连接
+  - flag: connection
+    description: show 查看连接
+  examples:
+  - command: nmcli device status
+    description: 查看网卡状态
+  - command: nmcli connection up 'Wired connection 1'
+    description: 启用指定连接
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nmtui
+  - ip
+  - netplan
+  risks:
+  - level: medium
+    description: 关闭或切换连接会中断网络，远程操作需谨慎
+- name: resolvectl
+  category: 操作系统/Linux核心
+  install_required: false
+  description: systemd-resolved DNS 解析控制
+  usage:
+  - resolvectl [OPTIONS] COMMAND
+  options:
+  - flag: query
+    description: 解析域名
+  - flag: status
+    description: 查看状态
+  - flag: flush-caches
+    description: 清空缓存
+  examples:
+  - command: resolvectl query example.com
+    description: 查询域名
+  - command: resolvectl flush-caches
+    description: 清空 DNS 缓存
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - dig
+  - systemd-resolve
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: dmesg
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 查看内核环形缓冲区消息
+  usage:
+  - dmesg [OPTIONS] [ARGS]
+  options:
+  - flag: -T
+    description: 人类可读时间
+  - flag: -l
+    description: 按级别过滤
+  - flag: -w
+    description: 实时跟踪
+  - flag: -n
+    description: 设置日志级别
+  examples:
+  - command: dmesg -T
+    description: 查看带时间戳的内核日志
+  - command: dmesg -w
+    description: 实时跟踪内核日志
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - journalctl
+  - sysctl
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: lscpu
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 显示 CPU 架构与信息
+  usage:
+  - lscpu [OPTIONS] [ARGS]
+  options:
+  - flag: -e
+    description: 表格输出
+  - flag: -p
+    description: 解析格式
+  - flag: -a
+    description: 在线与离线 CPU
+  examples:
+  - command: lscpu
+    description: 显示 CPU 信息
+  - command: lscpu -e
+    description: 表格显示每个 CPU
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lspci
+  - lsusb
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: lspci
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 列出 PCI 设备
+  usage:
+  - lspci [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -k
+    description: 显示内核驱动
+  - flag: -nn
+    description: 显示厂商 ID
+  examples:
+  - command: lspci
+    description: 列出 PCI 设备
+  - command: lspci -k | grep -A3 Ethernet
+    description: 查看网卡驱动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lsusb
+  - lscpu
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: lsusb
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 列出 USB 设备
+  usage:
+  - lsusb [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -t
+    description: 树状
+  - flag: -s
+    description: 指定总线/设备
+  examples:
+  - command: lsusb
+    description: 列出 USB 设备
+  - command: 'lsusb -v -d 046d:'
+    description: 查看罗技设备详情
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lspci
+  - dmesg
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: lsmem
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 列出内存信息
+  usage:
+  - lsmem [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 所有内存
+  - flag: -o
+    description: 指定输出列
+  - flag: -b
+    description: 以字节显示
+  examples:
+  - command: lsmem
+    description: 显示内存布局
+  - command: lsmem -a
+    description: 显示所有内存信息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - free
+  - lscpu
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: dmidecode
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 从 DMI 表读取硬件信息
+  usage:
+  - dmidecode [OPTIONS]
+  options:
+  - flag: -t
+    description: 指定类型
+  - flag: -s
+    description: 指定字符串关键字
+  - flag: -q
+    description: 安静模式
+  examples:
+  - command: sudo dmidecode -t memory
+    description: 查看内存信息
+  - command: sudo dmidecode -s system-serial-number
+    description: 查看序列号
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lscpu
+  - lspci
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sysctl
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 运行时内核参数管理
+  usage:
+  - sysctl [OPTIONS] [VARIABLE[=VALUE]...]
+  options:
+  - flag: -a
+    description: 列出所有参数
+  - flag: -w
+    description: 临时写入
+  - flag: -p
+    description: 从文件加载
+  - flag: -n
+    description: 只输出值
+  examples:
+  - command: sysctl -a | grep ipv4.ip_forward
+    description: 查看 IP 转发设置
+  - command: sudo sysctl -w net.ipv4.ip_forward=1
+    description: 临时开启 IP 转发
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - systemctl
+  - dmesg
+  risks:
+  - level: high
+    description: 错误的内核参数可能导致系统不稳定或网络异常，修改前请了解含义
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: fsck
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 检查并修复文件系统
+  usage:
+  - fsck [OPTIONS] DEVICE
+  options:
+  - flag: -y
+    description: 自动回答 yes
+  - flag: -n
+    description: 只检查不修复
+  - flag: -t
+    description: 指定文件系统类型
+  examples:
+  - command: sudo fsck -n /dev/sda1
+    description: 只检查不修复
+  - command: sudo fsck -y /dev/sda1
+    description: 自动修复错误
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mkfs
+  - tune2fs
+  risks:
+  - level: critical
+    description: fsck 会修改文件系统结构，操作前请卸载分区并备份
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: mkfs
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 创建文件系统
+  usage:
+  - mkfs [OPTIONS] [-t TYPE] DEVICE
+  options:
+  - flag: -t
+    description: 指定类型
+  - flag: -L
+    description: 设置卷标
+  - flag: -V
+    description: 详细输出
+  examples:
+  - command: sudo mkfs -t ext4 /dev/sdb1
+    description: 格式化为 ext4
+  - command: sudo mkfs.xfs -L data /dev/sdc1
+    description: 格式化为 XFS 并设置卷标
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - fsck
+  - parted
+  risks:
+  - level: critical
+    description: mkfs 会清除设备上所有数据，请确认目标分区正确
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: tune2fs
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 调整 ext2/3/4 文件系统参数
+  usage:
+  - tune2fs [OPTIONS] DEVICE
+  options:
+  - flag: -l
+    description: 列出超级块信息
+  - flag: -L
+    description: 设置卷标
+  - flag: -m
+    description: 保留块百分比
+  examples:
+  - command: sudo tune2fs -l /dev/sda1
+    description: 查看文件系统信息
+  - command: sudo tune2fs -L rootfs /dev/sda1
+    description: 设置卷标
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mkfs
+  - fsck
+  risks:
+  - level: high
+    description: tune2fs 修改文件系统元数据，请确认参数并备份
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: pvcreate
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 初始化物理卷（LVM）
+  usage:
+  - pvcreate [OPTIONS] DEVICE
+  options:
+  - flag: -f
+    description: 强制
+  - flag: -y
+    description: 自动 yes
+  - flag: --dataalignment
+    description: 对齐
+  examples:
+  - command: sudo pvcreate /dev/sdb
+    description: 将磁盘初始化为物理卷
+  - command: sudo pvcreate -f /dev/sdc1
+    description: 强制初始化
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vgcreate
+  - lvcreate
+  risks:
+  - level: critical
+    description: pvcreate 会覆盖设备上的分区信息，请确认无重要数据
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: vgcreate
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 创建卷组（LVM）
+  usage:
+  - vgcreate [OPTIONS] VOLUME_GROUP PHYSICAL_VOLUME...
+  options:
+  - flag: -s
+    description: 指定物理扩展大小
+  - flag: -v
+    description: 详细输出
+  examples:
+  - command: sudo vgcreate vg0 /dev/sdb /dev/sdc
+    description: 创建卷组 vg0
+  - command: sudo vgcreate -s 16M vg1 /dev/sdd
+    description: 指定 PE 大小
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - pvcreate
+  - lvcreate
+  risks:
+  - level: high
+    description: 创建卷组会占用物理卷，请确认目标设备
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: lvcreate
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 创建逻辑卷（LVM）
+  usage:
+  - lvcreate [OPTIONS] -n NAME -L SIZE VOLUME_GROUP
+  options:
+  - flag: -n
+    description: 逻辑卷名
+  - flag: -L
+    description: 指定大小
+  - flag: -l
+    description: 指定 LE 数
+  - flag: -s
+    description: 创建快照
+  examples:
+  - command: sudo lvcreate -n lv0 -L 100G vg0
+    description: 在 vg0 上创建 100G 逻辑卷
+  - command: sudo lvcreate -s -n snap -L 10G /dev/vg0/lv0
+    description: 创建快照
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vgcreate
+  - pvcreate
+  risks:
+  - level: high
+    description: 逻辑卷操作影响存储布局，请确认大小和卷组
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: lvs
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 显示逻辑卷信息（LVM）
+  usage:
+  - lvs [OPTIONS] [ARGS]
+  options:
+  - flag: -a
+    description: 所有
+  - flag: -o
+    description: 指定输出列
+  - flag: -v
+    description: 详细
+  examples:
+  - command: sudo lvs
+    description: 列出逻辑卷
+  - command: sudo lvs -o +devices
+    description: 显示底层设备
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - vgs
+  - pvs
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: vgs
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 显示卷组信息（LVM）
+  usage:
+  - vgs [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -o
+    description: 指定输出列
+  examples:
+  - command: sudo vgs
+    description: 列出卷组
+  - command: sudo vgs -o vg_name,vg_size,vg_free
+    description: 显示卷组大小与空闲
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lvs
+  - pvs
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: pvs
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 显示物理卷信息（LVM）
+  usage:
+  - pvs [OPTIONS] [ARGS]
+  options:
+  - flag: -v
+    description: 详细
+  - flag: -o
+    description: 指定输出列
+  examples:
+  - command: sudo pvs
+    description: 列出物理卷
+  - command: sudo pvs -o pv_name,vg_name,pv_size
+    description: 显示物理卷与所属卷组
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lvs
+  - vgs
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cryptsetup
+  category: 操作系统/Linux核心
+  install_required: false
+  description: LUKS/dm-crypt 磁盘加密工具
+  usage:
+  - cryptsetup [OPTIONS] COMMAND [ARGS]
+  options:
+  - flag: luksFormat
+    description: 格式化
+  - flag: open
+    description: 打开
+  - flag: close
+    description: 关闭
+  - flag: status
+    description: 状态
+  examples:
+  - command: sudo cryptsetup luksFormat /dev/sdb1
+    description: 创建 LUKS 加密分区
+  - command: sudo cryptsetup open /dev/sdb1 secret
+    description: 打开加密映射
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mkfs
+  - mount
+  risks:
+  - level: critical
+    description: luksFormat 会擦除数据并加密，丢失密钥将导致数据永久不可恢复
+  - level: critical
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: hdparm
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 查看和设置 SATA/IDE 硬盘参数
+  usage:
+  - hdparm [OPTIONS] [DEVICE]
+  options:
+  - flag: -I
+    description: 显示详细信息
+  - flag: -t
+    description: 缓存读测速
+  - flag: -T
+    description: 缓存读测速
+  - flag: -y
+    description: 进入待机
+  examples:
+  - command: sudo hdparm -I /dev/sda
+    description: 查看硬盘信息
+  - command: sudo hdparm -tT /dev/sda
+    description: 测速
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - smartctl
+  - lsblk
+  risks:
+  - level: medium
+    description: 设置电源管理或安全擦除参数可能影响硬盘寿命或数据
+- name: man
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 查看命令/函数手册页
+  usage:
+  - man [OPTIONS] [SECTION] NAME
+  options:
+  - flag: -k
+    description: 关键字搜索
+  - flag: -f
+    description: 同 whatis
+  - flag: -a
+    description: 显示所有匹配节
+  examples:
+  - command: man ls
+    description: 查看 ls 手册
+  - command: man 5 passwd
+    description: 查看配置文件格式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - info
+  - whatis
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: whatis
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 显示命令简短描述
+  usage:
+  - whatis [OPTIONS] KEYWORD
+  options:
+  - flag: -r
+    description: 正则匹配
+  - flag: -w
+    description: 精确匹配
+  examples:
+  - command: whatis ls
+    description: 显示 ls 简介
+  - command: whatis -w passwd
+    description: 精确匹配
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - man
+  - apropos
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: apropos
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 按关键字搜索手册页
+  usage:
+  - apropos [OPTIONS] KEYWORD
+  options:
+  - flag: -r
+    description: 正则
+  - flag: -e
+    description: 精确匹配
+  - flag: -s
+    description: 指定节
+  examples:
+  - command: apropos network
+    description: 搜索网络相关命令
+  - command: apropos -s 1 copy
+    description: 在第 1 节搜索 copy
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - whatis
+  - man
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: anacron
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 用于非 24x7 机器执行周期性任务
+  usage:
+  - anacron [OPTIONS]
+  options:
+  - flag: -f
+    description: 立即执行
+  - flag: -n
+    description: 忽略延迟
+  - flag: -T
+    description: 测试 anacrontab
+  examples:
+  - command: sudo anacron -f
+    description: 立即运行 anacron 任务
+  - command: sudo anacron -T
+    description: 检查配置文件语法
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - crontab
+  - at
+  risks:
+  - level: medium
+    description: anacron 任务会按系统启动时间补跑，脚本错误可能集中产生副作用
+- name: sha256sum
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 计算或校验 SHA-256 校验和
+  usage:
+  - sha256sum [OPTIONS] [FILE]
+  options:
+  - flag: -c
+    description: 校验
+  - flag: -b
+    description: 二进制模式
+  - flag: --tag
+    description: BSD 风格
+  examples:
+  - command: sha256sum file.iso > file.iso.sha256
+    description: 生成校验文件
+  - command: sha256sum -c file.iso.sha256
+    description: 校验文件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - md5sum
+  - cksum
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: md5sum
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 计算或校验 MD5 校验和
+  usage:
+  - md5sum [OPTIONS] [FILE]
+  options:
+  - flag: -c
+    description: 校验
+  - flag: --quiet
+    description: 只显示错误
+  examples:
+  - command: md5sum file.txt
+    description: 计算 MD5
+  - command: md5sum -c checksum.md5
+    description: 校验 MD5
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - sha256sum
+  - cksum
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: xxd
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 十六进制查看器和编辑器
+  usage:
+  - xxd [OPTIONS] [FILE]
+  options:
+  - flag: -l
+    description: 限制长度
+  - flag: -s
+    description: 跳过偏移
+  - flag: -p
+    description: 纯十六进制
+  - flag: -r
+    description: 反向转换
+  examples:
+  - command: xxd file.bin | head
+    description: 查看二进制文件
+  - command: xxd -p file.bin
+    description: 输出纯十六进制
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - od
+  - hexdump
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: file
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 识别文件类型
+  usage:
+  - file [OPTIONS] FILE
+  options:
+  - flag: -b
+    description: 不显示文件名
+  - flag: -i
+    description: 显示 MIME 类型
+  - flag: -L
+    description: 跟随符号链接
+  examples:
+  - command: file /bin/ls
+    description: 识别文件类型
+  - command: file -i image.png
+    description: 显示 MIME 类型
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - xxd
+  - ls
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: getent
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 查询系统数据库条目
+  usage:
+  - getent [OPTIONS] DATABASE [KEY]
+  options:
+  - flag: passwd
+    description: 用户
+  - flag: group
+    description: 组
+  - flag: hosts
+    description: 主机
+  - flag: services
+    description: 服务
+  examples:
+  - command: getent passwd root
+    description: 查询 root 用户信息
+  - command: getent hosts example.com
+    description: 查询主机名解析
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - id
+  - hostname
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: iconv
+  category: 操作系统/Linux核心
+  install_required: false
+  description: 字符编码转换
+  usage:
+  - iconv [OPTIONS] -f FROM -t TO [INPUT]
+  options:
+  - flag: -f
+    description: 源编码
+  - flag: -t
+    description: 目标编码
+  - flag: -o
+    description: 输出文件
+  - flag: -l
+    description: 列出编码
+  examples:
+  - command: iconv -f GBK -t UTF-8 input.txt > output.txt
+    description: GBK 转 UTF-8
+  - command: iconv -l | grep -i gb
+    description: 列出含 GB 的编码
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - file
+  - enca
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

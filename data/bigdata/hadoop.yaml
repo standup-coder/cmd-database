@@ -1,0 +1,90 @@
+category: 大数据/Hadoop生态
+description: Apache Hadoop 分布式存储与计算基础命令
+commands:
+- name: hadoop
+  category: 大数据/Hadoop生态
+  install_required: true
+  install_method: 参考 
+    https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
+  description: Hadoop 通用命令入口，可调用 fs、jar、dfsadmin 等子命令
+  usage:
+  - hadoop [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
+  options:
+  - flag: --config
+    description: 指定 Hadoop 配置目录
+  - flag: --loglevel
+    description: 设置日志级别（DEBUG/INFO/WARN/ERROR）
+  examples:
+  - command: hadoop fs -ls /
+    description: 列出 HDFS 根目录
+  - command: hadoop jar wordcount.jar WordCount /input /output
+    description: 提交 MapReduce 作业
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hdfs
+  - yarn
+  risks:
+  - level: high
+    description: 误删 HDFS 目录或覆盖输出路径会导致数据丢失，执行前请确认路径
+
+  - level: high
+    description: 分布式作业可能占用大量集群资源，请确认队列配额并在业务低峰期执行。
+- name: hdfs
+  category: 大数据/Hadoop生态
+  install_required: true
+  install_method: 随 Hadoop 发行版安装
+  description: Hadoop 分布式文件系统（HDFS）管理命令
+  usage:
+  - hdfs [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
+  options:
+  - flag: -ls
+    description: 列出目录内容
+  - flag: -rm -r
+    description: 递归删除目录
+  - flag: -put
+    description: 上传本地文件到 HDFS
+  examples:
+  - command: hdfs dfs -put local.txt /data/
+    description: 上传本地文件到 HDFS
+  - command: hdfs dfsadmin -report
+    description: 查看 HDFS 集群状态报告
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hadoop
+  - yarn
+  risks:
+  - level: high
+    description: hdfs dfs -rm -r 为不可逆删除，建议在关键路径操作前备份
+
+  - level: high
+    description: 分布式作业可能占用大量集群资源，请确认队列配额并在业务低峰期执行。
+- name: yarn
+  category: 大数据/Hadoop生态
+  install_required: true
+  install_method: 随 Hadoop 发行版安装
+  description: Hadoop 资源调度与作业监控命令
+  usage:
+  - yarn [OPTIONS] SUBCOMMAND [SUBCOMMAND OPTIONS]
+  options:
+  - flag: application -list
+    description: 列出运行中的应用
+  - flag: application -kill
+    description: 终止指定应用
+  examples:
+  - command: yarn application -list
+    description: 查看 YARN 上运行的应用
+  - command: yarn application -kill application_12345_0001
+    description: 终止指定的 YARN 应用
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hadoop
+  - hdfs
+  risks:
+  - level: medium
+    description: 终止生产环境应用可能影响业务，请先确认应用状态

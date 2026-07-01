@@ -1,0 +1,788 @@
+category: 容器编排/云原生扩展二
+description: 容器运行时、本地开发、多集群、Secret 管理等云原生扩展命令
+commands:
+- name: containerd
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 容器运行时 daemon
+  usage:
+  - containerd [OPTIONS] [ARGS]
+  options:
+  - flag: --config
+    description: 配置文件
+  - flag: --log-level
+    description: ''
+  examples:
+  - command: sudo containerd
+    description: 启动 containerd
+  - command: sudo containerd -c /etc/containerd/config.toml
+    description: 指定配置启动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ctr
+  - nerdctl
+  install_method: 参考 
+    https://github.com/containerd/containerd/blob/main/docs/getting-started.md
+  risks:
+  - level: medium
+    description: containerd 是底层运行时，配置错误会导致容器无法启动
+- name: ctr
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: containerd 官方 CLI
+  usage:
+  - ctr [OPTIONS] [ARGS]
+  options:
+  - flag: images
+    description: 镜像
+  - flag: containers
+    description: 容器
+  - flag: run
+    description: 运行
+  - flag: pull
+    description: 拉取
+  examples:
+  - command: ctr images ls
+    description: 列出镜像
+  - command: ctr run docker.io/library/nginx:latest nginx
+    description: 运行容器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nerdctl
+  - crictl
+  install_method: 随 containerd 安装
+  risks:
+  - level: medium
+    description: ctr 直接操作 containerd，可能影响 Kubernetes 容器
+- name: crictl
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 兼容 CRI 的容器运行时 CLI
+  usage:
+  - crictl [OPTIONS] [ARGS]
+  options:
+  - flag: pods
+    description: ''
+  - flag: ps
+    description: ''
+  - flag: images
+    description: ''
+  - flag: logs
+    description: ''
+  - flag: exec
+    description: ''
+  examples:
+  - command: crictl pods
+    description: 列出 Pod
+  - command: crictl logs <container-id>
+    description: 查看容器日志
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - ctr
+  install_method: 参考 
+    https://github.com/kubernetes-sigs/cri-tools/blob/master/docs/crictl.md
+  risks:
+  - level: medium
+    description: crictl 可直接删除运行中容器，生产环境请谨慎
+- name: lxc
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Linux 容器（LXC）管理
+  usage:
+  - lxc [OPTIONS] [ARGS]
+  options:
+  - flag: launch
+    description: 创建
+  - flag: list
+    description: 列出
+  - flag: exec
+    description: 执行
+  - flag: stop
+    description: 停止
+  examples:
+  - command: lxc launch ubuntu:22.04 mycontainer
+    description: 创建容器
+  - command: lxc exec mycontainer -- bash
+    description: 进入容器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lxd
+  - docker
+  install_method: 包管理器安装，如 sudo apt install lxc
+  risks:
+  - level: medium
+    description: 特权容器可能逃逸，请限制权限
+- name: lxd
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: LXC 系统容器管理守护进程
+  usage:
+  - lxd [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: 初始化
+  - flag: list
+    description: ''
+  - flag: launch
+    description: ''
+  - flag: exec
+    description: ''
+  examples:
+  - command: lxd init
+    description: 初始化 LXD
+  - command: lxc list
+    description: 列出 LXD 容器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lxc
+  - incus
+  install_method: 参考 https://documentation.ubuntu.com/lxd/en/latest/installing/
+  risks:
+  - level: medium
+    description: LXD 是系统级服务，请正确配置存储和网络
+- name: incus
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: LXD 社区分支（Canonical 替代方案）
+  usage:
+  - incus [OPTIONS] [ARGS]
+  options:
+  - flag: admin
+    description: init
+  - flag: list
+    description: ''
+  - flag: launch
+    description: ''
+  - flag: exec
+    description: ''
+  examples:
+  - command: incus admin init
+    description: 初始化 Incus
+  - command: incus launch images:ubuntu/22.04 c1
+    description: 创建容器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - lxd
+  - lxc
+  install_method: 参考 https://linuxcontainers.org/incus/docs/main/installing/
+  risks:
+  - level: medium
+    description: 同 LXD，需注意存储和网络配置
+- name: firecracker
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: AWS 开源微虚拟机（microVM）
+  usage:
+  - firecracker [OPTIONS] [ARGS]
+  options:
+  - flag: --api-sock
+    description: ''
+  - flag: --config-file
+    description: ''
+  - flag: --id
+    description: ''
+  examples:
+  - command: firecracker --api-sock /tmp/firecracker.sock
+    description: 启动 API 服务
+  - command: curl --unix-socket /tmp/firecracker.sock -X PUT 
+      http://localhost/mmds -d '{"latest":{}}'
+    description: 配置 MMDS
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kata-runtime
+  - containerd
+  install_method: 参考 https://github.com/firecracker-microvm/firecracker
+  risks:
+  - level: medium
+    description: Firecracker 直接运行微虚拟机，需配置安全组和资源限制
+- name: kata-runtime
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Kata Containers 运行时
+  usage:
+  - kata-runtime [OPTIONS] [ARGS]
+  options:
+  - flag: version
+    description: ''
+  - flag: check
+    description: ''
+  - flag: factory
+    description: ''
+  examples:
+  - command: kata-runtime version
+    description: 查看版本
+  - command: kata-runtime check
+    description: 检查系统兼容性
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - containerd
+  - firecracker
+  install_method: 参考 
+    https://github.com/kata-containers/kata-containers/blob/main/docs/install/README.md
+  risks:
+  - level: medium
+    description: Kata 使用 VM，需确认内核和虚拟化支持
+- name: telepresence
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 本地开发连接远程 Kubernetes 服务
+  usage:
+  - telepresence [OPTIONS] [ARGS]
+  options:
+  - flag: connect
+    description: 连接
+  - flag: intercept
+    description: 拦截
+  - flag: list
+    description: 列出
+  - flag: quit
+    description: 退出
+  examples:
+  - command: telepresence connect
+    description: 连接集群
+  - command: telepresence intercept myservice --port 8080:http
+    description: 拦截服务到本地
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - devspace
+  install_method: 参考 https://www.telepresence.io/docs/latest/install/
+  risks:
+  - level: high
+    description: intercept 会将生产流量引到本地，请确认目标环境和回滚策略
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: devspace
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Kubernetes 本地开发工作流
+  usage:
+  - devspace [OPTIONS] [ARGS]
+  options:
+  - flag: dev
+    description: 启动开发模式
+  - flag: deploy
+    description: 部署
+  - flag: purge
+    description: 清理
+  - flag: logs
+    description: ''
+  examples:
+  - command: devspace dev
+    description: 进入开发模式
+  - command: devspace deploy
+    description: 部署到集群
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - telepresence
+  - okteto
+  install_method: 参考 https://www.devspace.sh/docs/getting-started/install
+  risks:
+  - level: medium
+    description: devspace deploy 会修改集群，请确认 namespace 和 values
+- name: okteto
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 云端到本地的 Kubernetes 开发环境
+  usage:
+  - okteto [OPTIONS] [ARGS]
+  options:
+  - flag: up
+    description: 启动开发环境
+  - flag: down
+    description: 停止
+  - flag: context
+    description: ''
+  - flag: deploy
+    description: ''
+  examples:
+  - command: okteto up
+    description: 启动 Okteto 开发环境
+  - command: okteto context use https://okteto.example.com
+    description: 切换上下文
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - devspace
+  - telepresence
+  install_method: 参考 https://www.okteto.com/docs/getting-started/
+  risks:
+  - level: medium
+    description: okteto up 会同步本地代码到集群，请确认忽略文件
+- name: vcluster
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Kubernetes 虚拟集群
+  usage:
+  - vcluster [OPTIONS] [ARGS]
+  options:
+  - flag: create
+    description: 创建
+  - flag: connect
+    description: 连接
+  - flag: list
+    description: ''
+  - flag: delete
+    description: ''
+  examples:
+  - command: vcluster create my-vcluster
+    description: 创建虚拟集群
+  - command: vcluster connect my-vcluster
+    description: 连接虚拟集群
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kind
+  - k3s
+  install_method: 参考 https://www.vcluster.com/docs/getting-started/install
+  risks:
+  - level: medium
+    description: vcluster 共享宿主机集群资源，请注意配额和权限
+- name: kn
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Knative 命令行工具
+  usage:
+  - kn [OPTIONS] [ARGS]
+  options:
+  - flag: service
+    description: 管理服务
+  - flag: revision
+    description: ''
+  - flag: route
+    description: ''
+  - flag: plugin
+    description: ''
+  examples:
+  - command: kn service create hello --image 
+      gcr.io/knative-samples/helloworld-go
+    description: 创建 Knative 服务
+  - command: kn service list
+    description: 列出服务
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - istio
+  install_method: 参考 https://knative.dev/docs/client/install/
+  risks:
+  - level: medium
+    description: kn service delete 会删除 Serverless 服务，请确认
+- name: dapr
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 分布式应用运行时 CLI
+  usage:
+  - dapr [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: 初始化
+  - flag: run
+    description: 运行
+  - flag: publish
+    description: ''
+  - flag: invoke
+    description: ''
+  examples:
+  - command: dapr init
+    description: 初始化 Dapr
+  - command: dapr run --app-id myapp --app-port 8080 -- python app.py
+    description: 带 Dapr sidecar 运行应用
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - service-mesh
+  install_method: 参考 https://docs.dapr.io/getting-started/install-dapr-cli/
+  risks:
+  - level: medium
+    description: dapr init 会部署控制平面，请确认 Kubernetes 上下文
+- name: kubeseal
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Sealed Secrets 加密 CLI
+  usage:
+  - kubeseal [OPTIONS] [ARGS]
+  options:
+  - flag: --format
+    description: yaml|json
+  - flag: --scope
+    description: ''
+  - flag: --cert
+    description: ''
+  examples:
+  - command: kubeseal < secret.yaml > sealedsecret.yaml
+    description: 加密 Secret
+  - command: kubeseal --controller-namespace=kube-system --fetch-cert > cert.pem
+    description: 获取公钥
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - sops
+  install_method: 参考 https://github.com/bitnami-labs/sealed-secrets/releases
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: sops
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: 文件加密编辑器（支持 AWS/GCP/Azure/KMS）
+  usage:
+  - sops [OPTIONS] [ARGS]
+  options:
+  - flag: -e
+    description: 加密
+  - flag: -d
+    description: 解密
+  - flag: --kms
+    description: ''
+  - flag: --pgp
+    description: ''
+  examples:
+  - command: sops -e -i secret.yaml
+    description: 原地加密
+  - command: sops -d secret.yaml
+    description: 解密查看
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubeseal
+  - gpg
+  install_method: 参考 https://github.com/getsops/sops/releases
+  risks:
+  - level: high
+    description: 加密后丢失 KMS/PGP 密钥将无法解密，请妥善保存
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: esoctl
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: External Secrets Operator 工具（kubectl 插件）
+  usage:
+  - esoctl [OPTIONS] [ARGS]
+  options:
+  - flag: get
+    description: secrets
+  - flag: get
+    description: secretstores
+  - flag: validate
+    description: ''
+  examples:
+  - command: kubectl externalsecrets get secrets
+    description: 列出外部同步的 Secret
+  - command: kubectl externalsecrets get secretstores
+    description: 列出 SecretStore
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubeseal
+  - vault
+  install_method: kubectl krew install external-secrets
+  risks:
+  - level: medium
+    description: 错误的 SecretStore 会同步错误凭据，请确认 provider 配置
+- name: hubble
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Cilium 可观测性 CLI
+  usage:
+  - hubble [OPTIONS] [ARGS]
+  options:
+  - flag: observe
+    description: 观察流
+  - flag: status
+    description: 状态
+  - flag: list
+    description: nodes
+  examples:
+  - command: hubble observe
+    description: 观察网络流
+  - command: hubble observe --pod default/myapp
+    description: 观察指定 Pod 流
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cilium
+  - kubectl
+  install_method: 参考 
+    https://docs.cilium.io/en/stable/gettingstarted/hubble_setup/
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: subctl
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Submariner 跨集群网络 CLI
+  usage:
+  - subctl [OPTIONS] [ARGS]
+  options:
+  - flag: deploy-broker
+    description: ''
+  - flag: join
+    description: ''
+  - flag: show
+    description: connections
+  - flag: verify
+    description: ''
+  examples:
+  - command: subctl deploy-broker
+    description: 部署 broker
+  - command: subctl join --kubeconfig cluster2.kubeconfig broker-info.subm
+    description: 加入集群
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - cilium
+  install_method: 参考 https://submariner.io/operations/deployment/subctl/
+  risks:
+  - level: high
+    description: 跨集群网络会打通多个集群，请确认 CIDR 不冲突
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: longhornctl
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Longhorn 分布式存储管理
+  usage:
+  - longhornctl [OPTIONS] [ARGS]
+  options:
+  - flag: install
+    description: ''
+  - flag: uninstall
+    description: ''
+  - flag: check
+    description: ''
+  examples:
+  - command: longhornctl install
+    description: 安装 Longhorn
+  - command: longhornctl check
+    description: 检查环境
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - rookctl
+  install_method: 参考 https://longhorn.io/docs/
+  risks:
+  - level: high
+    description: 卸载 Longhorn 会丢失卷数据，请先备份
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: rookctl
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Rook Ceph 存储管理
+  usage:
+  - rookctl [OPTIONS] [ARGS]
+  options:
+  - flag: mon
+    description: ''
+  - flag: osd
+    description: ''
+  - flag: status
+    description: ''
+  examples:
+  - command: kubectl rook-ceph health
+    description: 查看 Ceph 健康
+  - command: kubectl rook-ceph ceph status
+    description: 执行 ceph status
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - kubectl
+  - longhornctl
+  install_method: Rook 使用 kubectl 与 CRD 管理，无独立 CLI，可用 kubectl rook-ceph 插件
+  risks:
+  - level: high
+    description: 直接操作 Ceph 集群会影响存储，请确认命令影响
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: certbot
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Let's Encrypt 证书自动申请工具
+  usage:
+  - certbot [OPTIONS] [ARGS]
+  options:
+  - flag: certonly
+    description: ''
+  - flag: --standalone
+    description: ''
+  - flag: --nginx
+    description: ''
+  - flag: --dns-cloudflare
+    description: ''
+  - flag: --renew
+    description: ''
+  examples:
+  - command: sudo certbot certonly --standalone -d example.com
+    description: 申请证书
+  - command: sudo certbot renew --dry-run
+    description: 测试续期
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cert-manager
+  - openssl
+  install_method: 参考 https://certbot.eff.org/instructions
+  risks:
+  - level: medium
+    description: 生产环境 renew 前请先用 dry-run 验证
+- name: argo-rollouts
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Argo Rollouts 渐进式交付 CLI
+  usage:
+  - argo-rollouts [OPTIONS] [ARGS]
+  options:
+  - flag: list
+    description: ''
+  - flag: get
+    description: ''
+  - flag: promote
+    description: ''
+  - flag: abort
+    description: ''
+  - flag: restart
+    description: ''
+  examples:
+  - command: kubectl argo rollouts list rollouts
+    description: 列出 Rollouts
+  - command: kubectl argo rollouts promote my-rollout
+    description: 推进 rollout
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - argocd
+  - flagger
+  install_method: kubectl krew install argo-rollouts
+  risks:
+  - level: high
+    description: promote/abort 会改变生产流量分布，请确认指标健康
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: flagger
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Flagger 渐进式交付控制器
+  usage:
+  - flagger [OPTIONS] [ARGS]
+  options:
+  - flag: loadtester
+    description: ''
+  - flag: generate
+    description: ''
+  examples:
+  - command: kubectl apply -k github.com/fluxcd/flagger//kustomize/base
+    description: 安装 Flagger
+  - command: flagger generate -n test
+    description: 生成示例 canary
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - argocd
+  - argo-rollouts
+  install_method: 参考 https://flagger.app/install/flagger-install-on-kubernetes/
+  risks:
+  - level: high
+    description: Canary 发布会影响生产流量，请配置正确阈值
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: keptn
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Keptn 云原生应用生命周期编排
+  usage:
+  - keptn [OPTIONS] [ARGS]
+  options:
+  - flag: install
+    description: ''
+  - flag: create
+    description: project
+  - flag: trigger
+    description: delivery
+  - flag: get
+    description: event
+  examples:
+  - command: keptn install
+    description: 安装 Keptn
+  - command: keptn trigger delivery --project=myproj --service=mysvc 
+      --image=myimage:v2
+    description: 触发交付
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - argocd
+  - flagger
+  install_method: 参考 https://keptn.sh/docs/install/
+  risks:
+  - level: medium
+    description: Keptn 编排会影响部署和 SLO 评估，请确认配置
+- name: backstage
+  category: 容器编排/云原生扩展二
+  install_required: true
+  description: Backstage 开发者门户 CLI
+  usage:
+  - backstage [OPTIONS] [ARGS]
+  options:
+  - flag: create-app
+    description: ''
+  - flag: dev
+    description: ''
+  - flag: build
+    description: ''
+  - flag: test
+    description: ''
+  examples:
+  - command: npx @backstage/create-app@latest
+    description: 创建 Backstage 应用
+  - command: yarn dev
+    description: 启动开发服务器
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - port
+  - kubernetes
+  install_method: npx @backstage/create-app@latest
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

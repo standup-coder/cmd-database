@@ -1,0 +1,287 @@
+category: AI基础设施/扩展命令
+description: 大模型 API 客户端、AI 编码助手、MLOps 与可观测扩展命令
+commands:
+- name: openai
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: OpenAI 官方 CLI
+  usage:
+  - openai [OPTIONS] [ARGS]
+  options:
+  - flag: api
+    description: 调用 API
+  - flag: chat.completions.create
+    description: ''
+  - flag: models
+    description: list
+  examples:
+  - command: openai api chat.completions.create -m gpt-4 -g user 'Hello'
+    description: 调用 ChatGPT
+  - command: openai api models.list
+    description: 列出模型
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - groq
+  - anthropic
+  install_method: pip install openai
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: anthropic
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Anthropic Claude CLI
+  usage:
+  - anthropic [OPTIONS] [ARGS]
+  options:
+  - flag: --model
+    description: ''
+  - flag: --max-tokens
+    description: ''
+  - flag: --temperature
+    description: ''
+  examples:
+  - command: anthropic 'Explain transformers'
+    description: 向 Claude 提问
+  - command: anthropic --model claude-3-opus --max-tokens 2048
+    description: 指定模型
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openai
+  - claude
+  install_method: npm install -g @anthropic-ai/claude-cli 或参考官方
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cohere
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Cohere 命令行工具
+  usage:
+  - cohere [OPTIONS] [ARGS]
+  options:
+  - flag: chat
+    description: ''
+  - flag: embed
+    description: ''
+  - flag: classify
+    description: ''
+  examples:
+  - command: cohere chat --message 'Hello'
+    description: 聊天
+  - command: cohere embed --texts 'hello world'
+    description: 生成向量
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openai
+  - mistral
+  install_method: pip install cohere 或参考官方 SDK
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: mistral
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Mistral AI CLI
+  usage:
+  - mistral [OPTIONS] [ARGS]
+  options:
+  - flag: chat
+    description: ''
+  - flag: list
+    description: models
+  examples:
+  - command: mistral chat --message 'Explain RAG'
+    description: 聊天
+  - command: mistral list-models
+    description: 列出模型
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openai
+  - cohere
+  install_method: pip install mistralai 或参考官方
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: litellm
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: 统一多 LLM API 的网关/代理
+  usage:
+  - litellm [OPTIONS] [ARGS]
+  options:
+  - flag: --model
+    description: ''
+  - flag: --temperature
+    description: ''
+  - flag: --proxy
+    description: 启动代理
+  examples:
+  - command: litellm --model gpt-4 --temperature 0.2
+    description: CLI 调用
+  - command: litellm --proxy --model gpt-4
+    description: 启动代理
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - openai
+  - groq
+  install_method: pip install 'litellm[proxy]'
+  risks:
+  - level: medium
+    description: 代理会转发 API key，请配置访问控制和日志脱敏
+- name: metaflow
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Netflix 机器学习工作流框架
+  usage:
+  - metaflow [OPTIONS] [ARGS]
+  options:
+  - flag: run
+    description: 运行 flow
+  - flag: status
+    description: ''
+  - flag: logs
+    description: ''
+  - flag: card
+    description: ''
+  examples:
+  - command: python flow.py run
+    description: 运行 Metaflow
+  - command: python flow.py card view
+    description: 查看结果卡片
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - airflow
+  - mlflow
+  install_method: pip install metaflow
+  risks:
+  - level: medium
+    description: Metaflow 会访问云存储和计算资源，请确认配置
+- name: zenml
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: MLOps 管道编排工具
+  usage:
+  - zenml [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: 初始化
+  - flag: stack
+    description: register
+  - flag: pipeline
+    description: run
+  - flag: server
+    description: ''
+  examples:
+  - command: zenml init
+    description: 初始化项目
+  - command: zenml stack set default
+    description: 设置默认 stack
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mlflow
+  - metaflow
+  install_method: pip install zenml
+  risks:
+  - level: medium
+    description: zenml stack 涉及云凭据，请安全存储
+- name: flyte
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: 大规模机器学习与数据工作流平台
+  usage:
+  - flyte [OPTIONS] [ARGS]
+  options:
+  - flag: run
+    description: 本地运行
+  - flag: register
+    description: 注册
+  - flag: pyflyte
+    description: ''
+  examples:
+  - command: pyflyte run workflow.py my_workflow
+    description: 本地运行 workflow
+  - command: pyflyte register workflow.py
+    description: 注册到 Flyte
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - airflow
+  - kubeflow
+  install_method: pip install flytekit
+  risks:
+  - level: medium
+    description: register 会部署到 Flyte 集群，请确认版本和依赖
+- name: weave
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Weights & Biases Weave 可观测工具
+  usage:
+  - weave [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: ''
+  - flag: trace
+    description: ''
+  - flag: eval
+    description: ''
+  examples:
+  - command: weave.init('project')
+    description: 初始化项目
+  - command: weave trace my_function()
+    description: 追踪函数调用
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - wandb
+  - mlflow
+  install_method: pip install weave
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: comet
+  category: AI基础设施/扩展命令
+  install_required: true
+  description: Comet.ml 实验跟踪平台
+  usage:
+  - comet [OPTIONS] [ARGS]
+  options:
+  - flag: init
+    description: ''
+  - flag: online
+    description: ''
+  - flag: offline
+    description: ''
+  - flag: upload
+    description: ''
+  examples:
+  - command: comet init
+    description: 初始化
+  - command: comet upload offline.zip
+    description: 上传离线实验
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - wandb
+  - neptune
+  install_method: pip install comet-ml
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

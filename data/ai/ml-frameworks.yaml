@@ -1,134 +1,102 @@
 category: "AI基础设施/ML框架"
 description: "主流机器学习框架相关命令"
 commands:
-  - name: torchrun
-    category: "AI基础设施/ML框架"
-    install_required: true
-    install_method: "pip install torch"
-    description: "PyTorch分布式训练启动器"
-    usage:
-      - "torchrun [OPTIONS] SCRIPT.py [ARGS...]"
-    options:
-      - flag: "--nnodes"
-        description: "训练的节点数"
-      - flag: "--nproc_per_node"
-        description: "每个节点的进程数 (通常是GPU数量)"
-      - flag: "--rdzv_id"
-        description: "唯一的作业ID"
-      - flag: "--rdzv_backend"
-        description: "集合点后端 (例如 c10d)"
-      - flag: "--rdzv_endpoint"
-        description: "集合点端点 (例如 master_addr:port)"
-    examples:
-      - command: "torchrun --nproc_per_node=4 train.py --batch_size=32"
-        description: "在单机4卡上运行分布式训练"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "tensorboard"
-    risks:
-      - level: low
-        description: "常规操作，无特殊风险"
-    references:
-      - "https://pytorch.org/docs/stable/distributed.html#launch-utility"
+- name: torchrun
+  category: "AI基础设施/ML框架"
+  install_required: true
+  install_method: "pip install torch"
+  description: "PyTorch分布式训练启动器"
+  usage:
+  - "torchrun [OPTIONS] SCRIPT.py [ARGS...]"
+  options:
+  - flag: "--nnodes"
+    description: "训练的节点数"
+  - flag: "--nproc_per_node"
+    description: "每个节点的进程数 (通常是GPU数量)"
+  - flag: "--rdzv_id"
+    description: "唯一的作业ID"
+  - flag: "--rdzv_backend"
+    description: "集合点后端 (例如 c10d)"
+  - flag: "--rdzv_endpoint"
+    description: "集合点端点 (例如 master_addr:port)"
+  examples:
+  - command: "torchrun --nproc_per_node=4 train.py --batch_size=32"
+    description: "在单机4卡上运行分布式训练"
+  - command: torchrun --nproc_per_node=2 --nnodes=1 train.py
+    description: 单机双卡启动训练
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "tensorboard"
+  risks:
+  - level: low
+    description: "常规操作，无特殊风险"
+  references:
+  - "https://pytorch.org/docs/stable/distributed.html#launch-utility"
 
-  - name: tensorboard
-    category: "AI基础设施/ML框架"
-    install_required: true
-    install_method: "pip install tensorboard"
-    description: "TensorFlow和PyTorch的训练可视化工具"
-    usage:
-      - "tensorboard [OPTIONS]"
-    options:
-      - flag: "--logdir"
-        description: "指定TensorBoard日志文件所在的目录"
-      - flag: "--host"
-        description: "绑定的主机地址 (默认 'localhost')"
-      - flag: "--port"
-        description: "监听的端口 (默认 6006)"
-    examples:
-      - command: "tensorboard --logdir=runs"
-        description: "启动TensorBoard并读取'runs'目录下的日志"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "torchrun"
-    risks:
-      - level: low
-        description: "常规操作，无特殊风险"
-    references:
-      - "https://www.tensorflow.org/tensorboard"
+- name: tensorboard
+  category: "AI基础设施/ML框架"
+  install_required: true
+  install_method: "pip install tensorboard"
+  description: "TensorFlow和PyTorch的训练可视化工具"
+  usage:
+  - "tensorboard [OPTIONS]"
+  options:
+  - flag: "--logdir"
+    description: "指定TensorBoard日志文件所在的目录"
+  - flag: "--host"
+    description: "绑定的主机地址 (默认 'localhost')"
+  - flag: "--port"
+    description: "监听的端口 (默认 6006)"
+  examples:
+  - command: "tensorboard --logdir=runs"
+    description: "启动TensorBoard并读取'runs'目录下的日志"
+  - command: tensorboard --logdir=runs --host=0.0.0.0 --port=6006
+    description: 绑定所有 IP 并指定端口
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "torchrun"
+  risks:
+  - level: low
+    description: "常规操作，无特殊风险"
+  references:
+  - "https://www.tensorflow.org/tensorboard"
 
-  - name: accelerate
-    category: "AI基础设施/ML框架"
-    install_required: true
-    install_method: "pip install accelerate"
-    description: "HuggingFace Accelerate分布式训练配置工具，简化多GPU/TPU训练"
-    usage:
-      - "accelerate [COMMAND] [OPTIONS]"
-    options:
-      - flag: "launch"
-        description: "启动分布式训练脚本"
-      - flag: "config"
-        description: "交互式配置分布式训练环境"
-      - flag: "estimate-memory"
-        description: "估算模型训练所需内存"
-      - flag: "test"
-        description: "测试分布式环境配置"
-    examples:
-      - command: "accelerate config"
-        description: "交互式配置分布式训练参数"
-      - command: "accelerate launch --num_processes=4 train.py"
-        description: "使用4进程启动分布式训练"
-      - command: "accelerate launch --mixed_precision=fp16 train.py"
-        description: "使用FP16混合精度训练"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "deepspeed"
-      - "torchrun"
-    risks:
-      - level: low
-        description: "配置不当可能导致训练效率降低"
-    references:
-      - "https://huggingface.co/docs/accelerate"
-
-  - name: pytorch-lightning
-    category: "AI基础设施/ML框架"
-    install_required: true
-    install_method: "pip install pytorch-lightning"
-    description: "PyTorch Lightning高级训练框架，简化分布式训练、混合精度、Checkpoint管理"
-    usage:
-      - "python train.py [OPTIONS]"
-    options:
-      - flag: "--devices"
-        description: "使用的设备数量，如 '4' 或 'auto'"
-      - flag: "--accelerator"
-        description: "加速器类型 (gpu, cpu, tpu, mps)"
-      - flag: "--strategy"
-        description: "分布式策略 (ddp, deepspeed, fsdp)"
-      - flag: "--precision"
-        description: "精度模式 (16-mixed, bf16-mixed, 32)"
-    examples:
-      - command: "python train.py --devices=4 --accelerator=gpu --strategy=ddp"
-        description: "4卡GPU DDP分布式训练"
-      - command: "python train.py --devices=auto --strategy=deepspeed_stage_2"
-        description: "自动检测GPU并使用DeepSpeed Stage 2"
-    platforms:
-      - "linux"
-      - "darwin"
-      - "windows"
-    related_commands:
-      - "torchrun"
-      - "deepspeed"
-    risks:
-      - level: low
-        description: "框架自动管理资源，风险较低"
-    references:
-      - "https://lightning.ai/docs/pytorch/"
+- name: pytorch-lightning
+  category: "AI基础设施/ML框架"
+  install_required: true
+  install_method: "pip install pytorch-lightning"
+  description: "PyTorch Lightning高级训练框架，简化分布式训练、混合精度、Checkpoint管理"
+  usage:
+  - "python train.py [OPTIONS]"
+  options:
+  - flag: "--devices"
+    description: "使用的设备数量，如 '4' 或 'auto'"
+  - flag: "--accelerator"
+    description: "加速器类型 (gpu, cpu, tpu, mps)"
+  - flag: "--strategy"
+    description: "分布式策略 (ddp, deepspeed, fsdp)"
+  - flag: "--precision"
+    description: "精度模式 (16-mixed, bf16-mixed, 32)"
+  examples:
+  - command: "python train.py --devices=4 --accelerator=gpu --strategy=ddp"
+    description: "4卡GPU DDP分布式训练"
+  - command: "python train.py --devices=auto --strategy=deepspeed_stage_2"
+    description: "自动检测GPU并使用DeepSpeed Stage 2"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  related_commands:
+  - "torchrun"
+  - "deepspeed"
+  risks:
+  - level: low
+    description: "框架自动管理资源，风险较低"
+  references:
+  - "https://lightning.ai/docs/pytorch/"

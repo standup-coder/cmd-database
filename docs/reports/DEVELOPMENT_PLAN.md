@@ -199,7 +199,7 @@ cmd4coder 是一个用 Go 编写的命令行工具大全，面向运维工程师
 | ID | 内容 | 修改文件 | 状态 |
 |----|------|---------|------|
 | D1 | k8s-security.yaml 删除已废弃的 PodSecurityPolicy 命令，替换为 PodSecurity admission labels | data/container/k8s-security.yaml | ✅ |
-| D2 | make.yaml make install 缺失 examples 字段 | data/build/make.yaml | ✅ |
+| D2 | make.yaml make install 缺失 examples 字段 | data/build-tools/make.yaml | ✅ |
 
 ---
 
@@ -215,9 +215,9 @@ cmd4coder 是一个用 Go 编写的命令行工具大全，面向运维工程师
 - `internal/data/loader_test.go` — 加载器测试
 - `internal/service/command_service_test.go` — 服务测试
 - `internal/service/config_test.go` — 配置服务测试（Round 3）
-- `data/build/maven.yaml` — Maven 命令数据（Round 3）
-- `data/build/gradle.yaml` — Gradle 命令数据（Round 3）
-- `data/build/make.yaml` — Make/CMake 命令数据（Round 3）
+- `data/build-tools/maven.yaml` — Maven 命令数据（Round 3）
+- `data/build-tools/gradle.yaml` — Gradle 命令数据（Round 3）
+- `data/build-tools/make.yaml` — Make/CMake 命令数据（Round 3）
 - `data/shell/bash.yaml` — Bash 工具数据（Round 3）
 - `data/cicd/github-actions.yaml` — GitHub Actions 数据（Round 3）
 - `data/lang/rust.yaml` — Rust 工具链数据（Round 3）
@@ -508,7 +508,7 @@ BenchmarkSearch/#00-10                9 ns/op        0 B/op      0 allocs/op
 | ID | 内容 | 修改文件 |
 |----|------|---------|
 | R6-B1 | **YAML 分类名不匹配** — 27 个数据文件的 category 英文名与 metadata 中文名不一致，导致 TUI 分类面板点击后命令列表为空。全部统一为 metadata 中文分类名 | 27 个 data YAML 文件 |
-| R6-B2 | **版本号漂移** — build.sh/config.go/json.go 中 Version 硬编码 1.0.0，与 Makefile/main.go 的 1.5.0 不一致 | `scripts/build.sh`, `internal/model/config.go`, `pkg/export/json.go` |
+| R6-B2 | **版本号漂移** — build.sh/config.go/json.go 中 Version 硬编码 1.0.0，与 Makefile/main.go 的 1.5.0 不一致 | `scripts/build/build.sh`, `internal/model/config.go`, `pkg/export/json.go` |
 | R6-B3 | **JSON/YAML Encode 错误未检查** — 12 处 json/yaml.Encode 调用错误被静默丢弃，管道断裂时无输出无报错 | `cmd/cli/commands.go` |
 | R6-B4 | **Config 先变异后验证** — UpdateConfig 在调用 updater 后才验证，失败时内存中 config 已被污染 | `internal/service/config.go` |
 | R6-B5 | **SearchCache 类型断言无安全检查** — GetSearchResult 直接 result.([]*model.Command) 无 ok 检查，类型不匹配会 panic | `internal/data/cache.go` |
@@ -565,7 +565,7 @@ BenchmarkSearch/#00-10                9 ns/op        0 B/op      0 allocs/op
 | `internal/ui/tui/model.go` | commandsToListItems 提取 | Quality |
 | `internal/ui/tui/model_test.go` | 新增 13 个 TUI 测试 | Test |
 | `pkg/export/markdown.go` | ensureDir 统一 | Quality |
-| `scripts/build.sh` | 版本号 1.0.0→1.5.0 | Bug Fix |
+| `scripts/build/build.sh` | 版本号 1.0.0→1.5.0 | Bug Fix |
 | `scripts/test_core.sh` | go.mod 路径修正 | Bug Fix |
 | `.github/workflows/build.yml` | 新增 go mod verify | CI |
 
@@ -594,7 +594,7 @@ BenchmarkSearch/#00-10                9 ns/op        0 B/op      0 allocs/op
 | R7-F1 | **集成测试分类名错误** — 引用英文分类名导致测试永远失败，改为中文分类名 | `test/integration_test.go` |
 | R7-F2 | **TUI 小窗口崩溃** — panelLayout 在 width<20/height<12 时产生负值导致 lipgloss panic，添加最小尺寸保护 | `internal/ui/tui/model.go` |
 | R7-F3 | **metadata 分类 order 冲突** — database/vcs/build/ai 与 container 分类 order 值重复，重新编号消除冲突 | `data/metadata.yaml` |
-| R7-F4 | **build YAML 平台名残留** — make/maven/gradle.yaml 仍使用 macos 平台名，统一改为 darwin | `data/build/make.yaml`, `maven.yaml`, `gradle.yaml` |
+| R7-F4 | **build YAML 平台名残留** — make/maven/gradle.yaml 仍使用 macos 平台名，统一改为 darwin | `data/build-tools/make.yaml`, `maven.yaml`, `gradle.yaml` |
 
 ### Phase 2: TUI 修复 (3 项)
 
@@ -633,7 +633,7 @@ BenchmarkSearch/#00-10                9 ns/op        0 B/op      0 allocs/op
 
 | ID | 内容 | 修改文件 |
 |----|------|---------|
-| R7-F18 | **build.ps1 版本** — $VERSION 1.0.0→1.5.0 | `scripts/build.ps1` |
+| R7-F18 | **build.ps1 版本** — $VERSION 1.0.0→1.5.0 | `scripts/build/build.ps1` |
 | R7-F19 | **Makefile 新增目标** — test-integration、tidy，install 添加 mkdir -p | `Makefile` |
 | R7-F20 | **go mod tidy** — 清理依赖声明 | `go.mod`, `go.sum` |
 | R7-F21 | **删除死代码 i18n.go** — 定义但从未使用 | `internal/model/i18n.go` (删除) |

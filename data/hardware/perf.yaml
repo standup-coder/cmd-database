@@ -1,0 +1,326 @@
+category: 硬件/性能与调度
+description: CPU 调度、性能分析、 cgroup 与压力测试
+commands:
+- name: perf
+  category: 硬件/性能与调度
+  install_required: true
+  description: Linux 性能分析工具
+  usage:
+  - perf [OPTIONS] COMMAND
+  options:
+  - flag: top
+    description: 实时热点
+  - flag: record
+    description: 记录
+  - flag: report
+    description: 报告
+  - flag: stat
+    description: 统计
+  - flag: list
+    description: 事件
+  examples:
+  - command: sudo perf top
+    description: 实时查看热点函数
+  - command: sudo perf record -g ./app && sudo perf report
+    description: 记录并分析
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - turbostat
+  - strace
+  install_method: linux-tools-common 包
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: turbostat
+  category: 硬件/性能与调度
+  install_required: true
+  description: Intel CPU 频率与功耗监控
+  usage:
+  - turbostat [OPTIONS] [ARGS]
+  options:
+  - flag: --show
+    description: 显示列
+  - flag: --interval
+    description: ''
+  - flag: --Summary
+    description: ''
+  examples:
+  - command: sudo turbostat
+    description: 监控 CPU
+  - command: sudo turbostat --interval 1 --show Core,CPU,Avg_MHz,Busy%
+    description: 每秒显示核心频率
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - perf
+  - cpupower
+  install_method: linux-tools-common 包
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cpupower
+  category: 硬件/性能与调度
+  install_required: true
+  description: CPU 频率与空闲状态管理
+  usage:
+  - cpupower [OPTIONS] COMMAND
+  options:
+  - flag: frequency-info
+    description: 频率信息
+  - flag: frequency-set
+    description: 设置频率
+  - flag: idle-info
+    description: 空闲状态
+  - flag: set
+    description: 策略
+  examples:
+  - command: cpupower frequency-info
+    description: 查看 CPU 频率策略
+  - command: sudo cpupower frequency-set -g performance
+    description: 设置为性能模式
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - turbostat
+  - perf
+  install_method: linux-tools-common 包
+  risks:
+  - level: medium
+    description: 强制设置频率策略可能影响功耗和散热
+- name: taskset
+  category: 硬件/性能与调度
+  install_required: false
+  description: 设置或查看进程 CPU 亲和性
+  usage:
+  - taskset [OPTIONS] [MASK | -c LIST] [COMMAND]
+  options:
+  - flag: -c
+    description: CPU 列表
+  - flag: -p
+    description: 修改现有 PID
+  - flag: -a
+    description: 所有线程
+  examples:
+  - command: taskset -c 0 ./app
+    description: 绑定到 CPU 0
+  - command: taskset -pc 0-3 1234
+    description: 修改 PID 1234 亲和性
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - numactl
+  - chrt
+  risks:
+  - level: medium
+    description: 错误的亲和性会降低性能或导致调度不均
+- name: chrt
+  category: 硬件/性能与调度
+  install_required: false
+  description: 设置实时调度策略
+  usage:
+  - chrt [OPTIONS] [PRIO] [COMMAND]
+  options:
+  - flag: -f
+    description: FIFO
+  - flag: -r
+    description: RR
+  - flag: -o
+    description: OTHER
+  - flag: -p
+    description: 修改 PID
+  examples:
+  - command: sudo chrt -f 99 ./app
+    description: 以 FIFO 优先级 99 运行
+  - command: chrt -p 1234
+    description: 查看 PID 调度策略
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nice
+  - taskset
+  risks:
+  - level: high
+    description: 实时调度可能饿死其他进程，需谨慎使用
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: ionice
+  category: 硬件/性能与调度
+  install_required: false
+  description: 设置进程 I/O 调度优先级
+  usage:
+  - ionice [OPTIONS] [COMMAND]
+  options:
+  - flag: -c
+    description: 类别
+  - flag: -n
+    description: 优先级
+  - flag: -p
+    description: 修改 PID
+  examples:
+  - command: ionice -c 3 -p 1234
+    description: 将 PID 设为 idle IO 类
+  - command: ionice -c 2 -n 0 ./backup
+    description: 高优先级 IO 运行
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - nice
+  - cgexec
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: cset
+  category: 硬件/性能与调度
+  install_required: true
+  description: cpuset 资源隔离工具
+  usage:
+  - cset [SUBCOMMAND] [OPTIONS]
+  options:
+  - flag: set
+    description: 创建 cpuset
+  - flag: proc
+    description: 移动进程
+  - flag: shield
+    description: 隔离 CPU
+  examples:
+  - command: sudo cset shield --cpu=2-3
+    description: 隔离 CPU 2-3
+  - command: sudo cset proc --move --pid=1234 --set=user
+    description: 移动进程到 user cpuset
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - taskset
+  - numactl
+  install_method: 包管理器安装 cpuset
+  risks:
+  - level: medium
+    description: cpuset 隔离错误会限制进程可用资源
+- name: cgexec
+  category: 硬件/性能与调度
+  install_required: true
+  description: 在指定 cgroup 中运行命令
+  usage:
+  - cgexec [OPTIONS] GROUP COMMAND
+  options:
+  - flag: -g
+    description: 控制器:路径
+  - flag: -b
+    description: 忽略 systemd
+  examples:
+  - command: sudo cgexec -g cpu,memory:mygroup ./app
+    description: 在 mygroup 中运行
+  - command: sudo cgexec -g cpuset:db python server.py
+    description: 限制数据库 CPU 集合
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - systemd-run
+  - cset
+  install_method: 随 cgroup-tools 安装
+  risks:
+  - level: medium
+    description: cgroup 限制过严会导致 OOM 或 CPU 饥饿
+- name: stress
+  category: 硬件/性能与调度
+  install_required: true
+  description: 简单的系统压力测试
+  usage:
+  - stress [OPTIONS] [ARGS]
+  options:
+  - flag: --cpu
+    description: CPU 数
+  - flag: --io
+    description: IO 线程
+  - flag: --vm
+    description: 内存 workers
+  - flag: --timeout
+    description: ''
+  examples:
+  - command: stress --cpu 4 --timeout 60s
+    description: CPU 压测 60 秒
+  - command: stress --vm 2 --vm-bytes 1G --timeout 60s
+    description: 内存压测
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - stress-ng
+  - s-tui
+  install_method: 包管理器安装，如 sudo apt install stress
+  risks:
+  - level: high
+    description: 压测会消耗系统资源，可能导致响应变慢或 OOM
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: stress-ng
+  category: 硬件/性能与调度
+  install_required: true
+  description: 更全面的系统压力测试
+  usage:
+  - stress-ng [OPTIONS] [ARGS]
+  options:
+  - flag: --cpu
+    description: '8'
+  - flag: --disk
+    description: '4'
+  - flag: --vm
+    description: '4'
+  - flag: --timeout
+    description: 60s
+  - flag: --metrics-brief
+    description: ''
+  examples:
+  - command: stress-ng --cpu 8 --timeout 60s --metrics-brief
+    description: CPU 压测
+  - command: stress-ng --class io --sequential 4 --timeout 60s
+    description: 顺序 IO 压测
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - stress
+  - fio
+  install_method: 包管理器安装，如 sudo apt install stress-ng
+  risks:
+  - level: high
+    description: stress-ng 有大量测试，错误使用会压垮系统
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: s-tui
+  category: 硬件/性能与调度
+  install_required: true
+  description: 终端 CPU 压力与监控 TUI
+  usage:
+  - s-tui [OPTIONS] [ARGS]
+  options:
+  - flag: --no-mouse
+    description: ''
+  - flag: --csv
+    description: ''
+  - flag: --time
+    description: ''
+  examples:
+  - command: s-tui
+    description: 启动交互式监控
+  - command: s-tui --csv stress.csv --time 300
+    description: 记录 300 秒数据
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - stress
+  - turbostat
+  install_method: pip install s-tui 或包管理器
+  risks:
+  - level: medium
+    description: 运行 stress 测试会提升温度和功耗，注意散热

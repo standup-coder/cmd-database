@@ -1,0 +1,158 @@
+category: 硬件/网络硬件
+description: 网卡、无线、蓝牙等硬件管理
+commands:
+- name: ethtool
+  category: 硬件/网络硬件
+  install_required: true
+  description: 查看和设置网卡参数
+  usage:
+  - ethtool [OPTIONS] INTERFACE
+  options:
+  - flag: -i
+    description: 驱动信息
+  - flag: -S
+    description: 统计
+  - flag: -s
+    description: 设置
+  - flag: -a
+    description: 查看 PAUSE
+  examples:
+  - command: ethtool eth0
+    description: 查看 eth0 信息
+  - command: sudo ethtool -s eth0 speed 1000 duplex full
+    description: 设置速率和双工
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - ip
+  - iw
+  install_method: 多数 Linux 预装或包管理器安装
+  risks:
+  - level: medium
+    description: 修改网卡参数可能断开网络，远程操作时谨慎
+- name: iw
+  category: 硬件/网络硬件
+  install_required: true
+  description: 新一代无线设备配置工具
+  usage:
+  - iw [OPTIONS] COMMAND
+  options:
+  - flag: dev
+    description: 设备
+  - flag: list
+    description: 列出
+  - flag: scan
+    description: 扫描
+  - flag: connect
+    description: 连接
+  - flag: set
+    description: 设置
+  examples:
+  - command: iw dev
+    description: 列出无线设备
+  - command: sudo iw dev wlan0 scan
+    description: 扫描 WiFi
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iwconfig
+  - nmcli
+  install_method: 多数 Linux 预装或包管理器安装
+  risks:
+  - level: medium
+    description: iw 可直接修改无线接口，请确认操作对象
+- name: iwconfig
+  category: 硬件/网络硬件
+  install_required: false
+  description: 传统无线接口配置
+  usage:
+  - iwconfig [INTERFACE] [OPTIONS]
+  options:
+  - flag: essid
+    description: 设置 SSID
+  - flag: mode
+    description: 模式
+  - flag: key
+    description: 密钥
+  - flag: ap
+    description: 接入点
+  examples:
+  - command: iwconfig
+    description: 查看无线配置
+  - command: sudo iwconfig wlan0 essid MyWiFi key s:mypassword
+    description: 连接 WiFi
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iw
+  - nmcli
+  risks:
+  - level: medium
+    description: 命令行输入 WiFi 密钥会留在历史记录
+- name: rfkill
+  category: 硬件/网络硬件
+  install_required: true
+  description: 无线设备软开关管理
+  usage:
+  - rfkill [OPTIONS] COMMAND
+  options:
+  - flag: list
+    description: 列出
+  - flag: block
+    description: 禁用
+  - flag: unblock
+    description: 启用
+  - flag: event
+    description: 事件
+  examples:
+  - command: rfkill list
+    description: 列出无线设备状态
+  - command: sudo rfkill unblock wifi
+    description: 启用 WiFi
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - iw
+  - bluetoothctl
+  install_method: 多数 Linux 预装
+  risks:
+  - level: high
+    description: 可能影响服务可用性或数据完整性，生产环境请先确认参数、通知相关方并在低峰期执行。
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: bluetoothctl
+  category: 硬件/网络硬件
+  install_required: true
+  description: 蓝牙设备管理交互式工具
+  usage:
+  - bluetoothctl [OPTIONS] [COMMAND]
+  options:
+  - flag: scan on
+    description: 启用蓝牙扫描
+  - flag: pair
+    description: 配对设备
+  - flag: connect
+    description: 连接设备
+  - flag: trust
+    description: 信任设备
+  - flag: remove
+    description: 删除设备
+  examples:
+  - command: bluetoothctl scan on
+    description: 扫描蓝牙设备
+  - command: bluetoothctl pair 00:11:22:33:44:55
+    description: 配对设备
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - rfkill
+  - hciconfig
+  install_method: 随 bluez 安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

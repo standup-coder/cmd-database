@@ -1,0 +1,144 @@
+category: 大数据/查询引擎
+description: 大数据 SQL 查询引擎命令
+commands:
+- name: hive
+  category: 大数据/查询引擎
+  install_required: true
+  install_method: 参考 https://hive.apache.org/downloads.html
+  description: Apache Hive 命令行接口
+  usage:
+  - hive [OPTIONS]
+  options:
+  - flag: -e
+    description: 执行 SQL 语句
+  - flag: -f
+    description: 执行 SQL 文件
+  - flag: --database
+    description: 指定默认数据库
+  examples:
+  - command: hive -e "SELECT * FROM users LIMIT 10"
+    description: 执行 Hive SQL 查询
+  - command: hive -f query.hql --database mydb
+    description: 执行 HQL 脚本文件
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - beeline
+  - presto
+  risks:
+  - level: medium
+    description: 全表扫描可能产生大 job，请确认分区过滤和 LIMIT
+
+- name: beeline
+  category: 大数据/查询引擎
+  install_required: true
+  install_method: 随 Hive/HiveServer2 安装
+  description: HiveServer2 JDBC 客户端
+  usage:
+  - beeline [OPTIONS]
+  options:
+  - flag: -u
+    description: JDBC URL
+  - flag: -n
+    description: 用户名
+  - flag: -p
+    description: 密码
+  examples:
+  - command: beeline -u jdbc:hive2://localhost:10000 -n username -p password
+    description: 连接 HiveServer2
+  - command: beeline -u jdbc:hive2://localhost:10000 -e "SHOW DATABASES"
+    description: 执行 SQL 并退出
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - hive
+  - presto
+  risks:
+  - level: low
+    description: 命令行传入密码会留在历史记录中，建议使用配置文件或环境变量
+
+- name: presto
+  category: 大数据/查询引擎
+  install_required: true
+  install_method: 参考 https://prestodb.io/docs/current/installation.html
+  description: Presto 分布式 SQL 查询引擎 CLI
+  usage:
+  - presto [OPTIONS]
+  options:
+  - flag: --server
+    description: 指定 Presto 协调节点
+  - flag: --catalog
+    description: 指定 Catalog
+  - flag: --schema
+    description: 指定 Schema
+  examples:
+  - command: presto --server localhost:8080 --catalog hive --schema default
+    description: 连接 Presto 并指定 catalog/schema
+  - command: presto --server localhost:8080 --execute "SELECT count(*) FROM hive.default.users"
+    description: 执行分布式查询
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - trino
+  - hive
+  risks:
+  - level: medium
+    description: 跨源查询可能扫描大量数据，请关注资源队列和成本
+
+- name: trino
+  category: 大数据/查询引擎
+  install_required: true
+  install_method: 参考 https://trino.io/docs/current/installation.html
+  description: Trino 分布式 SQL 查询引擎 CLI
+  usage:
+  - trino [OPTIONS]
+  options:
+  - flag: --server
+    description: 指定 Trino 协调节点
+  - flag: --catalog
+    description: 指定 Catalog
+  - flag: --user
+    description: 指定用户名
+  examples:
+  - command: trino --server localhost:8080 --catalog postgresql --user admin
+    description: 连接 Trino 并指定用户
+  - command: trino --server localhost:8080 --execute "SHOW CATALOGS"
+    description: 列出所有 Catalog
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - presto
+  - hive
+  risks:
+  - level: medium
+    description: 复杂联邦查询可能产生高并发，请监控集群负载
+
+- name: impala-shell
+  category: 大数据/查询引擎
+  install_required: true
+  install_method: 随 Apache Impala 或 CDH 安装
+  description: Impala 交互式 SQL Shell
+  usage:
+  - impala-shell [OPTIONS]
+  options:
+  - flag: -i
+    description: 指定 Impala daemon 地址
+  - flag: -q
+    description: 执行 SQL 查询
+  examples:
+  - command: impala-shell -i localhost:21000
+    description: 连接本地 Impala daemon
+  - command: impala-shell -i localhost:21000 -q "SELECT * FROM users LIMIT 10"
+    description: 执行查询并退出
+  platforms:
+  - linux
+  related_commands:
+  - hive
+  - presto
+  risks:
+  - level: medium
+    description: Impala 适合交互式查询，避免执行超大表的全表扫描

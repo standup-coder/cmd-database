@@ -21,12 +21,14 @@ commands:
   - flag: --quantization
     description: 量化方式 (awq, gptq, fp8)
   examples:
-  - command: vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 2
+  - command: vllm serve meta-llama/Llama-3.1-8B-Instruct --tensor-parallel-size 
+      2
     description: 2卡张量并行部署LLaMA-3.1-8B
-  - command: vllm serve Qwen/Qwen2-72B --tensor-parallel-size 8 --max-model-len 32768
+  - command: vllm serve Qwen/Qwen2-72B --tensor-parallel-size 8 --max-model-len 
+      32768
     description: 8卡部署Qwen2-72B，支持32K上下文
-  - command: vllm serve TheBloke/Llama-2-70B-AWQ --quantization awq --gpu-memory-utilization
-      0.9
+  - command: vllm serve TheBloke/Llama-2-70B-AWQ --quantization awq 
+      --gpu-memory-utilization 0.9
     description: AWQ量化部署，节省显存
   platforms:
   - linux
@@ -56,10 +58,11 @@ commands:
   - flag: --enable-torch-compile
     description: 启用PyTorch编译优化
   examples:
-  - command: python -m sglang.launch_server --model-path meta-llama/Llama-3.1-8B-Instruct
-      --tp-size 2
+  - command: python -m sglang.launch_server --model-path 
+      meta-llama/Llama-3.1-8B-Instruct --tp-size 2
     description: 2卡部署LLaMA-3.1推理服务
-  - command: python -m sglang.launch_server --model-path Qwen/Qwen2-VL-7B-Instruct
+  - command: python -m sglang.launch_server --model-path 
+      Qwen/Qwen2-VL-7B-Instruct
     description: 部署Qwen2-VL多模态推理服务
   platforms:
   - linux
@@ -91,7 +94,8 @@ commands:
   examples:
   - command: lmdeploy serve api_server internlm/internlm2_5-7b-chat
     description: 部署InternLM2.5 API服务
-  - command: lmdeploy lite auto_awq internlm/internlm2_5-7b-chat --work-dir ./awq_model
+  - command: lmdeploy lite auto_awq internlm/internlm2_5-7b-chat --work-dir 
+      ./awq_model
     description: AWQ量化模型
   - command: lmdeploy chat internlm/internlm2_5-7b-chat
     description: 本地交互式对话
@@ -126,10 +130,11 @@ commands:
   - flag: -c
     description: 上下文大小
   examples:
-  - command: ./main -m models/llama-3.1-8b.Q4_K_M.gguf -n 512 --temp 0.7 -p 'What
-      is machine learning?'
+  - command: ./main -m models/llama-3.1-8b.Q4_K_M.gguf -n 512 --temp 0.7 -p 
+      'What is machine learning?'
     description: CPU推理运行量化模型
-  - command: ./server -m models/llama-3.1-8b.Q4_K_M.gguf --host 0.0.0.0 --port 8080
+  - command: ./server -m models/llama-3.1-8b.Q4_K_M.gguf --host 0.0.0.0 --port 
+      8080
     description: 启动HTTP推理服务
   - command: ./main -m model.gguf -ngl 35 -c 8192
     description: GPU卸载35层，8K上下文推理
@@ -187,7 +192,8 @@ commands:
 - name: text-generation-inference
   category: AI基础设施/大模型推理
   install_required: true
-  install_method: docker pull ghcr.io/huggingface/text-generation-inference:latest
+  install_method: docker pull 
+    ghcr.io/huggingface/text-generation-inference:latest
   description: HuggingFace TGI文本生成推理服务，生产级部署方案
   usage:
   - docker run [OPTIONS] ghcr.io/huggingface/text-generation-inference:latest
@@ -201,11 +207,13 @@ commands:
   - flag: --quantize
     description: 量化方式(awq,gptq,bitsandbytes)
   examples:
-  - command: docker run --gpus all -p 8080:80 ghcr.io/huggingface/text-generation-inference:latest
-      --model-id meta-llama/Llama-3.1-8B-Instruct
+  - command: docker run --gpus all -p 8080:80 
+      ghcr.io/huggingface/text-generation-inference:latest --model-id 
+      meta-llama/Llama-3.1-8B-Instruct
     description: Docker部署LLaMA-3.1推理服务
-  - command: docker run --gpus all -p 8080:80 ghcr.io/huggingface/text-generation-inference:latest
-      --model-id meta-llama/Llama-3.1-70B-Instruct --sharded true --num-shard 4
+  - command: docker run --gpus all -p 8080:80 
+      ghcr.io/huggingface/text-generation-inference:latest --model-id 
+      meta-llama/Llama-3.1-70B-Instruct --sharded true --num-shard 4
     description: 4卡分片部署70B模型
   platforms:
   - linux
@@ -237,8 +245,8 @@ commands:
   - flag: --max_batch_size
     description: 最大批次大小
   examples:
-  - command: trtllm-build --checkpoint_dir ./tllm_checkpoint --output_dir ./trt_engines
-      --gemm_plugin float16
+  - command: trtllm-build --checkpoint_dir ./tllm_checkpoint --output_dir 
+      ./trt_engines --gemm_plugin float16
     description: 构建TensorRT推理引擎
   - command: python run.py --engine_dir=./trt_engines --max_output_len=512
     description: 使用TensorRT引擎推理
@@ -269,10 +277,11 @@ commands:
   - flag: run
     description: 执行推理
   examples:
-  - command: python -c "import onnxruntime as ort; sess = ort.InferenceSession('model.onnx');
-      outputs = sess.run(None, inputs)"
+  - command: python -c "import onnxruntime as ort; sess = 
+      ort.InferenceSession('model.onnx'); outputs = sess.run(None, inputs)"
     description: 加载ONNX模型并推理
-  - command: python export_onnx.py --model meta-llama/Llama-2-7b --output model.onnx
+  - command: python export_onnx.py --model meta-llama/Llama-2-7b --output 
+      model.onnx
     description: 将HuggingFace模型导出为ONNX格式
   platforms:
   - linux
@@ -333,11 +342,12 @@ commands:
   - flag: AutoTokenizer
     description: 加载分词器
   examples:
-  - command: python -c "from transformers import pipeline; pipe = pipeline('text-generation',
-      model='gpt2'); print(pipe('Hello')[0]['generated_text'])"
+  - command: python -c "from transformers import pipeline; pipe = 
+      pipeline('text-generation', model='gpt2'); 
+      print(pipe('Hello')[0]['generated_text'])"
     description: 一行代码创建文本生成管道
-  - command: python -c "from transformers import pipeline; pipe = pipeline('sentiment-analysis');
-      print(pipe('I love this product!'))"
+  - command: python -c "from transformers import pipeline; pipe = 
+      pipeline('sentiment-analysis'); print(pipe('I love this product!'))"
     description: 情感分析管道
   platforms:
   - linux
@@ -368,8 +378,8 @@ commands:
   examples:
   - command: python app.py --share
     description: 启动Gradio应用并生成公网链接
-  - command: python -c "import gradio as gr; gr.Interface(fn=predict, inputs='text',
-      outputs='text').launch()"
+  - command: python -c "import gradio as gr; gr.Interface(fn=predict, 
+      inputs='text', outputs='text').launch()"
     description: 单行代码创建文本生成Demo
   platforms:
   - linux
@@ -495,9 +505,12 @@ commands:
   - flag: tensor_parallel_config
     description: 并行配置
   examples:
-  - command: python -c "import tensor_parallel as tp; model = tp.TensorParallelPreTrainedModel(model,
-      device_ids=[0,1,2,3])"
+  - command: python -c "import tensor_parallel as tp; model = 
+      tp.TensorParallelPreTrainedModel(model, device_ids=[0,1,2,3])"
     description: 4卡张量并行包装模型
+  - command: python -c "import tensor_parallel as tp; 
+      help(tp.TensorParallelPreTrainedModel)"
+    description: 查看张量并行 API 帮助
   platforms:
   - linux
   - darwin
@@ -620,9 +633,15 @@ commands:
   - flag: chat.completions.create
     description: 创建聊天补全
   examples:
-  - command: python -c "from together import Together; c = Together(); r = c.chat.completions.create(model='meta-llama/Llama-3-70b',
+  - command: python -c "from together import Together; c = Together(); r = 
+      c.chat.completions.create(model='meta-llama/Llama-3-70b', 
       messages=[{'role':'user','content':'Hello'}])"
     description: 调用Together AI API推理
+  - command: python -c "from together import Together; c=Together(); 
+      r=c.chat.completions.create(model='meta-llama/Llama-3-8b', 
+      messages=[{'role':'user','content':'Hi'}], max_tokens=128, 
+      temperature=0.7)"
+    description: 控制生成长度和随机性
   platforms:
   - linux
   - darwin
@@ -648,9 +667,15 @@ commands:
   - flag: completion.create
     description: 创建补全
   examples:
-  - command: python -c "from fireworks.client import Fireworks; fw = Fireworks();
-      r = fw.completion.create(model='accounts/fireworks/models/llama-v3-70b', prompt='Hello')"
+  - command: python -c "from fireworks.client import Fireworks; fw = 
+      Fireworks(); r = 
+      fw.completion.create(model='accounts/fireworks/models/llama-v3-70b', 
+      prompt='Hello')"
     description: 调用Fireworks API推理
+  - command: python -c "from fireworks.client import Fireworks; fw=Fireworks(); 
+      r=fw.completion.create(model='accounts/fireworks/models/llama-v3-8b', 
+      prompt='Hello', max_tokens=100, temperature=0.5)"
+    description: 使用采样参数调用 Fireworks
   platforms:
   - linux
   - darwin
@@ -676,9 +701,14 @@ commands:
   - flag: chat.completions.create
     description: 创建聊天补全
   examples:
-  - command: python -c "from groq import Groq; g = Groq(); r = g.chat.completions.create(model='llama-3.1-70b',
+  - command: python -c "from groq import Groq; g = Groq(); r = 
+      g.chat.completions.create(model='llama-3.1-70b', 
       messages=[{'role':'user','content':'Explain quantum computing'}])"
     description: 使用Groq极速推理
+  - command: python -c "from groq import Groq; g=Groq(); 
+      r=g.chat.completions.create(model='llama-3.1-8b', 
+      messages=[{'role':'user','content':'Hi'}], max_tokens=1024)"
+    description: 限制最大输出 token 数
   platforms:
   - linux
   - darwin
@@ -704,8 +734,8 @@ commands:
   - flag: replicate.deploy()
     description: 部署自定义模型
   examples:
-  - command: python -c "import replicate; output = replicate.run('meta/meta-llama-3-70b',
-      input={'prompt':'Hello'})"
+  - command: python -c "import replicate; output = 
+      replicate.run('meta/meta-llama-3-70b', input={'prompt':'Hello'})"
     description: 运行Replicate托管的LLaMA-3模型
   - command: replicate deploy --model=my-model
     description: 部署自己的模型
@@ -736,8 +766,9 @@ commands:
   - flag: function
     description: 具体函数定义
   examples:
-  - command: python -c "import openai; r = client.chat.completions.create(model='gpt-4',
-      messages=[...], tools=[{'type':'function','function':{'name':'get_weather'}}],
+  - command: python -c "import openai; r = 
+      client.chat.completions.create(model='gpt-4', messages=[...], 
+      tools=[{'type':'function','function':{'name':'get_weather'}}], 
       tool_choice='auto')"
     description: 配置Function Calling
   - command: python function_calling.py --tools tools.json --conversation
@@ -767,8 +798,10 @@ commands:
   - flag: response_model
     description: Pydantic响应模型
   examples:
-  - command: python -c "import instructor, openai; client = instructor.from_openai(openai.OpenAI());
-      user = client.chat.completions.create(model='gpt-4', response_model=User, messages=[...])"
+  - command: python -c "import instructor, openai; client = 
+      instructor.from_openai(openai.OpenAI()); user = 
+      client.chat.completions.create(model='gpt-4', response_model=User, 
+      messages=[...])"
     description: 提取结构化用户信息
   - command: python extract.py --schema schema.json --input documents/
     description: 批量文档结构化提取
@@ -797,12 +830,13 @@ commands:
   - flag: num_assistant_tokens
     description: 每次推测token数
   examples:
-  - command: python -c "from transformers import pipeline; gen = pipeline('text-generation',
-      model='meta-llama/Llama-2-70b', assistant_model='TinyLlama/TinyLlama-1.1B');
-      gen('Hello', num_assistant_tokens=5)"
+  - command: python -c "from transformers import pipeline; gen = 
+      pipeline('text-generation', model='meta-llama/Llama-2-70b', 
+      assistant_model='TinyLlama/TinyLlama-1.1B'); gen('Hello', 
+      num_assistant_tokens=5)"
     description: TinyLlama草稿加速LLaMA-70B
-  - command: python speculative.py --target llama-70b --draft tinyllama --speedup
-      2.5
+  - command: python speculative.py --target llama-70b --draft tinyllama 
+      --speedup 2.5
     description: 配置推测解码参数
   platforms:
   - linux
@@ -826,10 +860,11 @@ commands:
   - flag: --enable-prefix-caching
     description: 启用前缀缓存
   examples:
-  - command: python -m vllm.entrypoints.openai.api_server --model llama-3-8b --enable-prefix-caching
+  - command: python -m vllm.entrypoints.openai.api_server --model llama-3-8b 
+      --enable-prefix-caching
     description: 启用前缀缓存服务
-  - command: python benchmark.py --enable-prefix-caching --shared-prompt 'You are
-      a helpful assistant' --num-turns 100
+  - command: python benchmark.py --enable-prefix-caching --shared-prompt 'You 
+      are a helpful assistant' --num-turns 100
     description: 多轮对话前缀缓存加速
   platforms:
   - linux
@@ -851,10 +886,11 @@ commands:
   - python -c "import outlines; ..."
   options: []
   examples:
-  - command: python -c "import outlines; model = outlines.models.transformers('gpt2')"
+  - command: python -c "import outlines; model = 
+      outlines.models.transformers('gpt2')"
     description: 加载模型
-  - command: python -c "import outlines; generator = outlines.generate.json(model,
-      schema)"
+  - command: python -c "import outlines; generator = 
+      outlines.generate.json(model, schema)"
     description: 生成JSON格式输出
   platforms:
   - linux
@@ -864,3 +900,6 @@ commands:
   - instructor
   - guidance
   - langchain
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。

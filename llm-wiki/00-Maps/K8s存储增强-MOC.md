@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 容器编排/K8s存储增强
-moc_order: 0
-tags:
-- MOC
-- AI
-- K8s存储增强
+{
+  "moc_type": "dimension",
+  "moc_name": "容器编排/K8s存储增强",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "K8s存储增强"
+  ]
+}
 ---
-
 
 # 容器编排/K8s存储增强
 
@@ -18,7 +20,6 @@ tags:
 - 🔴 [[kubectl cp]] — Copy files between local filesystem and pod
 - 🔴 [[kubectl delete pv]] — Delete PersistentVolume resources
 - 🔴 [[kubectl delete pvc]] — Delete PersistentVolumeClaim resources
-- 🟡 [[kubectl exec -it]] — Enter pod to diagnose storage issues
 - 🟡 [[kubectl get csidrivers]] — List CSIDriver resources for Container Storage Interface drivers
 - 🟡 [[kubectl get csinodes]] — List CSINode resources showing node storage capabilities
 - 🟡 [[kubectl get csistoragecapacities]] — List CSIStorageCapacity resources showing storage availability
@@ -35,5 +36,5 @@ tags:
 
 ## 统计
 
-- 总命令数: 17
+- 总命令数: 16
 - 维度: K8s存储增强

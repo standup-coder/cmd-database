@@ -1,0 +1,114 @@
+category: 大数据/Spark计算
+description: Apache Spark 批处理与流计算命令
+commands:
+- name: spark-submit
+  category: 大数据/Spark计算
+  install_required: true
+  install_method: 参考 https://spark.apache.org/downloads.html
+  description: 提交 Spark 应用程序到集群
+  usage:
+  - spark-submit [OPTIONS] APP_FILE [APP_ARGUMENTS]
+  options:
+  - flag: --master
+    description: 指定集群主节点地址（如 yarn、spark://host:7077、local[*]）
+  - flag: --deploy-mode
+    description: 部署模式（client 或 cluster）
+  - flag: --class
+    description: Java/Scala 应用的主类
+  examples:
+  - command: spark-submit --master local[*] --class MyApp myapp.jar
+    description: 本地模式提交 Scala 应用
+  - command: spark-submit --master yarn --deploy-mode cluster myapp.py
+    description: 以 cluster 模式提交到 YARN
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - spark-shell
+  - pyspark
+  risks:
+  - level: medium
+    description: 提交到共享集群时请注意资源占用，避免耗尽队列资源
+
+- name: spark-shell
+  category: 大数据/Spark计算
+  install_required: true
+  install_method: 随 Apache Spark 安装
+  description: Spark 交互式 Scala REPL
+  usage:
+  - spark-shell [OPTIONS]
+  options:
+  - flag: --master
+    description: 指定 Spark master
+  - flag: --driver-memory
+    description: 设置 Driver 内存
+  examples:
+  - command: spark-shell --master local[*]
+    description: 本地模式启动 Spark Shell
+  - command: spark-shell --driver-memory 4g
+    description: 指定 Driver 内存启动
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-submit
+  - pyspark
+  risks:
+  - level: low
+    description: 注意不要在共享集群上分配过大内存
+
+- name: pyspark
+  category: 大数据/Spark计算
+  install_required: true
+  install_method: 随 Apache Spark 安装，也可 pip install pyspark
+  description: Spark 交互式 Python Shell
+  usage:
+  - pyspark [OPTIONS]
+  options:
+  - flag: --master
+    description: 指定 Spark master
+  - flag: --conf
+    description: 设置 Spark 配置项
+  examples:
+  - command: pyspark --master local[*]
+    description: 本地模式启动 PySpark
+  - command: pyspark --conf spark.sql.adaptive.enabled=true
+    description: 启用自适应查询执行
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - spark-submit
+  - spark-shell
+  risks:
+  - level: low
+    description: 生产环境注意限制并发和资源占用
+
+- name: spark-sql
+  category: 大数据/Spark计算
+  install_required: true
+  install_method: 随 Apache Spark 安装
+  description: Spark SQL 交互式命令行
+  usage:
+  - spark-sql [OPTIONS]
+  options:
+  - flag: --database
+    description: 指定默认数据库
+  - flag: -e
+    description: 直接执行 SQL 语句
+  examples:
+  - command: spark-sql -e "SELECT * FROM sales LIMIT 10"
+    description: 执行单条 SQL 查询
+  - command: spark-sql --database mydb
+    description: 进入指定数据库的交互式会话
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - spark-submit
+  - pyspark
+  risks:
+  - level: medium
+    description: 直接执行 SQL 可能扫描大量数据，建议先 LIMIT 验证

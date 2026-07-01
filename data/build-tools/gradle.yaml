@@ -1,0 +1,89 @@
+category: "构建工具/Gradle"
+description: "Gradle 项目自动化构建工具"
+commands:
+- name: gradle
+  category: "构建工具/Gradle"
+  install_required: true
+  install_method: "sdk install gradle (macOS) 或 apt install gradle (Ubuntu)"
+  description: "Gradle 项目自动化构建工具，基于 Groovy/Kotlin DSL"
+  usage:
+  - "gradle [任务]"
+  - "gradle [选项] [任务]"
+  options:
+  - flag: "--build-cache"
+    description: "启用构建缓存"
+  - flag: "--parallel"
+    description: "并行执行任务"
+  - flag: "--no-daemon"
+    description: "不使用守护进程"
+  - flag: "--info"
+    description: "显示日志级别为 INFO"
+  - flag: "-x"
+    description: "显示详细构建日志"
+  examples:
+  - command: "gradle build"
+    description: "构建项目"
+  - command: "gradle test"
+    description: "运行测试"
+  - command: "gradle clean build --no-daemon"
+    description: "无守护进程清理构建"
+  - command: "gradle dependencies"
+    description: "查看项目依赖"
+  - command: "gradle bootRun"
+    description: "运行 Spring Boot 应用"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "mvn"
+  - "make"
+  risks:
+  - level: medium
+    description: "会修改本地环境或依赖"
+
+- name: gradle init
+  category: "构建工具/Gradle"
+  install_required: true
+  install_method: "同 gradle"
+  description: "Gradle Wrapper 初始化，生成 gradlew 脚本"
+  usage:
+  - "gradle wrapper --gradle-version 8.5"
+  examples:
+  - command: "gradle wrapper --gradle-version 8.5"
+    description: "生成指定版本的 Gradle Wrapper"
+  - command: gradle init --type java-application --dsl groovy
+    description: 生成 Groovy DSL 的 Java 应用
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "gradle"
+  - "gradlew"
+  risks:
+  - level: medium
+    description: "会修改本地环境或依赖"
+
+- name: gradlew
+  category: "构建工具/Gradle"
+  install_required: false
+  description: "Gradle Wrapper 脚本，确保使用项目指定的 Gradle 版本"
+  usage:
+  - "./gradlew [任务]"
+  - "gradlew.bat [任务] (Windows)"
+  examples:
+  - command: "./gradlew build"
+    description: "使用 wrapper 构建"
+  - command: "./gradlew test"
+    description: "使用 wrapper 运行测试"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - "gradle"
+  - "gradle init"
+  risks:
+  - level: medium
+    description: "会修改本地环境或依赖"

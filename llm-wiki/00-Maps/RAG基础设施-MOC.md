@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/RAG基础设施
-moc_order: 0
-tags:
-- MOC
-- AI
-- RAG基础设施
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/RAG基础设施",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "RAG基础设施"
+  ]
+}
 ---
-
 
 # AI基础设施/RAG基础设施
 

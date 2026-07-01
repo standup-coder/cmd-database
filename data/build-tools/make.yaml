@@ -1,0 +1,99 @@
+category: "构建工具/Make"
+description: "GNU Make 构建自动化工具"
+commands:
+- name: make
+  category: "构建工具/Make"
+  install_required: false
+  description: "GNU Make 构建自动化工具，通过 Makefile 定义构建规则"
+  usage:
+  - "make [目标]"
+  - "make -f Makefile [目标]"
+  - "make -j[N] [目标]"
+  options:
+  - flag: "-f"
+    description: "指定 Makefile 文件"
+  - flag: "-j"
+    description: "并行构建（指定任务数）"
+  - flag: "-C"
+    description: "切换到指定目录"
+  - flag: "-n"
+    description: "仅显示命令不执行（dry run）"
+  - flag: "-B"
+    description: "强制重新构建"
+  examples:
+  - command: "make"
+    description: "构建默认目标"
+  - command: "make all"
+    description: "构建所有目标"
+  - command: "make clean && make"
+    description: "清理后重新构建"
+  - command: "make -j4"
+    description: "4 线程并行构建"
+  - command: "make -n build"
+    description: "预览构建命令"
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: "make -j 可能导致构建输出交错"
+  related_commands:
+  - "mvn"
+  - "gradle"
+
+- name: cmake
+  category: "构建工具/Make"
+  install_required: true
+  install_method: "apt install cmake (Ubuntu) 或 brew install cmake (macOS)"
+  description: "跨平台构建系统生成器，管理 C/C++ 项目构建"
+  usage:
+  - "cmake [选项] <源码路径>"
+  - "cmake --build <构建目录>"
+  - "cmake --install <构建目录>"
+  options:
+  - flag: "-S"
+    description: "源码目录"
+  - flag: "-B"
+    description: "构建目录"
+  - flag: "-DCMAKE_BUILD_TYPE=Release"
+    description: "构建类型"
+  - flag: "-G"
+    description: "生成器（Unix Makefiles/Ninja/Visual Studio）"
+  examples:
+  - command: "cmake -S . -B build -DCMAKE_BUILD_TYPE=Release"
+    description: "配置 Release 构建"
+  - command: "cmake --build build --config Release"
+    description: "执行构建"
+  - command: "cmake --install build --prefix /usr/local"
+    description: "安装"
+  platforms:
+  - linux
+  - darwin
+  - windows
+
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: make install
+  category: "构建工具/Make"
+  install_required: false
+  description: "安装已编译的程序到系统目录（通常为 /usr/local）"
+  usage:
+  - "make install"
+  - "make install PREFIX=/opt"
+  examples:
+  - command: "make install"
+    description: "安装到默认目录 /usr/local"
+  - command: "make install PREFIX=/opt/myapp"
+    description: "安装到自定义目录"
+  - command: "sudo make install"
+    description: "以 root 权限安装"
+  risks:
+  - level: high
+    description: "需要 root 权限，可能覆盖系统文件"
+  - level: high
+    description: 安装到系统目录可能覆盖系统文件，建议检查 DESTDIR/PREFIX 配置。
+  platforms:
+  - linux
+  - darwin

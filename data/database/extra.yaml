@@ -1,0 +1,367 @@
+category: 数据库工具/扩展工具
+description: NoSQL、NewSQL、图数据库等扩展命令
+commands:
+- name: mongorestore
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: 从 mongodump 备份恢复 MongoDB 数据
+  usage:
+  - mongorestore [OPTIONS] [ARGS]
+  options:
+  - flag: --uri
+    description: 连接 URI
+  - flag: --nsInclude
+    description: 包含命名空间
+  - flag: --drop
+    description: 恢复前删除
+  examples:
+  - command: mongorestore --uri='mongodb://localhost:27017' /backup/mongo
+    description: 恢复备份
+  - command: mongorestore --db mydb /backup/mongo/mydb
+    description: 恢复指定数据库
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mongodump
+  - mongosh
+  install_method: 随 MongoDB Database Tools 安装
+  risks:
+  - level: high
+    description: --drop 会清空现有集合，恢复前请确认备份正确
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: mongoimport
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: 将 JSON/CSV/TSV 导入 MongoDB
+  usage:
+  - mongoimport [OPTIONS] [ARGS]
+  options:
+  - flag: --db
+    description: 数据库
+  - flag: --collection
+    description: 集合
+  - flag: --file
+    description: 输入文件
+  - flag: --headerline
+    description: ''
+  examples:
+  - command: mongoimport --db mydb --collection users --file users.json
+    description: 导入 JSON
+  - command: mongoimport --db mydb --collection users --type=csv --headerline 
+      --file users.csv
+    description: 导入 CSV
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mongoexport
+  - mongosh
+  install_method: 随 MongoDB Database Tools 安装
+  risks:
+  - level: medium
+    description: 导入会写入目标集合，可能覆盖现有数据
+- name: mongostat
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: 实时显示 MongoDB 实例统计信息
+  usage:
+  - mongostat [OPTIONS] [ARGS]
+  options:
+  - flag: --host
+    description: 主机
+  - flag: --rowcount
+    description: 行数
+  - flag: --discover
+    description: 发现副本集成员
+  examples:
+  - command: mongostat --host localhost:27017
+    description: 实时监控本地实例
+  - command: mongostat --discover
+    description: 监控整个副本集
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mongotop
+  - mongosh
+  install_method: 随 MongoDB Database Tools 安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: mongotop
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: 实时显示 MongoDB 集合级读写时间
+  usage:
+  - mongotop [OPTIONS] [ARGS]
+  options:
+  - flag: --host
+    description: 主机
+  - flag: --locks
+    description: 显示锁信息
+  - flag: --sleep
+    description: 采样间隔
+  examples:
+  - command: mongotop 5
+    description: 每 5 秒采样一次
+  - command: mongotop --host rs0/mongo1:27017
+    description: 监控副本集
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mongostat
+  - mongosh
+  install_method: 随 MongoDB Database Tools 安装
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+- name: cockroach
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: CockroachDB 分布式 SQL 数据库 CLI
+  usage:
+  - cockroach [OPTIONS] [ARGS]
+  options:
+  - flag: sql
+    description: 启动 SQL shell
+  - flag: init
+    description: 初始化集群
+  - flag: node
+    description: 管理节点
+  - flag: start
+    description: 启动节点
+  examples:
+  - command: cockroach sql --insecure
+    description: 连接不安全模式集群
+  - command: cockroach init --insecure --host=node1
+    description: 初始化集群
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - psql
+  - tidb-ctl
+  install_method: 参考 
+    https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux
+  risks:
+  - level: high
+    description: init 和节点管理操作会影响整个集群，请在测试环境验证
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: tidb-ctl
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: TiDB 集群诊断与管理工具
+  usage:
+  - tidb-ctl [OPTIONS] [ARGS]
+  options:
+  - flag: schema
+    description: 查看 schema
+  - flag: region
+    description: 查看 region
+  - flag: etcd
+    description: 查看 etcd
+  examples:
+  - command: tidb-ctl schema in mysql
+    description: 查看 mysql 数据库 schema
+  - command: tidb-ctl region -i 1
+    description: 查看 region 信息
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mysql
+  - cockroach
+  install_method: 参考 https://docs.pingcap.com/tidb/stable/tidb-control
+  risks:
+  - level: medium
+    description: 直接操作 TiDB 内部元数据可能导致不一致，请谨慎
+- name: ysqlsh
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: YugabyteDB 兼容 PostgreSQL 的 SQL Shell
+  usage:
+  - ysqlsh [OPTIONS] [ARGS]
+  options:
+  - flag: -h
+    description: 主机
+  - flag: -p
+    description: 端口
+  - flag: -d
+    description: 数据库
+  - flag: -c
+    description: 执行命令
+  examples:
+  - command: ysqlsh -h localhost -d yugabyte
+    description: 连接本地 YugabyteDB
+  - command: ysqlsh -c 'SELECT version();'
+    description: 执行 SQL
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - psql
+  - ycqlsh
+  install_method: 随 YugabyteDB 安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: ycqlsh
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: YugabyteDB Cassandra 兼容 CQL Shell
+  usage:
+  - ycqlsh [OPTIONS] [ARGS]
+  options:
+  - flag: -e
+    description: 执行 CQL
+  - flag: -k
+    description: keyspace
+  - flag: --ssl
+    description: ''
+  examples:
+  - command: ycqlsh localhost 9042
+    description: 连接 YCQL
+  - command: ycqlsh -e 'DESCRIBE KEYSPACES;'
+    description: 列出 keyspace
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cqlsh
+  - ysqlsh
+  install_method: 随 YugabyteDB 安装
+  risks:
+  - level: low
+    description: 命令风险较低，执行前请阅读文档并确认参数。
+- name: neo4j-admin
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: Neo4j 图数据库管理工具
+  usage:
+  - neo4j-admin [OPTIONS] [ARGS]
+  options:
+  - flag: database
+    description: 管理数据库
+  - flag: dump
+    description: 备份
+  - flag: load
+    description: 恢复
+  - flag: check-consistency
+    description: ''
+  examples:
+  - command: neo4j-admin database dump neo4j --to-path=/backup
+    description: 备份数据库
+  - command: neo4j-admin database load neo4j --from-path=/backup
+    description: 恢复数据库
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cypher-shell
+  - neo4j
+  install_method: 随 Neo4j 安装
+  risks:
+  - level: high
+    description: dump/load 会操作数据库文件，操作前请停止服务并备份
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: cassandra-stress
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: Cassandra 压力测试工具
+  usage:
+  - cassandra-stress [OPTIONS] [ARGS]
+  options:
+  - flag: user
+    description: 自定义 profile
+  - flag: write
+    description: 写压测
+  - flag: read
+    description: 读压测
+  - flag: -node
+    description: 目标节点
+  examples:
+  - command: cassandra-stress write -node 127.0.0.1
+    description: 写入压力测试
+  - command: cassandra-stress read duration=5m -rate threads=50
+    description: 5 分钟读压测
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - cqlsh
+  - nodetool
+  install_method: 随 Apache Cassandra 安装
+  risks:
+  - level: high
+    description: 压测会大量消耗 Cassandra 资源，请避开业务高峰并获授权
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: mysqlslap
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: MySQL 负载模拟与压测工具
+  usage:
+  - mysqlslap [OPTIONS] [ARGS]
+  options:
+  - flag: --auto-generate-sql
+    description: ''
+  - flag: --concurrency
+    description: ''
+  - flag: --iterations
+    description: ''
+  - flag: --engine
+    description: ''
+  examples:
+  - command: mysqlslap --auto-generate-sql --concurrency=10 --iterations=100
+    description: 自动生成 SQL 压测
+  - command: mysqlslap --query='SELECT 1' --concurrency=50
+    description: 压测指定查询
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - mysql
+  - mysqladmin
+  install_method: 随 MySQL 客户端安装
+  risks:
+  - level: high
+    description: 压测会影响生产库性能，请在测试环境或低峰期执行
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。
+- name: pgbench
+  category: 数据库工具/扩展工具
+  install_required: true
+  description: PostgreSQL 基准测试工具
+  usage:
+  - pgbench [OPTIONS] [ARGS]
+  options:
+  - flag: -i
+    description: 初始化测试数据
+  - flag: -c
+    description: 并发客户端
+  - flag: -t
+    description: 每个客户端事务数
+  - flag: -T
+    description: 测试时长
+  examples:
+  - command: pgbench -i mydb
+    description: 初始化测试数据
+  - command: pgbench -c 10 -T 60 mydb
+    description: 10 并发压测 60 秒
+  platforms:
+  - linux
+  - darwin
+  related_commands:
+  - psql
+  - pg_dump
+  install_method: 随 PostgreSQL 客户端安装
+  risks:
+  - level: high
+    description: 压测会消耗 PG 资源，请在测试实例上执行
+  - level: high
+    description: 操作前请仔细阅读文档并确认参数，建议在测试环境或非生产数据上先行验证。

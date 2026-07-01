@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 网络工具/HTTP工具
-moc_order: 0
-tags:
-- MOC
-- AI
-- HTTP工具
+{
+  "moc_type": "dimension",
+  "moc_name": "网络工具/HTTP工具",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "HTTP工具"
+  ]
+}
 ---
-
 
 # 网络工具/HTTP工具
 

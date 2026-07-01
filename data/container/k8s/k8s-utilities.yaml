@@ -1,0 +1,225 @@
+category: "容器编排/K8s辅助工具"
+description: "Kubernetes集群管理与运维辅助工具"
+commands:
+- name: "k9s"
+  description: "Interactive terminal UI for Kubernetes"
+  category: "Kubernetes Utilities"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "k9s [flags]"
+  options:
+  - flag: "-n"
+    description: "Start in specific namespace"
+  - flag: "-c"
+    description: "Start with specific view (pods, services, etc.)"
+  - flag: "--readonly"
+    description: "Launch in read-only mode"
+  examples:
+  - command: "k9s"
+    description: "Launch k9s terminal UI"
+  - command: "k9s -n production"
+    description: "Launch in production namespace"
+  - command: "k9s -c pods"
+    description: "Launch directly to pods view"
+  - command: "k9s --readonly"
+    description: "Launch in read-only mode"
+  risks:
+  - level: "low"
+    description: "Interactive UI; risk depends on user actions"
+  - level: "medium"
+    description: "Can execute dangerous operations if not careful"
+  install_method: "Download from https://k9scli.io/topics/install/"
+  version_check: "k9s version"
+
+- name: "kubectx"
+  description: "Switch between Kubernetes contexts"
+  category: "Kubernetes Utilities"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubectx [context-name]"
+  examples:
+  - command: "kubectx"
+    description: "List all contexts"
+  - command: "kubectx production"
+    description: "Switch to production context"
+  - command: "kubectx -"
+    description: "Switch to previous context"
+  - command: "kubectx staging"
+    description: "Switch to staging context"
+  risks:
+  - level: "high"
+    description: "Switching contexts changes target cluster; verify before executing
+      commands"
+  - level: "medium"
+    description: "Accidental switch to production can cause issues"
+  install_method: "Download from https://github.com/ahmetb/kubectx"
+  version_check: "kubectx --version"
+
+- name: "kubens"
+  description: "Switch between Kubernetes namespaces"
+  category: "Kubernetes Utilities"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "kubens [namespace-name]"
+  examples:
+  - command: "kubens"
+    description: "List all namespaces"
+  - command: "kubens production"
+    description: "Switch to production namespace"
+  - command: "kubens -"
+    description: "Switch to previous namespace"
+  - command: "kubens default"
+    description: "Switch to default namespace"
+  risks:
+  - level: "medium"
+    description: "Changes default namespace for subsequent commands"
+  - level: "low"
+    description: "Verify namespace before executing destructive operations"
+  install_method: "Download from https://github.com/ahmetb/kubectx"
+  version_check: "kubens --version"
+
+- name: "stern"
+  description: "Multi-pod and container log tailing for Kubernetes"
+  category: "Kubernetes Utilities"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "stern [pod-query] [flags]"
+  options:
+  - flag: "-n"
+    description: "Namespace to filter"
+  - flag: "-c"
+    description: "Container name filter (regex)"
+  - flag: "--since"
+    description: "Show logs since duration (e.g., 5m, 1h)"
+  - flag: "-t"
+    description: "Show timestamps"
+  examples:
+  - command: "stern nginx"
+    description: "Tail logs from pods matching 'nginx'"
+  - command: "stern nginx -n production"
+    description: "Tail nginx pods in production namespace"
+  - command: "stern . -n default"
+    description: "Tail all pods in default namespace"
+  - command: "stern --since 15m nginx"
+    description: "Show logs from last 15 minutes"
+  risks:
+  - level: "low"
+    description: "Read-only operation; tails logs only"
+  install_method: "Download from https://github.com/stern/stern"
+  version_check: "stern --version"
+
+- name: "popeye"
+  description: "Kubernetes cluster resource sanitizer and health checker"
+  category: "Kubernetes Utilities"
+  platforms:
+  - "linux"
+  - "darwin"
+  - "windows"
+  usage:
+  - "popeye [flags]"
+  options:
+  - flag: "-n"
+    description: "Check specific namespace"
+  - flag: "-o"
+    description: "Output format: standard, json, yaml, html"
+  - flag: "-s"
+    description: "Specify spinach config file"
+  examples:
+  - command: "popeye"
+    description: "Scan entire cluster for issues"
+  - command: "popeye -n production"
+    description: "Scan production namespace"
+  - command: "popeye -o json"
+    description: "Output results in JSON format"
+  - command: "popeye -s spinach.yaml"
+    description: "Run with custom configuration"
+  risks:
+  - level: "low"
+    description: "Read-only health check; no cluster modifications"
+  install_method: "Download from https://github.com/derailed/popeye"
+  version_check: "popeye version"
+- name: kubectl-who-can
+  category: 容器编排/K8s辅助工具
+  install_required: true
+  install_method: kubectl krew install who-can
+  description: 检查谁对某个 K8s 资源拥有特定权限
+  usage:
+  - kubectl who-can VERB RESOURCE [NAME]
+  options:
+  - flag: --all-namespaces
+    description: 扫描所有命名空间
+  examples:
+  - command: kubectl who-can create pods
+    description: 查看谁能创建 Pod
+  - command: kubectl who-can delete secrets -n production
+    description: 查看谁能删除 production 命名空间的 Secret
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - krew
+  risks:
+  - level: low
+    description: 只读查询 RBAC 权限，不会修改集群
+- name: kubectl-neat
+  category: 容器编排/K8s辅助工具
+  install_required: true
+  install_method: kubectl krew install neat
+  description: 移除 kubectl get 输出中的默认字段，使 YAML 更简洁
+  usage:
+  - kubectl neat [OPTIONS]
+  options: []
+  examples:
+  - command: kubectl get pod mypod -o yaml | kubectl neat
+    description: 获取精简后的 Pod YAML
+  - command: kubectl neat -f deploy.yaml -o yaml
+    description: 精简本地 YAML 文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - kustomize
+  risks:
+  - level: low
+    description: 只读/格式化工具，不会修改集群
+- name: kubectl-tree
+  category: 容器编排/K8s辅助工具
+  install_required: true
+  install_method: kubectl krew install tree
+  description: 以树状结构展示 K8s 资源 ownerReferences 关系
+  usage:
+  - kubectl tree [OPTIONS] RESOURCE NAME
+  options:
+  - flag: --all-namespaces
+    description: 扫描所有命名空间
+  examples:
+  - command: kubectl tree deployment myapp
+    description: 查看 Deployment 下的所有派生资源
+  - command: kubectl tree namespace default
+    description: 查看 default 命名空间下的资源树
+  platforms:
+  - linux
+  - darwin
+  - windows
+  related_commands:
+  - kubectl
+  - k9s
+  risks:
+  - level: low
+    description: 只读命令

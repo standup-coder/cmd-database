@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 网络工具/网络诊断
-moc_order: 0
-tags:
-- MOC
-- AI
-- 网络诊断
+{
+  "moc_type": "dimension",
+  "moc_name": "网络工具/网络诊断",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "网络诊断"
+  ]
+}
 ---
-
 
 # 网络工具/网络诊断
 

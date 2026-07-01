@@ -1,10 +1,14 @@
 ---
-moc_type: dimension
-moc_name: 云平台/Terraform
-moc_order: 0
-tags:
-- MOC
-- Terraform
+{
+  "moc_type": "dimension",
+  "moc_name": "云平台/Terraform",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Terraform"
+  ]
+}
 ---
 
 # 云平台/Terraform

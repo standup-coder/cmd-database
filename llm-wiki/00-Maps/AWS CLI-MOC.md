@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 云平台/AWS CLI
-moc_order: 0
-tags:
-- MOC
-- AI
-- AWS CLI
+{
+  "moc_type": "dimension",
+  "moc_name": "云平台/AWS CLI",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "AWS CLI"
+  ]
+}
 ---
-
 
 # 云平台/AWS CLI
 
@@ -20,9 +22,9 @@ tags:
 - 🔴 [[aws configure]] — 配置 AWS CLI 凭证和默认设置
 - 🟡 [[aws eks]] — EKS Kubernetes 集群管理
 - 🔴 [[aws s3]] — S3 存储桶和对象管理
-
 - 🟡 [[aws sts]] — AWS Security Token Service，管理临时凭证
+
 ## 统计
 
-- 总命令数: 5
+- 总命令数: 6
 - 维度: AWS CLI

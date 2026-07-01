@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 构建工具/Make
-moc_order: 0
-tags:
-- MOC
-- AI
-- Make
+{
+  "moc_type": "dimension",
+  "moc_name": "构建工具/Make",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Make"
+  ]
+}
 ---
-
 
 # 构建工具/Make
 

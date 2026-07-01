@@ -22,8 +22,8 @@ commands:
     description: 初始化聊天机器人工作流
   - command: pf flow test --flow ./my_chatbot --inputs question='Hello'
     description: 测试工作流
-  - command: pf run create --flow ./my_chatbot --data ./data.jsonl --column-mapping
-      question='${data.question}'
+  - command: pf run create --flow ./my_chatbot --data ./data.jsonl 
+      --column-mapping question='${data.question}'
     description: 批量评测工作流
   platforms:
   - linux
@@ -85,9 +85,11 @@ commands:
   - flag: hub.push()
     description: 推送模板
   examples:
-  - command: python -c "from langchain import hub; prompt = hub.pull('hwchase17/openai-functions-agent')"
+  - command: python -c "from langchain import hub; prompt = 
+      hub.pull('hwchase17/openai-functions-agent')"
     description: 拉取OpenAI Functions Agent模板
-  - command: python -c "from langchain import hub; hub.push('my-repo/my-prompt', prompt)"
+  - command: python -c "from langchain import hub; hub.push('my-repo/my-prompt',
+      prompt)"
     description: 推送自定义Prompt
   platforms:
   - linux
@@ -116,11 +118,12 @@ commands:
   - flag: --dialect
     description: SQL方言 (mysql, postgresql, sqlite)
   examples:
-  - command: python -c "from text2sql import Text2SQL; t = Text2SQL(schema='schema.json',
-      model='gpt-4'); sql = t.convert('Show me top 10 customers by revenue')"
+  - command: python -c "from text2sql import Text2SQL; t = 
+      Text2SQL(schema='schema.json', model='gpt-4'); sql = t.convert('Show me 
+      top 10 customers by revenue')"
     description: 自然语言生成SQL
-  - command: python text2sql.py --schema schema.sql --dialect mysql --question 'What
-      is the average order value?'
+  - command: python text2sql.py --schema schema.sql --dialect mysql --question 
+      'What is the average order value?'
     description: 命令行生成MySQL查询
   platforms:
   - linux
@@ -132,6 +135,8 @@ commands:
   risks:
   - level: high
     description: 生成的SQL可能包含DELETE/DROP，需审查和沙箱执行
+  - level: high
+    description: AI 生成的 SQL/代码需人工审查，避免对生产数据执行误删、误改操作。
   references:
   - https://github.com/eosphoros-ai/DB-GPT
 - name: neo4j-llm
@@ -147,8 +152,9 @@ commands:
   - flag: GraphCypherQAChain
     description: Cypher问答链
   examples:
-  - command: python -c "from langchain_neo4j import Neo4jGraph; graph = Neo4jGraph(url='bolt://localhost:7687',
-      username='neo4j', password='password')"
+  - command: python -c "from langchain_neo4j import Neo4jGraph; graph = 
+      Neo4jGraph(url='bolt://localhost:7687', username='neo4j', 
+      password='password')"
     description: 连接Neo4j图数据库
   - command: python kg_build.py --docs ./documents/ --schema schema.cypher
     description: 从文档自动构建知识图谱
@@ -194,6 +200,8 @@ commands:
   risks:
   - level: high
     description: SQL生成需审查，防止数据泄露和误操作
+  - level: high
+    description: AI 生成的 SQL/代码需人工审查，避免对生产数据执行误删、误改操作。
   references:
   - https://github.com/vanna-ai/vanna
 - name: runpod
@@ -219,3 +227,6 @@ commands:
   - modal
   - sky-pilot
   - vast.ai
+  risks:
+  - level: medium
+    description: 会修改系统或应用状态，建议在测试环境验证后再应用于生产。

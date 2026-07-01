@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 诊断工具/Java诊断
-moc_order: 0
-tags:
-- MOC
-- AI
-- Java诊断
+{
+  "moc_type": "dimension",
+  "moc_name": "诊断工具/Java诊断",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Java诊断"
+  ]
+}
 ---
-
 
 # 诊断工具/Java诊断
 

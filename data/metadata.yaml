@@ -1,6 +1,6 @@
 version: "1.8.0"
 updated_at: "2026-05-31"
-description: "cmd4coder 命令行工具大全数据文件 - 覆盖 58 个分类, 690+ 命令"
+description: "cmd4coder 命令行工具大全数据文件 - 覆盖 106 个分类, 1112 命令"
 
 categories:
   os_ubuntu:
@@ -111,12 +111,6 @@ categories:
     description: "Kubernetes网络插件管理工具"
     parent: ""
     order: 45
-  container_k8s_storage:
-    id: container_k8s_storage
-    name: "容器编排/K8s存储管理"
-    description: "Kubernetes存储管理和包工具"
-    parent: ""
-    order: 46
   container_k8s_cicd:
     id: container_k8s_cicd
     name: "容器编排/K8s持续集成"
@@ -388,68 +382,368 @@ categories:
     parent: ""
     order: 85
 
+  cloud_terraform:
+    id: cloud_terraform
+    name: 云平台/Terraform
+    description: Terraform 基础设施即代码工具
+    parent: ''
+    order: 92
+  container_messaging:
+    id: container_messaging
+    name: 容器编排/消息队列
+    description: 分布式消息队列（Kafka 等）
+    parent: ''
+    order: 49
+  bigdata_hadoop:
+    id: bigdata_hadoop
+    name: 大数据/Hadoop生态
+    description: Apache Hadoop 分布式存储与计算
+    parent: ''
+    order: 100
+  bigdata_spark:
+    id: bigdata_spark
+    name: 大数据/Spark计算
+    description: Apache Spark 批处理与流计算
+    parent: ''
+    order: 101
+  bigdata_flink:
+    id: bigdata_flink
+    name: 大数据/Flink流计算
+    description: Apache Flink 流处理与批处理
+    parent: ''
+    order: 102
+  bigdata_kafka:
+    id: bigdata_kafka
+    name: 大数据/Kafka工具
+    description: Apache Kafka 命令行工具
+    parent: ''
+    order: 103
+  bigdata_query:
+    id: bigdata_query
+    name: 大数据/查询引擎
+    description: 大数据 SQL 查询引擎
+    parent: ''
+    order: 104
+  bigdata_etl:
+    id: bigdata_etl
+    name: 大数据/数据集成与ETL
+    description: 数据采集、转换、同步与调度
+    parent: ''
+    order: 105
+  bigdata_lake:
+    id: bigdata_lake
+    name: 大数据/数据湖
+    description: 数据湖表格式管理
+    parent: ''
+    order: 106
+  network_security:
+    id: network_security
+    name: 网络工具/网络安全
+    description: 网络扫描、探测与安全测试
+    parent: ''
+    order: 107
+  network_perf:
+    id: network_perf
+    name: 网络工具/性能压测
+    description: 网络性能测试与负载生成
+    parent: ''
+    order: 108
+  database_nosql:
+    id: database_nosql
+    name: 数据库工具/NoSQL
+    description: 非关系型数据库命令行工具
+    parent: ''
+    order: 109
+  database_timeseries:
+    id: database_timeseries
+    name: 数据库工具/时序与OLAP
+    description: 时序数据库与 OLAP 分析引擎
+    parent: ''
+    order: 110
+  container_alternatives:
+    id: container_alternatives
+    name: 容器编排/容器替代方案
+    description: Docker 之外的主流容器工具
+    parent: ''
+    order: 111
+  container_local_k8s:
+    id: container_local_k8s
+    name: 容器编排/本地K8s
+    description: 本地 Kubernetes 集群搭建工具
+    parent: ''
+    order: 112
+  container_k8s_security_extra:
+    id: container_k8s_security_extra
+    name: 容器编排/K8s安全扩展
+    description: Kubernetes 与容器镜像安全合规
+    parent: ''
+    order: 113
+  container_k8s_devtools:
+    id: container_k8s_devtools
+    name: 容器编排/K8s开发工具
+    description: K8s 配置、包管理与开发辅助
+    parent: ''
+    order: 114
+  cloud_pulumi:
+    id: cloud_pulumi
+    name: 云平台/Pulumi
+    description: Pulumi 基础设施即代码
+    parent: ''
+    order: 115
+  os_linux_extra_yaml:
+    id: os_linux_extra_yaml
+    name: 操作系统/Linux扩展命令
+    description: Linux 常用系统、文件、用户、磁盘、定时任务等扩展命令
+    parent: ''
+    order: 200
+  network_tools_extra_yaml:
+    id: network_tools_extra_yaml
+    name: 网络工具/扩展工具
+    description: 网络抓包、代理、扫描、探测等扩展工具
+    parent: ''
+    order: 200
+  database_extra_yaml:
+    id: database_extra_yaml
+    name: 数据库工具/扩展工具
+    description: NoSQL、NewSQL、图数据库等扩展命令
+    parent: ''
+    order: 200
+  bigdata_extra_yaml:
+    id: bigdata_extra_yaml
+    name: 大数据/扩展工具
+    description: 大数据生态的扩展命令和子系统
+    parent: ''
+    order: 200
+  container_cloudnative_extra_yaml:
+    id: container_cloudnative_extra_yaml
+    name: 容器编排/云原生扩展
+    description: Service Mesh、Secret、本地集群、镜像构建等云原生扩展工具
+    parent: ''
+    order: 200
+  ai_llm_extra_yaml:
+    id: ai_llm_extra_yaml
+    name: AI基础设施/扩展工具
+    description: 大模型应用与平台扩展工具
+    parent: ''
+    order: 200
+  os_linux_core_yaml:
+    id: os_linux_core_yaml
+    name: 操作系统/Linux核心
+    description: Linux 系统、网络、存储、硬件等核心底层命令
+    parent: ''
+    order: 250
+  network_infra_yaml:
+    id: network_infra_yaml
+    name: 网络工具/基础设施
+    description: 反向代理、Web 服务器、VPN、DNS 服务等网络基础设施命令
+    parent: ''
+    order: 250
+  database_more_yaml:
+    id: database_more_yaml
+    name: 数据库工具/扩展命令
+    description: 商业数据库、缓存、备份与云数据仓库扩展命令
+    parent: ''
+    order: 300
+  bigdata_more_yaml:
+    id: bigdata_more_yaml
+    name: 大数据/扩展命令
+    description: 大数据生态的扩展工具、调度与消息队列命令
+    parent: ''
+    order: 300
+  container_cloudnative_more_yaml:
+    id: container_cloudnative_more_yaml
+    name: 容器编排/云原生扩展二
+    description: 容器运行时、本地开发、多集群、Secret 管理等云原生扩展命令
+    parent: ''
+    order: 300
+  ai_more_yaml:
+    id: ai_more_yaml
+    name: AI基础设施/扩展命令
+    description: 大模型 API 客户端、AI 编码助手、MLOps 与可观测扩展命令
+    parent: ''
+    order: 300
+  hardware_info_yaml:
+    id: hardware_info_yaml
+    name: 硬件/系统信息
+    description: 查看系统硬件配置、拓扑与 NUMA 信息
+    parent: ''
+    order: 400
+  hardware_sensors_yaml:
+    id: hardware_sensors_yaml
+    name: 硬件/传感器与电源
+    description: 温度、风扇、功耗与电源管理工具
+    parent: ''
+    order: 400
+  hardware_network_yaml:
+    id: hardware_network_yaml
+    name: 硬件/网络硬件
+    description: 网卡、无线、蓝牙等硬件管理
+    parent: ''
+    order: 400
+  hardware_storage_yaml:
+    id: hardware_storage_yaml
+    name: 硬件/存储与RAID
+    description: 硬盘健康、NVMe、RAID、存储性能测试
+    parent: ''
+    order: 400
+  hardware_gpu_yaml:
+    id: hardware_gpu_yaml
+    name: 硬件/GPU与加速器
+    description: NVIDIA、AMD、Intel GPU 与 OpenCL 设备管理
+    parent: ''
+    order: 400
+  hardware_perf_yaml:
+    id: hardware_perf_yaml
+    name: 硬件/性能与调度
+    description: CPU 调度、性能分析、 cgroup 与压力测试
+    parent: ''
+    order: 400
+  hardware_firmware_yaml:
+    id: hardware_firmware_yaml
+    name: 硬件/固件与UEFI
+    description: BIOS/UEFI、固件更新、启动项管理
+    parent: ''
+    order: 400
+  hardware_ipmi_yaml:
+    id: hardware_ipmi_yaml
+    name: 硬件/远程带外管理
+    description: IPMI 与 Redfish 远程硬件管理
+    parent: ''
+    order: 400
+  hardware_embedded_yaml:
+    id: hardware_embedded_yaml
+    name: 硬件/嵌入式与IoT
+    description: 单片机烧录、串口、I2C、GPIO 等嵌入式工具
+    parent: ''
+    order: 400
+  lang_more_yaml:
+    id: lang_more_yaml
+    name: 编程语言/扩展工具链
+    description: Rust、PHP、Ruby、.NET、Scala、Kotlin、Groovy 等语言工具链
+    parent: ''
+    order: 400
+  cicd_more_yaml:
+    id: cicd_more_yaml
+    name: CI/CD/扩展工具
+    description: Jenkins、GitLab、CircleCI、GitHub CLI 等 CI/CD 工具
+    parent: ''
+    order: 400
+  cloud_more_yaml:
+    id: cloud_more_yaml
+    name: 云平台/多云CLI
+    description: GCP、Azure、DigitalOcean、Linode 等云平台 CLI
+    parent: ''
+    order: 400
+  diagnostic_more_yaml:
+    id: diagnostic_more_yaml
+    name: 系统诊断/扩展工具
+    description: 系统调用跟踪、eBPF、容器系统诊断工具
+    parent: ''
+    order: 400
 data_files:
-  - "os/common.yaml"
-  - "os/ubuntu.yaml"
-  - "os/centos.yaml"
-  - "lang/java.yaml"
-  - "lang/go.yaml"
-  - "lang/python.yaml"
-  - "lang/nodejs.yaml"
-  - "diagnostic/arthas.yaml"
-  - "diagnostic/tsar.yaml"
-  - "network/dns.yaml"
-  - "network/diagnostic.yaml"
-  - "network/http.yaml"
-  - "container/docker.yaml"
-  - "container/kubernetes.yaml"
-  - "container/k8s-cluster.yaml"
-  - "container/k8s-runtime.yaml"
-  - "container/k8s-monitor.yaml"
-  - "container/k8s-network.yaml"
-  - "container/k8s-storage.yaml"
-  - "container/k8s-cicd.yaml"
-  - "container/k8s-config.yaml"
-  - "container/k8s-backup.yaml"
-  - "container/k8s-security.yaml"
-  - "container/k8s-utilities.yaml"
-  - "container/k8s-cloud.yaml"
-  - "container/k8s-dev.yaml"
-  - "container/k8s-mlops.yaml"
-  - "container/k8s-troubleshooting.yaml"
-  - "container/k8s-storage-management.yaml"
-  - "container/k8s-helm-enhanced.yaml"
-  - "database/mysql.yaml"
-  - "database/redis.yaml"
-  - "database/postgresql.yaml"
-  - "vcs/git.yaml"
-  - "vcs/svn.yaml"
-  - "build/maven.yaml"
-  - "build/gradle.yaml"
-  - "build/make.yaml"
-  - "ai/ml-frameworks.yaml"
-  - "ai/mlops.yaml"
-  - "ai/model-serving.yaml"
-  - "ai/llm-training.yaml"
-  - "ai/llm-inference.yaml"
-  - "ai/model-hub.yaml"
-  - "ai/data-labeling.yaml"
-  - "ai/monitoring.yaml"
-  - "ai/vector-db.yaml"
-  - "ai/agent-engineering.yaml"
-  - "ai/harness-engineering.yaml"
-  - "ai/ai-gateway.yaml"
-  - "ai/ai-safety.yaml"
-  - "ai/multimodal.yaml"
-  - "ai/ai-coding.yaml"
-  - "ai/rag-infra.yaml"
-  - "ai/edge-ai.yaml"
-  - "ai/model-architecture.yaml"
-  - "ai/ai-applications.yaml"
-  - "ai/ai-compiler.yaml"
-  - "ai/model-interpretability.yaml"
-  - "ai/federated-learning.yaml"
-  - "shell/bash.yaml"
-  - "cicd/github-actions.yaml"
-  - "lang/rust.yaml"
-  - "cloud/aws-cli.yaml"
+- ai/agent-engineering.yaml
+- ai/ai-applications.yaml
+- ai/ai-coding.yaml
+- ai/ai-compiler.yaml
+- ai/ai-gateway.yaml
+- ai/ai-safety.yaml
+- ai/data-labeling.yaml
+- ai/edge-ai.yaml
+- ai/federated-learning.yaml
+- ai/harness-engineering.yaml
+- ai/llm-extra.yaml
+- ai/llm-inference.yaml
+- ai/llm-training.yaml
+- ai/ml-frameworks.yaml
+- ai/mlops.yaml
+- ai/model-architecture.yaml
+- ai/model-hub.yaml
+- ai/model-interpretability.yaml
+- ai/model-serving.yaml
+- ai/monitoring.yaml
+- ai/more.yaml
+- ai/multimodal.yaml
+- ai/rag-infra.yaml
+- ai/vector-db.yaml
+- bigdata/data-lake.yaml
+- bigdata/etl.yaml
+- bigdata/extra.yaml
+- bigdata/flink.yaml
+- bigdata/hadoop.yaml
+- bigdata/kafka-cli.yaml
+- bigdata/kafka.yaml
+- bigdata/more.yaml
+- bigdata/query-engines.yaml
+- bigdata/spark.yaml
+- build-tools/gradle.yaml
+- build-tools/make.yaml
+- build-tools/maven.yaml
+- cicd/github-actions.yaml
+- cicd/more.yaml
+- cloud/aws-cli.yaml
+- cloud/more.yaml
+- cloud/pulumi.yaml
+- cloud/terraform.yaml
+- container/cloudnative/cloudnative-extra.yaml
+- container/cloudnative/cloudnative-more.yaml
+- container/docker/container-alternatives.yaml
+- container/docker/docker.yaml
+- container/k8s/k8s-backup.yaml
+- container/k8s/k8s-cicd.yaml
+- container/k8s/k8s-cloud.yaml
+- container/k8s/k8s-cluster.yaml
+- container/k8s/k8s-config.yaml
+- container/k8s/k8s-dev.yaml
+- container/k8s/k8s-devtools.yaml
+- container/k8s/k8s-helm-enhanced.yaml
+- container/k8s/k8s-mlops.yaml
+- container/k8s/k8s-monitor.yaml
+- container/k8s/k8s-network.yaml
+- container/k8s/k8s-runtime.yaml
+- container/k8s/k8s-security-extra.yaml
+- container/k8s/k8s-security.yaml
+- container/k8s/k8s-storage-management.yaml
+- container/k8s/k8s-troubleshooting.yaml
+- container/k8s/k8s-utilities.yaml
+- container/k8s/kubernetes.yaml
+- container/k8s/local-k8s.yaml
+- database/extra.yaml
+- database/more.yaml
+- database/mysql.yaml
+- database/nosql.yaml
+- database/postgresql.yaml
+- database/redis.yaml
+- database/timeseries.yaml
+- diagnostic/arthas.yaml
+- diagnostic/more.yaml
+- diagnostic/tsar.yaml
+- hardware/embedded.yaml
+- hardware/firmware.yaml
+- hardware/gpu.yaml
+- hardware/info.yaml
+- hardware/ipmi.yaml
+- hardware/network.yaml
+- hardware/perf.yaml
+- hardware/sensors.yaml
+- hardware/storage.yaml
+- lang/go.yaml
+- lang/java.yaml
+- lang/more.yaml
+- lang/nodejs.yaml
+- lang/python.yaml
+- lang/rust.yaml
+- network/diagnostic.yaml
+- network/dns.yaml
+- network/http.yaml
+- network/infra.yaml
+- network/performance.yaml
+- network/security.yaml
+- network/tools-extra.yaml
+- os/centos.yaml
+- os/common.yaml
+- os/linux-core.yaml
+- os/linux-extra.yaml
+- os/ubuntu.yaml
+- shell/bash.yaml
+- vcs/git.yaml
+- vcs/svn.yaml

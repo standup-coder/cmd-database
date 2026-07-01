@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: 版本控制/SVN命令
-moc_order: 0
-tags:
-- MOC
-- AI
-- SVN命令
+{
+  "moc_type": "dimension",
+  "moc_name": "版本控制/SVN命令",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "SVN命令"
+  ]
+}
 ---
-
 
 # 版本控制/SVN命令
 

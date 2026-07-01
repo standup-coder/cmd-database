@@ -1,13 +1,15 @@
 ---
-moc_type: dimension
-moc_name: AI基础设施/Agent工程
-moc_order: 0
-tags:
-- MOC
-- AI
-- Agent工程
+{
+  "moc_type": "dimension",
+  "moc_name": "AI基础设施/Agent工程",
+  "moc_order": 0,
+  "tags": [
+    "MOC",
+    "AI",
+    "Agent工程"
+  ]
+}
 ---
-
 
 # AI基础设施/Agent工程
 
@@ -24,7 +26,6 @@ tags:
 - 🟡 [[flowise]] — Flowise可视化LangChain工作流构建器，拖拽式创建LLM应用
 - 🟡 [[guidance]] — Guidance可控生成库，通过语法约束LLM输出结构，确保JSON/代码格式正确
 - 🟡 [[haystack]] — Haystack端到端NLP框架，支持RAG、Agent、文档搜索、Pipeline编排
-- 🟡 [[instructor]] — Instructor结构化输出库，基于Pydantic验证LLM响应，确保类型安全
 - 🟡 [[langchain]] — LangChain LLM应用开发框架，支持Chains、Agents、RAG、工具调用
 - 🟡 [[langgraph]] — LangGraph状态机Agent框架，支持循环、条件分支、持久化、人机协同
 - 🟡 [[llama-index]] — LlamaIndex数据框架，连接LLM与私有数据，支持RAG、Agent、工作流
@@ -37,5 +38,5 @@ tags:
 
 ## 统计
 
-- 总命令数: 19
+- 总命令数: 18
 - 维度: Agent工程
