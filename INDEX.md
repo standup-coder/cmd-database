@@ -14,6 +14,7 @@
 | AI 命令 | 240（22 分类） |
 | LLM-Wiki 页面 | 755 |
 | Wiki 双向链接 | 2105+ |
+| Index 文件 | **12 个** |
 | Agent Skills | 43 |
 | Go 版本 | ≥ 1.24 |
 | 当前版本 | 1.8.0 |
@@ -24,12 +25,12 @@
 
 | 层级 | 说明 | 索引文件 |
 |------|------|----------|
-| **CLI 入口** | Go 命令行程序 | [`cmd/README.md`](cmd/README.md) |
-| **内部实现** | 数据模型、加载、服务、TUI | [`internal/README.md`](internal/README.md) |
-| **可复用包** | JSON/Markdown/YAML 导出 | [`pkg/README.md`](pkg/README.md) |
-| **数据源** | YAML 单一数据源 | [`data/README.md`](data/README.md) |
-| **脚本工具** | 构建、数据维护、Wiki 转换 | [`scripts/README.md`](scripts/README.md) |
-| **项目文档** | 报告、指南、架构说明、GitHub Pages | [`docs/README.md`](docs/README.md) |
+| **CLI 入口** | Go 命令行程序 | [`cmd/index.md`](cmd/index.md) · [`cmd/README.md`](cmd/README.md) |
+| **内部实现** | 数据模型、加载、服务、TUI | [`internal/index.md`](internal/index.md) · [`internal/README.md`](internal/README.md) |
+| **可复用包** | JSON/Markdown/YAML 导出 | [`pkg/index.md`](pkg/index.md) · [`pkg/README.md`](pkg/README.md) |
+| **数据源** | YAML 单一数据源 | [`data/index.md`](data/index.md) · [`data/README.md`](data/README.md) |
+| **脚本工具** | 构建、数据维护、Wiki 转换 | [`scripts/index.md`](scripts/index.md) · [`scripts/README.md`](scripts/README.md) |
+| **项目文档** | 报告、指南、架构说明、GitHub Pages | [`docs/index.md`](docs/index.md) · [`docs/README.md`](docs/README.md) |
 | **LLM-Wiki** | Obsidian 知识库 | [`llm-wiki/index.md`](llm-wiki/index.md) |
 
 ---

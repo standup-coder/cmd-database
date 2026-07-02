@@ -1,23 +1,50 @@
 ---
 title: Wiki Index
 tags: ["index", "MOC"]
-updated: "2026-05-31"
+updated: "2026-07-02"
 ---
 
 # LLM-Wiki Index
 
 > cmd4coder 大模型领域知识库 — Obsidian Wiki 版  
-> *自动维护索引。最后更新: 2026-05-31*
+> *自动维护索引。最后更新: 2026-07-02*
 
 ## 统计概览
 
-- **命令实体**: 676 个 ([[00-Maps/README|浏览全部]])
-- **维度分类**: 65 个 MOC 索引
-- **场景分析**: 4 个多轮问答场景
-- **概念解释**: 4 个核心概念
-- **FAQ 问答**: 5 个高频问题
+- **命令实体**: 1112 个 ([[01-Commands/index|浏览全部]])
+- **维度分类**: 102 个 MOC 索引 ([[00-Maps/index|浏览全部]])
+- **场景分析**: 4 个多轮问答场景 ([[synthesis/index|浏览全部]])
+- **概念解释**: 4 个核心概念 ([[concepts/index|浏览全部]])
+- **FAQ 问答**: 5 个高频问题 ([[references/faqs/index|浏览全部]])
+
+## 目录索引
+
+| 目录 | 说明 | 索引文件 |
+|------|------|----------|
+| **00-Maps** | MOC 分类索引 (102 个) | [[00-Maps/index\|MOC 索引总览]] |
+| **01-Commands** | 命令详细文档 (1112 个) | [[01-Commands/index\|命令索引]] |
+| **02-Scenes** | 场景分析 | [[02-Scenes/index\|场景索引]] |
+| **03-Concepts** | 核心概念 | [[03-Concepts/index\|概念索引]] |
+| **04-FAQs** | 常见问题 | [[04-FAQs/index\|FAQ 索引]] |
+| **05-Troubleshooting** | 故障排查 | [[05-Troubleshooting/index\|排查索引]] |
+| **99-Templates** | 页面模板 | [[99-Templates/index\|模板索引]] |
+| **best-practices** | 最佳实践指南 (718 个) | [[best-practices/index\|最佳实践索引]] |
+| **concepts** | 核心概念解释 (4 个) | [[concepts/index\|概念索引]] |
+| **entities** | 结构化实体数据 | [[entities/index\|实体索引]] |
+| **references** | FAQ 与参考资料 | [[references/index\|参考资料索引]] |
+| **synthesis** | 场景分析与综合 | [[synthesis/index\|场景索引]] |
 
 ## 快速导航
+
+### 目录索引
+
+- [[00-Maps/index|MOC 索引]] — 103 个维度分类
+- [[01-Commands/index|命令索引]] — 1112 条命令详情
+- [[02-Scenes/index|场景索引]] — 多轮问答场景
+- [[03-Concepts/index|概念索引]] — 核心概念解释
+- [[04-FAQs/index|FAQ 索引]] — 常见问题解答
+- [[05-Troubleshooting/index|故障排查索引]] — 问题排查指南
+- [[99-Templates/index|模板索引]] — 页面模板
 
 ### 按维度
 
@@ -32,6 +59,7 @@ updated: "2026-05-31"
 
 ### 按场景
 
+- [[02-Scenes/index|场景索引]] — 查看所有场景
 - [[synthesis/scenes/单卡4090微调7B模型|单卡4090微调7B模型]]
 - [[synthesis/scenes/生产环境推理部署|生产环境推理部署]]
 - [[synthesis/scenes/RAG应用构建|RAG应用构建]]
@@ -39,10 +67,19 @@ updated: "2026-05-31"
 
 ### 核心概念
 
+- [[03-Concepts/index|概念索引]] — 查看所有概念
 - [[concepts/ZeRO优化|ZeRO 优化]]
 - [[concepts/KV-Cache|KV Cache]]
 - [[concepts/推测解码|推测解码]]
 - [[concepts/LoRA原理|LoRA 原理]]
+- [[concepts/index|查看全部概念...]]
+
+### FAQ 问答
+
+- [[references/faqs/rlhf-vs-dpo|RLHF vs DPO]]
+- [[references/faqs/deepspeed-vs-accelerate|DeepSpeed vs Accelerate]]
+- [[references/faqs/vllm-vs-sglang|vLLM vs SGLang]]
+- [[references/faqs/index|查看全部 FAQ...]]
 
 ## 最近活动
 
