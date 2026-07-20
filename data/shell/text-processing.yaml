@@ -1,0 +1,171 @@
+category: Shell脚本/文本处理
+description: JSON/YAML 处理和文本转换工具
+commands:
+- name: parallel
+  category: Shell脚本/文本处理
+  install_required: true
+  install_method: brew install parallel (macOS) 或 apt install parallel (Ubuntu)
+  description: GNU Parallel 并行命令执行工具
+  usage:
+  - 'parallel [选项] [命令] ::: [参数]'
+  - 命令 | parallel [选项]
+  options:
+  - flag: -j
+    description: 并行任务数（默认 CPU 核数）
+  - flag: --bar
+    description: 显示进度条
+  - flag: --dry-run
+    description: 仅打印将执行的命令
+  - flag: -X
+    description: 多参数模式
+  examples:
+  - command: 'parallel -j 4 convert {} {.}.png ::: *.jpg'
+    description: 4 路并行转换 JPG 为 PNG
+  - command: cat servers.txt | parallel -j 10 ssh {} uptime
+    description: 10 路并行检查服务器状态
+  - command: 'parallel --bar gzip ::: *.log'
+    description: 带进度条并行压缩日志
+  - command: 'parallel --dry-run echo {} ::: a b c'
+    description: 预览将执行的命令
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: 并行执行放大操作影响，--dry-run 先预览
+  related_commands:
+  - xargs
+  - find
+- name: cut
+  category: Shell脚本/文本处理
+  install_required: false
+  description: 按列切割文本行
+  usage:
+  - cut [选项] [文件]
+  options:
+  - flag: -d
+    description: 指定分隔符
+  - flag: -f
+    description: 选择字段（列号）
+  - flag: -c
+    description: 选择字符位置
+  examples:
+  - command: 'cut -d: -f1 /etc/passwd'
+    description: 提取用户名（第一列）
+  - command: cut -d' ' -f1,3 data.txt
+    description: 提取第 1 和第 3 列
+  - command: cut -c1-10 file.txt
+    description: 提取每行前 10 个字符
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - awk
+  - sed
+- name: sort
+  category: Shell脚本/文本处理
+  install_required: false
+  description: 文本排序工具
+  usage:
+  - sort [选项] [文件]
+  options:
+  - flag: -n
+    description: 数值排序
+  - flag: -r
+    description: 逆序
+  - flag: -u
+    description: 去重
+  - flag: -k
+    description: 按指定列排序
+  - flag: -t
+    description: 指定分隔符
+  - flag: -h
+    description: 人类可读大小排序 (1K/2M/3G)
+  examples:
+  - command: sort -n numbers.txt
+    description: 数值排序
+  - command: 'sort -t: -k3 -n /etc/passwd'
+    description: 按 UID（第 3 列）数值排序
+  - command: du -sh * | sort -hr
+    description: 按文件大小降序排列
+  - command: sort -u file.txt
+    description: 排序并去重
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - uniq
+  - awk
+- name: uniq
+  category: Shell脚本/文本处理
+  install_required: false
+  description: 报告或过滤重复行（需先排序）
+  usage:
+  - uniq [选项] [文件]
+  - sort file | uniq [选项]
+  options:
+  - flag: -c
+    description: 显示每行出现次数
+  - flag: -d
+    description: 仅输出重复行
+  - flag: -u
+    description: 仅输出唯一行
+  - flag: -i
+    description: 忽略大小写
+  examples:
+  - command: sort access.log | uniq -c | sort -rn | head
+    description: 统计访问频率 Top 10
+  - command: sort file.txt | uniq -d
+    description: 找出重复行
+  - command: sort file.txt | uniq -u
+    description: 找出唯一行
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - sort
+  - awk
+- name: diff
+  category: Shell脚本/文本处理
+  install_required: false
+  description: 逐行比较文件差异
+  usage:
+  - diff [选项] 文件1 文件2
+  options:
+  - flag: -u
+    description: 统一格式（unified diff）
+  - flag: -r
+    description: 递归比较目录
+  - flag: -w
+    description: 忽略空白差异
+  - flag: -y
+    description: 并排显示
+  - flag: --color
+    description: 彩色输出
+  examples:
+  - command: diff -u old.conf new.conf
+    description: 统一格式比较配置变更
+  - command: diff -r src/ src-backup/
+    description: 递归比较两个目录
+  - command: diff -y --color file1 file2
+    description: 并排彩色对比
+  - command: diff <(sort file1) <(sort file2)
+    description: 比较排序后的内容差异
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - git diff
+  - colordiff

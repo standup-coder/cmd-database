@@ -1,0 +1,206 @@
+category: 操作系统/Systemd服务管理
+description: Systemd 服务管理、日志查询与定时器命令
+commands:
+- name: systemctl
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 管理系统服务、套接字、挂载单元等
+  usage:
+  - systemctl <命令> [单元名]
+  - systemctl <start|stop|restart|status> <service>
+  options:
+  - flag: --now
+    description: enable/disable 时同时启动/停止服务
+  - flag: -u
+    description: 指定用户级服务 (--user)
+  - flag: -t
+    description: 按单元类型过滤 (service/socket/timer)
+  - flag: --failed
+    description: 列出失败的单元
+  - flag: -l
+    description: 显示完整输出不截断
+  examples:
+  - command: systemctl status nginx
+    description: 查看 nginx 服务状态
+  - command: systemctl enable --now docker
+    description: 设置开机启动并立即启动 docker
+  - command: systemctl list-units -t service --state running
+    description: 列出所有运行中的服务
+  - command: systemctl daemon-reload
+    description: 重新加载 systemd 配置
+  - command: systemctl mask firewalld
+    description: 彻底禁用服务（无法手动启动）
+  platforms:
+  - linux
+  risks:
+  - level: medium
+    description: stop/disable/mask 可能中断关键服务
+  related_commands:
+  - journalctl
+  - systemd-analyze
+- name: systemctl cat
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 查看服务单元文件完整配置
+  usage:
+  - systemctl cat <service>
+  examples:
+  - command: systemctl cat nginx
+    description: 查看 nginx 单元文件内容
+  - command: systemctl cat docker.service
+    description: 查看 docker 完整 unit 配置
+  platforms:
+  - linux
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - systemctl edit
+- name: systemctl edit
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 创建 override 文件覆盖服务默认配置
+  usage:
+  - systemctl edit <service>
+  - systemctl edit --full <service>
+  options:
+  - flag: --full
+    description: 编辑完整副本而非 override 片段
+  - flag: --force
+    description: 单元不存在时创建新单元
+  examples:
+  - command: systemctl edit nginx
+    description: 为 nginx 添加 override 配置
+  - command: systemctl edit --force myapp.service
+    description: 创建新的自定义服务单元
+  platforms:
+  - linux
+  risks:
+  - level: medium
+    description: 错误配置可能导致服务无法启动
+  related_commands:
+  - systemctl cat
+  - systemctl daemon-reload
+- name: systemd-analyze
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 分析系统启动性能
+  usage:
+  - systemd-analyze [命令]
+  - systemd-analyze blame
+  - systemd-analyze critical-chain
+  options:
+  - flag: --user
+    description: 分析用户会话而非系统
+  examples:
+  - command: systemd-analyze
+    description: 显示总启动耗时
+  - command: systemd-analyze blame
+    description: 按启动耗时排序所有服务
+  - command: systemd-analyze critical-chain nginx
+    description: 显示 nginx 关键启动链
+  - command: systemd-analyze plot > boot.svg
+    description: 生成启动时序 SVG 图
+  platforms:
+  - linux
+  risks:
+  - level: low
+    description: 只读分析操作
+  related_commands:
+  - systemctl
+- name: systemd-run
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 在临时 systemd 单元中运行命令
+  usage:
+  - systemd-run [选项] <命令>
+  - systemd-run --on-calendar=<表达式> <命令>
+  options:
+  - flag: --unit
+    description: 指定临时单元名称
+  - flag: --on-calendar
+    description: 按日历表达式调度执行
+  - flag: --on-active
+    description: 延迟指定时间后执行
+  - flag: --scope
+    description: 以 scope 而非 service 运行
+  - flag: -p
+    description: 设置单元属性 (-p MemoryMax=512M)
+  examples:
+  - command: systemd-run --on-active=30min 'systemctl restart nginx'
+    description: 30 分钟后重启 nginx
+  - command: systemd-run --on-calendar='*-*-* 03:00:00' /usr/bin/backup.sh
+    description: 每天凌晨 3 点执行备份
+  - command: systemd-run -p MemoryMax=256M --unit=limited-task python train.py
+    description: 限制内存 256M 运行训练任务
+  platforms:
+  - linux
+  risks:
+  - level: medium
+    description: 调度的命令会实际执行，注意权限
+  related_commands:
+  - systemctl
+  - crontab
+- name: systemctl timer
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 管理 systemd 定时器（替代 cron）
+  usage:
+  - systemctl list-timers
+  - systemctl start <name>.timer
+  - systemctl enable <name>.timer
+  options:
+  - flag: --all
+    description: 显示所有定时器（含未激活）
+  - flag: --user
+    description: 操作用户级定时器
+  examples:
+  - command: systemctl list-timers --all
+    description: 列出所有定时器及下次触发时间
+  - command: systemctl enable --now fstrim.timer
+    description: 启用磁盘 TRIM 定时器
+  - command: systemctl status logrotate.timer
+    description: 查看日志轮转定时器状态
+  platforms:
+  - linux
+  risks:
+  - level: low
+    description: 定时器管理操作风险较低
+  related_commands:
+  - systemd-run
+  - crontab
+- name: loginctl
+  category: 操作系统/Systemd服务管理
+  install_required: false
+  install_method: Linux 系统自带 (systemd)
+  description: 管理用户登录会话
+  usage:
+  - loginctl [命令]
+  - loginctl list-sessions
+  - loginctl user-status <用户>
+  options:
+  - flag: --no-legend
+    description: 不显示表头（适合脚本）
+  examples:
+  - command: loginctl list-sessions
+    description: 列出所有登录会话
+  - command: loginctl list-users
+    description: 列出已登录用户
+  - command: loginctl terminate-user olduser
+    description: 终止指定用户所有会话
+  - command: loginctl user-status deploy
+    description: 查看 deploy 用户会话详情
+  platforms:
+  - linux
+  risks:
+  - level: medium
+    description: terminate-user 会强制断开用户会话
+  related_commands:
+  - systemctl
+  - who

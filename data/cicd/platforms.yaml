@@ -1,0 +1,290 @@
+category: CI-CD/平台工具
+description: CI/CD 平台命令行工具（Jenkins、GitLab、Tekton、Dagger）
+commands:
+- name: glab
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install glab (macOS) 或 apt install glab (GitLab 仓库)
+  description: GitLab 官方命令行工具，管理 MR、Pipeline、Issue
+  usage:
+  - glab [命令] [参数]
+  options:
+  - flag: -R
+    description: 指定仓库 (group/project)
+  - flag: --token
+    description: 个人访问令牌
+  examples:
+  - command: glab mr list
+    description: 列出打开的 Merge Request
+  - command: 'glab mr create --title "feat: add login" --source-branch feature/login --target-branch main'
+    description: 创建 Merge Request
+  - command: glab ci status
+    description: 查看当前分支 Pipeline 状态
+  - command: glab ci run
+    description: 手动触发 Pipeline
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: ci run 消耗 Runner 配额，mr merge 合并代码
+  related_commands:
+  - gh
+  - git
+- name: glab ci
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: 同 glab
+  description: 管理 GitLab CI/CD Pipeline
+  usage:
+  - glab ci [命令] [参数]
+  options:
+  - flag: -b
+    description: 指定分支
+  - flag: --pipeline-id
+    description: Pipeline ID
+  examples:
+  - command: glab ci list
+    description: 列出最近的 Pipeline
+  - command: glab ci status -b main
+    description: 查看 main 分支 Pipeline 状态
+  - command: glab ci view 12345
+    description: 查看 Pipeline 详情
+  - command: glab ci retry --pipeline-id 12345
+    description: 重试失败的 Pipeline
+  - command: glab ci trace
+    description: 实时跟踪当前 Pipeline 日志
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 查看操作无风险，retry 消耗 Runner 配额
+  related_commands:
+  - glab
+  - glab mr
+- name: glab mr
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: 同 glab
+  description: 管理 GitLab Merge Request
+  usage:
+  - glab mr [命令] [参数]
+  options:
+  - flag: --source-branch
+    description: 源分支
+  - flag: --target-branch
+    description: 目标分支
+  - flag: --squash
+    description: 合并时 squash commits
+  - flag: --remove-source-branch
+    description: 合并后删除源分支
+  examples:
+  - command: glab mr list --assignee=@me
+    description: 列出分配给我的 MR
+  - command: glab mr create --fill
+    description: 自动填充标题和描述创建 MR
+  - command: glab mr merge 42 --squash --remove-source-branch
+    description: Squash 合并 MR
+  - command: glab mr approve 42
+    description: 批准 MR
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: merge 操作不可逆，确认代码已审查
+  related_commands:
+  - glab ci
+  - gh pr
+- name: tkn
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install tektoncd-cli (macOS) 或 apt install tektoncd-cli
+  description: Tekton CLI，管理云原生 CI/CD Pipeline
+  usage:
+  - tkn [命令] [参数]
+  options:
+  - flag: -n
+    description: 命名空间
+  - flag: --context
+    description: kubeconfig context
+  examples:
+  - command: tkn pipeline list
+    description: 列出 Pipeline 定义
+  - command: tkn pipelinerun list
+    description: 列出 Pipeline 运行记录
+  - command: tkn pipelinerun logs -f
+    description: 实时查看运行日志
+  - command: tkn task list
+    description: 列出 Task 定义
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 查看操作无风险
+  related_commands:
+  - tkn pipeline start
+  - kubectl
+- name: tkn start
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: 同 tkn
+  description: 启动 Tekton Pipeline 运行
+  usage:
+  - tkn pipeline start [Pipeline名] [选项]
+  options:
+  - flag: -p
+    description: 传入参数 (-p name=value)
+  - flag: -w
+    description: 工作空间绑定
+  - flag: -s
+    description: ServiceAccount
+  - flag: --use-param-defaults
+    description: 使用参数默认值
+  examples:
+  - command: tkn pipeline start build-deploy -p git-url=https://github.com/org/repo -p image=registry/app:v1
+    description: 传参启动 Pipeline
+  - command: tkn pipeline start ci --use-param-defaults -w name=shared,pvc=ci-pvc
+    description: 使用默认参数+工作空间启动
+  - command: tkn pipeline start test -s pipeline-sa --showlog
+    description: 启动并实时显示日志
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 启动 Pipeline 消耗集群资源
+  related_commands:
+  - tkn pipelinerun
+  - kubectl
+- name: dagger
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install dagger/tap/dagger (macOS) 或 curl -L https://dl.dagger.io/dagger/install.sh | sh
+  description: Dagger 可编程 CI/CD 引擎，用代码定义 Pipeline
+  usage:
+  - dagger [命令] [参数]
+  options:
+  - flag: --output
+    description: 输出目录
+  - flag: --progress
+    description: 进度显示模式 (plain/tty)
+  examples:
+  - command: dagger init --sdk=go
+    description: 初始化 Dagger 模块（Go SDK）
+  - command: dagger call build
+    description: 执行模块中的 build 函数
+  - command: dagger call test --output=./results
+    description: 执行测试并输出结果
+  - command: dagger call deploy --image=registry/app:v1
+    description: 执行部署函数
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: Pipeline 中可能执行部署操作
+  related_commands:
+  - act
+  - tkn
+- name: goreleaser
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install goreleaser (macOS) 或 go install github.com/goreleaser/goreleaser/v2@latest
+  description: Go 项目自动化发布工具（构建、打包、发布）
+  usage:
+  - goreleaser [命令] [选项]
+  options:
+  - flag: --snapshot
+    description: 快照模式（不发布，仅本地构建）
+  - flag: --clean
+    description: 清理 dist 目录
+  - flag: --skip
+    description: 跳过步骤 (publish/validate/announce)
+  - flag: --config
+    description: 指定配置文件
+  examples:
+  - command: goreleaser release --snapshot --clean
+    description: 本地快照构建（不发布）
+  - command: goreleaser release --clean
+    description: 正式构建并发布到 GitHub Releases
+  - command: goreleaser build --single-target
+    description: 仅构建当前平台
+  - command: goreleaser check
+    description: 验证配置文件
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: release 会推送到 GitHub Releases，确认版本号正确
+  related_commands:
+  - gh release
+  - make
+- name: buildkite-agent
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install buildkite/buildkite/buildkite-agent (macOS) 或参见 buildkite.com/docs
+  description: Buildkite CI 代理，在自有基础设施运行构建
+  usage:
+  - buildkite-agent [命令] [参数]
+  options:
+  - flag: --token
+    description: Agent 注册令牌
+  - flag: --tags
+    description: Agent 标签 (os=linux,queue=default)
+  examples:
+  - command: buildkite-agent start --token $BUILDKITE_TOKEN
+    description: 启动 Agent 注册到 Buildkite
+  - command: buildkite-agent pipeline upload .buildkite/pipeline.yml
+    description: 上传动态 Pipeline 定义
+  - command: buildkite-agent artifact upload "dist/*.tar.gz"
+    description: 上传构建产物
+  - command: buildkite-agent artifact download "dist/app" ./
+    description: 下载构建产物
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: Agent 执行任意构建命令，确保安全隔离
+  related_commands:
+  - gh workflow
+  - act
+- name: drone
+  category: CI-CD/平台工具
+  install_required: true
+  install_method: brew install drone-cli (macOS) 或 go install github.com/drone/drone-cli@latest
+  description: Drone CI 命令行工具，管理构建和仓库
+  usage:
+  - drone [命令] [参数]
+  options:
+  - flag: --server
+    description: Drone 服务器地址
+  - flag: --token
+    description: 个人访问令牌
+  examples:
+  - command: drone build list org/repo
+    description: 列出构建记录
+  - command: drone build restart org/repo 42
+    description: 重启第 42 次构建
+  - command: drone build logs org/repo 42
+    description: 查看构建日志
+  - command: drone repo enable org/repo
+    description: 启用仓库 CI
+  - command: drone exec --pipeline build
+    description: 本地执行 Pipeline
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 查看操作无风险，restart 消耗资源
+  related_commands:
+  - gh workflow
+  - act

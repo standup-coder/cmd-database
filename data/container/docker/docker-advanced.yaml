@@ -1,0 +1,80 @@
+category: 容器编排/Docker高级
+description: Docker Buildx、Compose V2 和多阶段构建
+commands:
+- name: docker compose
+  category: 容器编排/Docker高级
+  install_required: true
+  install_method: Docker Desktop 内置或 apt install docker-compose-plugin
+  description: Docker Compose V2 多容器编排工具
+  usage:
+  - docker compose [命令] [选项]
+  options:
+  - flag: up
+    description: 启动服务
+  - flag: down
+    description: 停止并清理
+  - flag: -f
+    description: 指定 compose 文件
+  - flag: --profile
+    description: 启用指定 profile
+  - flag: --scale
+    description: 指定副本数
+  - flag: logs
+    description: 查看日志
+  examples:
+  - command: docker compose up -d
+    description: 后台启动所有服务
+  - command: docker compose down -v
+    description: 停止并删除卷
+  - command: docker compose up -d --scale worker=3
+    description: 启动 3 个 worker 副本
+  - command: docker compose logs -f web
+    description: 实时查看 web 服务日志
+  - command: docker compose -f docker-compose.prod.yml --profile monitoring up -d
+    description: 使用生产配置+监控 profile
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: down -v 删除数据卷，数据不可恢复
+  related_commands:
+  - docker buildx
+  - docker run
+- name: docker build (multi-stage)
+  category: 容器编排/Docker高级
+  install_required: false
+  description: Docker 多阶段构建（减小镜像体积）
+  usage:
+  - docker build [选项] [路径]
+  options:
+  - flag: --target
+    description: 构建到指定阶段
+  - flag: --build-arg
+    description: 构建参数
+  - flag: --no-cache
+    description: 不使用缓存
+  - flag: -t
+    description: 镜像标签
+  - flag: --secret
+    description: 构建时密钥（不留在镜像中）
+  examples:
+  - command: docker build --target production -t myapp:v1 .
+    description: 构建到 production 阶段
+  - command: docker build --build-arg VERSION=1.9.0 -t myapp:v1 .
+    description: 传入构建参数
+  - command: docker build --secret id=npm_token,src=.npmrc -t myapp:v1 .
+    description: 使用构建密钥（不泄露到镜像）
+  - command: docker build --no-cache --pull -t myapp:v1 .
+    description: 无缓存全新构建
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 构建操作风险低
+  related_commands:
+  - docker buildx
+  - docker compose

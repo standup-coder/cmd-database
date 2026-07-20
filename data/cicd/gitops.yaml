@@ -1,0 +1,290 @@
+category: CI-CD/GitOps
+description: GitOps 持续交付工具（ArgoCD、Flux）
+commands:
+- name: argocd
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: brew install argocd (macOS) 或 curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  description: ArgoCD CLI，管理 Kubernetes GitOps 持续交付
+  usage:
+  - argocd [命令] [参数]
+  options:
+  - flag: --server
+    description: ArgoCD API 服务器地址
+  - flag: --auth-token
+    description: 认证令牌
+  - flag: --grpc-web
+    description: 使用 gRPC-Web 协议（无需端口转发）
+  - flag: --insecure
+    description: 跳过 TLS 验证
+  examples:
+  - command: argocd login argocd.example.com --grpc-web
+    description: 登录 ArgoCD 服务器
+  - command: argocd app list
+    description: 列出所有应用
+  - command: argocd app get my-app
+    description: 查看应用同步状态
+  - command: argocd version
+    description: 查看客户端和服务端版本
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 应用操作影响 K8s 集群中的实际部署
+  related_commands:
+  - argocd app
+  - kubectl
+- name: argocd create
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 argocd
+  description: 在 ArgoCD 中创建应用（关联 Git 仓库与 K8s 集群）
+  usage:
+  - argocd app create [应用名] [选项]
+  options:
+  - flag: --repo
+    description: Git 仓库 URL
+  - flag: --path
+    description: 仓库中 manifests 路径
+  - flag: --dest-server
+    description: 目标集群 API 地址
+  - flag: --dest-namespace
+    description: 目标命名空间
+  - flag: --sync-policy
+    description: 同步策略 (automated/manual)
+  - flag: --auto-prune
+    description: 自动清理已删除资源
+  examples:
+  - command: argocd app create my-app --repo https://github.com/org/repo --path k8s/ --dest-server https://kubernetes.default.svc
+      --dest-namespace production
+    description: 创建手动同步应用
+  - command: argocd app create my-app --repo https://github.com/org/repo --path k8s/ --dest-namespace default --sync-policy
+      automated --auto-prune
+    description: 创建自动同步+自动修剪应用
+  - command: argocd app create my-app --repo https://github.com/org/repo --path helm/ --dest-namespace default --helm-values
+      values-prod.yaml
+    description: 创建 Helm 应用指定 values
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: automated + auto-prune 会自动删除 Git 中不存在的资源
+  related_commands:
+  - argocd app sync
+  - argocd app delete
+- name: argocd app rollback
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 argocd
+  description: 回滚 ArgoCD 应用到历史版本
+  usage:
+  - argocd app rollback [应用名] [修订ID]
+  options:
+  - flag: --prune
+    description: 回滚时修剪多余资源
+  examples:
+  - command: argocd app history my-app
+    description: 查看应用部署历史
+  - command: argocd app rollback my-app 3
+    description: 回滚到修订 ID 3
+  - command: argocd app rollback my-app 3 --prune
+    description: 回滚并修剪多余资源
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: 回滚影响生产部署，确认目标修订正确
+  related_commands:
+  - argocd app sync
+  - argocd app history
+- name: flux
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: brew install fluxcd/tap/flux (macOS) 或 curl -s https://fluxcd.io/install.sh | bash
+  description: Flux CD CLI，云原生 GitOps 持续交付工具
+  usage:
+  - flux [命令] [参数]
+  options:
+  - flag: --namespace
+    description: 目标命名空间（默认 flux-system）
+  - flag: --context
+    description: kubeconfig context
+  - flag: --timeout
+    description: 操作超时
+  examples:
+  - command: flux check
+    description: 检查 Flux 组件健康状态
+  - command: flux get all
+    description: 列出所有 Flux 资源
+  - command: flux version
+    description: 查看 Flux 版本
+  - command: flux install
+    description: 在集群中安装 Flux
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 操作影响集群中的 GitOps 流水线
+  related_commands:
+  - flux create
+  - flux reconcile
+  - kubectl
+- name: flux create source
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 flux
+  description: 创建 Flux 源（Git 仓库、Helm 仓库、OCI 仓库）
+  usage:
+  - flux create source git [名称] [选项]
+  - flux create source helm [名称] [选项]
+  options:
+  - flag: --url
+    description: 仓库 URL
+  - flag: --branch
+    description: Git 分支
+  - flag: --interval
+    description: 轮询间隔 (1m/5m/10m)
+  - flag: --secret-ref
+    description: 认证密钥引用
+  examples:
+  - command: flux create source git my-app --url=https://github.com/org/repo --branch=main --interval=5m
+    description: 创建 Git 源，5 分钟轮询
+  - command: flux create source helm bitnami --url=https://charts.bitnami.com/bitnami --interval=30m
+    description: 创建 Helm 仓库源
+  - command: flux create source git my-app --url=ssh://git@github.com/org/repo --branch=prod --secret-ref=ssh-creds
+    description: 使用 SSH 密钥创建私有仓库源
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 仅创建源定义，不直接修改工作负载
+  related_commands:
+  - flux create kustomization
+  - flux get sources
+- name: flux create kustomization
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 flux
+  description: 创建 Flux Kustomization（定义如何部署源中的 manifests）
+  usage:
+  - flux create kustomization [名称] [选项]
+  options:
+  - flag: --source
+    description: 关联的源 (GitRepository/name)
+  - flag: --path
+    description: manifests 路径
+  - flag: --prune
+    description: 自动修剪已删除资源
+  - flag: --interval
+    description: 同步间隔
+  - flag: --target-namespace
+    description: 目标命名空间
+  examples:
+  - command: flux create kustomization my-app --source=GitRepository/my-app --path=./k8s --prune=true --interval=5m --target-namespace=production
+    description: 创建 Kustomization 自动同步
+  - command: flux create kustomization infra --source=GitRepository/infra --path=./clusters/prod --prune=true --interval=10m
+    description: 创建基础设施同步
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: prune=true 会自动删除 Git 中不存在的集群资源
+  related_commands:
+  - flux create source
+  - flux reconcile
+- name: flux reconcile
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 flux
+  description: 手动触发 Flux 资源同步（不等待轮询间隔）
+  usage:
+  - flux reconcile [类型] [名称] [选项]
+  options:
+  - flag: --with-source
+    description: 同时拉取最新源
+  - flag: --force
+    description: 强制同步（忽略漂移检测）
+  examples:
+  - command: flux reconcile kustomization my-app --with-source
+    description: 拉取最新代码并同步
+  - command: flux reconcile source git my-app
+    description: 仅拉取最新 Git 源
+  - command: flux reconcile helmrelease my-chart --force
+    description: 强制重新部署 Helm Release
+  - command: flux reconcile kustomization --all
+    description: 同步所有 Kustomization
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 立即触发部署，绕过正常轮询节奏
+  related_commands:
+  - flux create kustomization
+  - flux get kustomizations
+- name: flux delete
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 flux
+  description: 删除 Flux 资源
+  usage:
+  - flux delete [类型] [名称] [选项]
+  options:
+  - flag: --silent
+    description: 跳过确认
+  - flag: --keep
+    description: 保留集群中已部署的资源
+  examples:
+  - command: flux delete kustomization my-app
+    description: 删除 Kustomization（含集群资源）
+  - command: flux delete source git my-app --keep
+    description: 删除源但保留已部署资源
+  - command: flux delete helmrelease my-chart --silent
+    description: 无确认删除 Helm Release
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: 默认会删除关联的集群资源，--keep 可保留
+  related_commands:
+  - flux create kustomization
+  - flux reconcile
+- name: flux logs
+  category: CI-CD/GitOps
+  install_required: true
+  install_method: 同 flux
+  description: 查看 Flux 控制器和资源同步日志
+  usage:
+  - flux logs [选项]
+  options:
+  - flag: --kind
+    description: 资源类型 (Kustomization/HelmRelease/GitRepository)
+  - flag: --name
+    description: 资源名称
+  - flag: --level
+    description: 日志级别 (info/error/debug)
+  - flag: --follow
+    description: 实时跟踪
+  examples:
+  - command: flux logs --kind=Kustomization --name=my-app --level=error
+    description: 查看应用同步错误日志
+  - command: flux logs --follow
+    description: 实时查看所有 Flux 日志
+  - command: flux logs --kind=HelmRelease --name=my-chart
+    description: 查看 Helm Release 日志
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - flux get all
+  - flux reconcile

@@ -1,0 +1,334 @@
+category: Shell脚本/现代工具
+description: 现代命令行工具（经典命令的高性能替代品）
+commands:
+- name: fzf
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install fzf (macOS) 或 apt install fzf (Ubuntu)
+  description: 命令行模糊搜索工具，交互式过滤
+  usage:
+  - fzf [选项]
+  - 命令 | fzf [选项]
+  options:
+  - flag: --preview
+    description: 预览窗口命令
+  - flag: --height
+    description: 高度（不全屏）
+  - flag: --multi
+    description: 多选模式
+  - flag: --exact
+    description: 精确匹配
+  - flag: --bind
+    description: 绑定快捷键
+  examples:
+  - command: fzf
+    description: 交互式模糊搜索当前目录文件
+  - command: history | fzf
+    description: 模糊搜索命令历史
+  - command: fzf --preview 'cat {}'
+    description: 搜索文件并预览内容
+  - command: git log --oneline | fzf --multi
+    description: 模糊搜索 Git 提交（多选）
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+  related_commands:
+  - rg
+  - fd
+- name: rg
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install ripgrep (macOS) 或 apt install ripgrep (Ubuntu)
+  description: ripgrep 极速文本搜索工具（grep 的现代替代）
+  usage:
+  - rg [选项] [模式] [路径]
+  options:
+  - flag: -i
+    description: 忽略大小写
+  - flag: -t
+    description: 按文件类型过滤 (-t go/-t py)
+  - flag: -l
+    description: 仅输出文件名
+  - flag: -c
+    description: 输出匹配计数
+  - flag: -A / -B / -C
+    description: 上下文行数
+  - flag: --hidden
+    description: 搜索隐藏文件
+  - flag: -g
+    description: glob 过滤 (-g "*.yaml")
+  examples:
+  - command: rg "TODO" -t go
+    description: 在 Go 文件中搜索 TODO
+  - command: rg -i "error" -C 3
+    description: 忽略大小写搜索，显示 3 行上下文
+  - command: rg -l "import" -g "*.py"
+    description: 列出包含 import 的 Python 文件
+  - command: rg --hidden -g "!.git" "config"
+    description: 搜索隐藏文件但排除 .git
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读/信息查询类命令，风险较低，但仍需确认目标对象。
+  related_commands:
+  - grep
+  - fd
+- name: fd
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install fd (macOS) 或 apt install fd-find (Ubuntu，命令为 fdfind)
+  description: 快速文件查找工具（find 的现代替代）
+  usage:
+  - fd [选项] [模式] [路径]
+  options:
+  - flag: -e
+    description: 按扩展名过滤 (-e go/-e yaml)
+  - flag: -t
+    description: 按类型 (f=文件/d=目录/l=链接)
+  - flag: -H
+    description: 包含隐藏文件
+  - flag: -I
+    description: 不遵循 .gitignore
+  - flag: -x
+    description: 对结果执行命令
+  - flag: -p
+    description: 匹配完整路径
+  examples:
+  - command: fd -e go
+    description: 查找所有 Go 文件
+  - command: fd -t d node_modules
+    description: 查找名为 node_modules 的目录
+  - command: fd -H -I ".env"
+    description: 查找所有 .env 文件（含隐藏、忽略 gitignore）
+  - command: fd -e log -x rm {}
+    description: 查找并删除所有 .log 文件
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: -x 配合 rm 等命令可批量删除文件
+  related_commands:
+  - find
+  - rg
+- name: bat
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install bat (macOS) 或 apt install bat (Ubuntu，命令为 batcat)
+  description: 带语法高亮和 Git 集成的 cat 替代品
+  usage:
+  - bat [选项] [文件]
+  options:
+  - flag: -n
+    description: 仅显示行号（无网格）
+  - flag: -p
+    description: 纯输出（无装饰，类似 cat）
+  - flag: -l
+    description: 指定语言高亮
+  - flag: -r
+    description: 显示指定行范围
+  - flag: --diff
+    description: 显示 Git 变更标记
+  examples:
+  - command: bat main.go
+    description: 语法高亮查看 Go 文件
+  - command: bat -n -r 100:150 file.py
+    description: 查看第 100-150 行
+  - command: bat --diff src/main.rs
+    description: 查看文件并标记 Git 变更
+  - command: bat -p file.txt
+    description: 纯文本输出（管道友好）
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - cat
+  - delta
+- name: http
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install httpie (macOS) 或 pip install httpie
+  description: HTTPie 人性化 HTTP 客户端（curl 的现代替代）
+  usage:
+  - http [方法] URL [请求项]
+  options:
+  - flag: -f
+    description: 表单提交
+  - flag: -a
+    description: 认证 (-a user:pass)
+  - flag: --headers
+    description: 仅显示响应头
+  - flag: --body
+    description: 仅显示响应体
+  - flag: -d
+    description: 下载文件
+  examples:
+  - command: http GET api.example.com/users
+    description: GET 请求
+  - command: http POST api.example.com/users name=John email=john@example.com
+    description: POST JSON 数据
+  - command: http -a admin:secret GET api.example.com/admin
+    description: 带 Basic Auth 请求
+  - command: http --headers GET https://example.com
+    description: 仅查看响应头
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: POST/PUT/DELETE 修改远端数据
+  related_commands:
+  - curl
+  - rg
+- name: eza
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install eza (macOS) 或 cargo install eza
+  description: 现代 ls 替代品（彩色、图标、Git 状态）
+  usage:
+  - eza [选项] [路径]
+  options:
+  - flag: -l
+    description: 长格式列表
+  - flag: -a
+    description: 显示隐藏文件
+  - flag: --tree
+    description: 树形显示
+  - flag: --git
+    description: 显示 Git 状态
+  - flag: --icons
+    description: 显示文件图标
+  - flag: -s
+    description: 排序字段 (name/size/date)
+  examples:
+  - command: eza -la --git --icons
+    description: 长格式+Git 状态+图标
+  - command: eza --tree --level=2
+    description: 两层目录树
+  - command: eza -l -s size
+    description: 按大小排序
+  - command: eza -la --git-ignore
+    description: 隐藏 .gitignore 中的文件
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - ls
+  - fd
+- name: zoxide
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install zoxide (macOS) 或 apt install zoxide (Ubuntu)
+  description: 智能 cd 替代品，记忆常用目录快速跳转
+  usage:
+  - z [关键词]
+  - zi [关键词] (交互式)
+  options:
+  - flag: z
+    description: 跳转到最匹配的目录
+  - flag: zi
+    description: 交互式选择（需 fzf）
+  - flag: z add
+    description: 手动添加目录
+  - flag: z query
+    description: 查询匹配的目录
+  examples:
+  - command: z project
+    description: 跳转到最常访问的含 project 的目录
+  - command: zi
+    description: 交互式选择目录（fzf 界面）
+  - command: z add /opt/myapp
+    description: 手动添加目录到数据库
+  - command: z query proj
+    description: 查询匹配 proj 的目录列表
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 仅切换目录，无风险
+  related_commands:
+  - cd
+  - fzf
+- name: direnv
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install direnv (macOS) 或 apt install direnv (Ubuntu)
+  description: 目录级环境变量自动加载工具
+  usage:
+  - direnv allow [路径]
+  - direnv deny [路径]
+  options:
+  - flag: allow
+    description: 允许加载 .envrc
+  - flag: deny
+    description: 禁止加载 .envrc
+  - flag: edit
+    description: 编辑 .envrc
+  - flag: status
+    description: 查看当前状态
+  examples:
+  - command: echo 'export DATABASE_URL=postgres://localhost/dev' > .envrc && direnv allow
+    description: 创建并允许环境变量文件
+  - command: direnv deny
+    description: 禁止当前目录的 .envrc
+  - command: direnv edit
+    description: 用编辑器打开 .envrc
+  - command: direnv status
+    description: 查看 direnv 加载状态
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: .envrc 可执行任意 shell 命令，仅 allow 可信目录
+  related_commands:
+  - export
+  - source
+- name: mise
+  category: Shell脚本/现代工具
+  install_required: true
+  install_method: brew install mise (macOS) 或 curl https://mise.run | sh
+  description: 多语言运行时版本管理器（asdf 的现代替代）
+  usage:
+  - mise [命令] [参数]
+  options:
+  - flag: install
+    description: 安装指定版本
+  - flag: use
+    description: 设置当前目录使用的版本
+  - flag: ls
+    description: 列出已安装版本
+  - flag: exec
+    description: 在指定版本环境中执行命令
+  examples:
+  - command: mise use node@20 python@3.12
+    description: 设置当前项目使用 Node 20 和 Python 3.12
+  - command: mise install
+    description: 安装 .mise.toml 中定义的所有工具
+  - command: mise ls
+    description: 列出已安装的工具和版本
+  - command: mise exec -- node --version
+    description: 在项目环境中执行命令
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 仅管理本地运行时版本，无风险
+  related_commands:
+  - nvm
+  - pyenv

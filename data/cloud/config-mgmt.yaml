@@ -1,0 +1,167 @@
+category: 云平台/配置管理
+description: 基础设施配置管理、密钥管理和服务发现工具
+commands:
+- name: ansible playbook
+  category: 云平台/配置管理
+  install_required: true
+  install_method: 同 ansible
+  description: 执行 Ansible Playbook 自动化剧本
+  usage:
+  - ansible-playbook [选项] playbook.yml
+  options:
+  - flag: -i
+    description: inventory 文件
+  - flag: -e
+    description: 额外变量 (-e key=value)
+  - flag: --tags
+    description: 仅执行指定标签的任务
+  - flag: --skip-tags
+    description: 跳过指定标签
+  - flag: --start-at-task
+    description: 从指定任务开始（断点续跑）
+  - flag: -v
+    description: 详细输出 (-vvv 更详细)
+  examples:
+  - command: ansible-playbook site.yml -e "env=production"
+    description: 传入变量执行 playbook
+  - command: ansible-playbook deploy.yml --tags "restart,notify"
+    description: 仅执行 restart 和 notify 标签任务
+  - command: ansible-playbook site.yml --start-at-task="Install packages"
+    description: 从指定任务恢复执行
+  - command: ansible-playbook deploy.yml -i inventory/ --limit web01
+    description: 仅对 web01 执行
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: playbook 可能批量修改服务器配置，生产环境建议先 --check
+  related_commands:
+  - ansible
+  - ansible-galaxy
+- name: ansible-galaxy
+  category: 云平台/配置管理
+  install_required: true
+  install_method: 同 ansible
+  description: 管理 Ansible 社区角色和集合
+  usage:
+  - ansible-galaxy [命令] [参数]
+  options:
+  - flag: -r
+    description: 从 requirements.yml 安装
+  - flag: -p
+    description: 指定安装路径
+  examples:
+  - command: ansible-galaxy install geerlingguy.docker
+    description: 安装社区 Docker 角色
+  - command: ansible-galaxy install -r requirements.yml
+    description: 批量安装依赖角色
+  - command: ansible-galaxy collection install community.general
+    description: 安装集合
+  - command: ansible-galaxy role list
+    description: 列出已安装角色
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 仅安装第三方代码，需审查来源可信度
+  related_commands:
+  - ansible
+  - ansible-playbook
+- name: vault operator
+  category: 云平台/配置管理
+  install_required: true
+  install_method: 同 vault
+  description: Vault 运维操作（初始化、解封、轮换）
+  usage:
+  - vault operator [命令] [参数]
+  options:
+  - flag: -key-shares
+    description: 密钥分片数
+  - flag: -key-threshold
+    description: 解封所需分片数
+  examples:
+  - command: vault operator init -key-shares=5 -key-threshold=3
+    description: 初始化 Vault（5 分片，3 个解封）
+  - command: vault operator unseal <unseal-key>
+    description: 使用分片解封 Vault
+  - command: vault operator rotate
+    description: 轮换加密密钥
+  - command: vault operator seal
+    description: 重新封印 Vault
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: critical
+    description: unseal key 丢失将导致数据永久不可访问，seal 会中断所有服务
+  related_commands:
+  - vault
+- name: packer
+  category: 云平台/配置管理
+  install_required: true
+  install_method: brew install packer (macOS) 或 apt install packer (HashiCorp 仓库)
+  description: HashiCorp Packer 自动化机器镜像构建工具
+  usage:
+  - packer [命令] [模板文件]
+  options:
+  - flag: -var
+    description: 传入变量
+  - flag: -var-file
+    description: 变量文件
+  - flag: -only
+    description: 仅构建指定 builder
+  - flag: -force
+    description: 强制重建（覆盖已有镜像）
+  examples:
+  - command: packer init .
+    description: 初始化插件
+  - command: packer validate template.pkr.hcl
+    description: 验证模板语法
+  - command: packer build -var "version=1.2.3" template.pkr.hcl
+    description: 构建机器镜像
+  - command: packer build -only=amazon-ebs template.pkr.hcl
+    description: 仅构建 AWS AMI
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 构建过程会创建临时云资源（产生费用），-force 覆盖已有镜像
+  related_commands:
+  - terraform
+  - ansible
+- name: terraform state
+  category: 云平台/配置管理
+  install_required: true
+  install_method: 同 terraform
+  description: 管理 Terraform 状态文件
+  usage:
+  - terraform state [命令] [参数]
+  options:
+  - flag: -state
+    description: 指定状态文件路径
+  - flag: -backup
+    description: 备份文件路径
+  examples:
+  - command: terraform state list
+    description: 列出状态中所有资源
+  - command: terraform state show aws_instance.web
+    description: 查看资源状态详情
+  - command: terraform state mv aws_instance.old aws_instance.new
+    description: 重命名状态中的资源
+  - command: terraform state rm aws_instance.orphan
+    description: 从状态中移除资源（不销毁实际资源）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: state rm 导致资源脱离管理，state mv 错误可能丢失追踪
+  related_commands:
+  - terraform apply
+  - terraform import

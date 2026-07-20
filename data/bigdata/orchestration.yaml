@@ -1,0 +1,102 @@
+category: 大数据/调度与转换
+description: 数据编排、转换和 OLAP 分析工具
+commands:
+- name: airflow dags
+  category: 大数据/调度与转换
+  install_required: true
+  install_method: 同 airflow
+  description: Airflow DAG 管理子命令
+  usage:
+  - airflow dags [命令] [dag_id]
+  options:
+  - flag: list
+    description: 列出 DAG
+  - flag: trigger
+    description: 触发 DAG
+  - flag: pause / unpause
+    description: 暂停/恢复 DAG
+  - flag: state
+    description: 查看 DAG 状态
+  - flag: backfill
+    description: 回填执行
+  examples:
+  - command: airflow dags list --output table
+    description: 表格形式列出 DAG
+  - command: airflow dags pause my_dag
+    description: 暂停 DAG 调度
+  - command: airflow dags unpause my_dag
+    description: 恢复 DAG 调度
+  - command: airflow dags state my_dag 2026-07-19T00:00:00
+    description: 查看指定执行日期的状态
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: pause 停止调度，backfill 批量执行
+  related_commands:
+  - airflow
+  - airflow tasks
+- name: dbt debug
+  category: 大数据/调度与转换
+  install_required: true
+  install_method: 同 dbt
+  description: 调试 dbt 项目配置和连接
+  usage:
+  - dbt debug [选项]
+  options:
+  - flag: --config-dir
+    description: 显示配置目录
+  - flag: --profiles-dir
+    description: 指定 profiles 目录
+  examples:
+  - command: dbt debug
+    description: 检查项目配置和数据库连接
+  - command: dbt debug --config-dir
+    description: 显示 dbt 配置路径
+  - command: dbt ls
+    description: 列出项目中所有资源
+  - command: dbt docs generate && dbt docs serve
+    description: 生成并预览文档
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 调试和查看操作无风险
+  related_commands:
+  - dbt
+- name: trino-cli
+  category: 大数据/调度与转换
+  install_required: true
+  install_method: 下载 Trino CLI JAR 或 brew install trino (macOS)
+  description: Trino (原 PrestoSQL) 分布式 SQL 查询引擎 CLI
+  usage:
+  - trino [选项]
+  options:
+  - flag: --server
+    description: 服务器地址
+  - flag: --catalog
+    description: 默认 catalog
+  - flag: --schema
+    description: 默认 schema
+  - flag: --execute
+    description: 执行 SQL 后退出
+  - flag: --output-format
+    description: 输出格式
+  examples:
+  - command: trino --server localhost:8080 --catalog hive --schema default
+    description: 交互式连接
+  - command: trino --server localhost:8080 --execute "SELECT * FROM events LIMIT 10"
+    description: 执行单条查询
+  - command: trino --server localhost:8080 --catalog postgres --schema public --execute "SHOW TABLES"
+    description: 跨数据源查询 PostgreSQL
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 可跨数据源执行写操作（取决于 connector 配置）
+  related_commands:
+  - clickhouse-client
+  - spark-sql

@@ -1,0 +1,213 @@
+category: 构建工具/包管理
+description: 现代语言包管理工具（uv、poetry、pnpm、cargo）
+commands:
+- name: uv
+  category: 构建工具/包管理
+  install_required: true
+  install_method: curl -LsSf https://astral.sh/uv/install.sh | sh 或 brew install uv (macOS)
+  description: 极速 Python 包管理器和项目管理工具（pip/venv 的现代替代）
+  usage:
+  - uv [命令] [参数]
+  options:
+  - flag: --python
+    description: 指定 Python 版本
+  - flag: --upgrade
+    description: 升级到最新版本
+  - flag: -q
+    description: 静默模式
+  examples:
+  - command: uv venv
+    description: 创建虚拟环境
+  - command: uv pip install requests flask
+    description: 极速安装包（比 pip 快 10-100x）
+  - command: uv init my-project
+    description: 初始化新项目
+  - command: uv run pytest
+    description: 在项目环境中运行命令
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 包管理操作风险低
+  related_commands:
+  - pip
+  - poetry
+- name: uv python
+  category: 构建工具/包管理
+  install_required: true
+  install_method: 同 uv
+  description: 管理 Python 解释器版本
+  usage:
+  - uv python [命令] [版本]
+  options:
+  - flag: install
+    description: 安装指定版本
+  - flag: list
+    description: 列出可用版本
+  - flag: pin
+    description: 固定项目 Python 版本
+  examples:
+  - command: uv python install 3.12
+    description: 安装 Python 3.12
+  - command: uv python list
+    description: 列出已安装和可用版本
+  - command: uv python pin 3.12
+    description: 固定项目使用 Python 3.12
+  - command: uv python find
+    description: 查找当前使用的 Python 路径
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 仅管理本地 Python 版本
+  related_commands:
+  - uv
+  - pyenv
+- name: poetry
+  category: 构建工具/包管理
+  install_required: true
+  install_method: curl -sSL https://install.python-poetry.org | python3 - 或 brew install poetry (macOS)
+  description: Python 项目依赖管理和打包工具
+  usage:
+  - poetry [命令] [参数]
+  options:
+  - flag: --no-interaction
+    description: 非交互模式
+  - flag: -v
+    description: 详细输出
+  examples:
+  - command: poetry init
+    description: 交互式初始化项目
+  - command: poetry add requests numpy
+    description: 添加依赖
+  - command: poetry add --group dev pytest ruff
+    description: 添加开发依赖
+  - command: poetry install
+    description: 安装所有依赖
+  - command: poetry run python main.py
+    description: 在虚拟环境中运行
+  - command: poetry build
+    description: 构建分发包
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 包管理操作风险低
+  related_commands:
+  - uv
+  - pip
+- name: pnpm
+  category: 构建工具/包管理
+  install_required: true
+  install_method: npm install -g pnpm 或 brew install pnpm (macOS)
+  description: 高性能 Node.js 包管理器（硬链接节省磁盘）
+  usage:
+  - pnpm [命令] [参数]
+  options:
+  - flag: --filter
+    description: 过滤 workspace 包
+  - flag: --recursive
+    description: 递归执行
+  - flag: --frozen-lockfile
+    description: 锁定依赖（CI 推荐）
+  examples:
+  - command: pnpm install
+    description: 安装依赖
+  - command: pnpm add react --save
+    description: 添加生产依赖
+  - command: pnpm add -D vitest eslint
+    description: 添加开发依赖
+  - command: pnpm --filter @app/web build
+    description: 仅构建 workspace 中的 web 包
+  - command: pnpm dlx create-next-app
+    description: 临时执行包命令（类似 npx）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 包管理操作风险低
+  related_commands:
+  - npm
+  - yarn
+- name: bun
+  category: 构建工具/包管理
+  install_required: true
+  install_method: curl -fsSL https://bun.sh/install | bash 或 brew install oven-sh/bun/bun (macOS)
+  description: 极速 JavaScript 运行时、包管理器和打包器
+  usage:
+  - bun [命令] [参数]
+  options:
+  - flag: install
+    description: 安装依赖
+  - flag: run
+    description: 运行脚本
+  - flag: add
+    description: 添加包
+  - flag: x
+    description: 执行包命令
+  examples:
+  - command: bun install
+    description: 极速安装依赖（比 npm 快 10-30x）
+  - command: bun run dev
+    description: 运行 package.json 中的 dev 脚本
+  - command: bun add express
+    description: 添加依赖
+  - command: bun x create-vite my-app
+    description: 执行包命令
+  - command: bun build src/index.ts --outdir dist
+    description: 打包 TypeScript
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 包管理和构建操作风险低
+  related_commands:
+  - pnpm
+  - npm
+- name: npm
+  category: 构建工具/包管理
+  install_required: false
+  description: Node.js 默认包管理器
+  usage:
+  - npm [命令] [参数]
+  options:
+  - flag: install / i
+    description: 安装依赖
+  - flag: run
+    description: 运行 package.json 脚本
+  - flag: -g
+    description: 全局安装
+  - flag: --save-dev / -D
+    description: 保存为开发依赖
+  - flag: ci
+    description: 干净安装（CI 推荐）
+  examples:
+  - command: npm install
+    description: 安装所有依赖
+  - command: npm ci
+    description: 干净安装（删除 node_modules 后安装）
+  - command: npm run build
+    description: 运行 build 脚本
+  - command: npm install -D vitest
+    description: 安装开发依赖
+  - command: npm audit fix
+    description: 自动修复安全漏洞
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 包管理操作风险低，audit fix 可能升级破坏性版本
+  related_commands:
+  - pnpm
+  - bun

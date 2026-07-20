@@ -1,0 +1,316 @@
+category: 云平台/Azure CLI
+description: Microsoft Azure 命令行工具
+commands:
+- name: az group
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure 资源组（资源逻辑容器）
+  usage:
+  - az group [命令] [参数]
+  options:
+  - flag: --name
+    description: 资源组名称
+  - flag: --location
+    description: 区域 (eastus/westus2/eastasia)
+  - flag: --tags
+    description: 标签 (key=value)
+  examples:
+  - command: az group create --name my-rg --location eastus
+    description: 创建资源组
+  - command: az group list --output table
+    description: 列出所有资源组
+  - command: az group show --name my-rg
+    description: 查看资源组详情
+  - command: az group delete --name my-rg --yes
+    description: 删除资源组及其所有资源
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: critical
+    description: group delete 会删除资源组内所有资源，操作不可逆
+  related_commands:
+  - az
+  - az vm
+- name: az vm
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure 虚拟机
+  usage:
+  - az vm [命令] [参数]
+  options:
+  - flag: --name
+    description: 虚拟机名称
+  - flag: --resource-group
+    description: 所属资源组
+  - flag: --size
+    description: VM 规格 (Standard_B2s/Standard_D2s_v3)
+  - flag: --image
+    description: 操作系统镜像 (UbuntuLTS/Win2022Datacenter)
+  - flag: --admin-username
+    description: 管理员用户名
+  examples:
+  - command: az vm list --resource-group my-rg --output table
+    description: 列出资源组内虚拟机
+  - command: az vm create --resource-group my-rg --name my-vm --image UbuntuLTS --size Standard_B2s --admin-username azureuser
+      --generate-ssh-keys
+    description: 创建 Linux 虚拟机
+  - command: az vm start --resource-group my-rg --name my-vm
+    description: 启动虚拟机
+  - command: az vm deallocate --resource-group my-rg --name my-vm
+    description: 停止并释放计算资源（停止计费）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: VM 运行产生持续费用，delete 操作不可逆
+  related_commands:
+  - az group
+  - az network
+- name: az aks
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure Kubernetes Service 集群
+  usage:
+  - az aks [命令] [参数]
+  options:
+  - flag: --name
+    description: 集群名称
+  - flag: --resource-group
+    description: 资源组
+  - flag: --node-count
+    description: 节点数量
+  - flag: --node-vm-size
+    description: 节点 VM 规格
+  - flag: --kubernetes-version
+    description: K8s 版本
+  examples:
+  - command: az aks list --output table
+    description: 列出所有 AKS 集群
+  - command: az aks create --resource-group my-rg --name my-cluster --node-count 3
+    description: 创建 3 节点 AKS 集群
+  - command: az aks get-credentials --resource-group my-rg --name my-cluster
+    description: 获取集群 kubeconfig
+  - command: az aks scale --resource-group my-rg --name my-cluster --node-count 5
+    description: 扩容至 5 节点
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 集群操作涉及费用，scale/delete 影响运行中的工作负载
+  related_commands:
+  - az vm
+  - kubectl
+- name: az storage
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure Storage 账户、Blob、文件共享
+  usage:
+  - az storage [命令] [参数]
+  options:
+  - flag: --account-name
+    description: 存储账户名
+  - flag: --account-key
+    description: 存储账户密钥
+  - flag: --connection-string
+    description: 连接字符串
+  - flag: --container-name
+    description: Blob 容器名
+  examples:
+  - command: az storage account list --output table
+    description: 列出存储账户
+  - command: az storage container create --name my-container --account-name mystorage
+    description: 创建 Blob 容器
+  - command: az storage blob upload --account-name mystorage --container-name my-container --file ./data.csv --name data.csv
+    description: 上传文件到 Blob
+  - command: az storage blob list --account-name mystorage --container-name my-container --output table
+    description: 列出容器内 Blob
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 密钥泄露可导致数据被访问，delete 操作不可逆
+  related_commands:
+  - az
+  - aws s3
+- name: az webapp
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure App Service Web 应用
+  usage:
+  - az webapp [命令] [参数]
+  options:
+  - flag: --name
+    description: 应用名称
+  - flag: --resource-group
+    description: 资源组
+  - flag: --plan
+    description: App Service 计划
+  - flag: --runtime
+    description: 运行时 (PYTHON:3.11/NODE:20-lts/DOTNETCORE:8.0)
+  examples:
+  - command: az webapp list --output table
+    description: 列出所有 Web 应用
+  - command: az webapp create --resource-group my-rg --plan my-plan --name my-app --runtime "PYTHON:3.11"
+    description: 创建 Python Web 应用
+  - command: az webapp deployment source config-zip --resource-group my-rg --name my-app --src app.zip
+    description: 部署 ZIP 包
+  - command: az webapp log tail --resource-group my-rg --name my-app
+    description: 实时查看应用日志
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 部署会中断当前运行的应用
+  related_commands:
+  - az group
+  - az functionapp
+- name: az functionapp
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure Functions 无服务器计算
+  usage:
+  - az functionapp [命令] [参数]
+  options:
+  - flag: --name
+    description: 函数应用名
+  - flag: --resource-group
+    description: 资源组
+  - flag: --consumption-plan-location
+    description: 消费计划区域
+  - flag: --runtime
+    description: 运行时
+  examples:
+  - command: az functionapp list --output table
+    description: 列出函数应用
+  - command: az functionapp create --resource-group my-rg --consumption-plan-location eastus --name my-func --storage-account
+      mystorage --runtime python
+    description: 创建 Python 函数应用
+  - command: az functionapp deployment source config-zip --resource-group my-rg --name my-func --src func.zip
+    description: 部署函数代码
+  - command: az functionapp keys list --resource-group my-rg --name my-func
+    description: 查看函数密钥
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 密钥泄露可导致函数被未授权调用
+  related_commands:
+  - az webapp
+  - az storage
+- name: az network
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure 网络资源（VNet、NSG、负载均衡器）
+  usage:
+  - az network [命令] [参数]
+  options:
+  - flag: --resource-group
+    description: 资源组
+  - flag: --name
+    description: 资源名称
+  examples:
+  - command: az network vnet list --output table
+    description: 列出虚拟网络
+  - command: az network vnet create --resource-group my-rg --name my-vnet --address-prefix 10.0.0.0/16
+    description: 创建虚拟网络
+  - command: az network nsg rule create --resource-group my-rg --nsg-name my-nsg --name allow-ssh --priority 100 --destination-port-ranges
+      22 --access Allow
+    description: 创建 NSG 规则允许 SSH
+  - command: az network public-ip create --resource-group my-rg --name my-ip
+    description: 创建公网 IP
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: NSG 规则配置错误可能导致服务不可达或安全暴露
+  related_commands:
+  - az vm
+  - az group
+- name: az keyvault
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: 管理 Azure Key Vault 密钥、证书和机密
+  usage:
+  - az keyvault [命令] [参数]
+  options:
+  - flag: --name
+    description: Key Vault 名称
+  - flag: --resource-group
+    description: 资源组
+  - flag: --vault-name
+    description: Vault 名称
+  examples:
+  - command: az keyvault create --resource-group my-rg --name my-vault --location eastus
+    description: 创建 Key Vault
+  - command: az keyvault secret set --vault-name my-vault --name db-password --value "s3cret"
+    description: 存储机密
+  - command: az keyvault secret show --vault-name my-vault --name db-password
+    description: 获取机密值
+  - command: az keyvault certificate create --vault-name my-vault --name my-cert --policy "$(az keyvault certificate get-default-policy)"
+    description: 创建自签名证书
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 密钥和机密为敏感信息，操作需严格权限控制
+  related_commands:
+  - az group
+  - vault
+- name: az bicep
+  category: 云平台/Azure CLI
+  install_required: true
+  install_method: 同 az
+  description: Azure Bicep 基础设施即代码部署
+  usage:
+  - az deployment group create [参数]
+  - az bicep [命令]
+  options:
+  - flag: --template-file
+    description: Bicep 模板文件路径
+  - flag: --parameters
+    description: 参数文件或直接参数
+  - flag: --resource-group
+    description: 目标资源组
+  examples:
+  - command: az bicep install
+    description: 安装 Bicep CLI
+  - command: az bicep build --file main.bicep
+    description: 编译 Bicep 为 ARM JSON
+  - command: az deployment group create --resource-group my-rg --template-file main.bicep --parameters env=prod
+    description: 部署 Bicep 模板到资源组
+  - command: az deployment group what-if --resource-group my-rg --template-file main.bicep
+    description: 预览部署变更（不实际执行）
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 部署可能创建/修改/删除资源，建议先用 what-if 预览
+  related_commands:
+  - az group
+  - terraform

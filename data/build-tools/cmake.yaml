@@ -1,0 +1,179 @@
+category: 构建工具/CMake
+description: C/C++ 跨平台构建系统
+commands:
+- name: ninja
+  category: 构建工具/CMake
+  install_required: true
+  install_method: brew install ninja (macOS) 或 apt install ninja-build (Ubuntu)
+  description: 小型快速构建系统，通常由 CMake 生成
+  usage:
+  - ninja [选项] [目标]
+  options:
+  - flag: -C
+    description: 指定构建目录
+  - flag: -j
+    description: 并行任务数
+  - flag: -t
+    description: 工具模式 (targets/clean/commands)
+  - flag: -v
+    description: 显示完整命令
+  examples:
+  - command: ninja -C build
+    description: 在 build 目录构建
+  - command: ninja -C build -j 8
+    description: 8 路并行构建
+  - command: ninja -C build -t clean
+    description: 清理构建产物
+  - command: ninja -C build -t targets all
+    description: 列出所有可用目标
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 构建操作风险低
+  related_commands:
+  - cmake
+  - make
+- name: ctest
+  category: 构建工具/CMake
+  install_required: true
+  install_method: 随 cmake 安装
+  description: CMake 测试驱动器
+  usage:
+  - ctest [选项]
+  options:
+  - flag: --test-dir
+    description: 测试目录
+  - flag: -j
+    description: 并行测试数
+  - flag: -R
+    description: 正则过滤测试名
+  - flag: --output-on-failure
+    description: 失败时显示输出
+  - flag: -V
+    description: 详细输出
+  examples:
+  - command: ctest --test-dir build
+    description: 运行所有测试
+  - command: ctest --test-dir build -j 4 --output-on-failure
+    description: 4 路并行，失败显示输出
+  - command: ctest --test-dir build -R "unit_.*"
+    description: 仅运行 unit_ 开头的测试
+  - command: ctest --test-dir build -V
+    description: 详细模式查看所有测试输出
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读测试操作，无风险
+  related_commands:
+  - cmake
+  - make test
+- name: conan
+  category: 构建工具/CMake
+  install_required: true
+  install_method: pip install conan 或 brew install conan (macOS)
+  description: C/C++ 包管理器
+  usage:
+  - conan [命令] [参数]
+  options:
+  - flag: install
+    description: 安装依赖
+  - flag: create
+    description: 创建包
+  - flag: search
+    description: 搜索远程包
+  examples:
+  - command: conan install . --output-folder=build --build=missing
+    description: 安装依赖（缺失时从源码构建）
+  - command: conan create . --version=1.0.0
+    description: 创建并导出包
+  - command: conan search "fmt/*" -r conancenter
+    description: 在远程仓库搜索包
+  - command: conan profile detect
+    description: 自动检测编译器配置
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 包管理操作风险低
+  related_commands:
+  - cmake
+  - vcpkg
+- name: bazel
+  category: 构建工具/CMake
+  install_required: true
+  install_method: brew install bazelisk (macOS) 或 apt install bazel-bootstrap (Ubuntu)
+  description: Google 开源的高性能多语言构建和测试工具
+  usage:
+  - bazel [命令] [选项]
+  options:
+  - flag: build
+    description: 构建目标
+  - flag: test
+    description: 运行测试
+  - flag: run
+    description: 构建并运行
+  - flag: query
+    description: 查询依赖图
+  - flag: --jobs
+    description: 并行任务数
+  examples:
+  - command: bazel build //src/main:app
+    description: 构建指定目标
+  - command: bazel test //src/... --test_output=errors
+    description: 运行所有测试（仅显示失败）
+  - command: bazel query "deps(//src/main:app)" --output graph
+    description: 查询依赖图
+  - command: bazel run //tools:server
+    description: 构建并运行服务
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 构建和测试操作风险低
+  related_commands:
+  - cmake
+  - make
+- name: just
+  category: 构建工具/CMake
+  install_required: true
+  install_method: brew install just (macOS) 或 cargo install just
+  description: 现代命令运行器（Makefile 的简洁替代）
+  usage:
+  - just [选项] [recipe]
+  options:
+  - flag: -l
+    description: 列出所有 recipe
+  - flag: -f
+    description: 指定 justfile 路径
+  - flag: --show
+    description: 显示 recipe 内容
+  - flag: --dry-run
+    description: 仅打印将执行的命令
+  examples:
+  - command: just
+    description: 运行默认 recipe
+  - command: just -l
+    description: 列出所有可用命令
+  - command: just build release
+    description: 运行 build recipe 传入参数
+  - command: just --show test
+    description: 查看 test recipe 定义
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: recipe 可执行任意命令，审查 justfile 内容
+  related_commands:
+  - make
+  - task

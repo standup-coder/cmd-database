@@ -1,0 +1,241 @@
+category: 编程语言/Go工具链扩展
+description: Go 代码质量、调试和性能分析工具
+commands:
+- name: golangci-lint
+  category: 编程语言/Go工具链扩展
+  install_required: true
+  install_method: brew install golangci-lint (macOS) 或 curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh
+  description: Go 代码 lint 聚合工具（集成 50+ linter）
+  usage:
+  - golangci-lint [命令] [选项]
+  options:
+  - flag: run
+    description: 运行检查
+  - flag: --enable
+    description: 启用 linter
+  - flag: --disable
+    description: 禁用 linter
+  - flag: --fix
+    description: 自动修复
+  - flag: -v
+    description: 详细输出
+  examples:
+  - command: golangci-lint run
+    description: 运行所有已启用 linter
+  - command: golangci-lint run --fix
+    description: 自动修复可修复的问题
+  - command: golangci-lint run --enable gosec,bodyclose
+    description: 启用额外 linter
+  - command: golangci-lint run ./cmd/... ./internal/...
+    description: 检查指定包
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: --fix 修改文件，建议配合 Git 使用
+  related_commands:
+  - staticcheck
+  - go vet
+- name: staticcheck
+  category: 编程语言/Go工具链扩展
+  install_required: true
+  install_method: go install honnef.co/go/tools/cmd/staticcheck@latest
+  description: Go 高级静态分析工具（比 go vet 更深入）
+  usage:
+  - staticcheck [选项] [包]
+  options:
+  - flag: -checks
+    description: 选择检查项
+  - flag: -explain
+    description: 解释检查项
+  - flag: -json
+    description: JSON 输出
+  examples:
+  - command: staticcheck ./...
+    description: 检查所有包
+  - command: staticcheck -checks all ./...
+    description: 启用所有检查
+  - command: staticcheck -explain SA1019
+    description: 解释弃用 API 检查规则
+  - command: staticcheck -checks "inherit,-SA1019" ./...
+    description: 继承默认但排除 SA1019
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读检查操作，无风险
+  related_commands:
+  - golangci-lint
+  - go vet
+- name: dlv
+  category: 编程语言/Go工具链扩展
+  install_required: true
+  install_method: go install github.com/go-delve/delve/cmd/dlv@latest
+  description: Go 调试器（断点、单步、变量检查）
+  usage:
+  - dlv [命令] [选项]
+  options:
+  - flag: debug
+    description: 调试当前包
+  - flag: attach
+    description: 附加到进程
+  - flag: exec
+    description: 调试二进制
+  - flag: test
+    description: 调试测试
+  examples:
+  - command: dlv debug ./cmd/server
+    description: 调试启动服务
+  - command: dlv attach $(pidof myapp)
+    description: 附加到运行中的进程
+  - command: dlv test ./internal/service/
+    description: 调试测试
+  - command: dlv exec ./bin/myapp -- --config prod.yaml
+    description: 调试编译好的二进制
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 调试操作，attach 会暂停目标进程
+  related_commands:
+  - go test
+  - gopls
+- name: go tool pprof
+  category: 编程语言/Go工具链扩展
+  install_required: false
+  description: Go 性能分析工具（CPU/内存/goroutine 热点）
+  usage:
+  - go tool pprof [选项] [profile文件]
+  - import _ "net/http/pprof" 后访问 /debug/pprof/
+  options:
+  - flag: -http
+    description: 启动 Web UI
+  - flag: -top
+    description: 显示 Top 函数
+  - flag: -list
+    description: 按源码行显示
+  - flag: -svg
+    description: 生成调用图 SVG
+  examples:
+  - command: go tool pprof -http=:8080 cpu.prof
+    description: Web UI 查看 CPU profile
+  - command: go tool pprof -top mem.prof
+    description: 查看内存分配 Top 函数
+  - command: curl -o cpu.prof http://localhost:6060/debug/pprof/profile?seconds=30
+    description: 采集运行中服务 30 秒 CPU profile
+  - command: go tool pprof -list=HandlerFunc cpu.prof
+    description: 按源码行查看热点
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读分析操作，采集 profile 有轻微开销
+  related_commands:
+  - go test -bench
+  - perf
+- name: gopls
+  category: 编程语言/Go工具链扩展
+  install_required: true
+  install_method: go install golang.org/x/tools/gopls@latest
+  description: Go 官方语言服务器（IDE 智能补全、跳转、重构）
+  usage:
+  - gopls [命令] [选项]
+  options:
+  - flag: version
+    description: 查看版本
+  - flag: -rpc.trace
+    description: 追踪 RPC 通信
+  - flag: check
+    description: 检查文件
+  examples:
+  - command: gopls version
+    description: 查看 gopls 版本
+  - command: gopls check main.go
+    description: 检查文件诊断信息
+  - command: gopls -rpc.trace -v
+    description: 调试模式启动（排查 IDE 问题）
+  - command: go install golang.org/x/tools/gopls@latest
+    description: 更新到最新版本
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 语言服务器操作，无风险
+  related_commands:
+  - golangci-lint
+  - dlv
+- name: go generate
+  category: 编程语言/Go工具链扩展
+  install_required: false
+  description: 执行 Go 代码生成指令（//go:generate 注释）
+  usage:
+  - go generate [选项] [包]
+  options:
+  - flag: -v
+    description: 显示执行的命令
+  - flag: -x
+    description: 打印命令但不执行
+  - flag: -run
+    description: 正则过滤生成指令
+  examples:
+  - command: go generate ./...
+    description: 递归执行所有代码生成
+  - command: go generate -v ./internal/model/
+    description: 详细模式生成指定包
+  - command: go generate -run "mockgen" ./...
+    description: 仅执行 mockgen 相关生成
+  - command: go generate -x ./...
+    description: 预览将执行的命令
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 执行任意命令（由 //go:generate 定义），审查生成指令
+  related_commands:
+  - go build
+  - mockgen
+- name: mockgen
+  category: 编程语言/Go工具链扩展
+  install_required: true
+  install_method: go install go.uber.org/mock/mockgen@latest
+  description: Go 接口 Mock 代码生成器（单元测试用）
+  usage:
+  - mockgen [选项] [包] [接口]
+  options:
+  - flag: -source
+    description: 源模式（从文件生成）
+  - flag: -destination
+    description: 输出文件
+  - flag: -package
+    description: 输出包名
+  - flag: -mock_names
+    description: 自定义 Mock 名称
+  examples:
+  - command: mockgen -source=internal/service/user.go -destination=internal/service/mock_user.go -package=service
+    description: 从源文件生成 Mock
+  - command: mockgen -destination=mocks/mock_db.go -package=mocks github.com/org/repo/internal/db Repository
+    description: 从包路径生成 Mock
+  - command: mockgen -source=handler.go -destination=mock_handler.go -mock_names=Handler=MockHandler
+    description: 自定义 Mock 类型名
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 代码生成操作，无风险
+  related_commands:
+  - go generate
+  - go test

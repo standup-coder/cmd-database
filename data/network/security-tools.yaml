@@ -1,0 +1,177 @@
+category: 网络工具/安全扫描
+description: 安全扫描、漏洞检测和策略管理工具
+commands:
+- name: trivy
+  category: 网络工具/安全扫描
+  install_required: true
+  install_method: brew install trivy (macOS) 或 curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh
+    | sh
+  description: 全能安全扫描器（容器镜像、文件系统、Git 仓库漏洞检测）
+  usage:
+  - trivy [目标类型] [选项] [目标]
+  options:
+  - flag: image
+    description: 扫描容器镜像
+  - flag: fs
+    description: 扫描文件系统
+  - flag: repo
+    description: 扫描 Git 仓库
+  - flag: --severity
+    description: 过滤严重级别 (CRITICAL,HIGH,MEDIUM)
+  - flag: --format
+    description: 输出格式 (table/json/sarif)
+  - flag: --ignore-unfixed
+    description: 忽略无修复方案的漏洞
+  examples:
+  - command: trivy image python:3.12
+    description: 扫描容器镜像漏洞
+  - command: trivy fs --severity CRITICAL,HIGH .
+    description: 扫描当前目录依赖漏洞
+  - command: trivy repo https://github.com/org/repo
+    description: 扫描远程仓库
+  - command: trivy image --format json -o report.json myapp:latest
+    description: JSON 格式输出报告
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读扫描操作，无风险
+  related_commands:
+  - grype
+  - syft
+- name: syft
+  category: 网络工具/安全扫描
+  install_required: true
+  install_method: brew install syft (macOS) 或 curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh |
+    sh
+  description: 软件物料清单（SBOM）生成工具
+  usage:
+  - syft [来源] [选项]
+  options:
+  - flag: -o
+    description: 输出格式 (syft-json/cyclonedx-json/spdx-json)
+  - flag: --file
+    description: 输出到文件
+  - flag: packages
+    description: 列出包
+  examples:
+  - command: syft myapp:latest
+    description: 生成镜像 SBOM
+  - command: syft dir:. -o cyclonedx-json > sbom.json
+    description: 生成 CycloneDX 格式 SBOM
+  - command: syft myapp:latest -o spdx-json > spdx.json
+    description: 生成 SPDX 格式 SBOM
+  - command: syft packages dir:.
+    description: 列出目录中所有包
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读操作，无风险
+  related_commands:
+  - grype
+  - trivy
+- name: opa
+  category: 网络工具/安全扫描
+  install_required: true
+  install_method: brew install opa (macOS) 或 curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+  description: Open Policy Agent 策略即代码引擎
+  usage:
+  - opa [命令] [选项]
+  options:
+  - flag: eval
+    description: 评估 Rego 策略
+  - flag: test
+    description: 运行策略测试
+  - flag: fmt
+    description: 格式化 Rego 文件
+  - flag: run
+    description: 启动 OPA 服务器
+  examples:
+  - command: opa eval -d policy.rego -i input.json "data.authz.allow"
+    description: 评估策略
+  - command: opa test ./policies/ -v
+    description: 运行策略单元测试
+  - command: opa fmt -w policy.rego
+    description: 格式化策略文件
+  - command: opa run --server --addr :8181
+    description: 启动 OPA 决策服务器
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 策略评估操作风险低
+  related_commands:
+  - trivy
+  - conftest
+- name: conftest
+  category: 网络工具/安全扫描
+  install_required: true
+  install_method: brew install conftest (macOS) 或 go install github.com/open-policy-agent/conftest@latest
+  description: 使用 Rego 策略测试配置文件（K8s/Docker/Terraform）
+  usage:
+  - conftest test [文件] [选项]
+  options:
+  - flag: -p
+    description: 策略目录
+  - flag: --output
+    description: 输出格式 (table/json/junit)
+  - flag: --all-namespaces
+    description: 评估所有命名空间
+  examples:
+  - command: conftest test deployment.yaml
+    description: 测试 K8s 配置合规性
+  - command: conftest test -p policies/ terraform/
+    description: 测试 Terraform 配置
+  - command: conftest test --output json docker-compose.yml
+    description: JSON 格式输出测试结果
+  - command: conftest test -p policies/ k8s/ --all-namespaces
+    description: 测试整个目录
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读测试操作，无风险
+  related_commands:
+  - opa
+  - trivy
+- name: age
+  category: 网络工具/安全扫描
+  install_required: true
+  install_method: brew install age (macOS) 或 apt install age (Ubuntu)
+  description: 现代文件加密工具（简单、安全、无配置）
+  usage:
+  - age [选项] [文件]
+  options:
+  - flag: -e
+    description: 加密
+  - flag: -d
+    description: 解密
+  - flag: -r
+    description: 指定接收者公钥
+  - flag: -i
+    description: 指定身份文件（私钥）
+  - flag: -o
+    description: 输出文件
+  examples:
+  - command: age-keygen -o key.txt
+    description: 生成密钥对
+  - command: age -r age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p -o secret.age secret.txt
+    description: 使用公钥加密文件
+  - command: age -d -i key.txt -o secret.txt secret.age
+    description: 使用私钥解密文件
+  - command: tar czf - dir/ | age -r age1... -o backup.tar.gz.age
+    description: 加密压缩目录
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: 私钥丢失将导致加密数据永久不可恢复
+  related_commands:
+  - sops
+  - gpg

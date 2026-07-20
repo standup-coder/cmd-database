@@ -1,0 +1,134 @@
+category: 诊断工具/性能分析
+description: 系统性能分析、eBPF 追踪和火焰图工具
+commands:
+- name: perf script
+  category: 诊断工具/性能分析
+  install_required: true
+  install_method: 同 perf
+  description: 导出 perf 采样数据为文本（用于生成火焰图）
+  usage:
+  - perf script [选项]
+  options:
+  - flag: -i
+    description: 输入 perf.data 文件
+  - flag: -F
+    description: 输出字段
+  examples:
+  - command: perf script > perf.out
+    description: 导出采样数据
+  - command: perf script -i perf.data | stackcollapse-perf.pl | flamegraph.pl > flame.svg
+    description: 生成火焰图完整管道
+  - command: perf script -F comm,pid,tid,cpu,time,period,event,ip,sym,dso,trace
+    description: 自定义输出字段
+  platforms:
+  - linux
+  risks:
+  - level: low
+    description: 只读操作
+  related_commands:
+  - perf
+  - flamegraph
+- name: py-spy
+  category: 诊断工具/性能分析
+  install_required: true
+  install_method: pip install py-spy 或 cargo install py-spy
+  description: Python 采样性能分析器（无需修改代码）
+  usage:
+  - py-spy [命令] [选项]
+  options:
+  - flag: top
+    description: 实时 top 视图
+  - flag: record
+    description: 录制火焰图
+  - flag: dump
+    description: 导出当前调用栈
+  - flag: -p
+    description: 目标进程 PID
+  - flag: -f
+    description: 输出格式 (flamegraph/speedscope/raw)
+  examples:
+  - command: py-spy top -p 1234
+    description: 实时查看 Python 热点函数
+  - command: py-spy record -o flame.svg -p 1234 --duration 30
+    description: 录制 30 秒火焰图
+  - command: py-spy dump -p 1234
+    description: 导出当前所有线程调用栈
+  - command: py-spy record -o profile.svg -- python app.py
+    description: 启动并分析 Python 程序
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 采样式分析，对目标进程影响极小
+  related_commands:
+  - perf
+  - flamegraph
+- name: async-profiler
+  category: 诊断工具/性能分析
+  install_required: true
+  install_method: 从 GitHub releases 下载或 brew install async-profiler (macOS)
+  description: Java 低开销异步性能分析器（CPU/内存/锁）
+  usage:
+  - ./asprof [选项] [PID]
+  options:
+  - flag: -e
+    description: 事件类型 (cpu/alloc/lock/wall)
+  - flag: -d
+    description: 持续时间（秒）
+  - flag: -f
+    description: 输出文件
+  - flag: -o
+    description: 输出格式 (flamegraph/collapsed/jfr)
+  examples:
+  - command: ./asprof -e cpu -d 30 -f flame.html 1234
+    description: 采集 30 秒 CPU 火焰图
+  - command: ./asprof -e alloc -d 60 -f alloc.html 1234
+    description: 采集内存分配火焰图
+  - command: ./asprof -e lock -d 30 -f lock.html 1234
+    description: 采集锁竞争火焰图
+  - command: ./asprof -e wall -t -d 30 -f wall.html 1234
+    description: Wall-clock 模式（含等待时间）
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 异步采样，对 JVM 影响极小（<5%）
+  related_commands:
+  - jstack
+  - perf
+- name: flamegraph
+  category: 诊断工具/性能分析
+  install_required: true
+  install_method: git clone https://github.com/brendangregg/FlameGraph 或 brew install flamegraph (macOS)
+  description: 火焰图生成工具（可视化性能热点）
+  usage:
+  - stackcollapse-*.pl < input | flamegraph.pl > output.svg
+  options:
+  - flag: --title
+    description: 图表标题
+  - flag: --width
+    description: 输出宽度
+  - flag: --colors
+    description: 配色方案 (hot/java/mem)
+  - flag: --reverse
+    description: 反转（冰柱图）
+  examples:
+  - command: perf script | stackcollapse-perf.pl | flamegraph.pl > cpu.svg
+    description: 从 perf 数据生成 CPU 火焰图
+  - command: perf script | stackcollapse-perf.pl | flamegraph.pl --colors mem > mem.svg
+    description: 内存配色火焰图
+  - command: py-spy record -f raw -p 1234 | stackcollapse-perf.pl | flamegraph.pl > py.svg
+    description: Python 火焰图
+  - command: cat collapsed.txt | flamegraph.pl --title "My App" --width 1600 > out.svg
+    description: 自定义标题和宽度
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 离线数据处理，无风险
+  related_commands:
+  - perf
+  - py-spy

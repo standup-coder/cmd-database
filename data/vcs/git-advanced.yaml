@@ -1,0 +1,359 @@
+category: 版本控制/Git高级操作
+description: Git 高级工作流和 GitHub CLI 深度操作
+commands:
+- name: git bisect
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: 二分查找定位引入 bug 的提交
+  usage:
+  - git bisect start
+  - git bisect good [提交]
+  - git bisect bad [提交]
+  options:
+  - flag: start
+    description: 开始二分查找
+  - flag: good
+    description: 标记正常提交
+  - flag: bad
+    description: 标记异常提交
+  - flag: reset
+    description: 结束并重置
+  - flag: run
+    description: 自动化测试脚本
+  examples:
+  - command: git bisect start && git bisect bad HEAD && git bisect good v1.0.0
+    description: 在 v1.0.0 和 HEAD 间二分
+  - command: git bisect run ./test.sh
+    description: 自动化二分（脚本退出码判断好坏）
+  - command: git bisect reset
+    description: 结束二分查找
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读操作，reset 恢复正常状态
+  related_commands:
+  - git log
+  - git blame
+- name: git worktree
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: 多工作树管理（同时检出多个分支到不同目录）
+  usage:
+  - git worktree [命令] [路径] [分支]
+  options:
+  - flag: add
+    description: 添加工作树
+  - flag: list
+    description: 列出工作树
+  - flag: remove
+    description: 删除工作树
+  - flag: prune
+    description: 清理无效工作树
+  examples:
+  - command: git worktree add ../hotfix hotfix/v1.2.1
+    description: 在 ../hotfix 目录检出热修复分支
+  - command: git worktree list
+    description: 列出所有工作树
+  - command: git worktree remove ../hotfix
+    description: 删除工作树
+  - command: git worktree add -b feature/new ../feature-new main
+    description: 基于 main 创建新分支并检出到工作树
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 工作树操作风险低，remove 前确认无未提交变更
+  related_commands:
+  - git branch
+  - git checkout
+- name: git reflog
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: 引用日志，恢复误操作（找回丢失的提交和分支）
+  usage:
+  - git reflog [选项]
+  options:
+  - flag: --all
+    description: 显示所有引用
+  - flag: -n
+    description: 限制显示条数
+  - flag: --date
+    description: 显示日期格式
+  examples:
+  - command: git reflog
+    description: 查看 HEAD 移动历史
+  - command: git reflog -n 20
+    description: 查看最近 20 条记录
+  - command: git checkout -b recovered HEAD@{3}
+    description: 从 reflog 恢复 3 步前的状态
+  - command: git reset --hard HEAD@{1}
+    description: 恢复到上一步操作前的状态
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 配合 reset --hard 使用时会丢弃工作区变更
+  related_commands:
+  - git reset
+  - git stash
+- name: git stash
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: 暂存工作区变更（切换分支时保存未完成工作）
+  usage:
+  - git stash [命令] [选项]
+  options:
+  - flag: push
+    description: 暂存变更
+  - flag: pop
+    description: 恢复最近暂存
+  - flag: list
+    description: 列出暂存
+  - flag: -u
+    description: 包含未跟踪文件
+  - flag: --keep-index
+    description: 保留已暂存区内容
+  examples:
+  - command: 'git stash push -m "WIP: login feature"'
+    description: 暂存并添加描述
+  - command: git stash pop
+    description: 恢复最近暂存并删除记录
+  - command: git stash list
+    description: 列出所有暂存
+  - command: git stash push -u
+    description: 包含未跟踪文件一起暂存
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: stash drop/clear 删除暂存不可恢复
+  related_commands:
+  - git worktree
+  - git branch
+- name: git cherry-pick
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: 选择性应用指定提交到当前分支
+  usage:
+  - git cherry-pick [选项] [提交]
+  options:
+  - flag: -x
+    description: 在提交信息中追加来源
+  - flag: --no-commit
+    description: 仅应用变更不提交
+  - flag: -n
+    description: 同 --no-commit
+  - flag: --abort
+    description: 中止操作
+  examples:
+  - command: git cherry-pick abc1234
+    description: 应用指定提交
+  - command: git cherry-pick -x abc1234
+    description: 应用并标注来源
+  - command: git cherry-pick --no-commit abc1234 def5678
+    description: 合并多个提交变更但不提交
+  - command: git cherry-pick --abort
+    description: 中止冲突的 cherry-pick
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 可能产生冲突，重复 cherry-pick 导致重复变更
+  related_commands:
+  - git rebase
+  - git merge
+- name: git submodule
+  category: 版本控制/Git高级操作
+  install_required: false
+  description: Git 子模块管理（嵌套仓库依赖）
+  usage:
+  - git submodule [命令] [选项]
+  options:
+  - flag: add
+    description: 添加子模块
+  - flag: update
+    description: 更新子模块
+  - flag: init
+    description: 初始化子模块
+  - flag: foreach
+    description: 对每个子模块执行命令
+  - flag: --recursive
+    description: 递归处理嵌套子模块
+  examples:
+  - command: git submodule add https://github.com/lib/dep.git vendor/dep
+    description: 添加子模块
+  - command: git submodule update --init --recursive
+    description: 初始化并更新所有子模块
+  - command: git submodule foreach git pull origin main
+    description: 所有子模块拉取最新
+  - command: git submodule status
+    description: 查看子模块状态
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 子模块版本锁定，更新不当导致依赖不一致
+  related_commands:
+  - git clone
+  - git worktree
+- name: git lfs
+  category: 版本控制/Git高级操作
+  install_required: true
+  install_method: brew install git-lfs (macOS) 或 apt install git-lfs (Ubuntu)
+  description: Git Large File Storage 大文件管理
+  usage:
+  - git lfs [命令] [选项]
+  options:
+  - flag: track
+    description: 跟踪文件类型
+  - flag: pull
+    description: 拉取大文件
+  - flag: push
+    description: 推送大文件
+  - flag: ls-files
+    description: 列出 LFS 文件
+  - flag: migrate
+    description: 迁移历史中的大文件
+  examples:
+  - command: git lfs install
+    description: 初始化 LFS
+  - command: git lfs track "*.psd" "*.zip"
+    description: 跟踪大文件类型
+  - command: git lfs ls-files
+    description: 列出 LFS 管理的文件
+  - command: git lfs pull
+    description: 拉取所有 LFS 文件
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: migrate 改写历史，需团队协调 force push
+  related_commands:
+  - git clone
+  - git push
+- name: gh pr
+  category: 版本控制/Git高级操作
+  install_required: true
+  install_method: brew install gh (macOS) 或 apt install gh (Ubuntu)
+  description: GitHub CLI Pull Request 管理
+  usage:
+  - gh pr [命令] [选项]
+  options:
+  - flag: create
+    description: 创建 PR
+  - flag: list
+    description: 列出 PR
+  - flag: checkout
+    description: 检出 PR 分支
+  - flag: merge
+    description: 合并 PR
+  - flag: review
+    description: 审查 PR
+  examples:
+  - command: 'gh pr create --title "feat: add auth" --body "Implements OAuth2 flow"'
+    description: 创建 PR
+  - command: gh pr list --state open --assignee @me
+    description: 列出分配给我的 PR
+  - command: gh pr checkout 42
+    description: 检出 PR
+  - command: gh pr merge 42 --squash --delete-branch
+    description: Squash 合并并删除分支
+  - command: gh pr review 42 --approve
+    description: 批准 PR
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: merge 操作不可逆，确认代码已审查
+  related_commands:
+  - gh issue
+  - git push
+- name: gh issue
+  category: 版本控制/Git高级操作
+  install_required: true
+  install_method: 同 gh
+  description: GitHub CLI Issue 管理
+  usage:
+  - gh issue [命令] [选项]
+  options:
+  - flag: create
+    description: 创建 Issue
+  - flag: list
+    description: 列出 Issue
+  - flag: close
+    description: 关闭 Issue
+  - flag: comment
+    description: 添加评论
+  - flag: -l
+    description: 标签过滤
+  examples:
+  - command: 'gh issue create --title "Bug: login fails" --body "Steps to reproduce..." --label bug'
+    description: 创建带标签的 Issue
+  - command: gh issue list --label bug --state open
+    description: 列出打开的 bug
+  - command: gh issue close 42 --comment "Fixed in v2.1.0"
+    description: 关闭并评论
+  - command: gh issue view 42 --comments
+    description: 查看 Issue 及评论
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: Issue 操作风险低，close 可重新打开
+  related_commands:
+  - gh pr
+  - gh release
+- name: gh release
+  category: 版本控制/Git高级操作
+  install_required: true
+  install_method: 同 gh
+  description: GitHub CLI Release 发布管理
+  usage:
+  - gh release [命令] [选项]
+  options:
+  - flag: create
+    description: 创建 Release
+  - flag: list
+    description: 列出 Release
+  - flag: upload
+    description: 上传资产
+  - flag: --generate-notes
+    description: 自动生成 changelog
+  examples:
+  - command: gh release create v1.9.0 --generate-notes
+    description: 创建 Release 并自动生成说明
+  - command: gh release create v1.9.0 ./dist/*.tar.gz --title "v1.9.0"
+    description: 创建 Release 并上传资产
+  - command: gh release list --limit 5
+    description: 列出最近 5 个 Release
+  - command: gh release download v1.8.0
+    description: 下载指定版本资产
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 发布后删除 Release 影响已分发的链接
+  related_commands:
+  - gh pr
+  - goreleaser

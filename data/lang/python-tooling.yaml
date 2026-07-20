@@ -1,0 +1,178 @@
+category: 编程语言/Python工具链扩展
+description: Python 代码质量、测试和类型检查工具
+commands:
+- name: ruff
+  category: 编程语言/Python工具链扩展
+  install_required: true
+  install_method: pip install ruff 或 brew install ruff (macOS)
+  description: 极速 Python linter 和 formatter（替代 flake8+isort+black）
+  usage:
+  - ruff [命令] [选项] [路径]
+  options:
+  - flag: check
+    description: 运行 lint 检查
+  - flag: format
+    description: 格式化代码
+  - flag: --fix
+    description: 自动修复
+  - flag: --select
+    description: 选择规则集
+  - flag: --ignore
+    description: 忽略规则
+  examples:
+  - command: ruff check .
+    description: 检查当前目录所有 Python 文件
+  - command: ruff check --fix .
+    description: 自动修复可修复的问题
+  - command: ruff format .
+    description: 格式化所有 Python 文件
+  - command: ruff check --select E,F,I .
+    description: 仅检查 pycodestyle+pyflakes+isort 规则
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: --fix 和 format 修改文件，建议配合 Git 使用
+  related_commands:
+  - black
+  - mypy
+- name: black
+  category: 编程语言/Python工具链扩展
+  install_required: true
+  install_method: pip install black 或 brew install black (macOS)
+  description: Python 代码格式化工具（无争议风格）
+  usage:
+  - black [选项] [路径]
+  options:
+  - flag: --check
+    description: 仅检查不修改
+  - flag: --diff
+    description: 显示差异
+  - flag: -l
+    description: 行宽限制（默认 88）
+  - flag: --target-version
+    description: 目标 Python 版本
+  examples:
+  - command: black .
+    description: 格式化当前目录
+  - command: black --check --diff src/
+    description: 检查格式差异（CI 用）
+  - command: black -l 120 src/
+    description: 120 字符行宽格式化
+  - command: black --target-version py312 .
+    description: 针对 Python 3.12 格式化
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 修改文件格式，建议配合 Git 使用
+  related_commands:
+  - ruff
+  - isort
+- name: mypy
+  category: 编程语言/Python工具链扩展
+  install_required: true
+  install_method: pip install mypy 或 brew install mypy (macOS)
+  description: Python 静态类型检查器
+  usage:
+  - mypy [选项] [路径]
+  options:
+  - flag: --strict
+    description: 严格模式（所有检查开启）
+  - flag: --ignore-missing-imports
+    description: 忽略缺失的第三方类型
+  - flag: --show-error-codes
+    description: 显示错误代码
+  - flag: --python-version
+    description: 目标 Python 版本
+  examples:
+  - command: mypy src/
+    description: 检查 src 目录类型
+  - command: mypy --strict src/
+    description: 严格模式检查
+  - command: mypy --ignore-missing-imports .
+    description: 忽略第三方库类型缺失
+  - command: mypy --show-error-codes --python-version 3.12 src/
+    description: 指定版本检查
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读检查操作，无风险
+  related_commands:
+  - ruff
+  - pytest
+- name: tox
+  category: 编程语言/Python工具链扩展
+  install_required: true
+  install_method: pip install tox
+  description: Python 多环境测试自动化工具
+  usage:
+  - tox [选项]
+  options:
+  - flag: -e
+    description: 指定环境
+  - flag: -p
+    description: 并行执行
+  - flag: --listenvs
+    description: 列出所有环境
+  examples:
+  - command: tox
+    description: 运行所有测试环境
+  - command: tox -e py312
+    description: 仅运行 Python 3.12 环境
+  - command: tox -e lint
+    description: 运行 lint 环境
+  - command: tox -p auto
+    description: 并行运行所有环境
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 测试执行操作，无风险
+  related_commands:
+  - pytest
+  - nox
+- name: bandit
+  category: 编程语言/Python工具链扩展
+  install_required: true
+  install_method: pip install bandit
+  description: Python 安全漏洞扫描工具
+  usage:
+  - bandit [选项] [路径]
+  options:
+  - flag: -r
+    description: 递归扫描
+  - flag: -ll
+    description: 仅显示中高危
+  - flag: -f
+    description: 输出格式 (json/csv/html)
+  - flag: --skip
+    description: 跳过检查项
+  examples:
+  - command: bandit -r src/
+    description: 递归扫描安全问题
+  - command: bandit -r -ll src/
+    description: 仅显示中高危问题
+  - command: bandit -r -f json -o report.json src/
+    description: JSON 格式输出报告
+  - command: bandit -r --skip B101 src/
+    description: 跳过 assert 检查
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 只读扫描操作，无风险
+  related_commands:
+  - ruff
+  - safety

@@ -1,0 +1,137 @@
+category: 网络工具/服务网格
+description: Istio、Linkerd、Envoy 服务网格管理命令
+commands:
+- name: istioctl
+  category: 网络工具/服务网格
+  install_required: true
+  install_method: curl -L https://istio.io/downloadIstio | sh - (或 brew install istioctl)
+  description: Istio 服务网格管理 CLI
+  usage:
+  - istioctl <命令>
+  - istioctl install [选项]
+  options:
+  - flag: --set
+    description: 设置安装参数 (--set profile=demo)
+  - flag: -f
+    description: 指定 IstioOperator 配置文件
+  - flag: --context
+    description: 指定 kubeconfig context
+  - flag: -n
+    description: 指定命名空间
+  examples:
+  - command: istioctl install --set profile=demo -y
+    description: 安装 Istio demo 配置
+  - command: istioctl version
+    description: 查看 Istio 版本
+  - command: istioctl proxy-status
+    description: 查看所有 sidecar 代理同步状态
+  - command: istioctl upgrade -f istio-operator.yaml
+    description: 按配置文件升级 Istio
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: install/upgrade/uninstall 影响整个网格基础设施
+  related_commands:
+  - kubectl
+  - istioctl analyze
+- name: istioctl dashboard
+  category: 网络工具/服务网格
+  install_required: true
+  install_method: curl -L https://istio.io/downloadIstio | sh -
+  description: 打开 Istio 相关 Web 控制台
+  usage:
+  - istioctl dashboard <名称>
+  examples:
+  - command: istioctl dashboard kiali
+    description: 打开 Kiali 服务拓扑面板
+  - command: istioctl dashboard grafana
+    description: 打开 Grafana 监控面板
+  - command: istioctl dashboard jaeger
+    description: 打开 Jaeger 链路追踪
+  - command: istioctl dashboard prometheus
+    description: 打开 Prometheus 查询界面
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 仅打开本地端口转发
+  related_commands:
+  - istioctl
+  - kubectl port-forward
+- name: istioctl experimental
+  category: 网络工具/服务网格
+  install_required: true
+  install_method: curl -L https://istio.io/downloadIstio | sh -
+  description: Istio 实验性功能（Waypoint、ambient 模式等）
+  usage:
+  - istioctl experimental <命令>
+  - istioctl x <命令>
+  examples:
+  - command: istioctl x waypoint apply -n myapp
+    description: 为命名空间创建 ambient waypoint 代理
+  - command: istioctl x waypoint status
+    description: 查看 waypoint 代理状态
+  - command: istioctl x precheck
+    description: 升级前兼容性检查
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: 实验性功能 API 可能变更
+  related_commands:
+  - istioctl
+- name: linkerd viz
+  category: 网络工具/服务网格
+  install_required: true
+  install_method: linkerd viz install | kubectl apply -f -
+  description: Linkerd 可观测性面板与指标
+  usage:
+  - linkerd viz <命令>
+  - linkerd viz dashboard
+  examples:
+  - command: linkerd viz dashboard
+    description: 打开 Linkerd Web 面板
+  - command: linkerd viz stat deploy -n myapp
+    description: 查看部署的实时流量指标
+  - command: linkerd viz top deploy/myapp
+    description: 实时查看请求 top 列表
+  - command: linkerd viz tap deploy/myapp
+    description: 实时查看请求流（类似 tcpdump）
+  - command: linkerd viz edges deploy
+    description: 查看服务间连接关系
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读可观测性操作
+  related_commands:
+  - linkerd
+  - linkerd jaeger
+- name: linkerd diagnostics
+  category: 网络工具/服务网格
+  install_required: true
+  install_method: curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
+  description: Linkerd 诊断和调试工具
+  usage:
+  - linkerd diagnostics <命令>
+  examples:
+  - command: linkerd diagnostics proxy-metrics deploy/myapp
+    description: 获取 pod 的代理指标
+  - command: linkerd diagnostics endpoints deploy/myapp
+    description: 查看服务端点发现信息
+  - command: linkerd diagnostics policy get deploy/myapp
+    description: 查看授权策略
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: low
+    description: 只读诊断操作
+  related_commands:
+  - linkerd
+  - linkerd viz

@@ -1,0 +1,305 @@
+category: 云平台/GCP CLI
+description: Google Cloud Platform 命令行工具
+commands:
+- name: gcloud auth
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 GCP 认证和授权
+  usage:
+  - gcloud auth login
+  - gcloud auth activate-service-account
+  options:
+  - flag: --brief
+    description: 简洁输出
+  - flag: --force
+    description: 强制重新认证
+  examples:
+  - command: gcloud auth login
+    description: 浏览器 OAuth 登录
+  - command: gcloud auth activate-service-account --key-file=sa.json
+    description: 使用服务账号密钥认证
+  - command: gcloud auth print-access-token
+    description: 获取当前访问令牌
+  - command: gcloud auth application-default login
+    description: 设置应用默认凭证
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 服务账号密钥文件需妥善保管，泄露可导致资源被滥用
+  related_commands:
+  - gcloud
+  - gcloud config
+- name: gcloud compute
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 GCE 虚拟机实例、磁盘、网络等计算资源
+  usage:
+  - gcloud compute [子命令] [参数]
+  options:
+  - flag: --zone
+    description: 指定实例所在区域
+  - flag: --machine-type
+    description: 指定机器类型 (e2-medium/n2-standard-2)
+  - flag: --image-family
+    description: 指定操作系统镜像族
+  examples:
+  - command: gcloud compute instances list
+    description: 列出所有虚拟机实例
+  - command: gcloud compute instances create my-vm --machine-type=e2-medium --zone=us-central1-a
+    description: 创建虚拟机实例
+  - command: gcloud compute ssh my-vm --zone=us-central1-a
+    description: SSH 连接到实例
+  - command: gcloud compute instances delete my-vm --zone=us-central1-a
+    description: 删除虚拟机实例
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: delete 操作不可逆，创建实例会产生费用
+  related_commands:
+  - gcloud
+  - gcloud container
+- name: gcloud container
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 GKE Kubernetes 集群
+  usage:
+  - gcloud container clusters [命令] [参数]
+  options:
+  - flag: --zone
+    description: 集群所在区域
+  - flag: --region
+    description: 区域集群
+  - flag: --num-nodes
+    description: 节点数量
+  - flag: --machine-type
+    description: 节点机器类型
+  examples:
+  - command: gcloud container clusters list
+    description: 列出所有 GKE 集群
+  - command: gcloud container clusters create my-cluster --num-nodes=3
+    description: 创建 3 节点 GKE 集群
+  - command: gcloud container clusters get-credentials my-cluster
+    description: 获取集群 kubeconfig 凭证
+  - command: gcloud container clusters resize my-cluster --num-nodes=5
+    description: 扩容集群至 5 节点
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 集群操作涉及费用，resize/delete 影响运行中的工作负载
+  related_commands:
+  - gcloud compute
+  - kubectl
+- name: gcloud storage
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 Cloud Storage 存储桶和对象
+  usage:
+  - gcloud storage [命令] [参数]
+  - gsutil [命令] [参数]
+  options:
+  - flag: -r
+    description: 递归操作
+  - flag: -m
+    description: 并行传输
+  examples:
+  - command: gcloud storage buckets list
+    description: 列出所有存储桶
+  - command: gcloud storage cp file.txt gs://my-bucket/
+    description: 上传文件到存储桶
+  - command: gcloud storage rsync ./local gs://my-bucket/ -r
+    description: 递归同步目录到存储桶
+  - command: gsutil -m cp -r ./dist gs://my-bucket/
+    description: 并行递归上传目录
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: rsync 和 rm -r 操作可能覆盖或删除远端数据
+  related_commands:
+  - gcloud
+  - aws s3
+- name: gcloud run
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 Cloud Run 无服务器容器服务
+  usage:
+  - gcloud run deploy [服务名] [参数]
+  - gcloud run services [命令]
+  options:
+  - flag: --image
+    description: 容器镜像地址
+  - flag: --platform
+    description: 平台 (managed/gke)
+  - flag: --allow-unauthenticated
+    description: 允许未认证访问
+  - flag: --memory
+    description: 内存限制 (256Mi/512Mi/1Gi)
+  examples:
+  - command: gcloud run deploy my-service --image gcr.io/project/app:v1
+    description: 部署容器到 Cloud Run
+  - command: gcloud run services list
+    description: 列出所有 Cloud Run 服务
+  - command: gcloud run services describe my-service
+    description: 查看服务详情
+  - command: gcloud run services delete my-service
+    description: 删除 Cloud Run 服务
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: --allow-unauthenticated 会公开服务，注意安全性
+  related_commands:
+  - gcloud container
+  - gcloud builds
+- name: gcloud builds
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 Cloud Build CI/CD 构建
+  usage:
+  - gcloud builds submit [参数]
+  - gcloud builds log [命令]
+  options:
+  - flag: --tag
+    description: 构建镜像标签
+  - flag: --config
+    description: 指定 cloudbuild.yaml 配置文件
+  - flag: --timeout
+    description: 构建超时时间
+  examples:
+  - command: gcloud builds submit --tag gcr.io/project/app:v1
+    description: 提交本地代码构建容器镜像
+  - command: gcloud builds submit --config cloudbuild.yaml
+    description: 使用配置文件执行构建
+  - command: gcloud builds log list
+    description: 列出构建历史
+  - command: gcloud builds log read --limit=5
+    description: 查看最近 5 次构建日志
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: low
+    description: 构建操作风险较低，但会产生 Cloud Build 费用
+  related_commands:
+  - gcloud run
+  - gcloud container
+- name: gcloud iam
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 IAM 身份和访问控制策略
+  usage:
+  - gcloud iam [命令] [参数]
+  options:
+  - flag: --member
+    description: 指定成员 (user:/serviceAccount:/group:)
+  - flag: --role
+    description: 指定角色
+  examples:
+  - command: gcloud iam service-accounts list
+    description: 列出服务账号
+  - command: gcloud projects get-iam-policy my-project
+    description: 查看项目 IAM 策略
+  - command: gcloud projects add-iam-policy-binding my-project --member=user:dev@example.com --role=roles/editor
+    description: 授予用户 editor 角色
+  - command: gcloud iam service-accounts keys create key.json --iam-account=sa@project.iam.gserviceaccount.com
+    description: 创建服务账号密钥
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: IAM 策略变更影响访问权限，密钥文件需妥善保管
+  related_commands:
+  - gcloud auth
+  - gcloud projects
+- name: gcloud sql
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 Cloud SQL 数据库实例
+  usage:
+  - gcloud sql [命令] [参数]
+  options:
+  - flag: --instance
+    description: 数据库实例名
+  - flag: --tier
+    description: 机器规格
+  - flag: --database-version
+    description: 数据库版本 (MYSQL_8_0/POSTGRES_15)
+  examples:
+  - command: gcloud sql instances list
+    description: 列出所有数据库实例
+  - command: gcloud sql instances create my-db --database-version=POSTGRES_15 --tier=db-f1-micro
+    description: 创建 PostgreSQL 实例
+  - command: gcloud sql databases create mydb --instance=my-db
+    description: 在实例中创建数据库
+  - command: gcloud sql connect my-db --user=postgres
+    description: 连接到数据库实例
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: high
+    description: 数据库实例产生持续费用，删除操作导致数据丢失
+  related_commands:
+  - gcloud compute
+  - gcloud storage
+- name: gcloud functions
+  category: 云平台/GCP CLI
+  install_required: true
+  install_method: 同 gcloud
+  description: 管理 Cloud Functions 无服务器函数
+  usage:
+  - gcloud functions deploy [函数名] [参数]
+  - gcloud functions [命令]
+  options:
+  - flag: --runtime
+    description: 运行时 (python311/nodejs20/go121)
+  - flag: --trigger-http
+    description: HTTP 触发器
+  - flag: --trigger-topic
+    description: Pub/Sub 主题触发器
+  - flag: --memory
+    description: 内存配置
+  examples:
+  - command: gcloud functions deploy hello --runtime python311 --trigger-http
+    description: 部署 HTTP 触发函数
+  - command: gcloud functions list
+    description: 列出所有函数
+  - command: gcloud functions logs read hello --limit=20
+    description: 查看函数日志
+  - command: gcloud functions delete hello
+    description: 删除函数
+  platforms:
+  - linux
+  - darwin
+  - windows
+  risks:
+  - level: medium
+    description: 部署会更新生产函数，删除不可逆
+  related_commands:
+  - gcloud run
+  - gcloud builds

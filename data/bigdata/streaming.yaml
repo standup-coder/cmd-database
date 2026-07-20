@@ -1,0 +1,149 @@
+category: 大数据/流处理
+description: 大数据流处理和消息队列工具（Kafka、Flink 深度补充）
+commands:
+- name: kafka-topics
+  category: 大数据/流处理
+  install_required: true
+  install_method: 随 Apache Kafka 发行版安装或 brew install kafka (macOS)
+  description: Kafka Topic 管理工具（创建、删除、查看、修改分区）
+  usage:
+  - kafka-topics.sh [选项]
+  options:
+  - flag: --bootstrap-server
+    description: Kafka 集群地址
+  - flag: --create
+    description: 创建 Topic
+  - flag: --delete
+    description: 删除 Topic
+  - flag: --describe
+    description: 查看 Topic 详情
+  - flag: --partitions
+    description: 分区数
+  - flag: --replication-factor
+    description: 副本因子
+  - flag: --alter
+    description: 修改 Topic 配置
+  examples:
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --create --topic orders --partitions 6 --replication-factor
+      3
+    description: 创建 6 分区 3 副本的 Topic
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --list
+    description: 列出所有 Topic
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic orders
+    description: 查看 Topic 分区和副本分布
+  - command: kafka-topics.sh --bootstrap-server localhost:9092 --alter --topic orders --partitions 12
+    description: 扩容分区到 12（不可缩容）
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: --delete 删除 Topic 数据不可逆，--alter 分区不可缩容
+  related_commands:
+  - kafka-console-producer
+  - kafka-consumer-groups
+- name: kafka-consumer-groups
+  category: 大数据/流处理
+  install_required: true
+  install_method: 同 kafka
+  description: Kafka 消费者组管理（查看 lag、重置 offset）
+  usage:
+  - kafka-consumer-groups.sh [选项]
+  options:
+  - flag: --bootstrap-server
+    description: Kafka 集群地址
+  - flag: --describe
+    description: 查看消费者组详情
+  - flag: --group
+    description: 消费者组名
+  - flag: --reset-offsets
+    description: 重置消费偏移量
+  - flag: --to-earliest
+    description: 重置到最早
+  - flag: --to-latest
+    description: 重置到最新
+  - flag: --execute
+    description: 实际执行（默认为 dry-run）
+  examples:
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+    description: 列出所有消费者组
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-app
+    description: 查看消费者组 lag
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --reset-offsets --group my-app --topic orders --to-earliest
+      --execute
+    description: 重置 offset 到最早（重新消费）
+  - command: kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-app --state
+    description: 查看消费者组状态
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: high
+    description: --reset-offsets --execute 导致消息重复消费或跳过
+  related_commands:
+  - kafka-topics
+  - kafka-console-consumer
+- name: flink sql-client
+  category: 大数据/流处理
+  install_required: true
+  install_method: 同 flink
+  description: Flink SQL 交互式客户端
+  usage:
+  - sql-client.sh [选项]
+  options:
+  - flag: embedded
+    description: 嵌入式模式
+  - flag: -f
+    description: 执行 SQL 文件
+  - flag: -i
+    description: 初始化 SQL 文件
+  examples:
+  - command: sql-client.sh embedded
+    description: 启动交互式 SQL 客户端
+  - command: sql-client.sh -f queries.sql
+    description: 执行 SQL 文件
+  - command: sql-client.sh -i init.sql embedded
+    description: 加载初始化配置后启动
+  platforms:
+  - linux
+  - darwin
+  risks:
+  - level: medium
+    description: SQL 操作可能创建/修改/删除表和作业
+  related_commands:
+  - flink
+- name: yarn (Hadoop)
+  category: 大数据/流处理
+  install_required: true
+  install_method: 随 Hadoop 发行版安装
+  description: Hadoop YARN 资源管理器 CLI
+  usage:
+  - yarn [命令] [选项]
+  options:
+  - flag: application
+    description: 应用管理
+  - flag: node
+    description: 节点管理
+  - flag: queue
+    description: 队列管理
+  - flag: logs
+    description: 查看日志
+  examples:
+  - command: yarn application -list
+    description: 列出运行中的应用
+  - command: yarn application -kill <app-id>
+    description: 终止指定应用
+  - command: yarn logs -applicationId <app-id>
+    description: 查看应用日志
+  - command: yarn node -list
+    description: 列出集群节点
+  - command: yarn queue -status default
+    description: 查看队列状态
+  platforms:
+  - linux
+  risks:
+  - level: high
+    description: -kill 终止运行中的计算任务
+  related_commands:
+  - hdfs
+  - spark-submit

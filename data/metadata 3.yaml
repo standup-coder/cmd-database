@@ -1,6 +1,6 @@
 version: "1.9.0"
 updated_at: "2026-07-19"
-description: "cmd4coder 命令行工具大全数据文件 - 覆盖 123 个分类, 1238 命令"
+description: "cmd4coder 命令行工具大全数据文件 - 覆盖 118 个分类, 1250+ 命令"
 
 categories:
   os_ubuntu:
@@ -81,12 +81,6 @@ categories:
     description: "Docker容器管理命令"
     parent: ""
     order: 40
-  container_docker_advanced:
-    id: container_docker_advanced
-    name: "容器编排/Docker高级操作"
-    description: "Docker Buildx、Compose、网络与存储高级命令"
-    parent: ""
-    order: 41
   container_k8s:
     id: container_k8s
     name: "容器编排/Kubernetes命令"
@@ -213,12 +207,6 @@ categories:
     description: "SVN版本控制命令"
     parent: ""
     order: 71
-  vcs_git_advanced:
-    id: vcs_git_advanced
-    name: "版本控制/Git高级操作"
-    description: "Git高级工作流与GitHub CLI扩展命令"
-    parent: ""
-    order: 72
   build_maven:
     id: build_maven
     name: "构建工具/Maven"
@@ -550,30 +538,12 @@ categories:
     description: 反向代理、Web 服务器、VPN、DNS 服务等网络基础设施命令
     parent: ''
     order: 250
-  os_systemd:
-    id: os_systemd
-    name: 操作系统/Systemd服务管理
-    description: Systemd 服务管理、日志查询与定时器命令
-    parent: ''
-    order: 251
-  network_service_mesh:
-    id: network_service_mesh
-    name: 网络工具/服务网格
-    description: Istio、Linkerd、Envoy 服务网格管理命令
-    parent: ''
-    order: 252
   database_more_yaml:
     id: database_more_yaml
     name: 数据库工具/扩展命令
     description: 商业数据库、缓存、备份与云数据仓库扩展命令
     parent: ''
     order: 300
-  database_operations:
-    id: database_operations
-    name: 数据库工具/运维操作
-    description: 数据库备份恢复、性能调优与运维管理命令
-    parent: ''
-    order: 301
   bigdata_more_yaml:
     id: bigdata_more_yaml
     name: 大数据/扩展命令
@@ -822,7 +792,6 @@ data_files:
 - container/cloudnative/cloudnative-extra.yaml
 - container/cloudnative/cloudnative-more.yaml
 - container/docker/container-alternatives.yaml
-- container/docker/docker-advanced.yaml
 - container/docker/docker.yaml
 - container/k8s/k8s-backup.yaml
 - container/k8s/k8s-cicd.yaml
@@ -847,7 +816,6 @@ data_files:
 - database/more.yaml
 - database/mysql.yaml
 - database/nosql.yaml
-- database/operations.yaml
 - database/postgresql.yaml
 - database/redis.yaml
 - database/timeseries.yaml
@@ -879,18 +847,15 @@ data_files:
 - network/performance.yaml
 - network/security-tools.yaml
 - network/security.yaml
-- network/service-mesh.yaml
 - network/tools-extra.yaml
 - os/centos.yaml
 - os/common.yaml
 - os/linux-core.yaml
 - os/linux-extra.yaml
-- os/systemd.yaml
 - os/ubuntu.yaml
 - shell/bash.yaml
 - shell/modern-tools.yaml
 - shell/text-processing.yaml
 - shell/tmux.yaml
-- vcs/git-advanced.yaml
 - vcs/git.yaml
 - vcs/svn.yaml
