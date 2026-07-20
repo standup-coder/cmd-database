@@ -47,3 +47,6 @@ test-reports/
 # Generated reports and caches
 coverage_reports/
 scripts/__pycache__/
+
+# Obsidian Wiki local repo
+.obsidian-wiki-repo/
