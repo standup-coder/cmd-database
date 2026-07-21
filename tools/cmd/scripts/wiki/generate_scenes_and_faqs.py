@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-PROJECT_ROOT = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder")
+PROJECT_ROOT = Path(__file__).resolve().parents[4]  # auto: repo root (scripts live in tools/cmd/scripts/<sub>/)
 WIKI_DIR = PROJECT_ROOT / "llm-wiki"
 SCENES_DIR = WIKI_DIR / "02-Scenes"
 FAQS_DIR = WIKI_DIR / "04-FAQs"

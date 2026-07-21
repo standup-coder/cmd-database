@@ -8,7 +8,7 @@ import yaml
 import re
 from pathlib import Path
 
-WIKI_DIR = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder/llm-wiki")
+WIKI_DIR = Path(__file__).resolve().parents[4] / "llm-wiki"  # auto: llm-wiki stays at repo root
 
 def extract_summary(content: str) -> str:
     """Extract one-line summary from command page body."""

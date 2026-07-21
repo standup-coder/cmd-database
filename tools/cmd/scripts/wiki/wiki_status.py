@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 from collections import Counter
 
-WIKI_DIR = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder/llm-wiki")
+WIKI_DIR = Path(__file__).resolve().parents[4] / "llm-wiki"  # auto: llm-wiki stays at repo root
 
 def extract_wikilinks(content: str) -> list:
     """Extract [[link]] or [[link|alias]] patterns"""

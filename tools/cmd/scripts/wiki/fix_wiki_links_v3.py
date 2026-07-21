@@ -5,9 +5,9 @@ import re
 import yaml
 from pathlib import Path
 
-WIKI_DIR = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder/llm-wiki")
+WIKI_DIR = Path(__file__).resolve().parents[4] / "llm-wiki"  # auto: llm-wiki stays at repo root
 CMD_DIR = WIKI_DIR / "01-Commands"
-DATA_DIR = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder/data")
+DATA_DIR = Path(__file__).resolve().parents[3] / "data"  # auto: YAML source moved to tools/cmd/data
 
 def build_cat_map():
     """Build mapping from English category to MOC filename"""

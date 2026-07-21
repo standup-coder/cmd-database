@@ -11,9 +11,9 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from collections import defaultdict, Counter
 
-PROJECT_ROOT = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder")
+PROJECT_ROOT = Path(__file__).resolve().parents[4]  # auto: repo root (scripts live in tools/cmd/scripts/<sub>/)
 WIKI_DIR = PROJECT_ROOT / "llm-wiki"
-DATA_DIR = PROJECT_ROOT / "data"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data"  # YAML 源已随 CLI 收敛到 tools/cmd/data
 
 def extract_frontmatter(path: Path) -> dict:
     content = path.read_text(encoding="utf-8")

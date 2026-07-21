@@ -16,8 +16,9 @@ from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
 
-PROJECT_ROOT = Path("/Users/allengaller/Documents/GitHub/standup-coder/cmd4coder")
-DATA_DIR = PROJECT_ROOT / "data"
+PROJECT_ROOT = Path(__file__).resolve().parents[4]  # repo root
+CMD_ROOT = Path(__file__).resolve().parents[2]  # tools/cmd
+DATA_DIR = CMD_ROOT / "data"  # YAML 单一数据源随 CLI 收敛到 tools/cmd/data
 WIKI_DIR = PROJECT_ROOT / "llm-wiki"
 META_DIR = WIKI_DIR / "_meta"
 COMMANDS_DIR = WIKI_DIR / "01-Commands"
