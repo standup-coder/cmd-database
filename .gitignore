@@ -19,12 +19,13 @@ vendor/
 # Go workspace file
 go.work
 
-# Build output
+# Build output (CLI now lives under tools/cmd/)
+tools/cmd/bin/
+tools/cmd/dist/
+tools/cmd/build/
 bin/
 dist/
 build/
-/cli
-/validator
 
 # IDE
 .idea/
@@ -46,7 +47,9 @@ test-reports/
 
 # Generated reports and caches
 coverage_reports/
+tools/cmd/coverage_reports/
 scripts/__pycache__/
+tools/cmd/scripts/__pycache__/
 
 # Obsidian Wiki local repo
 .obsidian-wiki-repo/
