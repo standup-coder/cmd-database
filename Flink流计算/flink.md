@@ -63,7 +63,7 @@ flink list
 
 ## 关联命令
 
-- [[sql-client.sh]]
+- [[sql-clientsh]]
 
 ## 风险提示
 

@@ -63,8 +63,8 @@ git pull --rebase
 
 ## 关联命令
 
-- [[git fetch]]
-- [[git merge]]
+- [[git-fetch]]
+- [[git-merge]]
 
 ## 所属维度
 

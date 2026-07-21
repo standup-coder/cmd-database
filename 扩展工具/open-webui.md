@@ -65,7 +65,7 @@ docker run -d -p 3000:8080 --gpus all -v ollama:/root/.ollama -v open-webui:/app
 ## 关联命令
 
 - [[ollama]]
-- [[llama.cpp]]
+- [[llamacpp]]
 
 ## 风险提示
 

@@ -23,7 +23,7 @@
 - 🟡 [[gradio]] — Gradio快速构建ML模型交互式Demo，自动生成可分享的Web界面
 - 🟡 [[groq]] — Groq极速推理API，基于LPU芯片实现业界最快token生成速度
 - 🟡 [[instructor]] — Instructor结构化输出框架，基于Pydantic让LLM返回类型安全的结构化数据
-- 🟡 [[llama.cpp]] — llama.cpp纯C/C++实现的LLM推理，支持GGUF量化，可在CPU/边缘设备运行
+- 🟡 [[llamacpp]] — llama.cpp纯C/C++实现的LLM推理，支持GGUF量化，可在CPU/边缘设备运行
 - 🟡 [[lmdeploy]] — 上海AI Lab开源的大模型部署工具，支持TurboMind引擎和PyTorch引擎
 - 🟡 [[marimo]] — Marimo响应式Python Notebook，支持交互式数据探索和模型实验
 - 🟡 [[ollama]] — Ollama本地大模型运行管理工具，一键下载和运行各类开源模型

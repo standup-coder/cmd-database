@@ -65,8 +65,8 @@ docker ps -a
 
 ## 关联命令
 
-- [[docker run]]
-- [[docker inspect]]
+- [[docker-run]]
+- [[docker-inspect]]
 
 ## 所属维度
 

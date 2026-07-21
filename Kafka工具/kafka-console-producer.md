@@ -63,7 +63,7 @@ echo "hello" | kafka-console-producer.sh --bootstrap-server localhost:9092 --top
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 - [[kafka-console-consumer]]
 
 ## 风险提示

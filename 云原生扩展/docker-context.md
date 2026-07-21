@@ -59,7 +59,7 @@ docker context create remote --docker host=ssh://user@host
 
 ## 关联命令
 
-- [[kubectl config]]
+- [[kubectl-config]]
 
 ## 所属维度
 

@@ -64,7 +64,7 @@ kafka-mirror-maker.sh --whitelist 'topic1,topic2'
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 - [[debezium]]
 
 ## 风险提示

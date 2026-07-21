@@ -71,8 +71,8 @@ git branch -d old-feature
 
 ## 关联命令
 
-- [[git checkout]]
-- [[git switch]]
+- [[git-checkout]]
+- [[git-switch]]
 
 ## 所属维度
 

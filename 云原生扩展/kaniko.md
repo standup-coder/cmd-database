@@ -65,7 +65,7 @@ executor --dockerfile Dockerfile --context . --no-push
 
 ## 关联命令
 
-- [[docker build]]
+- [[docker-build]]
 - [[buildkit]]
 
 ## 风险提示

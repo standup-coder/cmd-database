@@ -65,7 +65,7 @@ python convert_hf_to_gguf.py --model Qwen/Qwen2-7B --outfile qwen2-7b.Q4_K_M.ggu
 
 ## 关联命令
 
-- [[llama.cpp]]
+- [[llamacpp]]
 - [[ollama]]
 
 ## 风险提示

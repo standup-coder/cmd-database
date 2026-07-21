@@ -73,7 +73,7 @@ aws configure set region ap-northeast-1
 ## 关联命令
 
 - [[aws]]
-- [[aws sts]]
+- [[aws-sts]]
 
 ## 风险提示
 

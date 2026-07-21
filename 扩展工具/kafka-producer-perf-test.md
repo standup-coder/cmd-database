@@ -66,7 +66,7 @@ kafka-producer-perf-test.sh --topic test --num-records 10000 --record-size 512
 ## 关联命令
 
 - [[kafka-consumer-perf-test]]
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 
 ## 风险提示
 

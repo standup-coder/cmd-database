@@ -79,8 +79,8 @@ aws --profile prod s3 cp file.txt s3://my-bucket/
 
 ## 关联命令
 
-- [[aws configure]]
-- [[aws sts]]
+- [[aws-configure]]
+- [[aws-sts]]
 
 ## 风险提示
 

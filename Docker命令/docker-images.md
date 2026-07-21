@@ -64,8 +64,8 @@ docker images -q
 
 ## 关联命令
 
-- [[docker rmi]]
-- [[docker pull]]
+- [[docker-rmi]]
+- [[docker-pull]]
 
 ## 所属维度
 

@@ -66,8 +66,8 @@ git rebase -i HEAD~3
 
 ## 关联命令
 
-- [[git merge]]
-- [[git log]]
+- [[git-merge]]
+- [[git-log]]
 
 ## 所属维度
 

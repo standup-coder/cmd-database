@@ -17,15 +17,15 @@
 
 ## 命令列表
 
-- 🔴 [[crictl exec]] — Execute command in running container
-- 🟡 [[crictl images]] — List container images
-- 🟡 [[crictl logs]] — Fetch logs of a container
-- 🟡 [[crictl pods]] — List all pods
-- 🟡 [[crictl ps]] — List running containers
-- 🟡 [[crictl stats]] — Display container resource usage statistics
-- 🟡 [[ctr containers list]] — List containers in containerd
-- 🟡 [[ctr images list]] — List images in containerd
-- 🔴 [[systemctl status containerd]] — Check containerd service status
+- 🔴 [[crictl-exec]] — Execute command in running container
+- 🟡 [[crictl-images]] — List container images
+- 🟡 [[crictl-logs]] — Fetch logs of a container
+- 🟡 [[crictl-pods]] — List all pods
+- 🟡 [[crictl-ps]] — List running containers
+- 🟡 [[crictl-stats]] — Display container resource usage statistics
+- 🟡 [[ctr-containers-list]] — List containers in containerd
+- 🟡 [[ctr-images-list]] — List images in containerd
+- 🔴 [[systemctl-status-containerd]] — Check containerd service status
 
 ## 统计
 

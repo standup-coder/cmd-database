@@ -18,7 +18,7 @@
 ## 命令列表
 
 - 🟡 [[flink]] — Flink 作业提交与管理 CLI
-- 🟡 [[sql-client.sh]] — Flink SQL 交互式客户端
+- 🟡 [[sql-clientsh]] — Flink SQL 交互式客户端
 
 ## 统计
 

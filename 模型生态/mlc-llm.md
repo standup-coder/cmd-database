@@ -67,7 +67,7 @@ mlc_llm chat ./dist/Llama-3-8B-q4f16_1
 
 ## 关联命令
 
-- [[llama.cpp]]
+- [[llamacpp]]
 - [[gguf-convert]]
 
 ## 风险提示

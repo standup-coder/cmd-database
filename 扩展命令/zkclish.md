@@ -64,7 +64,7 @@ echo 'ls /' | zkCli.sh -server localhost:2181
 ## 关联命令
 
 - [[zookeeper-shell]]
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 
 ## 风险提示
 

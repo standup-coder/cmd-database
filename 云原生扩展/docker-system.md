@@ -58,7 +58,7 @@ docker system prune -a
 
 ## 关联命令
 
-- [[docker volume]]
+- [[docker-volume]]
 
 ## 风险提示
 

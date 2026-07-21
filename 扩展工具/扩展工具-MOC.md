@@ -17,8 +17,8 @@
 
 ## 命令列表
 
-- 🔴 [[hbase shell]] — HBase 交互式 Shell
-- 🔴 [[kafka-configs.sh]] — Kafka 配置管理工具
+- 🔴 [[hbase-shell]] — HBase 交互式 Shell
+- 🔴 [[kafka-configssh]] — Kafka 配置管理工具
 - 🟡 [[kafka-connect]] — Kafka Connect 连接器管理 CLI
 - 🟡 [[kafka-consumer-perf-test]] — Kafka 消费者性能测试
 - 🔴 [[kafka-producer-perf-test]] — Kafka 生产者性能测试

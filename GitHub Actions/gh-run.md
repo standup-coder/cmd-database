@@ -89,8 +89,8 @@ gh run rerun 12345
 
 ## 关联命令
 
-- [[gh workflow]]
-- [[gh run cancel]]
+- [[gh-workflow]]
+- [[gh-run-cancel]]
 
 ## 风险提示
 

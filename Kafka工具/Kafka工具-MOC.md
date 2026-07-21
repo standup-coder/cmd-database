@@ -19,8 +19,8 @@
 
 - 🟡 [[kafka-console-consumer]] — Kafka 命令行消费者
 - 🟡 [[kafka-console-producer]] — Kafka 命令行生产者
-- 🔴 [[kafka-consumer-groups.sh]] — Kafka 消费者组管理
-- 🟡 [[kafka-topics.sh]] — Kafka Topic 创建、查看与管理
+- 🔴 [[kafka-consumer-groupssh]] — Kafka 消费者组管理
+- 🟡 [[kafka-topicssh]] — Kafka Topic 创建、查看与管理
 - 🟡 [[ksql]] — ksqlDB 交互式 SQL 引擎 CLI
 
 ## 统计

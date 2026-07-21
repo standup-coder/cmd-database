@@ -2,7 +2,7 @@
 title: "pg_isready 生产环境最佳实践"
 cmd_name: "pg_isready"
 cmd_category: "数据库工具/PostgreSQL工具"
-source_page: "[[pg-isready]]"
+source_page: "[[pg_isready]]"
 domain: "database"
 risk_level: "low"
 platforms: ["linux", "darwin", "windows"]
@@ -87,4 +87,4 @@ pg_isready
 
 ---
 
-[[pg-isready|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[pg_isready|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

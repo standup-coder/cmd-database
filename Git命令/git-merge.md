@@ -63,8 +63,8 @@ git merge --no-ff feature
 
 ## 关联命令
 
-- [[git rebase]]
-- [[git pull]]
+- [[git-rebase]]
+- [[git-pull]]
 
 ## 所属维度
 

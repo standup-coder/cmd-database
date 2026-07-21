@@ -56,8 +56,8 @@ go run .
 
 ## 关联命令
 
-- [[go build]]
-- [[go test]]
+- [[go-build]]
+- [[go-test]]
 
 ## 风险提示
 

@@ -66,9 +66,9 @@ git fetch --all --prune
 
 ## 关联命令
 
-- [[git pull]]
-- [[git merge]]
-- [[git clone]]
+- [[git-pull]]
+- [[git-merge]]
+- [[git-clone]]
 
 ## 所属维度
 

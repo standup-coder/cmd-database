@@ -70,8 +70,8 @@ git commit --amend
 
 ## 关联命令
 
-- [[git add]]
-- [[git push]]
+- [[git-add]]
+- [[git-push]]
 
 ## 所属维度
 

@@ -63,8 +63,8 @@ docker stop $(docker ps -q)
 
 ## 关联命令
 
-- [[docker start]]
-- [[docker restart]]
+- [[docker-start]]
+- [[docker-restart]]
 
 ## 所属维度
 

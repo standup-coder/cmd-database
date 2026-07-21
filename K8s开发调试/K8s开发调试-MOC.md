@@ -17,14 +17,14 @@
 
 ## 命令列表
 
-- 🟡 [[skaffold build]] — Build container images only (no deployment)
-- 🔴 [[skaffold delete]] — Delete Skaffold deployments
-- 🟡 [[skaffold dev]] — Start Skaffold continuous development mode
-- 🔴 [[skaffold run]] — Build and deploy application once
-- 🔴 [[telepresence connect]] — Connect local environment to Kubernetes cluster
-- 🔴 [[telepresence intercept]] — Intercept traffic to service and redirect to local process
-- 🟡 [[tilt down]] — Stop Tilt and cleanup resources
-- 🟡 [[tilt up]] — Start Tilt development environment
+- 🟡 [[skaffold-build]] — Build container images only (no deployment)
+- 🔴 [[skaffold-delete]] — Delete Skaffold deployments
+- 🟡 [[skaffold-dev]] — Start Skaffold continuous development mode
+- 🔴 [[skaffold-run]] — Build and deploy application once
+- 🔴 [[telepresence-connect]] — Connect local environment to Kubernetes cluster
+- 🔴 [[telepresence-intercept]] — Intercept traffic to service and redirect to local process
+- 🟡 [[tilt-down]] — Stop Tilt and cleanup resources
+- 🟡 [[tilt-up]] — Start Tilt development environment
 
 ## 统计
 

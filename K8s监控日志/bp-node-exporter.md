@@ -2,7 +2,7 @@
 title: "node_exporter 生产环境最佳实践"
 cmd_name: "node_exporter"
 cmd_category: "容器编排/K8s监控日志"
-source_page: "[[node-exporter]]"
+source_page: "[[node_exporter]]"
 domain: "container"
 risk_level: "low"
 platforms: ["linux", "darwin"]
@@ -83,4 +83,4 @@ node_exporter
 
 ---
 
-[[node-exporter|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[node_exporter|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

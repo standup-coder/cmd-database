@@ -19,7 +19,7 @@
 
 - 🟡 [[cmake]] — 跨平台构建系统生成器，管理 C/C++ 项目构建
 - 🟡 [[make]] — GNU Make 构建自动化工具，通过 Makefile 定义构建规则
-- 🔴 [[make install]] — 安装已编译的程序到系统目录（通常为 /usr/local）
+- 🔴 [[make-install]] — 安装已编译的程序到系统目录（通常为 /usr/local）
 
 ## 统计
 

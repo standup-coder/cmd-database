@@ -17,17 +17,17 @@
 
 ## 命令列表
 
-- 🔴 [[argocd app create]] — Create ArgoCD application
-- 🔴 [[argocd app delete]] — Delete ArgoCD application
-- 🟡 [[argocd app list]] — List ArgoCD applications
-- 🔴 [[argocd app sync]] — Sync application state with Git repository
-- 🟡 [[argocd login]] — Login to ArgoCD server
-- 🔴 [[flux bootstrap git]] — Bootstrap Flux to Git repository
-- 🟡 [[flux get kustomizations]] — List Flux Kustomization resources
-- 🟡 [[flux reconcile source git]] — Manually trigger Git source reconciliation
-- 🟡 [[tkn pipeline list]] — List Tekton pipelines
-- 🔴 [[tkn pipeline start]] — Start Tekton pipeline execution
-- 🟡 [[tkn pipelinerun logs]] — View Tekton pipeline run logs
+- 🔴 [[argocd-app-create]] — Create ArgoCD application
+- 🔴 [[argocd-app-delete]] — Delete ArgoCD application
+- 🟡 [[argocd-app-list]] — List ArgoCD applications
+- 🔴 [[argocd-app-sync]] — Sync application state with Git repository
+- 🟡 [[argocd-login]] — Login to ArgoCD server
+- 🔴 [[flux-bootstrap-git]] — Bootstrap Flux to Git repository
+- 🟡 [[flux-get-kustomizations]] — List Flux Kustomization resources
+- 🟡 [[flux-reconcile-source-git]] — Manually trigger Git source reconciliation
+- 🟡 [[tkn-pipeline-list]] — List Tekton pipelines
+- 🔴 [[tkn-pipeline-start]] — Start Tekton pipeline execution
+- 🟡 [[tkn-pipelinerun-logs]] — View Tekton pipeline run logs
 
 ## 统计
 

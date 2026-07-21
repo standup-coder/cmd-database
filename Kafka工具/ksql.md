@@ -61,7 +61,7 @@ ksql http://localhost:8088 --execute "SHOW TOPICS;"
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 
 ## 风险提示
 

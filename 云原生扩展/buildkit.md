@@ -63,7 +63,7 @@ buildctl du
 
 ## 关联命令
 
-- [[docker buildx]]
+- [[docker-buildx]]
 - [[kaniko]]
 
 ## 风险提示

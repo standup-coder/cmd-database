@@ -71,8 +71,8 @@ git log -n 10
 
 ## 关联命令
 
-- [[git show]]
-- [[git diff]]
+- [[git-show]]
+- [[git-diff]]
 
 ## 所属维度
 

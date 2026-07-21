@@ -71,7 +71,7 @@ cargo clippy --fix
 
 ## 关联命令
 
-- [[cargo fmt]]
+- [[cargo-fmt]]
 - [[cargo]]
 
 ## 所属维度

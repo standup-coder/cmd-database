@@ -2,7 +2,7 @@
 title: "pg_dump 生产环境最佳实践"
 cmd_name: "pg_dump"
 cmd_category: "数据库工具/PostgreSQL工具"
-source_page: "[[pg-dump]]"
+source_page: "[[pg_dump]]"
 domain: "database"
 risk_level: "medium"
 platforms: ["linux", "darwin", "windows"]
@@ -88,4 +88,4 @@ pg_dump mydb > mydb_backup.sql
 
 ---
 
-[[pg-dump|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[pg_dump|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

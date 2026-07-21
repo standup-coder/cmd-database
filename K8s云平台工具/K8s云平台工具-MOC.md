@@ -17,15 +17,15 @@
 
 ## 命令列表
 
-- 🔴 [[az aks create]] — Create Azure AKS Kubernetes cluster
-- 🔴 [[az aks delete]] — Delete Azure AKS cluster
-- 🔴 [[az aks list]] — List Azure AKS clusters
-- 🔴 [[eksctl create cluster]] — Create AWS EKS Kubernetes cluster
-- 🔴 [[eksctl delete cluster]] — Delete AWS EKS cluster
-- 🔴 [[eksctl get cluster]] — List AWS EKS clusters
-- 🔴 [[gcloud container clusters create]] — Create Google GKE Kubernetes cluster
-- 🔴 [[gcloud container clusters delete]] — Delete Google GKE cluster
-- 🔴 [[gcloud container clusters list]] — List Google GKE clusters
+- 🔴 [[az-aks-create]] — Create Azure AKS Kubernetes cluster
+- 🔴 [[az-aks-delete]] — Delete Azure AKS cluster
+- 🔴 [[az-aks-list]] — List Azure AKS clusters
+- 🔴 [[eksctl-create-cluster]] — Create AWS EKS Kubernetes cluster
+- 🔴 [[eksctl-delete-cluster]] — Delete AWS EKS cluster
+- 🔴 [[eksctl-get-cluster]] — List AWS EKS clusters
+- 🔴 [[gcloud-container-clusters-create]] — Create Google GKE Kubernetes cluster
+- 🔴 [[gcloud-container-clusters-delete]] — Delete Google GKE cluster
+- 🔴 [[gcloud-container-clusters-list]] — List Google GKE clusters
 
 ## 统计
 

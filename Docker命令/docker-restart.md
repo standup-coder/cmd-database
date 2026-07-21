@@ -64,8 +64,8 @@ docker restart -t 30 mycontainer
 
 ## 关联命令
 
-- [[docker start]]
-- [[docker stop]]
+- [[docker-start]]
+- [[docker-stop]]
 
 ## 所属维度
 

@@ -18,11 +18,11 @@
 ## 命令列表
 
 - 🔴 [[aws]] — AWS 命令行接口，管理 AWS 服务和资源
-- 🔴 [[aws cloudformation]] — CloudFormation 基础设施即代码管理
-- 🔴 [[aws configure]] — 配置 AWS CLI 凭证和默认设置
-- 🟡 [[aws eks]] — EKS Kubernetes 集群管理
-- 🔴 [[aws s3]] — S3 存储桶和对象管理
-- 🟡 [[aws sts]] — AWS Security Token Service，管理临时凭证
+- 🔴 [[aws-cloudformation]] — CloudFormation 基础设施即代码管理
+- 🔴 [[aws-configure]] — 配置 AWS CLI 凭证和默认设置
+- 🟡 [[aws-eks]] — EKS Kubernetes 集群管理
+- 🔴 [[aws-s3]] — S3 存储桶和对象管理
+- 🟡 [[aws-sts]] — AWS Security Token Service，管理临时凭证
 
 ## 统计
 

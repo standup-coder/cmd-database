@@ -56,8 +56,8 @@ gofmt -w -s main.go
 
 ## 关联命令
 
-- [[go vet]]
-- [[go build]]
+- [[go-vet]]
+- [[go-build]]
 
 ## 风险提示
 

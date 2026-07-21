@@ -78,7 +78,7 @@ aws s3 rm s3://my-bucket/ --recursive
 ## 关联命令
 
 - [[aws]]
-- [[aws configure]]
+- [[aws-configure]]
 
 ## 风险提示
 

@@ -71,9 +71,9 @@ git diff HEAD~1
 
 ## 关联命令
 
-- [[git status]]
-- [[git add]]
-- [[git log]]
+- [[git-status]]
+- [[git-add]]
+- [[git-log]]
 
 ## 所属维度
 

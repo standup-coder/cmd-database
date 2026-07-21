@@ -66,9 +66,9 @@ docker inspect -f '{{.NetworkSettings.IPAddress}}' mycontainer
 
 ## 关联命令
 
-- [[docker ps]]
-- [[docker logs]]
-- [[docker exec]]
+- [[docker-ps]]
+- [[docker-logs]]
+- [[docker-exec]]
 
 ## 所属维度
 

@@ -57,9 +57,9 @@ go install ./cmd/myapp
 
 ## 关联命令
 
-- [[go get]]
-- [[go build]]
-- [[go run]]
+- [[go-get]]
+- [[go-build]]
+- [[go-run]]
 
 ## 所属维度
 

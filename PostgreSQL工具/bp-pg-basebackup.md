@@ -2,7 +2,7 @@
 title: "pg_basebackup 生产环境最佳实践"
 cmd_name: "pg_basebackup"
 cmd_category: "数据库工具/PostgreSQL工具"
-source_page: "[[pg-basebackup]]"
+source_page: "[[pg_basebackup]]"
 domain: "database"
 risk_level: "medium"
 platforms: ["linux", "darwin", "windows"]
@@ -87,4 +87,4 @@ pg_basebackup -D /backup/pg -U replication
 
 ---
 
-[[pg-basebackup|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[pg_basebackup|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

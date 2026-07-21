@@ -64,8 +64,8 @@ docker rm -f my-container
 
 ## 关联命令
 
-- [[docker rmi]]
-- [[docker ps]]
+- [[docker-rmi]]
+- [[docker-ps]]
 
 ## 风险提示
 

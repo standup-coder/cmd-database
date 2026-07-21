@@ -66,8 +66,8 @@ kafka-acls.sh --add --allow-principal User:alice --operation Read --topic mytopi
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
-- [[kafka-configs.sh]]
+- [[kafka-topicssh]]
+- [[kafka-configssh]]
 
 ## 风险提示
 

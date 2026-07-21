@@ -81,8 +81,8 @@ kubectl apply -f deployment.yaml
 
 ## 关联命令
 
-- [[kubectl get]]
-- [[kubectl apply]]
+- [[kubectl-get]]
+- [[kubectl-apply]]
 
 ## 所属维度
 

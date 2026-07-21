@@ -64,7 +64,7 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mytopic --ma
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 - [[kafka-console-producer]]
 
 ## 风险提示

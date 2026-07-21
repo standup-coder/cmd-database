@@ -64,8 +64,8 @@ git push -u origin feature
 
 ## 关联命令
 
-- [[git pull]]
-- [[git fetch]]
+- [[git-pull]]
+- [[git-fetch]]
 
 ## 风险提示
 

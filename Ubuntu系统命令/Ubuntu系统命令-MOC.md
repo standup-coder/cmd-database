@@ -17,26 +17,26 @@
 
 ## 命令列表
 
-- 🟡 [[apt install]] — Install new packages
-- 🔴 [[apt remove]] — Remove installed packages
-- 🟡 [[apt search]] — Search for packages
-- 🟡 [[apt update]] — Update package index from repositories
-- 🟡 [[apt upgrade]] — Upgrade all installed packages
-- 🟡 [[apt-cache show]] — Show package information
-- 🔴 [[dpkg -i]] — Install .deb package file
-- 🟡 [[dpkg -l]] — List installed packages
-- 🔴 [[dpkg -r]] — Remove installed package
-- 🟡 [[snap install]] — Install snap package
-- 🟡 [[systemctl disable]] — Disable service from starting on boot
-- 🟡 [[systemctl enable]] — Enable service to start on boot
-- 🟡 [[systemctl restart]] — Restart a systemd service
-- 🟡 [[systemctl start]] — Start a systemd service
-- 🟡 [[systemctl status]] — Check service status
-- 🔴 [[systemctl stop]] — Stop a systemd service
-- 🟡 [[ufw allow]] — Allow firewall rule
-- 🟡 [[ufw deny]] — Deny firewall rule
-- 🔴 [[ufw enable]] — Enable Ubuntu firewall
-- 🟡 [[ufw status]] — Show firewall status and rules
+- 🟡 [[apt-install]] — Install new packages
+- 🔴 [[apt-remove]] — Remove installed packages
+- 🟡 [[apt-search]] — Search for packages
+- 🟡 [[apt-update]] — Update package index from repositories
+- 🟡 [[apt-upgrade]] — Upgrade all installed packages
+- 🟡 [[apt-cache-show]] — Show package information
+- 🔴 [[dpkg-i]] — Install .deb package file
+- 🟡 [[dpkg-l]] — List installed packages
+- 🔴 [[dpkg-r]] — Remove installed package
+- 🟡 [[snap-install]] — Install snap package
+- 🟡 [[systemctl-disable]] — Disable service from starting on boot
+- 🟡 [[systemctl-enable]] — Enable service to start on boot
+- 🟡 [[systemctl-restart]] — Restart a systemd service
+- 🟡 [[systemctl-start]] — Start a systemd service
+- 🟡 [[systemctl-status]] — Check service status
+- 🔴 [[systemctl-stop]] — Stop a systemd service
+- 🟡 [[ufw-allow]] — Allow firewall rule
+- 🟡 [[ufw-deny]] — Deny firewall rule
+- 🔴 [[ufw-enable]] — Enable Ubuntu firewall
+- 🟡 [[ufw-status]] — Show firewall status and rules
 
 ## 统计
 

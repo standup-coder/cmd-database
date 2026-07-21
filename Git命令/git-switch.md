@@ -65,9 +65,9 @@ git switch -c new-feature
 
 ## 关联命令
 
-- [[git branch]]
-- [[git checkout]]
-- [[git merge]]
+- [[git-branch]]
+- [[git-checkout]]
+- [[git-merge]]
 
 ## 所属维度
 

@@ -59,8 +59,8 @@ docker volume rm myvol
 
 ## 关联命令
 
-- [[docker run]]
-- [[docker network]]
+- [[docker-run]]
+- [[docker-network]]
 
 ## 风险提示
 

@@ -63,7 +63,7 @@ curl http://localhost:8083/connectors/inventory-connector/status
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 - [[airflow]]
 
 ## 风险提示

@@ -70,8 +70,8 @@ git add -A
 
 ## 关联命令
 
-- [[git commit]]
-- [[git status]]
+- [[git-commit]]
+- [[git-status]]
 
 ## 所属维度
 

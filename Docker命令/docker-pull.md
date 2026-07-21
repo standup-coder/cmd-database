@@ -57,8 +57,8 @@ docker pull nginx:1.21
 
 ## 关联命令
 
-- [[docker push]]
-- [[docker images]]
+- [[docker-push]]
+- [[docker-images]]
 
 ## 所属维度
 

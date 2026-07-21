@@ -65,9 +65,9 @@ docker start -a mycontainer
 
 ## 关联命令
 
-- [[docker stop]]
-- [[docker restart]]
-- [[docker run]]
+- [[docker-stop]]
+- [[docker-restart]]
+- [[docker-run]]
 
 ## 所属维度
 

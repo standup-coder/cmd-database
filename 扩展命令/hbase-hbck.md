@@ -64,7 +64,7 @@ hbase hbck -fix
 
 ## 关联命令
 
-- [[hbase shell]]
+- [[hbase-shell]]
 - [[hdfs]]
 
 ## 风险提示

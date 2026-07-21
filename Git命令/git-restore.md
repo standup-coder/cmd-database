@@ -65,8 +65,8 @@ git restore --staged file.txt
 
 ## 关联命令
 
-- [[git checkout]]
-- [[git status]]
+- [[git-checkout]]
+- [[git-status]]
 
 ## 所属维度
 

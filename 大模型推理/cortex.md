@@ -67,7 +67,7 @@ cortex pull mistral
 ## 关联命令
 
 - [[ollama]]
-- [[llama.cpp]]
+- [[llamacpp]]
 
 ## 风险提示
 

@@ -63,8 +63,8 @@ go get -u ./...
 
 ## 关联命令
 
-- [[go mod]]
-- [[go build]]
+- [[go-mod]]
+- [[go-build]]
 
 ## 风险提示
 

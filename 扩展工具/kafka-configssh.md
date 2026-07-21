@@ -64,8 +64,8 @@ kafka-configs.sh --alter --add-config retention.ms=86400000 --entity-type topics
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
-- [[kafka-consumer-groups.sh]]
+- [[kafka-topicssh]]
+- [[kafka-consumer-groupssh]]
 
 ## 风险提示
 

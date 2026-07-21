@@ -66,9 +66,9 @@ docker attach --sig-proxy=false mycontainer
 
 ## 关联命令
 
-- [[docker exec]]
-- [[docker run]]
-- [[docker logs]]
+- [[docker-exec]]
+- [[docker-run]]
+- [[docker-logs]]
 
 ## 所属维度
 

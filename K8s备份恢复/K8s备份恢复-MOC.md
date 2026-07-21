@@ -17,14 +17,14 @@
 
 ## 命令列表
 
-- 🟡 [[restic backup]] — Create restic backup
-- 🟡 [[restic init]] — Initialize restic backup repository
-- 🔴 [[restic restore]] — Restore from restic backup
-- 🟡 [[restic snapshots]] — List restic backup snapshots
-- 🟡 [[velero backup create]] — Create backup of Kubernetes resources
-- 🟡 [[velero backup list]] — List all Velero backups
-- 🔴 [[velero restore create]] — Restore from Velero backup
-- 🟡 [[velero schedule create]] — Create scheduled backup
+- 🟡 [[restic-backup]] — Create restic backup
+- 🟡 [[restic-init]] — Initialize restic backup repository
+- 🔴 [[restic-restore]] — Restore from restic backup
+- 🟡 [[restic-snapshots]] — List restic backup snapshots
+- 🟡 [[velero-backup-create]] — Create backup of Kubernetes resources
+- 🟡 [[velero-backup-list]] — List all Velero backups
+- 🔴 [[velero-restore-create]] — Restore from Velero backup
+- 🟡 [[velero-schedule-create]] — Create scheduled backup
 
 ## 统计
 

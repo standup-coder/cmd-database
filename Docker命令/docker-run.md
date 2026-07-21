@@ -75,8 +75,8 @@ docker run --rm alpine echo hello
 
 ## 关联命令
 
-- [[docker ps]]
-- [[docker stop]]
+- [[docker-ps]]
+- [[docker-stop]]
 
 ## 参考链接
 

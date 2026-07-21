@@ -56,8 +56,8 @@ go vet -tags=integration ./...
 
 ## 关联命令
 
-- [[go test]]
-- [[go fmt]]
+- [[go-test]]
+- [[go-fmt]]
 
 ## 风险提示
 

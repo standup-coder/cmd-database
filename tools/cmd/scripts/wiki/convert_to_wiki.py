@@ -137,12 +137,14 @@ def generate_command_page(cmd: dict, yaml_file: str, all_cmd_names: set) -> str:
     tags = infer_tags(cmd, dimension)
     level = cmd_level(cmd)
     
-    # Related wikilinks - only link to commands that exist
+    # Related wikilinks - only link to commands that exist.
+    # target 必须 slugify（与文件名一致），否则带空格命令名（如 "docker run"）
+    # 会写成 [[docker run]] 而文件是 docker-run.md，导致 Obsidian 无法解析。
     related_links = []
     for r in related:
         r_clean = r.strip()
         if r_clean in all_cmd_names:
-            related_links.append(f"[[{r_clean}]]")
+            related_links.append(f"[[{slugify(r_clean)}|{r_clean}]]")
     
     risk_level = "low"
     risk_desc = ""
@@ -260,7 +262,8 @@ def generate_moc_page(category: str, description: str, commands: list, order: in
         desc = cmd.get("description", "")
         level = cmd_level(cmd)
         level_emoji = {"beginner": "🟢", "intermediate": "🟡", "advanced": "🔴"}.get(level, "⚪")
-        md += f"- {level_emoji} [[{name}]] — {desc[:80]}{'...' if len(desc) > 80 else ''}\n"
+        # MOC 命令链接：target slugify（对齐文件名），alias 用原名保持可读。
+        md += f"- {level_emoji} [[{slugify(name)}|{name}]] — {desc[:80]}{'...' if len(desc) > 80 else ''}\n"
     
     md += "\n## 统计\n\n"
     md += f"- 总命令数: {len(commands)}\n"

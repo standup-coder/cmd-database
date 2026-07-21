@@ -63,8 +63,8 @@ aws sts assume-role --role-arn arn:aws:iam::123456789012:role/MyRole --role-sess
 
 ## 关联命令
 
-- [[aws configure]]
-- [[aws s3]]
+- [[aws-configure]]
+- [[aws-s3]]
 
 ## 所属维度
 

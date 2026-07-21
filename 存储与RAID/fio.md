@@ -66,7 +66,7 @@ fio job.fio
 
 ## 关联命令
 
-- [[bonnie++]]
+- [[bonnie]]
 
 ## 风险提示
 

@@ -76,9 +76,9 @@ terraform destroy
 
 ## 关联命令
 
-- [[terraform plan]]
-- [[terraform apply]]
-- [[terraform init]]
+- [[terraform-plan]]
+- [[terraform-apply]]
+- [[terraform-init]]
 
 ## 所属维度
 

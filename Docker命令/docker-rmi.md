@@ -65,8 +65,8 @@ docker rmi $(docker images -q -f dangling=true)
 
 ## 关联命令
 
-- [[docker images]]
-- [[docker pull]]
+- [[docker-images]]
+- [[docker-pull]]
 
 ## 所属维度
 

@@ -70,8 +70,8 @@ go build -v ./...
 
 ## 关联命令
 
-- [[go run]]
-- [[go install]]
+- [[go-run]]
+- [[go-install]]
 
 ## 风险提示
 

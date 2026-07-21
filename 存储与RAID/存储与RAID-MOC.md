@@ -17,7 +17,7 @@
 
 ## 命令列表
 
-- 🔴 [[bonnie++]] — 文件系统性能基准测试
+- 🔴 [[bonnie]] — 文件系统性能基准测试
 - 🔴 [[fio]] — 灵活的 I/O 测试器
 - 🟡 [[lsscsi]] — 列出 SCSI/SAS 设备
 - 🔴 [[mdadm]] — Linux 软 RAID 管理

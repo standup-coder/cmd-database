@@ -55,7 +55,7 @@ gradlew.bat [任务] (Windows)
 ## 关联命令
 
 - [[gradle]]
-- [[gradle init]]
+- [[gradle-init]]
 
 ## 风险提示
 

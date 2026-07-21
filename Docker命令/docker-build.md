@@ -65,8 +65,8 @@ docker build --no-cache -t myapp .
 
 ## 关联命令
 
-- [[docker run]]
-- [[docker push]]
+- [[docker-run]]
+- [[docker-push]]
 
 ## 所属维度
 

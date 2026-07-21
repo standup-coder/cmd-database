@@ -65,8 +65,8 @@ git show abc1234
 
 ## 关联命令
 
-- [[git log]]
-- [[git diff]]
+- [[git-log]]
+- [[git-diff]]
 
 ## 所属维度
 

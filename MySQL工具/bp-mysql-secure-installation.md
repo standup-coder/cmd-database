@@ -2,7 +2,7 @@
 title: "mysql_secure_installation 生产环境最佳实践"
 cmd_name: "mysql_secure_installation"
 cmd_category: "数据库工具/MySQL工具"
-source_page: "[[mysql-secure-installation]]"
+source_page: "[[mysql_secure_installation]]"
 domain: "database"
 risk_level: "medium"
 platforms: ["linux", "darwin", "windows"]
@@ -87,4 +87,4 @@ mysql_secure_installation
 
 ---
 
-[[mysql-secure-installation|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[mysql_secure_installation|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

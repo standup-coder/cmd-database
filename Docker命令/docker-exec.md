@@ -65,8 +65,8 @@ docker exec my-container ls /app
 
 ## 关联命令
 
-- [[docker attach]]
-- [[docker run]]
+- [[docker-attach]]
+- [[docker-run]]
 
 ## 所属维度
 

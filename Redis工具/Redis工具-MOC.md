@@ -22,10 +22,10 @@
 - 🔴 [[redis-check-aof]] — Check and repair Redis AOF (Append-Only File)
 - 🟡 [[redis-check-rdb]] — Check Redis RDB snapshot file
 - 🔴 [[redis-cli]] — Redis command-line interface client
-- 🔴 [[redis-cli FLUSHDB]] — Delete all keys in current database
-- 🟡 [[redis-cli INFO]] — Get Redis server information and statistics
-- 🟡 [[redis-cli MONITOR]] — Monitor all commands processed by Redis server
-- 🔴 [[redis-cli SAVE]] — Synchronously save dataset to disk
+- 🔴 [[redis-cli-flushdb]] — Delete all keys in current database
+- 🟡 [[redis-cli-info]] — Get Redis server information and statistics
+- 🟡 [[redis-cli-monitor]] — Monitor all commands processed by Redis server
+- 🔴 [[redis-cli-save]] — Synchronously save dataset to disk
 - 🔴 [[redis-sentinel]] — Redis Sentinel for high availability
 - 🔴 [[redis-server]] — Redis server daemon
 

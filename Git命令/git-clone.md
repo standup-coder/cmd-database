@@ -64,8 +64,8 @@ git clone --depth 1 https://github.com/user/repo.git
 
 ## 关联命令
 
-- [[git pull]]
-- [[git fetch]]
+- [[git-pull]]
+- [[git-fetch]]
 
 ## 所属维度
 

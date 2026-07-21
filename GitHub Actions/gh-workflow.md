@@ -83,8 +83,8 @@ gh workflow run ci.yml --ref feature-branch
 
 ## 关联命令
 
-- [[gh run]]
-- [[gh action]]
+- [[gh-run]]
+- [[gh-action]]
 
 ## 所属维度
 

@@ -59,8 +59,8 @@ docker network connect mynet mycontainer
 
 ## 关联命令
 
-- [[docker run]]
-- [[docker volume]]
+- [[docker-run]]
+- [[docker-volume]]
 
 ## 所属维度
 

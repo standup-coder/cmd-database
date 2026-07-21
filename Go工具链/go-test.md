@@ -71,8 +71,8 @@ go test -cover
 
 ## 关联命令
 
-- [[go build]]
-- [[go vet]]
+- [[go-build]]
+- [[go-vet]]
 
 ## 风险提示
 

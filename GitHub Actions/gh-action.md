@@ -64,8 +64,8 @@ gh action enable my-action
 
 ## 关联命令
 
-- [[gh workflow]]
-- [[gh run]]
+- [[gh-workflow]]
+- [[gh-run]]
 
 ## 所属维度
 

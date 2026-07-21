@@ -65,8 +65,8 @@ go mod tidy
 
 ## 关联命令
 
-- [[go get]]
-- [[go build]]
+- [[go-get]]
+- [[go-build]]
 
 ## 风险提示
 

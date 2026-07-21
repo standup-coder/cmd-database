@@ -60,8 +60,8 @@ gh run cancel --all
 
 ## 关联命令
 
-- [[gh run]]
-- [[gh workflow]]
+- [[gh-run]]
+- [[gh-workflow]]
 
 ## 风险提示
 

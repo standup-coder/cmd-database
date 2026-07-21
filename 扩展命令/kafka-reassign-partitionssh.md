@@ -66,8 +66,8 @@ kafka-reassign-partitions.sh --reassignment-json-file plan.json --execute
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
-- [[kafka-configs.sh]]
+- [[kafka-topicssh]]
+- [[kafka-configssh]]
 
 ## 风险提示
 

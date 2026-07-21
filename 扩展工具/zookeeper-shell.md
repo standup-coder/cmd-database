@@ -62,7 +62,7 @@ echo 'ls /' | zookeeper-shell localhost:2181
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 - [[hdfs]]
 
 ## 风险提示

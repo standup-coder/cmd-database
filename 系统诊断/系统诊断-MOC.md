@@ -18,15 +18,15 @@
 ## 命令列表
 
 - 🟡 [[tsar]] — Display system performance statistics
-- 🟡 [[tsar --check]] — Check tsar configuration and data files
-- 🟡 [[tsar --cpu]] — Display detailed CPU statistics
-- 🟡 [[tsar --io]] — Display disk I/O statistics
-- 🟡 [[tsar --list]] — List available modules
-- 🟡 [[tsar --load]] — Display system load average
-- 🟡 [[tsar --mem]] — Display memory usage statistics
-- 🟡 [[tsar --partition]] — Display disk partition usage
-- 🟡 [[tsar --tcp]] — Display TCP connection statistics
-- 🟡 [[tsar --traffic]] — Display network traffic statistics
+- 🟡 [[tsar-check]] — Check tsar configuration and data files
+- 🟡 [[tsar-cpu]] — Display detailed CPU statistics
+- 🟡 [[tsar-io]] — Display disk I/O statistics
+- 🟡 [[tsar-list]] — List available modules
+- 🟡 [[tsar-load]] — Display system load average
+- 🟡 [[tsar-mem]] — Display memory usage statistics
+- 🟡 [[tsar-partition]] — Display disk partition usage
+- 🟡 [[tsar-tcp]] — Display TCP connection statistics
+- 🟡 [[tsar-traffic]] — Display network traffic statistics
 
 ## 统计
 

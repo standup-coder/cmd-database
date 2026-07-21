@@ -72,8 +72,8 @@ git checkout -- file.txt
 
 ## 关联命令
 
-- [[git switch]]
-- [[git restore]]
+- [[git-switch]]
+- [[git-restore]]
 
 ## 风险提示
 

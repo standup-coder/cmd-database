@@ -65,8 +65,8 @@ docker push username/nginx:v1.0
 
 ## 关联命令
 
-- [[docker pull]]
-- [[docker build]]
+- [[docker-pull]]
+- [[docker-build]]
 
 ## 所属维度
 

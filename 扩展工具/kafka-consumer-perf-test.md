@@ -65,7 +65,7 @@ kafka-consumer-perf-test.sh --topic test --messages 10000
 ## 关联命令
 
 - [[kafka-producer-perf-test]]
-- [[kafka-consumer-groups.sh]]
+- [[kafka-consumer-groupssh]]
 
 ## 风险提示
 

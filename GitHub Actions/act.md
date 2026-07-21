@@ -85,8 +85,8 @@ act -W .github/workflows/ci.yml
 
 ## 关联命令
 
-- [[gh workflow]]
-- [[gh run]]
+- [[gh-workflow]]
+- [[gh-run]]
 
 ## 风险提示
 

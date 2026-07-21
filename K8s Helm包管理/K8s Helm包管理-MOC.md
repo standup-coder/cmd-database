@@ -17,25 +17,25 @@
 
 ## 命令列表
 
-- 🟡 [[helm create]] — Create new Helm chart
-- 🟡 [[helm dependency]] — Manage chart dependencies
-- 🟡 [[helm env]] — Display Helm environment information
-- 🟡 [[helm history]] — View release history
-- 🔴 [[helm install]] — Install Helm chart to Kubernetes cluster
-- 🟡 [[helm lint]] — Lint chart for best practices and errors
-- 🟡 [[helm list]] — List Helm releases
-- 🟡 [[helm package]] — Package chart into versioned archive
-- 🟡 [[helm plugin list]] — List installed Helm plugins
-- 🟡 [[helm repo add]] — Add Helm chart repository
-- 🟡 [[helm repo remove]] — Remove Helm chart repository
-- 🟡 [[helm repo update]] — Update local Helm chart repository cache
-- 🔴 [[helm rollback]] — Rollback Helm release to previous version
-- 🟡 [[helm search repo]] — Search for charts in repositories
-- 🟡 [[helm status]] — Display status of Helm release
-- 🟡 [[helm template]] — Render chart templates locally
-- 🔴 [[helm uninstall]] — Uninstall Helm release from cluster
-- 🔴 [[helm upgrade]] — Upgrade Helm release to new version
-- 🟡 [[helm version]] — Display Helm client and server version
+- 🟡 [[helm-create]] — Create new Helm chart
+- 🟡 [[helm-dependency]] — Manage chart dependencies
+- 🟡 [[helm-env]] — Display Helm environment information
+- 🟡 [[helm-history]] — View release history
+- 🔴 [[helm-install]] — Install Helm chart to Kubernetes cluster
+- 🟡 [[helm-lint]] — Lint chart for best practices and errors
+- 🟡 [[helm-list]] — List Helm releases
+- 🟡 [[helm-package]] — Package chart into versioned archive
+- 🟡 [[helm-plugin-list]] — List installed Helm plugins
+- 🟡 [[helm-repo-add]] — Add Helm chart repository
+- 🟡 [[helm-repo-remove]] — Remove Helm chart repository
+- 🟡 [[helm-repo-update]] — Update local Helm chart repository cache
+- 🔴 [[helm-rollback]] — Rollback Helm release to previous version
+- 🟡 [[helm-search-repo]] — Search for charts in repositories
+- 🟡 [[helm-status]] — Display status of Helm release
+- 🟡 [[helm-template]] — Render chart templates locally
+- 🔴 [[helm-uninstall]] — Uninstall Helm release from cluster
+- 🔴 [[helm-upgrade]] — Upgrade Helm release to new version
+- 🟡 [[helm-version]] — Display Helm client and server version
 
 ## 统计
 

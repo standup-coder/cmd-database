@@ -79,7 +79,7 @@ ollama create my-model -f Modelfile
 
 ## 关联命令
 
-- [[llama.cpp]]
+- [[llamacpp]]
 - [[vllm]]
 
 ## 风险提示

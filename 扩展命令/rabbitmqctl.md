@@ -65,7 +65,7 @@ rabbitmqctl add_user admin password && rabbitmqctl set_user_tags admin administr
 
 ## 关联命令
 
-- [[kafka-topics.sh]]
+- [[kafka-topicssh]]
 
 ## 风险提示
 

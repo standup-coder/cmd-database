@@ -2,7 +2,7 @@
 title: "pg_restore 生产环境最佳实践"
 cmd_name: "pg_restore"
 cmd_category: "数据库工具/PostgreSQL工具"
-source_page: "[[pg-restore]]"
+source_page: "[[pg_restore]]"
 domain: "database"
 risk_level: "high"
 platforms: ["linux", "darwin", "windows"]
@@ -93,4 +93,4 @@ pg_restore -d mydb mydb.dump
 
 ---
 
-[[pg-restore|命令详情]] | [[best-practices-MOC|最佳实践总索引]]
+[[pg_restore|命令详情]] | [[best-practices-MOC|最佳实践总索引]]

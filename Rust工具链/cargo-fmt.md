@@ -70,7 +70,7 @@ cargo fmt -- src/main.rs
 
 ## 关联命令
 
-- [[cargo clippy]]
+- [[cargo-clippy]]
 - [[cargo]]
 
 ## 所属维度

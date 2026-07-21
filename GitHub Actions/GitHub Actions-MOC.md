@@ -18,10 +18,10 @@
 ## 命令列表
 
 - 🟡 [[act]] — 本地运行 GitHub Actions 工作流（无需推送到 GitHub）
-- 🟡 [[gh action]] — 管理 GitHub Actions
-- 🟡 [[gh run]] — 查看和管理 GitHub Actions 运行记录
-- 🟡 [[gh run cancel]] — 取消正在运行的 GitHub Actions 工作流
-- 🟡 [[gh workflow]] — 管理 GitHub Actions 工作流
+- 🟡 [[gh-action]] — 管理 GitHub Actions
+- 🟡 [[gh-run]] — 查看和管理 GitHub Actions 运行记录
+- 🟡 [[gh-run-cancel]] — 取消正在运行的 GitHub Actions 工作流
+- 🟡 [[gh-workflow]] — 管理 GitHub Actions 工作流
 
 ## 统计
 
