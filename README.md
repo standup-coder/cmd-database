@@ -11,7 +11,7 @@
 ```
 cmd-database/
 ├── 大模型训练/            ← 领域文件夹（中文）
-│   ├── _MOC.md            ← 领域入口索引
+│   ├── -MOC.md            ← 领域入口索引
 │   ├── deepspeed.md       ← 命令内涵外延
 │   ├── accelerate.md
 │   └── bp-deepspeed.md    ← 生产最佳实践
@@ -33,7 +33,7 @@ cmd-database/
 ## 🔍 怎么用
 
 ### 浏览语料
-直接按领域文件夹查阅，或打开 `INDEX.md`。每个领域 `_MOC.md` 是该领域的命令速查入口。
+直接按领域文件夹查阅，或打开 `INDEX.md`。每个领域 `-MOC.md` 是该领域的命令速查入口。
 
 ### CLI 检索（开发/运维）
 ```bash
